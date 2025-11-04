@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Spanish Numbers</title>
+    <style>
+       :root {
+            --accent1: #ea5454; /* Red */
+            --accent2: #88d48c; /* Green */
+            --accent3: #FFFFFF; /* White */
+            --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
+            
+            --background-color: #0a0a0a;
+            --text-color: #ffffff;
+            --primary-color: var(--accent1);
+            --secondary-color: #cccccc;
+            --tertiary-color: #888;
+            --border-color: #333;
+            --card-background: rgba(26, 26, 26, 0.8);
+            --nav-background: rgba(10, 10, 10, 0.9);
+            --header-background: rgba(10, 10, 10, 0.9);
+        }
+
+        .light-mode {
+            --background-color: #f5f5f5;
+            --text-color: #000000;
+            --primary-color: var(--accent1);
+            --secondary-color: #333333;
+            --tertiary-color: #666666;
+            --border-color: #dddddd;
+            --card-background: #ffffff;
+            --nav-background: rgba(255, 255, 255, 0.9);
+            --header-background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Back Button Styles */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--accent1);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1001;
+        }
+
+        .back-button:hover {
+            background: var(--accent2);
+            transform: translateY(-2px);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--header-background);
+            color: var(--text-color);
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .mode-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            z-index: 1001;
+        }
+
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 20px auto;
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            background-color: var(--card-background);
+            padding: 25px;
+            margin: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .number-learner,
+        .number-drawer,
+        .number-table {
+            border: 1px solid var(--border-color);
+        }
+
+        .number-table {
+            flex-basis: 100%;
+            max-width: 100%;
+        }
+
+        h1,
+        h2 {
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-section,
+        .output-section {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input[type="number"],
+        select {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            width: calc(100% - 120px);
+            max-width: 150px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:disabled {
+            background-color: var(--tertiary-color);
+            cursor: not-allowed;
+        }
+
+        .next-button {
+            background-color: var(--accent2);
+        }
+
+        .next-button:hover {
+            background-color: var(--accent3);
+        }
+
+        .prev-button {
+            background-color: var(--accent1);
+        }
+
+        .prev-button:hover {
+            background-color: var(--accent2);
+        }
+
+        #spanishOutput {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        #spanishOutput:hover {
+            background-color: rgba(240, 248, 240, 0.5);
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        #spanishOutput::after {
+            content: '🔊';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.5em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #spanishOutput:hover::after {
+            opacity: 1;
+        }
+
+        #pronunciationOutput {
+            font-size: 1.2em;
+            color: var(--tertiary-color);
+            font-style: italic;
+        }
+
+        .system-note {
+            font-size: 0.9em;
+            color: var(--tertiary-color);
+            margin-top: 10px;
+        }
+
+        .number-drawer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #drawingCanvas {
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            background-color: var(--card-background);
+            cursor: crosshair;
+            margin-top: 15px;
+        }
+
+        .canvas-controls {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .canvas-controls label {
+            margin-bottom: 0;
+            display: inline-block;
+        }
+
+        .canvas-controls input[type="color"],
+        .canvas-controls input[type="range"] {
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        .numbers-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .numbers-table th,
+        .numbers-table td {
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: center;
+        }
+
+        .numbers-table th {
+            background-color: var(--nav-background);
+            font-weight: bold;
+        }
+
+        .numbers-table tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .numbers-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+
+        .spanish-text {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 5px;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .spanish-text:hover {
+            background-color: rgba(240, 248, 240, 0.5);
+            transform: scale(1.1);
+            box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
+        }
+
+        .spanish-text::after {
+            content: '🔊';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 0.7em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .spanish-text:hover::after {
+            opacity: 1;
+        }
+
+        .table-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            background-color: var(--nav-background);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            border-radius: 4px 4px 0 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab-button.active {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border-bottom: 1px solid var(--primary-color);
+        }
+
+        .tab-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-button.active:hover {
+            background-color: var(--primary-color);
+        }
+
+        .tts-info {
+            background-color: rgba(246, 242, 246, 0.555);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            text-align: center;
+            color: #114a14;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            background-color: var(--header-background);
+            color: var(--text-color);
+            font-size: 0.9em;
+        }
+
+        /* Section-specific color schemes */
+        #consonants .section-title,
+        #consonants .spanish-char:hover {
+            color: var(--accent1);
+        }
+
+        #double-consonants .section-title,
+        #double-consonants .spanish-char:hover {
+            color: #3C38A1;
+        }
+
+        #vowels .section-title,
+        #vowels .spanish-char:hover {
+            color: #A6587C;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            main {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            section {
+                margin: 10px 0;
+            }
+
+            input[type="number"],
+            select {
+                width: calc(100% - 100px);
+            }
+
+            .navigation-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .numbers-table {
+                font-size: 0.9em;
+            }
+
+            .table-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .back-button {
+                top: 10px;
+                left: 10px;
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <a href="../../index.html" class="back-button">← Back</a>
+    
+    <header>
+        <h1>Learn and Write Spanish Numbers</h1>
+        <div class="mode-toggle" onclick="toggleMode()">
+            <span>🌙</span>
+        </div>
+    </header>
+
+    <main>
+        <section class="number-learner">
+            <h2>Spanish Number Converter</h2>
+            <div class="tts-info">
+                💡 Hover over or click Spanish text to hear pronunciation!
+            </div>
+             <div class="input-section">
+                <label for="numberInput">Enter a number (0-9999):</label>
+                <input type="number" id="numberInput" min="0" max="100" value="0">
+                <button id="convertButton">Convert</button>
+            </div>
+            <div class="navigation-buttons">
+                <button id="prevButton" class="prev-button">← Previous</button>
+                <button id="nextButton" class="next-button">Next →</button>
+            </div>
+             <div class="output-section">
+                <h3>Spanish: <span id="spanishOutput" title="Click to hear pronunciation">cero</span></h3>
+                <p>Pronunciation: <span id="pronunciationOutput">seh-roh</span></p>
+                <p class="system-note" id="systemNote"></p>
+            </div>
+        </section>
+
+        <section class="number-drawer">
+            <h2>Write Spanish Numbers</h2>
+            <canvas id="drawingCanvas" width="400" height="400"></canvas>
+            <div class="canvas-controls">
+                <button id="clearCanvas">Clear Canvas</button>
+                <label for="brushColor">Brush Color:</label>
+                <input type="color" id="brushColor" value="#000000">
+                <label for="brushSize">Brush Size:</label>
+                <input type="range" id="brushSize" min="1" max="10" value="3">
+            </div>
+        </section>
+
+        <section class="number-table">
+            <h2>Spanish Numbers Reference Table</h2>
+            <div class="tts-info">
+                🎵 Click on Spanish numbers in the table to hear their pronunciation!
+            </div>
+            <div class="table-tabs">
+                <button class="tab-button active" id="basicTab">Basic Numbers (0-100)</button>
+                <button class="tab-button" id="hundredsTab">Hundreds & Thousands</button>
+            </div>
+            <div class="table-container">
+                <table class="numbers-table" id="numbersTable">
+                    <!-- Table content will be populated by JavaScript -->
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const numberInput = document.getElementById('numberInput');
+            const convertButton = document.getElementById('convertButton');
+            const prevButton = document.getElementById('prevButton');
+            const nextButton = document.getElementById('nextButton');
+            const spanishOutput = document.getElementById('spanishOutput');
+            const pronunciationOutput = document.getElementById('pronunciationOutput');
+            const systemNote = document.getElementById('systemNote');
+            const basicTab = document.getElementById('basicTab');
+            const hundredsTab = document.getElementById('hundredsTab');
+            const numbersTable = document.getElementById('numbersTable');
+
+            const canvas = document.getElementById('drawingCanvas');
+            const ctx = canvas.getContext('2d');
+            const clearCanvasBtn = document.getElementById('clearCanvas');
+            const brushColorPicker = document.getElementById('brushColor');
+            const brushSizeSlider = document.getElementById('brushSize');
+
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+
+            // Spanish numbers data
+            const spanishNumbers = {
+                0: { word: "cero", pron: "seh-roh" },
+                1: { word: "uno", pron: "oo-no" },
+                2: { word: "dos", pron: "dohs" },
+                3: { word: "tres", pron: "trehs" },
+                4: { word: "cuatro", pron: "kwah-troh" },
+                5: { word: "cinco", pron: "seen-koh" },
+                6: { word: "seis", pron: "seh-ees" },
+                7: { word: "siete", pron: "syeh-teh" },
+                8: { word: "ocho", pron: "oh-choh" },
+                9: { word: "nueve", pron: "nweh-beh" },
+                10: { word: "diez", pron: "dyehs" },
+                11: { word: "once", pron: "ohn-seh" },
+                12: { word: "doce", pron: "doh-seh" },
+                13: { word: "trece", pron: "treh-seh" },
+                14: { word: "catorce", pron: "kah-tor-seh" },
+                15: { word: "quince", pron: "keen-seh" },
+                16: { word: "dieciséis", pron: "dyeh-see-seh-ees" },
+                17: { word: "diecisiete", pron: "dyeh-see-syeh-teh" },
+                18: { word: "dieciocho", pron: "dyeh-see-oh-choh" },
+                19: { word: "diecinueve", pron: "dyeh-see-nweh-beh" },
+                20: { word: "veinte", pron: "beh-een-teh" },
+                21: { word: "veintiuno", pron: "beh-een-tee-oo-no" },
+                22: { word: "veintidós", pron: "beh-een-tee-dohs" },
+                23: { word: "veintitrés", pron: "beh-een-tee-trehs" },
+                24: { word: "veinticuatro", pron: "beh-een-tee-kwah-troh" },
+                25: { word: "veinticinco", pron: "beh-een-tee-seen-koh" },
+                26: { word: "veintiséis", pron: "beh-een-tee-seh-ees" },
+                27: { word: "veintisiete", pron: "beh-een-tee-syeh-teh" },
+                28: { word: "veintiocho", pron: "beh-een-tee-oh-choh" },
+                29: { word: "veintinueve", pron: "beh-een-tee-nweh-beh" },
+                30: { word: "treinta", pron: "treh-een-tah" },
+                40: { word: "cuarenta", pron: "kwah-rehn-tah" },
+                50: { word: "cincuenta", pron: "seen-kwehn-tah" },
+                60: { word: "sesenta", pron: "seh-sehn-tah" },
+                70: { word: "setenta", pron: "seh-tehn-tah" },
+                80: { word: "ochenta", pron: "oh-chehn-tah" },
+                90: { word: "noventa", pron: "noh-behn-tah" },
+                100: { word: "cien", pron: "syehn" },
+                200: { word: "doscientos", pron: "dohs-syehn-tohs" },
+                300: { word: "trescientos", pron: "trehs-syehn-tohs" },
+                400: { word: "cuatrocientos", pron: "kwah-troh-syehn-tohs" },
+                500: { word: "quinientos", pron: "kee-nyehn-tohs" },
+                600: { word: "seiscientos", pron: "seh-ees-syehn-tohs" },
+                700: { word: "setecientos", pron: "seh-teh-syehn-tohs" },
+                800: { word: "ochocientos", pron: "oh-choh-syehn-tohs" },
+                900: { word: "novecientos", pron: "noh-beh-syehn-tohs" },
+                1000: { word: "mil", pron: "meel" }
+            };
+
+            // Function to convert any number to Spanish (0-9999)
+            const convertToSpanish = (num) => {
+                if (num === 0) return spanishNumbers[0];
+                if (num > 9999) return null;
+                
+                // Check if the number is in our predefined list
+                if (spanishNumbers[num]) {
+                    return spanishNumbers[num];
+                }
+                
+                let word = "";
+                let pron = "";
+                
+                // Thousands place
+                const thousands = Math.floor(num / 1000);
+                if (thousands > 0) {
+                    if (thousands === 1) {
+                        word += spanishNumbers[1000].word;
+                        pron += spanishNumbers[1000].pron;
+                    } else {
+                        word += spanishNumbers[thousands].word + " " + spanishNumbers[1000].word;
+                        pron += spanishNumbers[thousands].pron + " " + spanishNumbers[1000].pron;
+                    }
+                    num %= 1000;
+                    if (num > 0) {
+                        word += " ";
+                        pron += " ";
+                    }
+                }
+                
+                // Hundreds place
+                const hundreds = Math.floor(num / 100);
+                if (hundreds > 0) {
+                    if (hundreds === 1 && num % 100 === 0) {
+                        word += spanishNumbers[100].word;
+                        pron += spanishNumbers[100].pron;
+                    } else {
+                        word += spanishNumbers[hundreds * 100].word;
+                        pron += spanishNumbers[hundreds * 100].pron;
+                    }
+                    num %= 100;
+                    if (num > 0) {
+                        word += " ";
+                        pron += " ";
+                    }
+                }
+                
+                // Tens and units place
+                if (num > 0) {
+                    // Check if it's a number in our predefined list
+                    if (spanishNumbers[num]) {
+                        word += spanishNumbers[num].word;
+                        pron += spanishNumbers[num].pron;
+                    } else {
+                        const tens = Math.floor(num / 10) * 10;
+                        const units = num % 10;
+                        
+                        if (tens > 0) {
+                            word += spanishNumbers[tens].word;
+                            pron += spanishNumbers[tens].pron;
+                        }
+                        
+                        if (units > 0) {
+                            if (tens > 0) {
+                                word += " y ";
+                                pron += " ee ";
+                            }
+                            word += spanishNumbers[units].word;
+                            pron += spanishNumbers[units].pron;
+                        }
+                    }
+                }
+                
+                return { word: word, pron: pron };
+            };
+
+            // Populate Spanish numbers 31-99 (except multiples of 10)
+            for (let i = 31; i <= 99; i++) {
+                if (i % 10 !== 0 && !spanishNumbers[i]) {
+                    const converted = convertToSpanish(i);
+                    if (converted) {
+                        spanishNumbers[i] = converted;
+                    }
+                }
+            }
+
+            // Text-to-Speech functionality
+            const speakSpanish = async (text) => {
+                if ('speechSynthesis' in window) {
+                    speechSynthesis.cancel();
+                    
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'es-ES';
+                    utterance.rate = 0.8;
+                    utterance.pitch = 1;
+                    utterance.volume = 1;
+                    
+                    const voices = speechSynthesis.getVoices();
+                    const spanishVoice = voices.find(voice => voice.lang.includes('es'));
+                    if (spanishVoice) {
+                        utterance.voice = spanishVoice;
+                    }
+                    
+                    speechSynthesis.speak(utterance);
+                } else {
+                    console.log('Speech synthesis not supported');
+                }
+            };
+
+            // Load voices when they become available
+            speechSynthesis.onvoiceschanged = () => {
+                // Voices are now loaded
+            };
+
+            const convertNumber = () => {
+                const number = parseInt(numberInput.value, 10);
+
+                if (isNaN(number) || number < 0) {
+                    spanishOutput.textContent = "Invalid Input";
+                    pronunciationOutput.textContent = "Please enter a valid number.";
+                    systemNote.textContent = "";
+                    updateNavigationButtons();
+                    return;
+                }
+
+                if (number > 9999) {
+                    spanishOutput.textContent = "Out of Range";
+                    pronunciationOutput.textContent = "Spanish numbers max for this demo is 9999.";
+                    systemNote.textContent = "Spanish numbers follow a consistent pattern that can be extended beyond 9999.";
+                    updateNavigationButtons();
+                    return;
+                }
+
+                const spanish = convertToSpanish(number);
+
+                if (spanish) {
+                    spanishOutput.textContent = spanish.word;
+                    pronunciationOutput.textContent = spanish.pron;
+                    
+                    // Store the spanish data for TTS
+                    spanishOutput.dataset.spanish = spanish.word;
+                    spanishOutput.dataset.pronunciation = spanish.pron;
+                    
+                    systemNote.textContent = "Spanish numbers follow a consistent pattern. Numbers 16-29 are typically written as one word.";
+                } else {
+                    spanishOutput.textContent = "N/A";
+                    pronunciationOutput.textContent = "Number not found or out of range.";
+                    systemNote.textContent = "";
+                }
+                
+                updateNavigationButtons();
+            };
+
+            const updateNavigationButtons = () => {
+                const number = parseInt(numberInput.value, 10);
+                const maxValue = 9999;
+
+                prevButton.disabled = number <= 0;
+                nextButton.disabled = number >= maxValue;
+            };
+
+            const navigateNumber = (direction) => {
+                const currentNumber = parseInt(numberInput.value, 10);
+                const maxValue = 9999;
+                
+                let newNumber = currentNumber + direction;
+                
+                if (newNumber < 0) newNumber = 0;
+                if (newNumber > maxValue) newNumber = maxValue;
+                
+                numberInput.value = newNumber;
+                convertNumber();
+                
+                // Clear the canvas when navigating to a new number
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            };
+
+            const populateTable = (tab) => {
+                let tableHTML = `
+                    <thead>
+                        <tr>
+                            <th>Number</th>
+                            <th>Spanish</th>
+                            <th>Pronunciation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+                
+                if (tab === 'basic') {
+                    // Display numbers 0-100
+                    for (let i = 0; i <= 100; i++) {
+                        if (spanishNumbers[i]) {
+                            tableHTML += `
+                                <tr onclick="selectNumberFromTable(${i})" data-number="${i}">
+                                    <td>${i}</td>
+                                    <td class="spanish-text"
+                                        onclick="event.stopPropagation(); speakSpanishText('${spanishNumbers[i].word}')"
+                                        title="Click to hear pronunciation"
+                                        data-spanish="${spanishNumbers[i].word}">
+                                        ${spanishNumbers[i].word}
+                                    </td>
+                                    <td>${spanishNumbers[i].pron}</td>
+                                </tr>
+                            `;
+                        }
+                    }
+                } else {
+                    // Display hundreds and thousands
+                    const hundredsAndThousands = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 3000, 5000, 7500, 9999];
+                    
+                    hundredsAndThousands.forEach(num => {
+                        const spanish = convertToSpanish(num);
+                        if (spanish) {
+                            tableHTML += `
+                                <tr onclick="selectNumberFromTable(${num})" data-number="${num}">
+                                    <td>${num}</td>
+                                    <td class="spanish-text"
+                                        onclick="event.stopPropagation(); speakSpanishText('${spanish.word}')"
+                                        title="Click to hear pronunciation"
+                                        data-spanish="${spanish.word}">
+                                        ${spanish.word}
+                                    </td>
+                                    <td>${spanish.pron}</td>
+                                </tr>
+                            `;
+                        }
+                    });
+                }
+                
+                tableHTML += '</tbody>';
+                numbersTable.innerHTML = tableHTML;
+            };
+
+            const switchTab = (tab) => {
+                if (tab === 'basic') {
+                    basicTab.classList.add('active');
+                    hundredsTab.classList.remove('active');
+                } else {
+                    hundredsTab.classList.add('active');
+                    basicTab.classList.remove('active');
+                }
+                populateTable(tab);
+            };
+
+            // Make functions globally available
+            window.selectNumberFromTable = (number) => {
+                numberInput.value = number;
+                convertNumber();
+                
+                // Scroll back to converter section on mobile
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.number-learner').scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            window.speakSpanishText = (spanish) => {
+                speakSpanish(spanish);
+            };
+
+            // Event listeners
+            convertButton.addEventListener('click', convertNumber);
+            nextButton.addEventListener('click', () => navigateNumber(1));
+            prevButton.addEventListener('click', () => navigateNumber(-1));
+            
+            // Add TTS functionality to Spanish output
+            spanishOutput.addEventListener('click', () => {
+                const spanish = spanishOutput.dataset.spanish;
+                if (spanish) {
+                    speakSpanish(spanish);
+                }
+            });
+
+            // Also add hover functionality for Spanish output
+            spanishOutput.addEventListener('mouseenter', () => {
+                const spanish = spanishOutput.dataset.spanish;
+                if (spanish) {
+                    // Small delay to prevent accidental triggers
+                    setTimeout(() => {
+                        if (spanishOutput.matches(':hover')) {
+                            speakSpanish(spanish);
+                        }
+                    }, 500);
+                }
+            });
+            
+            numberInput.addEventListener('keyup', (event) => {
+                if (event.key === 'Enter') {
+                    convertNumber();
+                }
+            });
+
+            basicTab.addEventListener('click', () => switchTab('basic'));
+            hundredsTab.addEventListener('click', () => switchTab('hundreds'));
+
+            // Initial setup
+            convertNumber();
+            populateTable('basic');
+
+            // Canvas Drawing Logic
+            ctx.lineWidth = brushSizeSlider.value;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = brushColorPicker.value;
+
+            function getEventPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+                return {
+                    x: clientX - rect.left,
+                    y: clientY - rect.top
+                };
+            }
+
+            function draw(e) {
+                if (!isDrawing) return;
+                const pos = getEventPos(e);
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+                [lastX, lastY] = [pos.x, pos.y];
+            }
+
+            function startDrawing(e) {
+                e.preventDefault(); // Prevent scrolling on mobile
+                isDrawing = true;
+                const pos = getEventPos(e);
+                [lastX, lastY] = [pos.x, pos.y];
+            }
+
+            function stopDrawing(e) {
+                if (e) e.preventDefault(); // Prevent scrolling on mobile
+                isDrawing = false;
+            }
+
+            // Mouse events
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+
+            // Touch events for mobile
+            canvas.addEventListener('touchstart', startDrawing, { passive: false });
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault(); // Prevent scrolling while drawing
+                draw(e);
+            }, { passive: false });
+            canvas.addEventListener('touchend', stopDrawing, { passive: false });
+            canvas.addEventListener('touchcancel', stopDrawing, { passive: false });
+
+            clearCanvasBtn.addEventListener('click', () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            });
+
+            brushColorPicker.addEventListener('change', (e) => {
+                ctx.strokeStyle = e.target.value;
+            });
+
+            brushSizeSlider.addEventListener('input', (e) => {
+                ctx.lineWidth = e.target.value;
+            });
+        });
+
+        function toggleMode() {
+            const body = document.body;
+            body.classList.toggle('light-mode');
+            const modeToggle = document.querySelector('.mode-toggle span');
+
+            if (body.classList.contains('light-mode')) {
+                modeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'light');
+            } else {
+                modeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Function to apply the saved theme
+        function applySavedTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            const modeToggle = document.querySelector('.mode-toggle span');
+
+            if (savedTheme === 'light') {
+                body.classList.add('light-mode');
+                modeToggle.textContent = '☀️';
+            } else {
+                body.classList.remove('light-mode');
+                modeToggle.textContent = '🌙';
+            }
+        }
+
+        // Apply the saved theme when the page loads
+        document.addEventListener('DOMContentLoaded', applySavedTheme);
+    </script>
+</body>
+</html>

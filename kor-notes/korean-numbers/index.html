@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Korean Numbers</title>
+      <style>
+        :root {
+            --accent1: #B31942; /* Red */
+            --accent2: #0A3161; /* Blue */
+            --accent3: #FFFFFF; /* White */
+            --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
+            
+            --background-color: #0a0a0a;
+            --text-color: #ffffff;
+            --primary-color: var(--accent1);
+            --secondary-color: #cccccc;
+            --tertiary-color: #888;
+            --border-color: #333;
+            --card-background: rgba(26, 26, 26, 0.8);
+            --nav-background: rgba(10, 10, 10, 0.9);
+            --header-background: rgba(10, 10, 10, 0.9);
+        }
+
+        .light-mode {
+            --background-color: #f5f5f5;
+            --text-color: #000000;
+            --primary-color: var(--accent1);
+            --secondary-color: #333333;
+            --tertiary-color: #666666;
+            --border-color: #dddddd;
+            --card-background: #ffffff;
+            --nav-background: rgba(255, 255, 255, 0.9);
+            --header-background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Back Button Styles */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--accent2);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1001;
+            border: 2px solid var(--accent1);
+        }
+
+        .back-button:hover {
+            background: var(--accent1);
+            transform: translateY(-2px);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .mode-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            z-index: 1001;
+        }
+
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 20px auto;
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            background-color: var(--card-background);
+            padding: 25px;
+            margin: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 300px;
+            border: 2px solid var(--border-color);
+        }
+
+        .number-learner,
+        .number-drawer,
+        .number-table {
+            border: 1px solid var(--border-color);
+        }
+
+        .number-table {
+            flex-basis: 100%;
+            max-width: 100%;
+        }
+
+        h1,
+        h2 {
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-section,
+        .output-section {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input[type="number"],
+        select {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            width: calc(100% - 120px);
+            max-width: 150px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            background-color: var(--card-background);
+            color: var(--text-color);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            border: 1px solid var(--accent2);
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:disabled {
+            background-color: var(--tertiary-color);
+            cursor: not-allowed;
+        }
+
+        .next-button {
+            background-color: var(--accent2);
+        }
+
+        .next-button:hover {
+            background-color: #1a4a8a;
+        }
+
+        .prev-button {
+            background-color: var(--accent1);
+        }
+
+        .prev-button:hover {
+            background-color: #d42a5a;
+        }
+
+        #koreanOutput {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        #koreanOutput:hover {
+            background-color: rgba(179, 25, 66, 0.1);
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(179, 25, 66, 0.3);
+        }
+
+        #koreanOutput::after {
+            content: '🔊';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.5em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #koreanOutput:hover::after {
+            opacity: 1;
+        }
+
+        #pronunciationOutput {
+            font-size: 1.2em;
+            color: var(--tertiary-color);
+            font-style: italic;
+        }
+
+        .system-note {
+            font-size: 0.9em;
+            color: var(--tertiary-color);
+            margin-top: 10px;
+        }
+
+        .number-drawer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #drawingCanvas {
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            background-color: white;
+            cursor: crosshair;
+            margin-top: 15px;
+        }
+
+        .canvas-controls {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .canvas-controls label {
+            margin-bottom: 0;
+            display: inline-block;
+        }
+
+        .canvas-controls input[type="color"],
+        .canvas-controls input[type="range"] {
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        .numbers-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .numbers-table th,
+        .numbers-table td {
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: center;
+        }
+
+        .numbers-table th {
+            background-color: var(--nav-background);
+            font-weight: bold;
+        }
+
+        .numbers-table tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .light-mode .numbers-table tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .numbers-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+
+        .light-mode .numbers-table tr:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .korean-text {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 5px;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .korean-text:hover {
+            background-color: rgba(179, 25, 66, 0.1);
+            transform: scale(1.1);
+            box-shadow: 0 2px 5px rgba(179, 25, 66, 0.3);
+        }
+
+        .korean-text::after {
+            content: '🔊';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 0.7em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .korean-text:hover::after {
+            opacity: 1;
+        }
+
+        .table-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            background-color: var(--nav-background);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            border-radius: 4px 4px 0 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab-button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-bottom: 1px solid var(--primary-color);
+        }
+
+        .tab-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .light-mode .tab-button:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-button.active:hover {
+            background-color: var(--primary-color);
+        }
+
+        .tts-info {
+            background-color: rgba(179, 25, 66, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            text-align: center;
+            color: var(--primary-color);
+            border: 1px solid rgba(179, 25, 66, 0.3);
+        }
+
+        .light-mode .tts-info {
+            background-color: rgba(10, 49, 97, 0.1);
+            color: var(--accent2);
+            border: 1px solid rgba(10, 49, 97, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            background-color: var(--header-background);
+            color: var(--text-color);
+            font-size: 0.9em;
+        }
+
+        /* Fixed dark mode for examples in thousands section */
+        .examples-header {
+            background-color: rgba(10, 49, 97, 0.2);
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .light-mode .examples-header {
+            background-color: rgba(10, 49, 97, 0.1);
+        }
+
+        .examples-row {
+            background-color: rgba(10, 49, 97, 0.1);
+        }
+
+        .light-mode .examples-row {
+            background-color: rgba(10, 49, 97, 0.05);
+        }
+
+        /* Section-specific color schemes */
+        #consonants .section-title,
+        #consonants .korean-char:hover {
+            color: var(--accent1);
+        }
+
+        #double-consonants .section-title,
+        #double-consonants .korean-char:hover {
+            color: var(--accent2);
+        }
+
+        #vowels .section-title,
+        #vowels .korean-char:hover {
+            color: #000000;
+        }
+
+        .light-mode #vowels .section-title,
+        .light-mode #vowels .korean-char:hover {
+            color: #333333;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            main {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            section {
+                margin: 10px 0;
+            }
+
+            input[type="number"],
+            select {
+                width: calc(100% - 100px);
+            }
+
+            .navigation-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .numbers-table {
+                font-size: 0.9em;
+            }
+
+            .table-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .back-button {
+                top: 10px;
+                left: 10px;
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <a href="../../index.html" class="back-button">← Back</a>
+    
+    <header>
+        <h1>Learn and Draw Korean Numbers</h1>
+        <div class="mode-toggle" onclick="toggleMode()">
+            <span>🌙</span>
+        </div>
+    </header>
+
+    <main>
+        <section class="number-learner">
+            <h2>Korean Number Converter</h2>
+            <div class="tts-info">
+                💡 Hover over or click Korean text to hear pronunciation!
+            </div>
+             <div class="input-section">
+                <label for="numberInput">Enter a number (0-99/9999):</label>
+                <input type="number" id="numberInput" min="0" max="100" value="0">
+                <label for="numberSystemSelect">Number System:</label>
+                <select id="numberSystemSelect">
+                    <option value="sino">Sino-Korean (0-9999)</option>
+                    <option value="native">Native Korean (0-99)</option>
+                </select>
+                <button id="convertButton">Convert</button>
+            </div>
+            <div class="navigation-buttons">
+                <button id="prevButton" class="prev-button">← Previous</button>
+                <button id="nextButton" class="next-button">Next →</button>
+            </div>
+             <div class="output-section">
+                <h3>Korean: <span id="koreanOutput" title="Click to hear pronunciation">영 (yeong)</span></h3>
+                <p>Pronunciation: <span id="pronunciationOutput">yeong</span></p>
+                <p class="system-note" id="systemNote"></p>
+            </div>
+        </section>
+
+        <section class="number-drawer">
+            <h2>Draw Korean Numbers</h2>
+            <canvas id="drawingCanvas" width="400" height="400"></canvas>
+            <div class="canvas-controls">
+                <button id="clearCanvas">Clear Canvas</button>
+                <label for="brushColor">Brush Color:</label>
+                <input type="color" id="brushColor" value="#000000">
+                <label for="brushSize">Brush Size:</label>
+                <input type="range" id="brushSize" min="1" max="10" value="3">
+            </div>
+        </section>
+
+        <section class="number-table">
+            <h2>Korean Numbers Reference Table</h2>
+            <div class="tts-info">
+                🎵 Click on Korean characters in the table to hear their pronunciation!
+            </div>
+            <div class="table-tabs">
+                <button class="tab-button active" id="sinoTab">Sino-Korean Numbers</button>
+                <button class="tab-button" id="nativeTab">Native Korean Numbers</button>
+            </div>
+            <div class="table-container">
+                <table class="numbers-table" id="numbersTable">
+                    <!-- Table content will be populated by JavaScript -->
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const numberInput = document.getElementById('numberInput');
+            const numberSystemSelect = document.getElementById('numberSystemSelect');
+            const convertButton = document.getElementById('convertButton');
+            const prevButton = document.getElementById('prevButton');
+            const nextButton = document.getElementById('nextButton');
+            const koreanOutput = document.getElementById('koreanOutput');
+            const pronunciationOutput = document.getElementById('pronunciationOutput');
+            const systemNote = document.getElementById('systemNote');
+            const sinoTab = document.getElementById('sinoTab');
+            const nativeTab = document.getElementById('nativeTab');
+            const numbersTable = document.getElementById('numbersTable');
+
+            const canvas = document.getElementById('drawingCanvas');
+            const ctx = canvas.getContext('2d');
+            const clearCanvasBtn = document.getElementById('clearCanvas');
+            const brushColorPicker = document.getElementById('brushColor');
+            const brushSizeSlider = document.getElementById('brushSize');
+
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+
+            // Text-to-Speech functionality using PyScript
+            const speakKorean = async (text, pronunciation) => {
+                try {
+                    console.log(`Requesting TTS for: ${text}`);
+                    await pyscript.interpreter.globals.get('speak_korean')(text);
+                } catch (error) {
+                    console.error('Error with PyScript TTS:', error);
+                    // Fallback to browser TTS if PyScript fails
+                    fallbackTTS(text);
+                }
+            };
+
+            // Fallback to browser TTS if PyScript fails
+            const fallbackTTS = (text) => {
+                if ('speechSynthesis' in window) {
+                    speechSynthesis.cancel();
+                    
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'ko-KR';
+                    utterance.rate = 0.6;
+                    utterance.pitch = 1;
+                    utterance.volume = 1;
+                    
+                    const voices = speechSynthesis.getVoices();
+                    const koreanVoice = voices.find(voice => voice.lang.includes('ko'));
+                    if (koreanVoice) {
+                        utterance.voice = koreanVoice;
+                    }
+                    
+                    speechSynthesis.speak(utterance);
+                } else {
+                    console.log('Speech synthesis not supported');
+                }
+            };
+
+            // Load voices when they become available
+            speechSynthesis.onvoiceschanged = () => {
+                // Voices are now loaded
+            };
+
+            // Sino-Korean Numbers (up to 9999)
+            const sinoKoreanNumbers = {
+                0: { han: "영", pron: "yeong" },
+                1: { han: "일", pron: "il" },
+                2: { han: "이", pron: "i" },
+                3: { han: "삼", pron: "sam" },
+                4: { han: "사", pron: "sa" },
+                5: { han: "오", pron: "o" },
+                6: { han: "육", pron: "yuk" },
+                7: { han: "칠", pron: "chil" },
+                8: { han: "팔", pron: "pal" },
+                9: { han: "구", pron: "gu" },
+                10: { han: "십", pron: "sip" },
+                100: { han: "백", pron: "baek" },
+                1000: { han: "천", pron: "cheon" }
+            };
+
+            // Native Korean Numbers (up to 99)
+            const nativeKoreanNumbers = {
+                0: { han: "영", pron: "yeong" },
+                1: { han: "하나", pron: "hana" },
+                2: { han: "둘", pron: "dul" },
+                3: { han: "셋", pron: "set" },
+                4: { han: "넷", pron: "net" },
+                5: { han: "다섯", pron: "daseot" },
+                6: { han: "여섯", pron: "yeoseot" },
+                7: { han: "일곱", pron: "ilgop" },
+                8: { han: "여덟", pron: "yeodeol" },
+                9: { han: "아홉", pron: "ahop" },
+                10: { han: "열", pron: "yeol" },
+                20: { han: "스물", pron: "seumul" },
+                30: { han: "서른", pron: "seoreun" },
+                40: { han: "마흔", pron: "maheun" },
+                50: { han: "쉰", pron: "swin" },
+                60: { han: "예순", pron: "yesun" },
+                70: { han: "일흔", pron: "ilheun" },
+                80: { han: "여든", pron: "yeodeun" },
+                90: { han: "아흔", pron: "aheun" }
+            };
+
+            // Function to convert any number to Sino-Korean (0-9999)
+            const convertToSinoKorean = (num) => {
+                if (num === 0) return { han: "영", pron: "yeong" };
+                if (num > 9999) return null;
+                
+                let han = "";
+                let pron = "";
+                
+                // Thousands place
+                const thousands = Math.floor(num / 1000);
+                if (thousands > 0) {
+                    if (thousands === 1) {
+                        han += sinoKoreanNumbers[1000].han;
+                        pron += sinoKoreanNumbers[1000].pron;
+                    } else {
+                        han += sinoKoreanNumbers[thousands].han + sinoKoreanNumbers[1000].han;
+                        pron += sinoKoreanNumbers[thousands].pron + sinoKoreanNumbers[1000].pron;
+                    }
+                }
+                
+                // Hundreds place
+                const hundreds = Math.floor((num % 1000) / 100);
+                if (hundreds > 0) {
+                    if (hundreds === 1) {
+                        han += sinoKoreanNumbers[100].han;
+                        pron += sinoKoreanNumbers[100].pron;
+                    } else {
+                        han += sinoKoreanNumbers[hundreds].han + sinoKoreanNumbers[100].han;
+                        pron += sinoKoreanNumbers[hundreds].pron + sinoKoreanNumbers[100].pron;
+                    }
+                }
+                
+                // Tens place
+                const tens = Math.floor((num % 100) / 10);
+                if (tens > 0) {
+                    if (tens === 1) {
+                        han += sinoKoreanNumbers[10].han;
+                        pron += sinoKoreanNumbers[10].pron;
+                    } else {
+                        han += sinoKoreanNumbers[tens].han + sinoKoreanNumbers[10].han;
+                        pron += sinoKoreanNumbers[tens].pron + sinoKoreanNumbers[10].pron;
+                    }
+                }
+                
+                // Units place
+                const units = num % 10;
+                if (units > 0) {
+                    han += sinoKoreanNumbers[units].han;
+                    pron += sinoKoreanNumbers[units].pron;
+                }
+                
+                return { han: han, pron: pron };
+            };
+
+            // Populate Sino-Korean numbers 11-99 (keeping for table display)
+            for (let i = 11; i <= 99; i++) {
+                const converted = convertToSinoKorean(i);
+                if (converted) {
+                    sinoKoreanNumbers[i] = converted;
+                }
+            }
+
+            // Populate Native Korean numbers 11-19 and 21-99
+            for (let i = 11; i <= 99; i++) {
+                const tens = Math.floor(i / 10) * 10;
+                const units = i % 10;
+
+                let han = nativeKoreanNumbers[tens] ? nativeKoreanNumbers[tens].han : "";
+                let pron = nativeKoreanNumbers[tens] ? nativeKoreanNumbers[tens].pron : "";
+
+                if (units > 0) {
+                    han += " " + nativeKoreanNumbers[units].han;
+                    pron += " " + nativeKoreanNumbers[units].pron;
+                }
+
+                nativeKoreanNumbers[i] = { han: han.trim(), pron: pron.trim() };
+            }
+
+            const convertNumber = () => {
+                const number = parseInt(numberInput.value, 10);
+                const selectedSystem = numberSystemSelect.value;
+
+                if (isNaN(number) || number < 0) {
+                    koreanOutput.textContent = "Invalid Input";
+                    pronunciationOutput.textContent = "Please enter a valid number.";
+                    systemNote.textContent = "";
+                    updateNavigationButtons();
+                    return;
+                }
+
+                let korean = null;
+                if (selectedSystem === 'sino') {
+                    numberInput.max = 9999;
+                    if (number > 9999) {
+                        koreanOutput.textContent = "Out of Range";
+                        pronunciationOutput.textContent = "Sino-Korean max for this demo is 9999.";
+                        systemNote.textContent = "Sino-Korean numbers are used for dates, money, addresses, phone numbers, etc.";
+                        updateNavigationButtons();
+                        return;
+                    }
+                    korean = convertToSinoKorean(number) || sinoKoreanNumbers[number];
+                    systemNote.textContent = "Sino-Korean numbers (한자어 숫자) are used for dates, money, addresses, phone numbers, numbers over 100, etc.";
+                } else if (selectedSystem === 'native') {
+                    numberInput.max = 99;
+                    if (number > 99) {
+                        koreanOutput.textContent = "Out of Range";
+                        pronunciationOutput.textContent = "Native Korean numbers only go up to 99.";
+                        systemNote.textContent = "Native Korean numbers are used for counting items/people, age, and hours of the day.";
+                        updateNavigationButtons();
+                        return;
+                    }
+                    korean = nativeKoreanNumbers[number];
+                    systemNote.textContent = "Native Korean numbers (고유어 숫자) are used for counting items, people, age, and hours of the day (up to 99).";
+                }
+
+                if (korean) {
+                    koreanOutput.textContent = `${korean.han} (${korean.pron})`;
+                    pronunciationOutput.textContent = korean.pron;
+                    
+                    // Store the korean data for TTS
+                    koreanOutput.dataset.korean = korean.han;
+                    koreanOutput.dataset.pronunciation = korean.pron;
+                } else {
+                    koreanOutput.textContent = "N/A";
+                    pronunciationOutput.textContent = "Number not found for this system or out of typical range.";
+                    systemNote.textContent = "";
+                }
+                
+                updateNavigationButtons();
+            };
+
+            const updateNavigationButtons = () => {
+                const number = parseInt(numberInput.value, 10);
+                const selectedSystem = numberSystemSelect.value;
+                const maxValue = selectedSystem === 'sino' ? 9999 : 99;
+
+                prevButton.disabled = number <= 0;
+                nextButton.disabled = number >= maxValue;
+            };
+
+            const navigateNumber = (direction) => {
+                const currentNumber = parseInt(numberInput.value, 10);
+                const selectedSystem = numberSystemSelect.value;
+                const maxValue = selectedSystem === 'sino' ? 9999 : 99;
+                
+                let newNumber = currentNumber + direction;
+                
+                if (newNumber < 0) newNumber = 0;
+                if (newNumber > maxValue) newNumber = maxValue;
+                
+                numberInput.value = newNumber;
+                convertNumber();
+                
+                // Clear the canvas when navigating to a new number
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            };
+
+            const populateTable = (system) => {
+                const numbers = system === 'sino' ? sinoKoreanNumbers : nativeKoreanNumbers;
+                const maxNumber = system === 'sino' ? 100 : 99; // Keep table limited for readability
+                
+                let tableHTML = `
+                    <thead>
+                        <tr>
+                            <th>Number</th>
+                            <th>Korean</th>
+                            <th>Pronunciation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+                
+                for (let i = 0; i <= maxNumber; i++) {
+                    if (numbers[i]) {
+                        tableHTML += `
+                            <tr onclick="selectNumberFromTable(${i})" data-number="${i}">
+                                <td>${i}</td>
+                                <td class="korean-text"
+                                    onclick="event.stopPropagation(); speakKoreanText('${numbers[i].han}', '${numbers[i].pron}')"
+                                    title="Click to hear pronunciation"
+                                    data-korean="${numbers[i].han}"
+                                    data-pronunciation="${numbers[i].pron}">
+                                    ${numbers[i].han}
+                                </td>
+                                <td>${numbers[i].pron}</td>
+                            </tr>
+                        `;
+                    }
+                }
+                
+                // Add some example thousands for Sino-Korean
+                if (system === 'sino') {
+                    const thousandsExamples = [1000, 2000, 3000, 5000, 7500, 9999];
+                    tableHTML += '<tr><td colspan="3" >Examples in Thousands</td></tr>';
+                    
+                    thousandsExamples.forEach(num => {
+                        const korean = convertToSinoKorean(num);
+                        if (korean) {
+                            tableHTML += `
+                                <tr onclick="selectNumberFromTable(${num})" data-number="${num}">
+                                    <td>${num}</td>
+                                    <td class="korean-text"
+                                        onclick="event.stopPropagation(); speakKoreanText('${korean.han}', '${korean.pron}')"
+                                        title="Click to hear pronunciation"
+                                        data-korean="${korean.han}"
+                                        data-pronunciation="${korean.pron}">
+                                        ${korean.han}
+                                    </td>
+                                    <td>${korean.pron}</td>
+                                </tr>
+                            `;
+                        }
+                    });
+                }
+                
+                tableHTML += '</tbody>';
+                numbersTable.innerHTML = tableHTML;
+            };
+
+            const switchTab = (system) => {
+                if (system === 'sino') {
+                    sinoTab.classList.add('active');
+                    nativeTab.classList.remove('active');
+                } else {
+                    nativeTab.classList.add('active');
+                    sinoTab.classList.remove('active');
+                }
+                populateTable(system);
+            };
+
+            // Make functions globally available
+            window.selectNumberFromTable = (number) => {
+                const currentTab = sinoTab.classList.contains('active') ? 'sino' : 'native';
+                numberSystemSelect.value = currentTab;
+                numberInput.value = number;
+                convertNumber();
+                
+                // Scroll back to converter section on mobile
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.number-learner').scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            window.speakKoreanText = (korean, pronunciation) => {
+                speakKorean(korean, pronunciation);
+            };
+
+            // Event listeners
+            convertButton.addEventListener('click', convertNumber);
+            nextButton.addEventListener('click', () => navigateNumber(1));
+            prevButton.addEventListener('click', () => navigateNumber(-1));
+            
+            // Add TTS functionality to Korean output
+            koreanOutput.addEventListener('click', () => {
+                const korean = koreanOutput.dataset.korean;
+                const pronunciation = koreanOutput.dataset.pronunciation;
+                if (korean && pronunciation) {
+                    speakKorean(korean, pronunciation);
+                }
+            });
+
+            // Also add hover functionality for Korean output
+            koreanOutput.addEventListener('mouseenter', () => {
+                const korean = koreanOutput.dataset.korean;
+                const pronunciation = koreanOutput.dataset.pronunciation;
+                if (korean && pronunciation) {
+                    // Small delay to prevent accidental triggers
+                    setTimeout(() => {
+                        if (koreanOutput.matches(':hover')) {
+                            speakKorean(korean, pronunciation);
+                        }
+                    }, 500);
+                }
+            });
+            
+            numberInput.addEventListener('keyup', (event) => {
+                if (event.key === 'Enter') {
+                    convertNumber();
+                }
+            });
+            
+            numberSystemSelect.addEventListener('change', () => {
+                if (numberSystemSelect.value === 'native') {
+                    numberInput.max = 99;
+                    if (parseInt(numberInput.value, 10) > 99) {
+                        numberInput.value = 99;
+                    }
+                } else {
+                    numberInput.max = 9999;
+                }
+                convertNumber();
+            });
+
+            sinoTab.addEventListener('click', () => switchTab('sino'));
+            nativeTab.addEventListener('click', () => switchTab('native'));
+
+            // Initial setup
+            convertNumber();
+            populateTable('sino');
+
+            // Canvas Drawing Logic
+            ctx.lineWidth = brushSizeSlider.value;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = brushColorPicker.value;
+
+            function getEventPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+                return {
+                    x: clientX - rect.left,
+                    y: clientY - rect.top
+                };
+            }
+
+            function draw(e) {
+                if (!isDrawing) return;
+                const pos = getEventPos(e);
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+                [lastX, lastY] = [pos.x, pos.y];
+            }
+
+            function startDrawing(e) {
+                e.preventDefault(); // Prevent scrolling on mobile
+                isDrawing = true;
+                const pos = getEventPos(e);
+                [lastX, lastY] = [pos.x, pos.y];
+            }
+
+            function stopDrawing(e) {
+                if (e) e.preventDefault(); // Prevent scrolling on mobile
+                isDrawing = false;
+            }
+
+            // Mouse events
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+
+            // Touch events for mobile
+            canvas.addEventListener('touchstart', startDrawing, { passive: false });
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault(); // Prevent scrolling while drawing
+                draw(e);
+            }, { passive: false });
+            canvas.addEventListener('touchend', stopDrawing, { passive: false });
+            canvas.addEventListener('touchcancel', stopDrawing, { passive: false });
+
+            clearCanvasBtn.addEventListener('click', () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            });
+
+            brushColorPicker.addEventListener('change', (e) => {
+                ctx.strokeStyle = e.target.value;
+            });
+
+            brushSizeSlider.addEventListener('input', (e) => {
+                ctx.lineWidth = e.target.value;
+            });
+        });
+
+        function toggleMode() {
+            const body = document.body;
+            body.classList.toggle('light-mode');
+            const modeToggle = document.querySelector('.mode-toggle span');
+
+            if (body.classList.contains('light-mode')) {
+                modeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'light');
+            } else {
+                modeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Function to apply the saved theme
+        function applySavedTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            const modeToggle = document.querySelector('.mode-toggle span');
+
+            if (savedTheme === 'light') {
+                body.classList.add('light-mode');
+                modeToggle.textContent = '☀️';
+            } else {
+                body.classList.remove('light-mode');
+                modeToggle.textContent = '🌙';
+            }
+        }
+
+        // Apply the saved theme when the page loads
+        document.addEventListener('DOMContentLoaded', applySavedTheme);
+    </script>
+</body>
+</html>

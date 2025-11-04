@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한글 - Korean Alphabet Practice</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styles with new color scheme */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            margin: 0px;
+
+            --accent1: #51061a; /* Red */
+            --accent2: #66a5f3; /* Blue */
+            --accent3: #FFFFFF; /* White */
+            --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
+        }
+
+        /* Back Button Styles */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--accent2);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1001;
+            border: 2px solid var(--accent1);
+        }
+
+        .back-button:hover {
+            background: var(--accent1);
+            transform: translateY(-2px);
+        }
+
+        /* Main Container */
+        .main {
+            max-width: 1200px;
+            margin: 0 auto; 
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        /* Header Styles */
+        .header {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            background: linear-gradient(135deg, var(--accent1), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+            background-color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid #ddd;
+        }
+
+        /* Navigation Bar */
+        #navbar {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            position: sticky; 
+            top: 0; 
+            background: #f5f5f5; 
+            padding: 10px 20px; 
+            z-index: 1000; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 100%; 
+            box-sizing: border-box; 
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        #navbar a {
+            background: white;
+            color: #333;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 2px solid var(--accent2);
+        }
+
+        #navbar a:hover, #navbar a.active {
+            background: var(--accent2);
+            color: white;
+            transform: translateY(-2px);
+            border-color: var(--accent1);
+        }
+
+        /* Section Titles */
+        .section-title {
+            text-align: center;
+            color: black;
+            font-size: 1.8rem;
+            margin: 60px 0 30px 0;
+            padding: 15px;
+            border-radius: 10px;
+        
+        }
+
+        /* Cards Container */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        /* Individual Card */
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid var(--accent2);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-color: var(--accent1);
+        }
+
+        /* Sketch Area (Canvas) */
+        .sketch {
+            position: relative;
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .paint {
+            width: 100%;
+            height: 200px;
+            border: 2px dashed var(--accent2);
+            border-radius: 10px;
+            cursor: crosshair;
+            background: white;
+            touch-action: none;
+            display: block;
+        }
+
+        .erase-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent2);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            z-index: 10;
+            transition: all 0.3s ease;
+            border: 1px solid var(--accent1);
+        }
+
+        .erase-button:hover {
+            background: var(--accent1);
+            transform: scale(1.05);
+        }
+
+        /* Card Content */
+        .card_content {
+            padding: 20px;
+            text-align: center;
+            background: white;
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .korean-char {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
+            user-select: none;
+            margin-bottom: 10px; 
+        }
+
+        .korean-char:hover {
+            color: var(--accent1);
+            transform: scale(1.1);
+        }
+
+        .char-info {
+            font-size: 0.9rem;
+            color: white;
+            padding: 5px 10px;
+            background: var(--accent2);
+            border-radius: 5px;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        @media (min-width: 992px) {
+            .cards {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 991px) {
+            .cards {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .cards {
+                grid-template-columns: 1fr;
+            }
+            
+            #navbar {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .back-button {
+                top: 10px;
+                left: 10px;
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main {
+                padding: 10px;
+            }
+            #navbar {
+                padding: 5px 10px;
+            }
+            #navbar a {
+                padding: 10px 20px; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <a href="../../index.html" class="back-button">← Back</a>
+    
+    <div class="main">
+        <div class="header">
+            <h1>한글<br>Learn the Korean Alphabet</h1>
+            <p>Hover over/ click letters to hear pronunciation • Draw in the white canvas area</p>
+        </div>
+        
+        <nav id="navbar">
+            <a class="active" href="#consonants">Consonants</a>
+            <a href="#double-consonants">Double Consonants</a>
+            <a href="#vowels">Vowels</a>
+        </nav>
+
+        <section id="consonants">
+            <h2 class="section-title">Practice Consonants<br/>ㄱ ㄴ ㄷ ㄹ ㅁ ㅂ ㅅ ㅇ ㅈ ㅊ ㅋ ㅌ ㅍ ㅎ</h2>
+            <ul class="cards" id="consonants-grid"></ul>
+        </section>
+
+        <section id="double-consonants">
+            <h2 class="section-title">Practice Double Consonants<br/>ㄲ ㄸ ㅃ ㅆ ㅉ</h2>
+            <ul class="cards" id="double-consonants-grid"></ul>
+        </section>
+
+        <section id="vowels">
+            <h2 class="section-title">Practice Vowels<br/>ㅏ ㅑ ㅐ ㅓ ㅒ ㅕ ㅔ ㅖ ㅗ ㅛ ㅜ ㅠ ㅡ ㅣ ㅘ ㅙ ㅚ ㅝ ㅞ ㅟ ㅢ</h2>
+            <ul class="cards" id="vowels-grid"></ul>
+        </section>
+    </div>
+
+    <script>
+        const characters = {
+            consonants: [
+                { char: 'ㄱ', sound: 'g', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-giyeok.mp3' },
+                { char: 'ㄴ', sound: 'n', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-nieun-new.mp3' },
+                { char: 'ㄷ', sound: 'd', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-digeut.mp3' },
+                { char: 'ㄹ', sound: 'r/l', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-rieul.mp3' },
+                { char: 'ㅁ', sound: 'm', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-mieum.mp3' },
+                { char: 'ㅂ', sound: 'b', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-bieup.mp3' },
+                { char: 'ㅅ', sound: 's', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-siot.mp3' },
+                { char: 'ㅇ', sound: 'ng', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-ieung.mp3' },
+                { char: 'ㅈ', sound: 'j', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-jieut.mp3' },
+                { char: 'ㅊ', sound: 'ch', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-chieut.mp3' },
+                { char: 'ㅋ', sound: 'k', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-kieuk.mp3' },
+                { char: 'ㅌ', sound: 't', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-tieut-new.mp3' },
+                { char: 'ㅍ', sound: 'p', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-pieup-new.mp3' },
+                { char: 'ㅎ', sound: 'h', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-hieut.mp3' }
+            ],
+            doubleConsonants: [
+                { char: 'ㄲ', sound: 'kk', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-giyeok.mp3' },
+                { char: 'ㄸ', sound: 'tt', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-ssangdigeut.mp3' },
+                { char: 'ㅃ', sound: 'pp', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-ssangbieup.mp3' },
+                { char: 'ㅆ', sound: 'ss', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-ssangsiot.mp3' },
+                { char: 'ㅉ', sound: 'jj', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-ssangjieut.mp3' }
+            ],
+            vowels: [
+                { char: 'ㅏ', sound: 'a', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-a.mp3' },
+                { char: 'ㅑ', sound: 'ya', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-ya.mp3' },
+                { char: 'ㅐ', sound: 'ae', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-ae.mp3' },
+                { char: 'ㅓ', sound: 'eo', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-eo.mp3' },
+                { char: 'ㅒ', sound: 'yae', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-yae.mp3' },
+                { char: 'ㅕ', sound: 'yeo', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-yeo.mp3' },
+                { char: 'ㅔ', sound: 'e', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-e.mp3' },
+                { char: 'ㅖ', sound: 'ye', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-ye.mp3' },
+                { char: 'ㅗ', sound: 'o', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-o.mp3' },
+                { char: 'ㅛ', sound: 'yo', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-yo.mp3' },
+                { char: 'ㅜ', sound: 'u', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-u.mp3' },
+                { char: 'ㅠ', sound: 'yu', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-yu.mp3' },
+                { char: 'ㅡ', sound: 'eu', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-eu.mp3' },
+                { char: 'ㅣ', sound: 'i', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-i.mp3' },
+                { char: 'ㅘ', sound: 'wa', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-wa.mp3' },
+                { char: 'ㅙ', sound: 'wae', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-wae.mp3' },
+                { char: 'ㅚ', sound: 'oe', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-oe.mp3' },
+                { char: 'ㅝ', sound: 'wo', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-wo.mp3' },
+                { char: 'ㅞ', sound: 'we', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-we.mp3' },
+                { char: 'ㅟ', sound: 'wi', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-wi.mp3' },
+                { char: 'ㅢ', sound: 'ui', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-ui.mp3' }
+            ]
+        };
+
+        // Cache for audio objects to prevent re-creation
+        const audioCache = {};
+        let currentPlayingAudio = null;
+
+        /**
+         * Creates the HTML string for a character card.
+         * @param {Object} charData - The character data (char, sound, audio).
+         * @param {number} index - The index for canvas identification.
+         * @returns {string} The HTML string for the card.
+         */
+        function createCard(charData, index) {
+            return `
+                <li class="cards_item">
+                    <div class="card">
+                        <div class="sketch">
+                            <canvas class="paint" width="300" height="200" data-index="${index}"></canvas>
+                            <button class="erase-button" data-canvas-index="${index}">Erase</button>
+                        </div>
+                        <div class="card_content">
+                            <div class="korean-char" data-audio-url="${charData.audio}">${charData.char}</div>
+                            <div class="char-info">Sound: ${charData.sound}</div>
+                        </div>
+                    </div>
+                </li>
+            `;
+        }
+
+        function generateCards() {
+            const consonantsGrid = document.getElementById('consonants-grid');
+            const doubleConsonantsGrid = document.getElementById('double-consonants-grid');
+            const vowelsGrid = document.getElementById('vowels-grid');
+
+            let index = 0; // Universal index for canvases
+
+            // Generate consonants
+            consonantsGrid.innerHTML = characters.consonants.map(char => createCard(char, index++)).join('');
+
+            // Generate double consonants
+            doubleConsonantsGrid.innerHTML = characters.doubleConsonants.map(char => createCard(char, index++)).join('');
+
+            // Generate vowels
+            vowelsGrid.innerHTML = characters.vowels.map(char => createCard(char, index++)).join('');
+
+            addAudioEventListeners(); 
+            addCanvasEventListeners(); 
+            addEraseButtonListeners(); 
+        }
+
+        /**
+         * Plays the audio from the given URL.
+         * Ensures only one audio plays at a time and prevents re-triggering.
+         * @param {string} audioUrl - The URL of the audio file.
+         */
+        function playAudio(audioUrl) {
+            if (!audioUrl) return;
+
+            // Pause any currently playing audio
+            if (currentPlayingAudio && !currentPlayingAudio.paused) {
+                currentPlayingAudio.pause();
+                currentPlayingAudio.currentTime = 0; // Reset to start
+            }
+
+            // Get audio from cache or create new
+            let audio = audioCache[audioUrl];
+            if (!audio) {
+                audio = new Audio(audioUrl);
+                audioCache[audioUrl] = audio;
+            }
+
+            // Set current playing audio
+            currentPlayingAudio = audio;
+            audio.play().catch(e => console.error('Audio play failed:', e));
+        }
+
+        /**
+         * Adds mouseover event listeners to all Korean character elements for audio playback.
+         */
+        function addAudioEventListeners() {
+            document.querySelectorAll('.korean-char').forEach(charElement => {
+                let audioPlayed = false; // Flag to prevent rapid re-triggering on hover
+
+                charElement.addEventListener('mouseover', function() {
+                    if (!audioPlayed) {
+                        const audioUrl = this.dataset.audioUrl;
+                        playAudio(audioUrl);
+                        audioPlayed = true;
+                    }
+                });
+
+                charElement.addEventListener('mouseout', function() {
+                    audioPlayed = false; // Reset flag when mouse leaves
+                });
+
+                //  play on click
+                charElement.addEventListener('click', function() {
+                    const audioUrl = this.dataset.audioUrl;
+                    playAudio(audioUrl);
+                });
+            });
+        }
+
+        // Canvas drawing functionality
+        let isDrawing = false;
+        let canvasesContexts = []; // Stores 2D contexts for each canvas
+        let lastX = 0;
+        let lastY = 0;
+
+        /**
+         * Initializes and stores contexts for all canvas elements.
+         */
+        function initializeCanvasContexts() {
+            const canvasElements = document.querySelectorAll('.paint');
+            canvasElements.forEach((canvas, index) => {
+                const ctx = canvas.getContext('2d');
+                canvasesContexts[index] = ctx;
+                
+                // Set canvas size to match display size
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+                
+                ctx.strokeStyle = '#0A3161'; // Blue color for drawing
+                ctx.lineWidth = 3;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+            });
+        }
+
+        /**
+         * Adds event listeners for drawing on canvases.
+         */
+        function addCanvasEventListeners() {
+            document.querySelectorAll('.paint').forEach(canvas => {
+                canvas.addEventListener('mousedown', startDrawing);
+                canvas.addEventListener('mousemove', draw);
+                canvas.addEventListener('mouseup', stopDrawing);
+                canvas.addEventListener('mouseout', stopDrawing);
+
+                // Touch events for mobile
+                canvas.addEventListener('touchstart', handleTouch);
+                canvas.addEventListener('touchmove', handleTouch);
+                canvas.addEventListener('touchend', stopDrawing);
+                canvas.addEventListener('touchcancel', stopDrawing); // For when touch is interrupted
+            });
+        }
+
+        /**
+         * Starts the drawing process.
+         * @param {MouseEvent|TouchEvent} e - The event object.
+         */
+        function startDrawing(e) {
+            isDrawing = true;
+            const canvas = e.target;
+            const rect = canvas.getBoundingClientRect();
+            
+            // Get the correct coordinates accounting for canvas scaling
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            
+            const clientX = e.clientX || e.touches[0].clientX;
+            const clientY = e.clientY || e.touches[0].clientY;
+            
+            lastX = (clientX - rect.left) * scaleX;
+            lastY = (clientY - rect.top) * scaleY;
+
+            const ctx = canvasesContexts[parseInt(canvas.dataset.index)];
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+        }
+
+        /**
+         * Draws on the canvas as the mouse/finger moves.
+         * @param {MouseEvent|TouchEvent} e - The event object.
+         */
+        function draw(e) {
+            if (!isDrawing) return;
+            e.preventDefault(); // Prevent scrolling on touch
+            
+            const canvas = e.target;
+            const rect = canvas.getBoundingClientRect();
+            
+            // Get the correct coordinates accounting for canvas scaling
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            
+            const clientX = e.clientX || e.touches[0].clientX;
+            const clientY = e.clientY || e.touches[0].clientY;
+
+            const currentX = (clientX - rect.left) * scaleX;
+            const currentY = (clientY - rect.top) * scaleY;
+            
+            const ctx = canvasesContexts[parseInt(canvas.dataset.index)];
+            ctx.lineTo(currentX, currentY);
+            ctx.stroke();
+            
+            lastX = currentX;
+            lastY = currentY;
+        }
+
+        /**
+         * Stops the drawing process.
+         */
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        /**
+         * Handles touch events by converting them to mouse events.
+         * @param {TouchEvent} e - The touch event object.
+         */
+        function handleTouch(e) {
+            // Prevent scrolling and zooming
+            e.preventDefault(); 
+            const touch = e.touches[0];
+            const target = e.target;
+
+            // Create a synthetic mouse event from touch event
+            const mouseEvent = new MouseEvent(
+                e.type === 'touchstart' ? 'mousedown' : 
+                e.type === 'touchmove' ? 'mousemove' : 'mouseup', 
+                {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY,
+                    bubbles: true, // Allow event to bubble up
+                    cancelable: true // Allow event to be canceled
+                }
+            );
+            target.dispatchEvent(mouseEvent);
+        }
+
+        /**
+         * Clears the specified canvas.
+         * @param {number} index - The index of the canvas to clear.
+         */
+        function clearCanvas(index) {
+            const canvas = document.querySelector(`canvas[data-index="${index}"]`);
+            if (canvas) {
+                const ctx = canvasesContexts[index];
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        /**
+         * Adds click listeners to all erase buttons.
+         */
+        function addEraseButtonListeners() {
+            document.querySelectorAll('.erase-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const canvasIndex = parseInt(this.dataset.canvasIndex);
+                    clearCanvas(canvasIndex);
+                });
+            });
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('#navbar a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    // Adjust scroll position to account for sticky navbar height
+                    const navbarHeight = document.getElementById('navbar').offsetHeight;
+                    const offsetTop = targetElement.offsetTop - navbarHeight;
+
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update active nav item
+                    document.querySelectorAll('#navbar a').forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Initialize the app when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            generateCards();
+            initializeCanvasContexts(); // Initialize contexts after cards are generated
+        });
+    </script>
+</body>
+</html>

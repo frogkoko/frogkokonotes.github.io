@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Chinese Hanzi Numbers</title>
+    <style>
+   :root {
+    --background-color: #0a0a0a;
+    --text-color: #ffffff;
+    --primary-color: #d4373f;
+    --secondary-color: #cccccc;
+    --tertiary-color: #888;
+    --border-color: #333;
+    --card-background: rgba(26, 26, 26, 0.8);
+    --nav-background: rgba(10, 10, 10, 0.9);
+    --header-background: rgba(10, 10, 10, 0.9);
+}
+.light-mode {
+    --background-color: #f5f5f5;
+    --text-color: #000000;
+    --primary-color: #d4af37;
+    --secondary-color: #333333;
+    --tertiary-color: #666666;
+    --border-color: #dddddd;
+    --card-background: #ffffff;
+    --nav-background: rgba(255, 255, 255, 0.9);
+    --header-background: rgba(255, 255, 255, 0.9);
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+header {
+    background-color: var(--header-background);
+    color: var(--text-color);
+    padding: 1rem 0;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+.back-button {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+    max-width: 1400px;
+    margin: 20px auto;
+    background-color: var(--card-background);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+section {
+    background-color: var(--card-background);
+    padding: 25px;
+    margin: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: 300px;
+}
+.number-learner,
+.number-drawer,
+.number-table {
+    border: 1px solid var(--border-color);
+}
+.number-table {
+    flex-basis: 100%;
+    max-width: 100%;
+}
+h1,
+h2 {
+    color: var(--text-color);
+    text-align: center;
+    margin-bottom: 20px;
+}
+.input-section,
+.output-section {
+    margin-bottom: 15px;
+    text-align: center;
+}
+.navigation-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+}
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+input[type="number"],
+select {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    width: calc(100% - 120px);
+    max-width: 150px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+button {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+button:hover {
+    opacity: 0.9;
+}
+button:disabled {
+    background-color: var(--tertiary-color);
+    cursor: not-allowed;
+}
+.next-button {
+    background-color: #4CAF50;
+}
+.next-button:hover {
+    background-color: #45a049;
+}
+.prev-button {
+    background-color: #f44336;
+}
+.prev-button:hover {
+    background-color: #da190b;
+}
+#hanziOutput {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--primary-color);
+    display: block;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 10px;
+    border-radius: 5px;
+    position: relative;
+}
+#hanziOutput:hover {
+    background-color: rgba(240, 248, 240, 0.5);
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+#hanziOutput::after {
+    content: '🔊';
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 0.5em;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+#hanziOutput:hover::after {
+    opacity: 1;
+}
+#pronunciationOutput {
+    font-size: 1.2em;
+    color: var(--tertiary-color);
+    font-style: italic;
+}
+.system-note {
+    font-size: 0.9em;
+    color: var(--tertiary-color);
+    margin-top: 10px;
+}
+.number-drawer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#drawingCanvas {
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    background-color: var(--card-background);
+    cursor: crosshair;
+    margin-top: 15px;
+}
+.canvas-controls {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.canvas-controls label {
+    margin-bottom: 0;
+    display: inline-block;
+}
+.canvas-controls input[type="color"],
+.canvas-controls input[type="range"] {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+.table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+.numbers-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+.numbers-table th,
+.numbers-table td {
+    border: 1px solid var(--border-color);
+    padding: 8px;
+    text-align: center;
+}
+.numbers-table th {
+    background-color: var(--nav-background);
+    font-weight: bold;
+}
+.numbers-table tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+.numbers-table tr:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+}
+.hanzi-text {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 5px;
+    border-radius: 3px;
+    position: relative;
+}
+.hanzi-text:hover {
+    background-color: rgba(240, 248, 240, 0.5);
+    transform: scale(1.1);
+    box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
+}
+.hanzi-text::after {
+    content: '🔊';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-size: 0.7em;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.hanzi-text:hover::after {
+    opacity: 1;
+}
+.table-tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+    justify-content: center;
+}
+.tab-button {
+    padding: 10px 20px;
+    background-color: var(--nav-background);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    border-radius: 4px 4px 0 0;
+    transition: background-color 0.3s ease;
+}
+.tab-button.active {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border-bottom: 1px solid var(--primary-color);
+}
+.tab-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.tab-button.active:hover {
+    background-color: var(--primary-color);
+}
+.tts-info {
+    background-color: rgba(247, 241, 246, 0.566);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    text-align: center;
+    color: #420909;
+}
+.tts-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+.tts-control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+.tts-control-group label {
+    font-size: 0.9em;
+    margin-bottom: 0;
+}
+.tts-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.tts-button:hover {
+    background-color: #45a049;
+}
+.tts-button:disabled {
+    background-color: #a5d6a7;
+    cursor: not-allowed;
+}
+.voice-selector {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-background);
+    color: var(--text-color);
+}
+.tts-rate-control, .tts-pitch-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.tts-rate-control input, .tts-pitch-control input {
+    width: 100px;
+}
+.voice-info {
+    font-size: 0.8em;
+    color: var(--tertiary-color);
+    text-align: center;
+    margin-top: 5px;
+}
+.mode-toggle {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+    background-color: var(--header-background);
+    color: var(--text-color);
+    font-size: 0.9em;
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+        padding: 10px;
+    }
+    section {
+        margin: 10px 0;
+    }
+    input[type="number"],
+    select {
+        width: calc(100% - 100px);
+    }
+    .navigation-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    .numbers-table {
+        font-size: 0.9em;
+    }
+    .table-tabs {
+        flex-direction: column;
+        align-items: center;
+    }
+    .tts-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+    </style>
+</head>
+<body>
+   <header>
+    <div class="header-content">
+        <button class="back-button" onclick="goBack()">← Back</button>
+        <h1>Learn and Draw Chinese Hanzi Numbers</h1>
+        <div class="mode-toggle" onclick="toggleMode()">
+            <span>🌙</span>
+        </div>
+    </div>
+</header>
+    <main>
+        <section class="number-learner">
+            <h2>Chinese Hanzi Number Converter</h2>
+            <div class="tts-info">
+                💡 Click on Chinese Hanzi to hear pronunciation with different voice options!
+            </div>
+            
+            <!-- TTS Controls -->
+            <div class="tts-controls">
+                <div class="tts-control-group">
+                    <label for="voiceSelector">TTS Voice:</label>
+                    <select id="voiceSelector" class="voice-selector">
+                        <option value="">Default Voice</option>
+                    </select>
+                </div>
+                <div class="tts-control-group">
+                    <label for="ttsRate">Speech Rate:</label>
+                    <div class="tts-rate-control">
+                        <input type="range" id="ttsRate" min="0.5" max="2" step="0.1" value="0.8">
+                        <span id="ttsRateValue">0.8</span>
+                    </div>
+                </div>
+                <div class="tts-control-group">
+                    <label for="ttsPitch">Speech Pitch:</label>
+                    <div class="tts-pitch-control">
+                        <input type="range" id="ttsPitch" min="0.5" max="2" step="0.1" value="1">
+                        <span id="ttsPitchValue">1.0</span>
+                    </div>
+                </div>
+                <button id="playAllButton">
+                   <!-- dont delete or ill break everything -->
+                </button>
+            </div>
+            <p class="voice-info" id="voiceInfo">Loading available voices...</p>
+             <div class="output-section">
+                <h3>Hanzi: <span id="hanziOutput" title="Click to hear pronunciation">零 (líng)</span></h3>
+                <p>Pinyin: <span id="pronunciationOutput">líng</span></p>
+                <p class="system-note" id="systemNote"></p>
+            </div>
+             <div class="input-section">
+                <label for="numberInput">Enter a number (0-9999):</label>
+                <input type="number" id="numberInput" min="0" max="9999" value="0">
+                <label for="numberSystemSelect">Number System:</label>
+                <select id="numberSystemSelect">
+                    <option value="hanzi">Hanzi (0-9999)</option>
+                </select>
+                <button id="convertButton">Convert</button>
+            </div>
+           
+            
+        </section>
+        <section class="number-drawer">
+            <h2>Draw Chinese Hanzi</h2>
+            <canvas id="drawingCanvas" width="400" height="400"></canvas>
+            <div class="canvas-controls">
+                <button id="clearCanvas">Clear Canvas</button>
+                <label for="brushColor">Brush Color:</label>
+                <input type="color" id="brushColor" value="#000000">
+                <label for="brushSize">Brush Size:</label>
+                <input type="range" id="brushSize" min="1" max="10" value="3">
+
+                 <div class="navigation-buttons">
+                <button id="prevButton" class="prev-button">← Previous</button>
+                <button id="nextButton" class="next-button">Next →</button>
+            </div>
+            </div>
+        </section>
+        <section class="number-table">
+            <div class="tts-info">
+                🎵 Click on Hanzi in the table to hear their pronunciation!
+            </div>
+            <div class="table-tabs">
+                <button class="tab-button active" id="hanziTab">Hanzi Numbers</button>
+            </div>
+            <div class="table-container">
+                <table class="numbers-table" id="numbersTable">
+                    <!-- Table content will be populated by JavaScript -->
+                </table>
+            </div>
+        </section>
+    </main>
+
+ <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const numberInput = document.getElementById('numberInput');
+            const numberSystemSelect = document.getElementById('numberSystemSelect');
+            const convertButton = document.getElementById('convertButton');
+            const prevButton = document.getElementById('prevButton');
+            const nextButton = document.getElementById('nextButton');
+            const hanziOutput = document.getElementById('hanziOutput');
+            const pronunciationOutput = document.getElementById('pronunciationOutput');
+            const systemNote = document.getElementById('systemNote');
+            const hanziTab = document.getElementById('hanziTab');
+            const numbersTable = document.getElementById('numbersTable');
+            const canvas = document.getElementById('drawingCanvas');
+            const ctx = canvas.getContext('2d');
+            const clearCanvasBtn = document.getElementById('clearCanvas');
+            const brushColorPicker = document.getElementById('brushColor');
+            const brushSizeSlider = document.getElementById('brushSize');
+            
+            // TTS Controls
+            const voiceSelector = document.getElementById('voiceSelector');
+            const ttsRateSlider = document.getElementById('ttsRate');
+            const ttsPitchSlider = document.getElementById('ttsPitch');
+            const ttsRateValue = document.getElementById('ttsRateValue');
+            const ttsPitchValue = document.getElementById('ttsPitchValue');
+            const playAllButton = document.getElementById('playAllButton');
+            const voiceInfo = document.getElementById('voiceInfo');
+            
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+            let voices = [];
+            let selectedVoice = null;
+            let ttsRate = 0.8;
+            let ttsPitch = 1;
+
+            // Initialize TTS voices
+           // Function to find Yating voice
+function findYatingVoice(voices) {
+    // Try different possible names for Yating voice
+    const yatingPatterns = [
+        /yating/i,
+        /ya-ting/i,
+        /zh-cn-ya-ting/i,
+        /zh_tw_ya_ting/i,
+        /zh-cn_yating/i,
+        /ms-ya-ting/i
+    ];
+    
+    return voices.find(voice => 
+        yatingPatterns.some(pattern => pattern.test(voice.name))
+    );
+}
+
+// Initialize TTS voices
+function loadVoices() {
+    voices = speechSynthesis.getVoices();
+    voiceSelector.innerHTML = '<option value="">Default Voice</option>';
+    
+    // Filter for Chinese voices
+    const chineseVoices = voices.filter(voice => 
+        voice.lang.startsWith('zh') || voice.lang.includes('Chinese')
+    );
+    
+    // Try to find Yating voice
+    const yatingVoice = findYatingVoice(voices);
+    
+    if (yatingVoice) {
+        selectedVoice = yatingVoice;
+        voiceInfo.textContent = "Yating voice selected as default";
+        
+        // Set Yating as selected in dropdown
+        chineseVoices.forEach(voice => {
+            const option = document.createElement('option');
+            option.value = voice.name;
+            option.textContent = `${voice.name} (${voice.lang})`;
+            option.selected = (voice.name === yatingVoice.name);
+            voiceSelector.appendChild(option);
+        });
+    } else if (chineseVoices.length > 0) {
+        // Fallback: use first Chinese voice found
+        selectedVoice = chineseVoices[0];
+        voiceInfo.textContent = `Using ${chineseVoices[0].name} as default Chinese voice (Yating not found)`;
+        
+        chineseVoices.forEach((voice, index) => {
+            const option = document.createElement('option');
+            option.value = voice.name;
+            option.textContent = `${voice.name} (${voice.lang})`;
+            option.selected = (index === 0);
+            voiceSelector.appendChild(option);
+        });
+    } else {
+        voiceInfo.textContent = "No Chinese voices found. Using default voice.";
+        chineseVoices.forEach(voice => {
+            const option = document.createElement('option');
+            option.value = voice.name;
+            option.textContent = `${voice.name} (${voice.lang})`;
+            voiceSelector.appendChild(option);
+        });
+    }
+}
+
+
+            // Load voices when they become available
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = loadVoices;
+            }
+
+            // Enhanced Text-to-Speech functionality
+            const speakChinese = (hanzi, pinyin) => {
+                try {
+                    if ('speechSynthesis' in window) {
+                        // Cancel any ongoing speech
+                        speechSynthesis.cancel();
+                        
+                        // Use the actual Chinese character for pronunciation
+                        const utterance = new SpeechSynthesisUtterance(hanzi);
+                        utterance.lang = 'zh-CN';
+                        utterance.rate = ttsRate;
+                        utterance.pitch = ttsPitch;
+                        utterance.volume = 1;
+                        
+                        // Use selected voice if available
+                        if (selectedVoice) {
+                            utterance.voice = selectedVoice;
+                        }
+                        
+                        // Add event listeners for better UX
+                        utterance.onstart = () => {
+                            // Highlight the element being spoken
+                            const activeElement = document.querySelector('.tts-active');
+                            if (activeElement) {
+                                activeElement.classList.remove('tts-active');
+                            }
+                            
+                            const currentElement = event ? event.target : document.activeElement;
+                            if (currentElement && currentElement.classList.contains('hanzi-text')) {
+                                currentElement.classList.add('tts-active');
+                            }
+                        };
+                        
+                        utterance.onend = () => {
+                            // Remove highlight
+                            const activeElement = document.querySelector('.tts-active');
+                            if (activeElement) {
+                                activeElement.classList.remove('tts-active');
+                            }
+                            playAllButton.disabled = false;
+                        };
+                        
+                        utterance.onerror = (event) => {
+                            console.error('Speech synthesis error:', event);
+                            playAllButton.disabled = false;
+                        };
+                        
+                        speechSynthesis.speak(utterance);
+                    } else {
+                        console.log('Speech synthesis not supported');
+                    }
+                } catch (error) {
+                    console.error('Error with TTS:', error);
+                }
+            };
+
+            // Helper function to generate Chinese numbers for tens (20, 30, 40, etc.)
+function generateChineseNumber(num) {
+    if (num === 0) return { hanzi: "零", pinyin: "líng" };
+    if (num <= 10) return chineseNumbers[num];
+    
+    // Handle numbers 11-99
+    if (num <= 99) {
+        const tens = Math.floor(num / 10);
+        const units = num % 10;
+        
+        if (units === 0) {
+            // This is a tens number (20, 30, 40, etc.)
+            return {
+                hanzi: chineseNumbers[tens].hanzi + chineseNumbers[10].hanzi,
+                pinyin: chineseNumbers[tens].pinyin + " " + chineseNumbers[10].pinyin
+            };
+        } else {
+            // Regular two-digit number with units
+            return {
+                hanzi: chineseNumbers[tens].hanzi + chineseNumbers[10].hanzi + chineseNumbers[units].hanzi,
+                pinyin: chineseNumbers[tens].pinyin + " " + chineseNumbers[10].pinyin + " " + chineseNumbers[units].pinyin
+            };
+        }
+    }
+    
+    // Handle 100
+    if (num === 100) {
+        return {
+            hanzi: chineseNumbers[1].hanzi + chineseNumbers[100].hanzi,
+            pinyin: chineseNumbers[1].pinyin + " " + chineseNumbers[100].pinyin
+        };
+    }
+    
+    return null;
+}
+
+            // Play all numbers in sequence
+            function playAllNumbers() {
+                playAllButton.disabled = true;
+                
+                // Get all numbers from the table
+                const numberRows = Array.from(numbersTable.querySelectorAll('tr[data-number]'));
+                let index = 0;
+                
+                function speakNext() {
+                    if (index < numberRows.length) {
+                        const row = numberRows[index];
+                        const number = parseInt(row.dataset.number);
+                        const hanziCell = row.querySelector('.hanzi-text');
+                        const hanzi = hanziCell.dataset.hanzi;
+                        const pinyin = hanziCell.dataset.pinyin;
+                        
+                        // Highlight the current row
+                        numberRows.forEach(r => r.style.backgroundColor = '');
+                        row.style.backgroundColor = 'rgba(76, 175, 80, 0.2)';
+                        
+                        // Speak the number
+                        speakChinese(hanzi, pinyin);
+                        
+                        // Wait for speech to finish before moving to next number
+                        speechSynthesis.onend = function() {
+                            index++;
+                            setTimeout(speakNext, 800); // Delay between numbers
+                        };
+                    } else {
+                        playAllButton.disabled = false;
+                        // Remove highlighting
+                        numberRows.forEach(r => r.style.backgroundColor = '');
+                    }
+                }
+                
+                speakNext();
+            }
+
+            // Chinese Hanzi Numbers (0-9999)
+            const chineseNumbers = {
+                0: { hanzi: "零", pinyin: "líng" },
+                1: { hanzi: "一", pinyin: "yī" },
+                2: { hanzi: "二", pinyin: "èr" },
+                3: { hanzi: "三", pinyin: "sān" },
+                4: { hanzi: "四", pinyin: "sì" },
+                5: { hanzi: "五", pinyin: "wǔ" },
+                6: { hanzi: "六", pinyin: "liù" },
+                7: { hanzi: "七", pinyin: "qī" },
+                8: { hanzi: "八", pinyin: "bā" },
+                9: { hanzi: "九", pinyin: "jiǔ" },
+                10: { hanzi: "十", pinyin: "shí" },
+                100: { hanzi: "百", pinyin: "bǎi" },
+                1000: { hanzi: "千", pinyin: "qiān" }
+            };
+
+            // Function to convert any number to Chinese Hanzi (0-9999)
+            const convertToChineseHanzi = (num) => {
+                if (num === 0) return { hanzi: "零", pinyin: "líng" };
+                if (num > 9999) return null;
+
+                let hanzi = "";
+                let pinyin = "";
+
+                // Thousands place
+                const thousands = Math.floor(num / 1000);
+                if (thousands > 0) {
+                    hanzi += chineseNumbers[thousands].hanzi + chineseNumbers[1000].hanzi;
+                    pinyin += chineseNumbers[thousands].pinyin + " " + chineseNumbers[1000].pinyin;
+                }
+
+                // Hundreds place
+                const hundreds = Math.floor((num % 1000) / 100);
+                if (hundreds > 0) {
+                    hanzi += chineseNumbers[hundreds].hanzi + chineseNumbers[100].hanzi;
+                    pinyin += chineseNumbers[hundreds].pinyin + " " + chineseNumbers[100].pinyin;
+                }
+
+                // Tens place
+                const tens = Math.floor((num % 100) / 10);
+                if (tens > 0) {
+                    if (tens === 1) {
+                        hanzi += chineseNumbers[10].hanzi;
+                        pinyin += chineseNumbers[10].pinyin;
+                    } else {
+                        hanzi += chineseNumbers[tens].hanzi + chineseNumbers[10].hanzi;
+                        pinyin += chineseNumbers[tens].pinyin + " " + chineseNumbers[10].pinyin;
+                    }
+                }
+
+                // Units place
+                const units = num % 10;
+                if (units > 0) {
+                    hanzi += chineseNumbers[units].hanzi;
+                    pinyin += " " + chineseNumbers[units].pinyin;
+                }
+
+                return { hanzi: hanzi.trim(), pinyin: pinyin.trim() };
+            };
+
+            
+
+            const convertNumber = () => {
+                const number = parseInt(numberInput.value, 10);
+                if (isNaN(number) || number < 0) {
+                    hanziOutput.textContent = "Invalid Input";
+                    pronunciationOutput.textContent = "Please enter a valid number.";
+                    systemNote.textContent = "";
+                    updateNavigationButtons();
+                    return;
+                }
+
+                if (number > 9999) {
+                    hanziOutput.textContent = "Out of Range";
+                    pronunciationOutput.textContent = "Max for this demo is 9999.";
+                    systemNote.textContent = "";
+                    updateNavigationButtons();
+                    return;
+                }
+
+                const chinese = convertToChineseHanzi(number) || chineseNumbers[number];
+                if (chinese) {
+                    hanziOutput.textContent = `${chinese.hanzi} (${chinese.pinyin})`;
+                    pronunciationOutput.textContent = chinese.pinyin;
+                    hanziOutput.dataset.hanzi = chinese.hanzi;
+                    hanziOutput.dataset.pinyin = chinese.pinyin;
+                    systemNote.textContent = "Chinese Hanzi numbers are used for counting, dates, money, and more.";
+                } else {
+                    hanziOutput.textContent = "N/A";
+                    pronunciationOutput.textContent = "Number not found.";
+                    systemNote.textContent = "";
+                }
+
+                updateNavigationButtons();
+            };
+
+            const updateNavigationButtons = () => {
+                const number = parseInt(numberInput.value, 10);
+                prevButton.disabled = number <= 0;
+                nextButton.disabled = number >= 9999;
+            };
+
+            const navigateNumber = (direction) => {
+                const currentNumber = parseInt(numberInput.value, 10);
+                let newNumber = currentNumber + direction;
+
+                if (newNumber < 0) newNumber = 0;
+                if (newNumber > 9999) newNumber = 9999;
+
+                numberInput.value = newNumber;
+                convertNumber();
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            };
+
+            function initializeChineseNumbers() {
+    for (let i = 0; i <= 100; i++) {
+        if (!chineseNumbers[i]) {
+            chineseNumbers[i] = generateChineseNumber(i);
+        }
+    }
+}
+
+            const populateTable = () => {
+                let tableHTML = `
+                    <thead>
+                        <tr>
+                            <th>Number</th>
+                            <th>Hanzi</th>
+                            <th>Pinyin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+
+                 // First, ensure all numbers 0-100 are properly generated
+    for (let i = 0; i <= 100; i++) {
+        // If the number doesn't exist in chineseNumbers, generate it
+        if (!chineseNumbers[i]) {
+            chineseNumbers[i] = convertToChineseHanzi(i) || generateChineseNumber(i);
+        }
+        
+        if (chineseNumbers[i]) {
+            tableHTML += `
+                <tr onclick="selectNumberFromTable(${i})" data-number="${i}">
+                    <td>${i}</td>
+                    <td class="hanzi-text"
+                        onclick="event.stopPropagation(); speakChineseText('${chineseNumbers[i].hanzi}', '${chineseNumbers[i].pinyin}')"
+                        title="Click to hear pronunciation"
+                        data-hanzi="${chineseNumbers[i].hanzi}"
+                        data-pinyin="${chineseNumbers[i].pinyin}">
+                        ${chineseNumbers[i].hanzi}
+                    </td>
+                    <td>${chineseNumbers[i].pinyin}</td>
+                </tr>
+            `;
+        }
+    }
+ // Add thousands examples
+    const thousandsExamples = [1000, 2000, 3000, 5000, 7500, 9999];
+    tableHTML += '<tr><td colspan="3" style=" font-weight:bold; text-align:center;">Examples in Thousands</td></tr>';
+
+    thousandsExamples.forEach(num => {
+        const chinese = convertToChineseHanzi(num);
+        if (chinese) {
+            tableHTML += `
+                <tr onclick="selectNumberFromTable(${num})" data-number="${num}">
+                    <td>${num}</td>
+                    <td class="hanzi-text"
+                        onclick="event.stopPropagation(); speakChineseText('${chinese.hanzi}', '${chinese.pinyin}')"
+                        title="Click to hear pronunciation"
+                        data-hanzi="${chinese.hanzi}"
+                        data-pinyin="${chinese.pinyin}">
+                        ${chinese.hanzi}
+                    </td>
+                    <td>${chinese.pinyin}</td>
+                </tr>
+            `;
+        }
+    });
+
+    tableHTML += '</tbody>';
+    numbersTable.innerHTML = tableHTML;
+};
+
+            window.selectNumberFromTable = (number) => {
+                numberInput.value = number;
+                convertNumber();
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.number-learner').scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            window.speakChineseText = (hanzi, pinyin) => {
+                speakChinese(hanzi, pinyin);
+            };
+
+            // Event listeners
+            convertButton.addEventListener('click', convertNumber);
+            nextButton.addEventListener('click', () => navigateNumber(1));
+            prevButton.addEventListener('click', () => navigateNumber(-1));
+
+            hanziOutput.addEventListener('click', () => {
+                const hanzi = hanziOutput.dataset.hanzi;
+                const pinyin = hanziOutput.dataset.pinyin;
+                if (hanzi && pinyin) {
+                    speakChinese(hanzi, pinyin);
+                }
+            });
+
+            // TTS Control Event Listeners
+            voiceSelector.addEventListener('change', function() {
+                const voiceName = this.value;
+                if (voiceName) {
+                    selectedVoice = voices.find(voice => voice.name === voiceName);
+                } else {
+                    selectedVoice = null;
+                }
+            });
+
+            ttsRateSlider.addEventListener('input', function() {
+                ttsRate = parseFloat(this.value);
+                ttsRateValue.textContent = ttsRate.toFixed(1);
+            });
+
+            ttsPitchSlider.addEventListener('input', function() {
+                ttsPitch = parseFloat(this.value);
+                ttsPitchValue.textContent = ttsPitch.toFixed(1);
+            });
+
+            playAllButton.addEventListener('click', playAllNumbers);
+
+            numberInput.addEventListener('keyup', (event) => {
+                if (event.key === 'Enter') {
+                    convertNumber();
+                }
+            });
+
+            // Initial setup
+            convertNumber();
+            initializeChineseNumbers();
+            populateTable();
+            loadVoices();
+
+            // Canvas Drawing Logic
+            ctx.lineWidth = brushSizeSlider.value;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = brushColorPicker.value;
+
+            function getEventPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+                return {
+                    x: clientX - rect.left,
+                    y: clientY - rect.top
+                };
+            }
+
+            function draw(e) {
+                if (!isDrawing) return;
+                const pos = getEventPos(e);
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+                [lastX, lastY] = [pos.x, pos.y];
+            }
+
+            function startDrawing(e) {
+                e.preventDefault();
+                isDrawing = true;
+                const pos = getEventPos(e);
+                [lastX, lastY] = [pos.x, pos.y];
+            }
+
+            function stopDrawing(e) {
+                if (e) e.preventDefault();
+                isDrawing = false;
+            }
+
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            canvas.addEventListener('touchstart', startDrawing, { passive: false });
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                draw(e);
+            }, { passive: false });
+            canvas.addEventListener('touchend', stopDrawing, { passive: false });
+            canvas.addEventListener('touchcancel', stopDrawing, { passive: false });
+
+            clearCanvasBtn.addEventListener('click', () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            });
+
+            brushColorPicker.addEventListener('change', (e) => {
+                ctx.strokeStyle = e.target.value;
+            });
+
+            brushSizeSlider.addEventListener('input', (e) => {
+                ctx.lineWidth = e.target.value;
+            });
+        });
+
+        function toggleMode() {
+            const body = document.body;
+            body.classList.toggle('light-mode');
+            const modeToggle = document.querySelector('.mode-toggle span');
+            if (body.classList.contains('light-mode')) {
+                modeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'light');
+            } else {
+                modeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        function applySavedTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            const modeToggle = document.querySelector('.mode-toggle span');
+            if (savedTheme === 'light') {
+                body.classList.add('light-mode');
+                modeToggle.textContent = '☀️';
+            } else {
+                body.classList.remove('light-mode');
+                modeToggle.textContent = '🌙';
+            }
+        }
+
+        function goBack() {
+    window.location.href = '../../index.html';
+}
+
+        document.addEventListener('DOMContentLoaded', applySavedTheme);
+    </script>
+</body>
+</html>
