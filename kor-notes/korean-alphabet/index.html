@@ -12,42 +12,38 @@
             box-sizing: border-box;
         }
 
-        /* Body Styles with new color scheme */
+        /* Body Styles */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
             min-height: 100vh;
-            color: #333;
+            color: #000000;
             display: flex;
             flex-direction: column;
-            margin: 0px;
-
-            --accent1: #51061a; /* Red */
-            --accent2: #66a5f3; /* Blue */
-            --accent3: #FFFFFF; /* White */
-            --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
         }
 
-        /* Back Button Styles */
+        /* Back Button */
         .back-button {
             position: fixed;
             top: 20px;
             left: 20px;
-            background: var(--accent2);
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
+            background: #e6f0ff;
+            color: #0066cc;
+            border: 1px solid #b3d1ff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             z-index: 1001;
-            border: 2px solid var(--accent1);
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .back-button:hover {
-            background: var(--accent1);
-            transform: translateY(-2px);
+            background: #cce0ff;
+            transform: translateX(-2px);
         }
 
         /* Main Container */
@@ -61,7 +57,7 @@
         /* Header Styles */
         .header {
             text-align: center;
-            color: #333;
+            color: #000000;
             margin-bottom: 30px;
             padding-top: 20px;
         }
@@ -69,145 +65,168 @@
         .header h1 {
             font-size: 2.5rem;
             font-weight: 300;
-            background: linear-gradient(135deg, var(--accent1), var(--accent2));
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #0066cc, #004d99);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
         .header p {
-            color: #666;
             font-size: 1.1rem;
-            background-color: white;
-            padding: 10px 20px;
-            border-radius: 10px;
-            display: inline-block;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            border: 1px solid #ddd;
+            opacity: 0.8;
+            color: #333333;
         }
 
         /* Navigation Bar */
         #navbar {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             margin-bottom: 40px;
             flex-wrap: wrap;
             position: sticky; 
             top: 0; 
-            background: #f5f5f5; 
-            padding: 10px 20px; 
+            background: #f0f7ff; 
+            padding: 15px 20px; 
             z-index: 1000; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 102, 204, 0.1);
             width: 100%; 
             box-sizing: border-box; 
-            border-radius: 10px;
-            border: 1px solid #ddd;
+            border-radius: 12px;
+            margin-top: 20px;
         }
 
         #navbar a {
-            background: white;
-            color: #333;
+            background: #e6f0ff;
+            color: #0066cc;
             padding: 12px 24px;
             text-decoration: none;
             border-radius: 25px;
-            font-weight: bold;
+            font-weight: 500;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border: 2px solid var(--accent2);
+            border: 1px solid #b3d1ff;
         }
 
         #navbar a:hover, #navbar a.active {
-            background: var(--accent2);
+            background: #0066cc;
             color: white;
             transform: translateY(-2px);
-            border-color: var(--accent1);
+            box-shadow: 0 5px 15px rgba(0, 102, 204, 0.3);
         }
 
         /* Section Titles */
         .section-title {
             text-align: center;
-            color: black;
+            color: #000000;
             font-size: 1.8rem;
             margin: 60px 0 30px 0;
-            padding: 15px;
-            border-radius: 10px;
-        
+            font-weight: 300;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #0066cc, #004d99);
+            border-radius: 3px;
         }
 
         /* Cards Container */
         .cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
             list-style: none;
             margin-bottom: 40px;
         }
 
         /* Individual Card */
         .card {
-            background: white;
+            background: #f8fbff;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 25px rgba(0, 102, 204, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
-            border: 2px solid var(--accent2);
+            border: 1px solid #d9e7ff;
         }
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            border-color: var(--accent1);
+            box-shadow: 0 12px 30px rgba(0, 102, 204, 0.15);
         }
 
         /* Sketch Area (Canvas) */
         .sketch {
             position: relative;
             padding: 20px;
-            background: #f8f9fa;
-            border-bottom: 2px solid #ddd;
+            background: #f0f7ff;
+            border-bottom: 1px solid #d9e7ff;
+        }
+
+        .paint-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #ffffff;
+            border: 1px solid #d9e7ff;
         }
 
         .paint {
             width: 100%;
-            height: 200px;
-            border: 2px dashed var(--accent2);
-            border-radius: 10px;
+            height: 100%;
             cursor: crosshair;
-            background: white;
+            background: transparent;
             touch-action: none;
             display: block;
         }
 
+        .canvas-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
         .erase-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--accent2);
+            background: #ff4757;
             color: white;
             border: none;
             padding: 8px 15px;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 12px;
-            z-index: 10;
+            font-size: 14px;
             transition: all 0.3s ease;
-            border: 1px solid var(--accent1);
+            font-weight: 500;
         }
 
         .erase-button:hover {
-            background: var(--accent1);
-            transform: scale(1.05);
+            background: #ff3838;
+            transform: translateY(-2px);
+        }
+
+        .brush-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .brush-size {
+            width: 80px;
         }
 
         /* Card Content */
         .card_content {
             padding: 20px;
             text-align: center;
-            background: white;
             flex-grow: 1; 
             display: flex;
             flex-direction: column;
@@ -215,30 +234,27 @@
         }
 
         .korean-char {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: bold;
-            color: #333;
+            color: #0066cc;
             cursor: pointer;
-            transition: color 0.3s ease, transform 0.3s ease;
+            transition: all 0.3s ease;
             user-select: none;
             margin-bottom: 10px; 
         }
 
         .korean-char:hover {
-            color: var(--accent1);
+            color: #004d99;
             transform: scale(1.1);
         }
 
         .char-info {
-            font-size: 0.9rem;
-            color: white;
-            padding: 5px 10px;
-            background: var(--accent2);
-            border-radius: 5px;
-            display: inline-block;
-            font-weight: bold;
+            font-size: 1rem;
+            color: #333333;
+            font-weight: 500;
         }
 
+        /* Responsive Design */
         @media (min-width: 992px) {
             .cards {
                 grid-template-columns: repeat(3, 1fr);
@@ -268,7 +284,7 @@
             .back-button {
                 top: 10px;
                 left: 10px;
-                padding: 8px 16px;
+                padding: 8px 12px;
                 font-size: 0.9rem;
             }
         }
@@ -278,22 +294,32 @@
                 padding: 10px;
             }
             #navbar {
-                padding: 5px 10px;
+                padding: 10px 15px;
             }
             #navbar a {
                 padding: 10px 20px; 
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .korean-char {
+                font-size: 3rem;
             }
         }
     </style>
 </head>
 <body>
     <!-- Back Button -->
-    <a href="../../index.html" class="back-button">← Back</a>
-    
+    <button class="back-button" onclick="goBack()">
+        ← Back
+    </button>
+
     <div class="main">
         <div class="header">
             <h1>한글<br>Learn the Korean Alphabet</h1>
-            <p>Hover over/ click letters to hear pronunciation • Draw in the white canvas area</p>
+            <p>Hover over/click letters to hear pronunciation • Draw in the canvas area</p>
         </div>
         
         <nav id="navbar">
@@ -319,6 +345,11 @@
     </div>
 
     <script>
+        // Back button functionality
+        function goBack() {
+            window.location.href = "../../index.html";
+        }
+
         const characters = {
             consonants: [
                 { char: 'ㄱ', sound: 'g', audio: 'https://90daykoreanaudiobytes.s3-us-west-1.amazonaws.com/audio-giyeok.mp3' },
@@ -383,8 +414,15 @@
                 <li class="cards_item">
                     <div class="card">
                         <div class="sketch">
-                            <canvas class="paint" width="300" height="200" data-index="${index}"></canvas>
-                            <button class="erase-button" data-canvas-index="${index}">Erase</button>
+                            <div class="paint-container">
+                                <canvas class="paint" width="300" height="200" data-index="${index}"></canvas>
+                            </div>
+                            <div class="canvas-controls">
+                                <button class="erase-button" data-canvas-index="${index}">Erase</button>
+                                <div class="brush-controls">
+                                    <input type="range" class="brush-size" min="1" max="10" value="3" data-canvas-index="${index}">
+                                </div>
+                            </div>
                         </div>
                         <div class="card_content">
                             <div class="korean-char" data-audio-url="${charData.audio}">${charData.char}</div>
@@ -414,6 +452,7 @@
             addAudioEventListeners(); 
             addCanvasEventListeners(); 
             addEraseButtonListeners(); 
+            addBrushSizeListeners();
         }
 
         /**
@@ -484,12 +523,12 @@
                 const ctx = canvas.getContext('2d');
                 canvasesContexts[index] = ctx;
                 
-                // Set canvas size to match display size
-                const rect = canvas.getBoundingClientRect();
-                canvas.width = rect.width;
-                canvas.height = rect.height;
+                // Set canvas size to match container
+                const container = canvas.parentElement;
+                canvas.width = container.clientWidth;
+                canvas.height = container.clientHeight;
                 
-                ctx.strokeStyle = '#0A3161'; // Blue color for drawing
+                ctx.strokeStyle = '#0066cc';
                 ctx.lineWidth = 3;
                 ctx.lineCap = 'round';
                 ctx.lineJoin = 'round';
@@ -507,10 +546,10 @@
                 canvas.addEventListener('mouseout', stopDrawing);
 
                 // Touch events for mobile
-                canvas.addEventListener('touchstart', handleTouch);
-                canvas.addEventListener('touchmove', handleTouch);
+                canvas.addEventListener('touchstart', handleTouch, { passive: false });
+                canvas.addEventListener('touchmove', handleTouch, { passive: false });
                 canvas.addEventListener('touchend', stopDrawing);
-                canvas.addEventListener('touchcancel', stopDrawing); // For when touch is interrupted
+                canvas.addEventListener('touchcancel', stopDrawing);
             });
         }
 
@@ -519,16 +558,17 @@
          * @param {MouseEvent|TouchEvent} e - The event object.
          */
         function startDrawing(e) {
+            e.preventDefault();
             isDrawing = true;
             const canvas = e.target;
             const rect = canvas.getBoundingClientRect();
             
-            // Get the correct coordinates accounting for canvas scaling
+            // Get coordinates relative to canvas
             const scaleX = canvas.width / rect.width;
             const scaleY = canvas.height / rect.height;
             
-            const clientX = e.clientX || e.touches[0].clientX;
-            const clientY = e.clientY || e.touches[0].clientY;
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
             
             lastX = (clientX - rect.left) * scaleX;
             lastY = (clientY - rect.top) * scaleY;
@@ -544,17 +584,17 @@
          */
         function draw(e) {
             if (!isDrawing) return;
-            e.preventDefault(); // Prevent scrolling on touch
+            e.preventDefault();
             
             const canvas = e.target;
             const rect = canvas.getBoundingClientRect();
             
-            // Get the correct coordinates accounting for canvas scaling
+            // Get coordinates relative to canvas
             const scaleX = canvas.width / rect.width;
             const scaleY = canvas.height / rect.height;
             
-            const clientX = e.clientX || e.touches[0].clientX;
-            const clientY = e.clientY || e.touches[0].clientY;
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
 
             const currentX = (clientX - rect.left) * scaleX;
             const currentY = (clientY - rect.top) * scaleY;
@@ -586,13 +626,12 @@
 
             // Create a synthetic mouse event from touch event
             const mouseEvent = new MouseEvent(
-                e.type === 'touchstart' ? 'mousedown' : 
-                e.type === 'touchmove' ? 'mousemove' : 'mouseup', 
+                e.type === 'touchstart' ? 'mousedown' : 'mousemove', 
                 {
                     clientX: touch.clientX,
                     clientY: touch.clientY,
-                    bubbles: true, // Allow event to bubble up
-                    cancelable: true // Allow event to be canceled
+                    bubbles: true,
+                    cancelable: true
                 }
             );
             target.dispatchEvent(mouseEvent);
@@ -618,6 +657,19 @@
                 button.addEventListener('click', function() {
                     const canvasIndex = parseInt(this.dataset.canvasIndex);
                     clearCanvas(canvasIndex);
+                });
+            });
+        }
+
+        /**
+         * Adds change listeners to brush size controls.
+         */
+        function addBrushSizeListeners() {
+            document.querySelectorAll('.brush-size').forEach(slider => {
+                slider.addEventListener('input', function() {
+                    const canvasIndex = parseInt(this.dataset.canvasIndex);
+                    const ctx = canvasesContexts[canvasIndex];
+                    ctx.lineWidth = this.value;
                 });
             });
         }
@@ -650,6 +702,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             generateCards();
             initializeCanvasContexts(); // Initialize contexts after cards are generated
+            
+            // Reinitialize contexts on window resize
+            window.addEventListener('resize', function() {
+                initializeCanvasContexts();
+            });
         });
     </script>
 </body>

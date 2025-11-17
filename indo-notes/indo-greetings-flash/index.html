@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indonesian Core Phrases Flashcards</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://js.puter.com/v2/"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .card-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flashcard {
+            position: relative;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-face {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            transition: all 0.75s linear;
+            transform-style: preserve-3d;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            opacity: 1;
+            transform: rotateX(0deg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .flashcard.turned .card-front {
+            opacity: 0;
+            transform: rotateX(180deg);
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #0f3460, #1a1a2e);
+            color: white;
+            opacity: 0;
+            transform: rotateX(180deg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .flashcard.turned .card-back {
+            opacity: 1;
+            transform: rotateX(0deg);
+        }
+
+        .indonesian {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .english {
+            font-size: 1.8rem;
+            text-align: center;
+            opacity: 0.9;
+            color: #e0e0e0;
+        }
+
+        .category {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #ffffff;
+        }
+
+        .flip-hint {
+            position: absolute;
+            bottom: 20px;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.8rem;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .control-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+
+        .control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .know-btn {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+        }
+
+        .dont-know-btn {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .flip-btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .speak-btn {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
+        .deck-selector {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .deck-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .deck-btn.active {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #2ecc71, #3498db);
+            border-radius: 5px;
+            transition: width 0.5s;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            color: white;
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+
+        .instructions {
+            background: rgba(30, 30, 46, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .instructions h3 {
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .instructions p {
+            color: #e0e0e0;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .status-message {
+            text-align: center;
+            color: #3498db;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            min-height: 20px;
+        }
+
+        .voice-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .voice-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .voice-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .voice-btn.active {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 600px) {
+            .indonesian {
+                font-size: 2rem;
+            }
+
+            .english {
+                font-size: 1.5rem;
+            }
+
+            .controls {
+                gap: 15px;
+            }
+
+            .control-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .card-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../../index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1>🇮🇩 Indonesian Core Phrases</h1>
+            <p class="subtitle">Learn with high-quality AI voices powered by Puter.js</p>
+        </header>
+
+        <div class="deck-selector">
+            <button class="deck-btn active" data-deck="greetings">Greetings</button>
+            <button class="deck-btn" data-deck="introductions">Introductions</button>
+            <button class="deck-btn" data-deck="courtesy">Basic Courtesy</button>
+            <button class="deck-btn" data-deck="yesno">Yes/No</button>
+        </div>
+
+        <div class="progress">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <div class="stats">
+            <span>Cards Left: <span id="cards-left">0</span></span>
+            <span>Known: <span id="known-count">0</span></span>
+        </div>
+
+        <div class="card-container">
+            <div class="flashcard" id="flashcard">
+                <div class="card-face card-front">
+                    <div class="category" id="front-category">Greetings</div>
+                    <div class="indonesian" id="front-indonesian">Halo</div>
+                    <div class="flip-hint">Click to reveal translation</div>
+                </div>
+                <div class="card-face card-back">
+                    <div class="category" id="back-category">Greetings</div>
+                    <div class="english" id="back-english">Hello</div>
+                    <div class="indonesian" id="back-indonesian">Halo</div>
+                    <div class="flip-hint">Click to see question</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn dont-know-btn" id="dont-know-btn" title="Don't know">
+                <i class="fas fa-times"></i>
+            </button>
+            <button class="control-btn flip-btn" id="flip-btn" title="Flip">
+                <i class="fas fa-redo"></i>
+            </button>
+            <button class="control-btn speak-btn" id="speak-btn" title="Speak">
+                <i class="fas fa-volume-up"></i>
+            </button>
+            <button class="control-btn reset-btn" id="reset-btn" title="Reset">
+                <i class="fas fa-sync-alt"></i>
+            </button>
+            <button class="control-btn know-btn" id="know-btn" title="Know it">
+                <i class="fas fa-check"></i>
+            </button>
+        </div>
+
+        <div class="status-message" id="status-message"></div>
+
+        <div class="voice-controls">
+            <button class="voice-btn active" data-engine="standard">Standard</button>
+            <button class="voice-btn" data-engine="neural">Neural (Better)</button>
+            <button class="voice-btn" data-engine="generative">Generative (Best)</button>
+        </div>
+
+        <div class="instructions">
+            <h3>How to Use</h3>
+            <p><strong>Flip:</strong> Click the blue button or tap the card to see the translation</p>
+            <p><strong>Speak:</strong> Click the purple button to hear Indonesian pronunciation using Puter.js AI (free, unlimited)</p>
+            <p><strong>Voice Quality:</strong> Choose Standard, Neural, or Generative engines above</p>
+            <p><strong>Know it:</strong> Click the green button if you know the answer</p>
+            <p><strong>Don't know:</strong> Click the red button to review the card again later</p>
+            <p><strong>Reset:</strong> Click the orange button to restart the deck</p>
+        </div>
+    </div>
+
+    <script>
+        const flashcardDecks = {
+            greetings: [
+                { indonesian: "Halo", english: "Hello" },
+                { indonesian: "Selamat pagi", english: "Good morning" },
+                { indonesian: "Selamat siang", english: "Good afternoon" },
+                { indonesian: "Selamat sore", english: "Good evening" },
+                { indonesian: "Selamat malam", english: "Good night" },
+                { indonesian: "Apa kabar?", english: "How are you?" },
+                { indonesian: "Baik-baik saja", english: "I'm fine" },
+                { indonesian: "Sampai jumpa", english: "See you later" },
+                { indonesian: "Selamat tinggal", english: "Goodbye" },
+                { indonesian: "Selamat jalan", english: "Safe travels" }
+            ],
+            introductions: [
+                { indonesian: "Nama saya", english: "My name is" },
+                { indonesian: "Saya dari", english: "I am from" },
+                { indonesian: "Senang bertemu dengan Anda", english: "Nice to meet you" },
+                { indonesian: "Siapa nama Anda?", english: "What is your name?" },
+                { indonesian: "Dari mana Anda?", english: "Where are you from?" },
+                { indonesian: "Saya orang Amerika", english: "I am American" },
+                { indonesian: "Saya tinggal di", english: "I live in" },
+                { indonesian: "Umur saya", english: "My age is" },
+                { indonesian: "Saya seorang pelajar", english: "I am a student" },
+                { indonesian: "Pekerjaan saya", english: "My job is" }
+            ],
+            courtesy: [
+                { indonesian: "Terima kasih", english: "Thank you" },
+                { indonesian: "Maaf", english: "Sorry" },
+                { indonesian: "Permisi", english: "Excuse me" },
+                { indonesian: "Silakan", english: "Please/You're welcome" },
+                { indonesian: "Terima kasih banyak", english: "Thank you very much" },
+                { indonesian: "Sama-sama", english: "You're welcome" },
+                { indonesian: "Tidak apa-apa", english: "It's okay/No problem" },
+                { indonesian: "Tolong", english: "Please (help)" },
+                { indonesian: "Dengan senang hati", english: "With pleasure" },
+                { indonesian: "Kembali kasih", english: "You're welcome (informal)" }
+            ],
+            yesno: [
+                { indonesian: "Ya", english: "Yes" },
+                { indonesian: "Tidak", english: "No" },
+                { indonesian: "Bukan", english: "Not/It's not" },
+                { indonesian: "Baik", english: "Okay/Good" },
+                { indonesian: "Tentu", english: "Of course/Certainly" },
+                { indonesian: "Mungkin", english: "Maybe" },
+                { indonesian: "Betul", english: "Correct/Right" },
+                { indonesian: "Salah", english: "Wrong/Incorrect" },
+                { indonesian: "Setuju", english: "Agree" },
+                { indonesian: "Tidak setuju", english: "Disagree" }
+            ]
+        };
+
+        let currentDeck = 'greetings';
+        let cards = [];
+        let currentCardIndex = 0;
+        let knownCards = 0;
+        let dontKnowCards = [];
+        let turned = false;
+        let currentEngine = 'standard';
+        let currentAudio = null;
+        let isSpeaking = false;
+
+        const flashcard = document.getElementById('flashcard');
+        const frontIndonesian = document.getElementById('front-indonesian');
+        const backIndonesian = document.getElementById('back-indonesian');
+        const backEnglish = document.getElementById('back-english');
+        const frontCategory = document.getElementById('front-category');
+        const backCategory = document.getElementById('back-category');
+        const progressBar = document.getElementById('progress-bar');
+        const cardsLeftElement = document.getElementById('cards-left');
+        const knownCountElement = document.getElementById('known-count');
+        const statusMessage = document.getElementById('status-message');
+        const flipBtn = document.getElementById('flip-btn');
+        const knowBtn = document.getElementById('know-btn');
+        const dontKnowBtn = document.getElementById('dont-know-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const speakBtn = document.getElementById('speak-btn');
+        const deckButtons = document.querySelectorAll('.deck-btn');
+        const voiceButtons = document.querySelectorAll('.voice-btn');
+
+        function init() {
+            loadDeck(currentDeck);
+            updateProgress();
+            setupEventListeners();
+        }
+
+        function loadDeck(deckName) {
+            currentDeck = deckName;
+            cards = [...flashcardDecks[deckName]];
+            dontKnowCards = [];
+            currentCardIndex = 0;
+            knownCards = 0;
+            turned = false;
+            flashcard.classList.remove('turned');
+            updateCard();
+            updateProgress();
+        }
+
+        function updateCard() {
+            if (cards.length === 0) {
+                frontIndonesian.textContent = "Selamat!";
+                backIndonesian.textContent = "Selamat!";
+                backEnglish.textContent = "You've completed all cards!";
+                frontCategory.textContent = getCategoryName(currentDeck);
+                backCategory.textContent = getCategoryName(currentDeck);
+                return;
+            }
+
+            const card = cards[currentCardIndex];
+            frontIndonesian.textContent = card.indonesian;
+            backIndonesian.textContent = card.indonesian;
+            backEnglish.textContent = card.english;
+            frontCategory.textContent = getCategoryName(currentDeck);
+            backCategory.textContent = getCategoryName(currentDeck);
+            
+            turned = false;
+            flashcard.classList.remove('turned');
+        }
+
+        function getCategoryName(deck) {
+            switch(deck) {
+                case 'greetings': return 'Greetings';
+                case 'introductions': return 'Introductions';
+                case 'courtesy': return 'Basic Courtesy';
+                case 'yesno': return 'Yes/No';
+                default: return 'Indonesian';
+            }
+        }
+
+        function flipCard() {
+            turned = !turned;
+            if (turned) {
+                flashcard.classList.add('turned');
+            } else {
+                flashcard.classList.remove('turned');
+            }
+        }
+
+        async function speakCard() {
+            if (cards.length === 0 || isSpeaking) return;
+
+            const currentCard = cards[currentCardIndex];
+            const textToSpeak = currentCard.indonesian;
+            
+            try {
+                isSpeaking = true;
+                speakBtn.disabled = true;
+                statusMessage.textContent = `Speaking with ${currentEngine} engine...`;
+                
+                // Stop any currently playing audio
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio = null;
+                }
+
+                // Use Puter.js for Indonesian TTS
+                const audio = await puter.ai.txt2speech(textToSpeak, {
+                    language: "id-ID",
+                    engine: currentEngine
+                });
+                
+                currentAudio = audio;
+                
+                audio.onended = () => {
+                    isSpeaking = false;
+                    speakBtn.disabled = false;
+                    statusMessage.textContent = '';
+                    currentAudio = null;
+                };
+                
+                audio.onerror = () => {
+                    isSpeaking = false;
+                    speakBtn.disabled = false;
+                    statusMessage.textContent = 'Error playing audio';
+                    currentAudio = null;
+                };
+                
+                await audio.play();
+                statusMessage.textContent = `Playing: "${textToSpeak}"`;
+                
+                speakBtn.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    speakBtn.style.transform = 'scale(1)';
+                }, 200);
+
+            } catch (error) {
+                console.error('Error with Puter.js TTS:', error);
+                statusMessage.textContent = `Error: ${error.message}`;
+                isSpeaking = false;
+                speakBtn.disabled = false;
+            }
+        }
+
+        function knowCard() {
+            if (cards.length === 0) return;
+
+            knownCards++;
+            cards.splice(currentCardIndex, 1);
+
+            if (currentCardIndex >= cards.length) {
+                currentCardIndex = 0;
+            }
+
+            updateCard();
+            updateProgress();
+
+            knowBtn.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                knowBtn.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function dontKnowCard() {
+            if (cards.length === 0) return;
+
+            const card = cards.splice(currentCardIndex, 1)[0];
+            dontKnowCards.push(card);
+
+            if (currentCardIndex >= cards.length) {
+                currentCardIndex = 0;
+            }
+
+            updateCard();
+            updateProgress();
+
+            dontKnowBtn.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                dontKnowBtn.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function resetCards() {
+            cards = [...flashcardDecks[currentDeck]];
+            dontKnowCards = [];
+            currentCardIndex = 0;
+            knownCards = 0;
+            turned = false;
+            flashcard.classList.remove('turned');
+            updateCard();
+            updateProgress();
+            
+            resetBtn.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                resetBtn.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function updateProgress() {
+            const totalCards = flashcardDecks[currentDeck].length;
+            const remainingCards = cards.length;
+            const progress = ((totalCards - remainingCards) / totalCards) * 100;
+
+            progressBar.style.width = `${progress}%`;
+            cardsLeftElement.textContent = remainingCards;
+            knownCountElement.textContent = knownCards;
+        }
+
+        function setupEventListeners() {
+            flipBtn.addEventListener('click', flipCard);
+            knowBtn.addEventListener('click', knowCard);
+            dontKnowBtn.addEventListener('click', dontKnowCard);
+            resetBtn.addEventListener('click', resetCards);
+            speakBtn.addEventListener('click', speakCard);
+
+            flashcard.addEventListener('click', flipCard);
+
+            deckButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    deckButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    loadDeck(button.dataset.deck);
+                });
+            });
+
+            voiceButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    voiceButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    currentEngine = button.dataset.engine;
+                    statusMessage.textContent = `Voice engine: ${currentEngine}`;
+                    setTimeout(() => {
+                        if (statusMessage.textContent === `Voice engine: ${currentEngine}`) {
+                            statusMessage.textContent = '';
+                        }
+                    }, 2000);
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

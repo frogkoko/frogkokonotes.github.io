@@ -17,6 +17,9 @@
 
       --korheadimg: url(img/korheadimg.jpg);
       --korheadimgicon: url(img/korflag.jpg);
+
+       --idheadimg: url(https://images.unsplash.com/photo-1528181304800-259b08848526?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80);
+      --idheadimgicon: url(https://flagcdn.com/w320/id.png);
       
       --zhheadimg: url(https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fmedia-s3-us-east-1.ceros.com%2Funited%2Fimages%2F2017%2F08%2F01%2F843b9fbc97be93ac118050818c9418f8%2Fshutterstock-431144884-min.jpg&f=1&nofb=1&ipt=b5c2a067a7e8e049ad90e301a73c1a383ce33a94df4ab2f64994a91c699a6ea1);
       --zhheadimgicon: url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fnode01.flagstat.net%2Fmedia%2Fimage%2F2821r.jpg&f=1&nofb=1&ipt=2a8eb2de40c74ead4d451144f5506c2680174f46595623523112c55c100a6216);
@@ -31,32 +34,41 @@
       --pyheadimgicon: url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpluspng.com%2Fimg-png%2Fpython-logo-png-python-logo-png-and-vector-logo-img-4096x4553.png&f=1&nofb=1&ipt=c3bc099c0e43c7dadcbc981227590018154e485614490b2d3849887b9691c315);
     }
 
+    
     #bg-2,
     #bs-2 {
+      --accent1: #C62828;
+      --accent2: #F44336;
+      --accent3: #FFCDD2;
+      --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
+    }
+
+    #bg-3,
+    #bs-3 {
       --accent1: #3C38A1;
       --accent2: #D56158;
       --accent3: #F2B1A2;
       --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
     }
 
-    #bg-3,
-    #bs-3 {
+    #bg-4,
+    #bs-4 {
       --accent1: #A6587C;
       --accent2: #B3949A;
       --accent3: #D9A7B0;
       --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
     }
 
-    #bg-4,
-    #bs-4 {
+    #bg-5,
+    #bs-5 {
       --accent1: #DD697B;
       --accent2: #8E90BF;
       --accent3: #424359;
       --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
     }
 
-    #bg-5,
-    #bs-5 {
+    #bg-6,
+    #bs-6 {
       --accent1: #AEBFB5;
       --accent2: #BF4F45;
       --accent3: #591919;
@@ -170,18 +182,22 @@
     }
 
     #sect-playlist-2 {
-      background-image: var(--zhheadimgicon);
+      background-image: var(--idheadimgicon);
     }
 
     #sect-playlist-3 {
-      background-image: var(--spheadimgicon);
+      background-image: var(--zhheadimgicon);
     }
 
     #sect-playlist-4 {
-      background-image: var(--cppheadimgicon);
+      background-image: var(--spheadimgicon);
     }
 
     #sect-playlist-5 {
+      background-image: var(--cppheadimgicon);
+    }
+
+    #sect-playlist-6 {
       background-image: var(--pyheadimgicon);
     }
 
@@ -304,18 +320,22 @@
     }
 
     #bi-2 div {
-      background-image: var(--zhheadimg);
+      background-image: var(--idheadimg);
     }
 
     #bi-3 div {
-      background-image: var(--spheadimg);
+      background-image: var(--zhheadimg);
     }
 
     #bi-4 div {
-      background-image: var(--cppheadimg);
+      background-image: var(--spheadimg);
     }
 
     #bi-5 div {
+      background-image: var(--cppheadimg);
+    }
+
+    #bi-6 div {
       background-image: var(--pyheadimg);
     }
 
@@ -559,13 +579,20 @@
     }
 
     #bs-2 .sect-topics-1 {
+      background: linear-gradient(to right, var(--accent1), var(--accent2), #f3f3f3 65%);
+      background-size: 300%;
+      background-position: 100% 0px;
+    }
+
+    #bs-3 .sect-topics-1 {
       background: linear-gradient(to right, var(--accent2), var(--accent3), #f3f3f3 65%);
       background-size: 300%;
       background-position: 100% 0px;
     }
 
     #bs-4 .sect-topics-1,
-    #bs-5 .sect-topics-1 {
+    #bs-5 .sect-topics-1,
+    #bs-6 .sect-topics-1 {
       background: linear-gradient(to right, var(--accent1), var(--accent2), #f3f3f3 65%);
       background-size: 300%;
       background-position: 100% 0px;
@@ -628,7 +655,8 @@
     #sect-tab-2:checked~.sect-tabs #sect-playlist-2,
     #sect-tab-3:checked~.sect-tabs #sect-playlist-3,
     #sect-tab-4:checked~.sect-tabs #sect-playlist-4,
-    #sect-tab-5:checked~.sect-tabs #sect-playlist-5 {
+    #sect-tab-5:checked~.sect-tabs #sect-playlist-5,
+    #sect-tab-6:checked~.sect-tabs #sect-playlist-6 {
       filter: grayscale(0%);
       transform: scale(1);
     }
@@ -637,7 +665,8 @@
     #sect-tab-2:checked~#bg-2,
     #sect-tab-3:checked~#bg-3,
     #sect-tab-4:checked~#bg-4,
-    #sect-tab-5:checked~#bg-5 {
+    #sect-tab-5:checked~#bg-5,
+    #sect-tab-6:checked~#bg-6 {
       opacity: 1;
     }
 
@@ -645,7 +674,8 @@
     #sect-tab-2:checked~#bi-2 div,
     #sect-tab-3:checked~#bi-3 div,
     #sect-tab-4:checked~#bi-4 div,
-    #sect-tab-5:checked~#bi-5 div {
+    #sect-tab-5:checked~#bi-5 div,
+    #sect-tab-6:checked~#bi-6 div {
       opacity: 1;
     }
 
@@ -718,7 +748,8 @@
     #sect-tab-2:checked~#bl-2,
     #sect-tab-3:checked~#bl-3,
     #sect-tab-4:checked~#bl-4,
-    #sect-tab-5:checked~#bl-5 {
+    #sect-tab-5:checked~#bl-5,
+    #sect-tab-6:checked~#bl-6 {
       margin-top: 250px;
       opacity: 1;
     }
@@ -728,7 +759,8 @@
       #sect-tab-2:checked~#bl-2,
       #sect-tab-3:checked~#bl-3,
       #sect-tab-4:checked~#bl-4,
-      #sect-tab-5:checked~#bl-5 {
+      #sect-tab-5:checked~#bl-5,
+      #sect-tab-6:checked~#bl-6 {
         margin-top: 200px;
       }
     }
@@ -738,7 +770,8 @@
       #sect-tab-2:checked~#bl-2,
       #sect-tab-3:checked~#bl-3,
       #sect-tab-4:checked~#bl-4,
-      #sect-tab-5:checked~#bl-5 {
+      #sect-tab-5:checked~#bl-5,
+      #sect-tab-6:checked~#bl-6 {
         margin-top: 150px;
       }
     }
@@ -748,7 +781,8 @@
       #sect-tab-2:checked~#bl-2,
       #sect-tab-3:checked~#bl-3,
       #sect-tab-4:checked~#bl-4,
-      #sect-tab-5:checked~#bl-5 {
+      #sect-tab-5:checked~#bl-5,
+      #sect-tab-6:checked~#bl-6 {
         margin-top: 120px;
       }
     }
@@ -757,7 +791,8 @@
     #sect-tab-2:checked~#bn-2,
     #sect-tab-3:checked~#bn-3,
     #sect-tab-4:checked~#bn-4,
-    #sect-tab-5:checked~#bn-5 {
+    #sect-tab-5:checked~#bn-5,
+    #sect-tab-6:checked~#bn-6 {
       padding-top: 215px;
       opacity: 1;
       pointer-events: auto !important;
@@ -768,7 +803,8 @@
       #sect-tab-2:checked~#bn-2,
       #sect-tab-3:checked~#bn-3,
       #sect-tab-4:checked~#bn-4,
-      #sect-tab-5:checked~#bn-5 {
+      #sect-tab-5:checked~#bn-5,
+      #sect-tab-6:checked~#bn-6 {
         padding-top: 175px;
       }
     }
@@ -778,7 +814,8 @@
       #sect-tab-2:checked~#bn-2,
       #sect-tab-3:checked~#bn-3,
       #sect-tab-4:checked~#bn-4,
-      #sect-tab-5:checked~#bn-5 {
+      #sect-tab-5:checked~#bn-5,
+      #sect-tab-6:checked~#bn-6 {
         padding-top: 145px;
       }
     }
@@ -788,7 +825,8 @@
       #sect-tab-2:checked~#bn-2,
       #sect-tab-3:checked~#bn-3,
       #sect-tab-4:checked~#bn-4,
-      #sect-tab-5:checked~#bn-5 {
+      #sect-tab-5:checked~#bn-5,
+      #sect-tab-6:checked~#bn-6 {
         padding-top: 125px;
       }
     }
@@ -797,7 +835,8 @@
     #sect-tab-2:checked~#bs-2,
     #sect-tab-3:checked~#bs-3,
     #sect-tab-4:checked~#bs-4,
-    #sect-tab-5:checked~#bs-5 {
+    #sect-tab-5:checked~#bs-5,
+    #sect-tab-6:checked~#bs-6 {
       transform: scale(1);
       opacity: 1;
       pointer-events: auto !important;
@@ -812,6 +851,7 @@
     <input type="radio" id="sect-tab-3" name="sect-tabs">
     <input type="radio" id="sect-tab-4" name="sect-tabs">
     <input type="radio" id="sect-tab-5" name="sect-tabs">
+    <input type="radio" id="sect-tab-6" name="sect-tabs">
     <div class="sect-tabs">
       <label for="sect-tab-1" class="sect-tabs-1" id="sect-playlist-1">
         <div></div>
@@ -826,6 +866,9 @@
         <div></div>
       </label>
       <label for="sect-tab-5" class="sect-tabs-1" id="sect-playlist-5">
+        <div></div>
+      </label>
+      <label for="sect-tab-6" class="sect-tabs-1" id="sect-playlist-6">
         <div></div>
       </label>
     </div>
@@ -844,6 +887,9 @@
       <div></div>
     </div>
     <div class="sect-head-img" id="bg-5">
+      <div></div>
+    </div>
+    <div class="sect-head-img" id="bg-6">
       <div></div>
     </div>
     <div class="sect-fade"></div>
@@ -872,19 +918,48 @@
       </div>
     </div>
 
-    <!--- Chinese notes --->
+    <!--- Indonesian notes --->
 
     <div class="sect-img" id="bi-2">
       <div></div>
     </div>
     <div class="sect-name" id="bn-2">
-     
-      <h1>chinese<br>notes 2025</h1>
-      <h2>Writing and Listening</h2>
+      <h1>indonesian<br>notes 2025</h1>
+      <h2>Basics and intermediate level + reading + writing + listening</h2>
     </div>
     <div class="sect-subsect" id="bl-2">
     </div>
     <div class="sect-topics" id="bs-2">
+      <div class="sect-topics-0">
+
+        <a class="sect-topics-1" href="indo-notes/indo-numbers/index.html">
+          <span></span><span><b>Indonesian Numbers</b>Writing + Listening</span>
+          <span></span> </a>
+
+        <a class="sect-topics-1" href="indo-notes/indo-greetings/">
+          <span></span><span><b>Basic Greetings</b>AB converssations + Listening</span>
+          <span></span> </a>
+
+         <a class="sect-topics-1" href="indo-notes/indo-greetings-flash/">
+          <span></span><span><b>Basic Greetings</b>Flash cards + Introductions + Yes/No</span>
+          <span></span> </a
+
+      </div>
+    </div>
+
+    <!--- Chinese notes --->
+
+    <div class="sect-img" id="bi-3">
+      <div></div>
+    </div>
+    <div class="sect-name" id="bn-3">
+     
+      <h1>chinese<br>notes 2025</h1>
+      <h2>Writing and Listening</h2>
+    </div>
+    <div class="sect-subsect" id="bl-3">
+    </div>
+    <div class="sect-topics" id="bs-3">
       <div class="sect-topics-0">
 
         <a class="sect-topics-1" href="zh-notes/zh-numbers/">
@@ -895,37 +970,38 @@
 
     <!--- Spanish notes --->
 
-    <div class="sect-img" id="bi-3">
+    <div class="sect-img" id="bi-4">
       <div></div>
     </div>
-    <div class="sect-name" id="bn-3">
+    <div class="sect-name" id="bn-4">
       <h1>spanish<br>notes 2025</h1>
       <h2>Reading and Listening</h2>
     </div>
-    <div class="sect-subsect" id="bl-3">
+    <div class="sect-subsect" id="bl-4">
     </div>
-    <div class="sect-topics" id="bs-3">
+    <div class="sect-topics" id="bs-4">
       <div class="sect-topics-0">
 
         <a class="sect-topics-1" href="sp-notes/sp-numbers/" >
           <span></span><span><b>Spanish Numbers</b>Writing + Listening</span>
           <span></span> </a>
 
+      
        
       </div>
     </div>
 
     <!--- C++ notes --->
 
-    <div class="sect-img" id="bi-4">
+    <div class="sect-img" id="bi-5">
       <div></div>
     </div>
-    <div class="sect-name" id="bn-4">
+    <div class="sect-name" id="bn-5">
       <h1>cpp notes<br>coming soon</h1>
     </div>
-    <div class="sect-subsect" id="bl-4">
+    <div class="sect-subsect" id="bl-5">
     </div>
-    <div class="sect-topics" id="bs-4">
+    <div class="sect-topics" id="bs-5">
       <div class="sect-topics-0">
 
         
@@ -933,6 +1009,7 @@
        
       </div>
     </div>
+
 
     <!--- Python notes --->
 

@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Indonesian Numbers</title>
+    <style>
+        :root {
+            --background-color: #0a0a0a;
+            --text-color: #ffffff;
+            --primary-color: #d4373f;
+            --secondary-color: #cccccc;
+            --tertiary-color: #888;
+            --border-color: #333;
+            --card-background: rgba(26, 26, 26, 0.8);
+            --nav-background: rgba(10, 10, 10, 0.9);
+            --header-background: rgba(10, 10, 10, 0.9);
+        }
+        .light-mode {
+            --background-color: #f5f5f5;
+            --text-color: #000000;
+            --primary-color: #d4af37;
+            --secondary-color: #333333;
+            --tertiary-color: #666666;
+            --border-color: #dddddd;
+            --card-background: #ffffff;
+            --nav-background: rgba(255, 255, 255, 0.9);
+            --header-background: rgba(255, 255, 255, 0.9);
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        header {
+            background-color: var(--header-background);
+            color: var(--text-color);
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        .back-button {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 20px auto;
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        section {
+            background-color: var(--card-background);
+            padding: 25px;
+            margin: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 300px;
+        }
+        .number-learner,
+        .number-drawer,
+        .number-table {
+            border: 1px solid var(--border-color);
+        }
+        .number-table {
+            flex-basis: 100%;
+            max-width: 100%;
+        }
+        h1,
+        h2 {
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-section,
+        .output-section {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .navigation-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="number"],
+        select {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            width: calc(100% - 120px);
+            max-width: 150px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        button:disabled {
+            background-color: var(--tertiary-color);
+            cursor: not-allowed;
+        }
+        .next-button {
+            background-color: #4CAF50;
+        }
+        .next-button:hover {
+            background-color: #45a049;
+        }
+        .prev-button {
+            background-color: #f44336;
+        }
+        .prev-button:hover {
+            background-color: #da190b;
+        }
+        #indonesianOutput {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 5px;
+            position: relative;
+        }
+        #indonesianOutput:hover {
+            background-color: rgba(240, 248, 240, 0.5);
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+        #indonesianOutput::after {
+            content: '🔊';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.5em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #indonesianOutput:hover::after {
+            opacity: 1;
+        }
+        #pronunciationOutput {
+            font-size: 1.2em;
+            color: var(--tertiary-color);
+            font-style: italic;
+        }
+        .system-note {
+            font-size: 0.9em;
+            color: var(--tertiary-color);
+            margin-top: 10px;
+        }
+        .number-drawer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #drawingCanvas {
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            background-color: var(--card-background);
+            cursor: crosshair;
+            margin-top: 15px;
+        }
+        .canvas-controls {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .canvas-controls label {
+            margin-bottom: 0;
+            display: inline-block;
+        }
+        .canvas-controls input[type="color"],
+        .canvas-controls input[type="range"] {
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        .numbers-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .numbers-table th,
+        .numbers-table td {
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: center;
+        }
+        .numbers-table th {
+            background-color: var(--nav-background);
+            font-weight: bold;
+        }
+        .numbers-table tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .numbers-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+        .indonesian-text {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 5px;
+            border-radius: 3px;
+            position: relative;
+        }
+        .indonesian-text:hover {
+            background-color: rgba(240, 248, 240, 0.5);
+            transform: scale(1.1);
+            box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
+        }
+        .indonesian-text::after {
+            content: '🔊';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 0.7em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .indonesian-text:hover::after {
+            opacity: 1;
+        }
+        .table-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+        .tab-button {
+            padding: 10px 20px;
+            background-color: var(--nav-background);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            border-radius: 4px 4px 0 0;
+            transition: background-color 0.3s ease;
+        }
+        .tab-button.active { 
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border-bottom: 1px solid var(--primary-color);
+        }
+        .tab-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .tab-button.active:hover {
+            background-color: var(--primary-color);
+        }
+        .tts-info {
+            background-color: rgba(247, 241, 246, 0.566);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            text-align: center;
+            color: #420909;
+        }
+        .tts-controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        .tts-control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        .tts-control-group label {
+            font-size: 0.9em;
+            margin-bottom: 0;
+        }
+        .tts-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .tts-button:hover {
+            background-color: #45a049;
+        }
+        .tts-button:disabled {
+            background-color: #a5d6a7;
+            cursor: not-allowed;
+        }
+        .voice-selector {
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-background);
+            color: var(--text-color);
+        }
+        .tts-rate-control, .tts-pitch-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .tts-rate-control input, .tts-pitch-control input {
+            width: 100px;
+        }
+        .voice-info {
+            font-size: 0.8em;
+            color: var(--tertiary-color);
+            text-align: center;
+            margin-top: 5px;
+        }
+        .mode-toggle {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            background-color: var(--header-background);
+            color: var(--text-color);
+            font-size: 0.9em;
+        }
+        .tts-active {
+            background-color: rgba(76, 175, 80, 0.3) !important;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5) !important;
+        }
+        .accent-info {
+            background-color: rgba(255, 215, 0, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9em;
+            text-align: center;
+            border-left: 4px solid gold;
+        }
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            main {
+                flex-direction: column;
+                padding: 10px;
+            }
+            section {
+                margin: 10px 0;
+            }
+            input[type="number"],
+            select {
+                width: calc(100% - 100px);
+            }
+            .navigation-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .numbers-table {
+                font-size: 0.9em;
+            }
+            .table-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            .tts-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <button class="back-button" onclick="goBack()">← Back</button>
+            <h1>Learn Indonesian Numbers</h1>
+            <div class="mode-toggle" onclick="toggleMode()">
+                <span>🌙</span>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="number-learner">
+            <h2>Indonesian Number Converter</h2>
+            <div class="tts-info">
+                💡 Click on Indonesian numbers to hear pronunciation with authentic Indonesian accent!
+            </div>
+            <div class="accent-info">
+                🔊 <strong>Indonesian Accent Feature:</strong> The text-to-speech now uses authentic Indonesian pronunciation patterns
+            </div>
+            
+            <!-- TTS Controls -->
+            <div class="tts-controls">
+                <div class="tts-control-group">
+                    <label for="voiceSelector">TTS Voice:</label>
+                    <select id="voiceSelector" class="voice-selector">
+                        <option value="">Default Voice</option>
+                    </select>
+                </div>
+                <div class="tts-control-group">
+                    <label for="ttsRate">Speech Rate:</label>
+                    <div class="tts-rate-control">
+                        <input type="range" id="ttsRate" min="0.5" max="2" step="0.1" value="0.8">
+                        <span id="ttsRateValue">0.8</span>
+                    </div>
+                </div>
+                <div class="tts-control-group">
+                    <label for="ttsPitch">Speech Pitch:</label>
+                    <div class="tts-pitch-control">
+                        <input type="range" id="ttsPitch" min="0.5" max="2" step="0.1" value="1">
+                        <span id="ttsPitchValue">1.0</span>
+                    </div>
+                </div>
+                <button id="playAllButton" class="tts-button">
+                    Play All Numbers
+                </button>
+            </div>
+            <p class="voice-info" id="voiceInfo">Loading available voices...</p>
+             <div class="output-section">
+                <h3>Indonesian: <span id="indonesianOutput" title="Click to hear pronunciation">nol</span></h3>
+                <p>Pronunciation: <span id="pronunciationOutput">nol</span></p>
+                <p class="system-note" id="systemNote"></p>
+            </div>
+             <div class="input-section">
+                <label for="numberInput">Enter a number (0-9999):</label>
+                <input type="number" id="numberInput" min="0" max="9999" value="0">
+                <button id="convertButton">Convert</button>
+            </div>
+        </section>
+        <section class="number-drawer">
+            <h2>Practice Writing Numbers</h2>
+            <canvas id="drawingCanvas" width="400" height="400"></canvas>
+            <div class="canvas-controls">
+                <button id="clearCanvas">Clear Canvas</button>
+                <label for="brushColor">Brush Color:</label>
+                <input type="color" id="brushColor" value="#000000">
+                <label for="brushSize">Brush Size:</label>
+                <input type="range" id="brushSize" min="1" max="10" value="3">
+
+                 <div class="navigation-buttons">
+                <button id="prevButton" class="prev-button">← Previous</button>
+                <button id="nextButton" class="next-button">Next →</button>
+            </div>
+            </div>
+        </section>
+        <section class="number-table">
+            <div class="tts-info">
+                🎵 Click on numbers in the table to hear their pronunciation with Indonesian accent!
+            </div>
+            <div class="table-tabs">
+                <button class="tab-button active" id="indonesianTab">Indonesian Numbers</button>
+            </div>
+            <div class="table-container">
+                <table class="numbers-table" id="numbersTable">
+                    <!-- Table content will be populated by JavaScript -->
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const numberInput = document.getElementById('numberInput');
+            const convertButton = document.getElementById('convertButton');
+            const prevButton = document.getElementById('prevButton');
+            const nextButton = document.getElementById('nextButton');
+            const indonesianOutput = document.getElementById('indonesianOutput');
+            const pronunciationOutput = document.getElementById('pronunciationOutput');
+            const systemNote = document.getElementById('systemNote');
+            const indonesianTab = document.getElementById('indonesianTab');
+            const numbersTable = document.getElementById('numbersTable');
+            const canvas = document.getElementById('drawingCanvas');
+            const ctx = canvas.getContext('2d');
+            const clearCanvasBtn = document.getElementById('clearCanvas');
+            const brushColorPicker = document.getElementById('brushColor');
+            const brushSizeSlider = document.getElementById('brushSize');
+            
+            // TTS Controls
+            const voiceSelector = document.getElementById('voiceSelector');
+            const ttsRateSlider = document.getElementById('ttsRate');
+            const ttsPitchSlider = document.getElementById('ttsPitch');
+            const ttsRateValue = document.getElementById('ttsRateValue');
+            const ttsPitchValue = document.getElementById('ttsPitchValue');
+            const playAllButton = document.getElementById('playAllButton');
+            const voiceInfo = document.getElementById('voiceInfo');
+            
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+            let voices = [];
+            let selectedVoice = null;
+            let ttsRate = 0.8;
+            let ttsPitch = 1;
+
+            // Initialize TTS voices
+            function loadVoices() {
+                voices = speechSynthesis.getVoices();
+                voiceSelector.innerHTML = '<option value="">Default Voice</option>';
+                
+                // Filter for Indonesian voices
+                const indonesianVoices = voices.filter(voice => 
+                    voice.lang.startsWith('id') || voice.lang.includes('Indonesian')
+                );
+                
+                if (indonesianVoices.length > 0) {
+                    selectedVoice = indonesianVoices[0];
+                    voiceInfo.textContent = `Using ${indonesianVoices[0].name} as default Indonesian voice`;
+                    
+                    indonesianVoices.forEach((voice, index) => {
+                        const option = document.createElement('option');
+                        option.value = voice.name;
+                        option.textContent = `${voice.name} (${voice.lang})`;
+                        option.selected = (index === 0);
+                        voiceSelector.appendChild(option);
+                    });
+                } else {
+                    voiceInfo.textContent = "No Indonesian voices found. Using default voice with Indonesian accent simulation.";
+                    voices.forEach(voice => {
+                        const option = document.createElement('option');
+                        option.value = voice.name;
+                        option.textContent = `${voice.name} (${voice.lang})`;
+                        voiceSelector.appendChild(option);
+                    });
+                }
+            }
+
+            // Load voices when they become available
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = loadVoices;
+            }
+
+            // Enhanced Text-to-Speech functionality with Indonesian accent
+            const speakIndonesian = (text) => {
+                try {
+                    if ('speechSynthesis' in window) {
+                        // Cancel any ongoing speech
+                        speechSynthesis.cancel();
+                        
+                        const utterance = new SpeechSynthesisUtterance(text);
+                        utterance.lang = 'id-ID'; // Indonesian language code
+                        utterance.rate = ttsRate;
+                        utterance.pitch = ttsPitch;
+                        utterance.volume = 1;
+                        
+                        // Use selected voice if available
+                        if (selectedVoice) {
+                            utterance.voice = selectedVoice;
+                        }
+                        
+                        // Add event listeners for better UX
+                        utterance.onstart = () => {
+                            // Highlight the element being spoken
+                            const activeElement = document.querySelector('.tts-active');
+                            if (activeElement) {
+                                activeElement.classList.remove('tts-active');
+                            }
+                            
+                            const currentElement = event ? event.target : document.activeElement;
+                            if (currentElement && currentElement.classList.contains('indonesian-text')) {
+                                currentElement.classList.add('tts-active');
+                            }
+                        };
+                        
+                        utterance.onend = () => {
+                            // Remove highlight
+                            const activeElement = document.querySelector('.tts-active');
+                            if (activeElement) {
+                                activeElement.classList.remove('tts-active');
+                            }
+                            playAllButton.disabled = false;
+                        };
+                        
+                        utterance.onerror = (event) => {
+                            console.error('Speech synthesis error:', event);
+                            playAllButton.disabled = false;
+                        };
+                        
+                        speechSynthesis.speak(utterance);
+                    } else {
+                        console.log('Speech synthesis not supported');
+                    }
+                } catch (error) {
+                    console.error('Error with TTS:', error);
+                }
+            };
+
+            // Indonesian Numbers (0-9999) with authentic pronunciation
+            const indonesianNumbers = {
+                0: { text: "nol", pronunciation: "nol" },
+                1: { text: "satu", pronunciation: "sah-too" },
+                2: { text: "dua", pronunciation: "doo-ah" },
+                3: { text: "tiga", pronunciation: "tee-gah" },
+                4: { text: "empat", pronunciation: "uhm-paht" },
+                5: { text: "lima", pronunciation: "lee-mah" },
+                6: { text: "enam", pronunciation: "uh-nahm" },
+                7: { text: "tujuh", pronunciation: "too-jooh" },
+                8: { text: "delapan", pronunciation: "duh-lah-pahn" },
+                9: { text: "sembilan", pronunciation: "suhm-bee-lahn" },
+                10: { text: "sepuluh", pronunciation: "suh-poo-looh" },
+                11: { text: "sebelas", pronunciation: "suh-buh-lahs" },
+                12: { text: "dua belas", pronunciation: "doo-ah buh-lahs" },
+                13: { text: "tiga belas", pronunciation: "tee-gah buh-lahs" },
+                14: { text: "empat belas", pronunciation: "uhm-paht buh-lahs" },
+                15: { text: "lima belas", pronunciation: "lee-mah buh-lahs" },
+                16: { text: "enam belas", pronunciation: "uh-nahm buh-lahs" },
+                17: { text: "tujuh belas", pronunciation: "too-jooh buh-lahs" },
+                18: { text: "delapan belas", pronunciation: "duh-lah-pahn buh-lahs" },
+                19: { text: "sembilan belas", pronunciation: "suhm-bee-lahn buh-lahs" },
+                20: { text: "dua puluh", pronunciation: "doo-ah poo-looh" },
+                30: { text: "tiga puluh", pronunciation: "tee-gah poo-looh" },
+                40: { text: "empat puluh", pronunciation: "uhm-paht poo-looh" },
+                50: { text: "lima puluh", pronunciation: "lee-mah poo-looh" },
+                60: { text: "enam puluh", pronunciation: "uh-nahm poo-looh" },
+                70: { text: "tujuh puluh", pronunciation: "too-jooh poo-looh" },
+                80: { text: "delapan puluh", pronunciation: "duh-lah-pahn poo-looh" },
+                90: { text: "sembilan puluh", pronunciation: "suhm-bee-lahn poo-looh" },
+                100: { text: "seratus", pronunciation: "suh-rah-toos" },
+                200: { text: "dua ratus", pronunciation: "doo-ah rah-toos" },
+                1000: { text: "seribu", pronunciation: "suh-ree-boo" },
+                2000: { text: "dua ribu", pronunciation: "doo-ah ree-boo" }
+            };
+
+            // Function to convert any number to Indonesian (0-9999)
+            const convertToIndonesian = (num) => {
+                if (num === 0) return indonesianNumbers[0];
+                if (num <= 19) return indonesianNumbers[num];
+                
+                // Handle numbers 20-99
+                if (num <= 99) {
+                    const tens = Math.floor(num / 10) * 10;
+                    const units = num % 10;
+                    
+                    if (units === 0) {
+                        return indonesianNumbers[tens];
+                    } else {
+                        return {
+                            text: `${indonesianNumbers[tens].text} ${indonesianNumbers[units].text}`,
+                            pronunciation: `${indonesianNumbers[tens].pronunciation} ${indonesianNumbers[units].pronunciation}`
+                        };
+                    }
+                }
+                
+                // Handle numbers 100-999
+                if (num <= 999) {
+                    const hundreds = Math.floor(num / 100);
+                    const remainder = num % 100;
+                    
+                    let hundredsText = hundreds === 1 ? "seratus" : `${indonesianNumbers[hundreds].text} ratus`;
+                    let hundredsPronunciation = hundreds === 1 ? "suh-rah-toos" : `${indonesianNumbers[hundreds].pronunciation} rah-toos`;
+                    
+                    if (remainder === 0) {
+                        return {
+                            text: hundredsText,
+                            pronunciation: hundredsPronunciation
+                        };
+                    } else {
+                        const remainderText = convertToIndonesian(remainder);
+                        return {
+                            text: `${hundredsText} ${remainderText.text}`,
+                            pronunciation: `${hundredsPronunciation} ${remainderText.pronunciation}`
+                        };
+                    }
+                }
+                
+                // Handle numbers 1000-9999
+                if (num <= 9999) {
+                    const thousands = Math.floor(num / 1000);
+                    const remainder = num % 1000;
+                    
+                    let thousandsText = thousands === 1 ? "seribu" : `${indonesianNumbers[thousands].text} ribu`;
+                    let thousandsPronunciation = thousands === 1 ? "suh-ree-boo" : `${indonesianNumbers[thousands].pronunciation} ree-boo`;
+                    
+                    if (remainder === 0) {
+                        return {
+                            text: thousandsText,
+                            pronunciation: thousandsPronunciation
+                        };
+                    } else {
+                        const remainderText = convertToIndonesian(remainder);
+                        return {
+                            text: `${thousandsText} ${remainderText.text}`,
+                            pronunciation: `${thousandsPronunciation} ${remainderText.pronunciation}`
+                        };
+                    }
+                }
+                
+                return null;
+            };
+
+            const convertNumber = () => {
+                const number = parseInt(numberInput.value, 10);
+                if (isNaN(number) || number < 0) {
+                    indonesianOutput.textContent = "Invalid Input";
+                    pronunciationOutput.textContent = "Please enter a valid number.";
+                    systemNote.textContent = "";
+                    updateNavigationButtons();
+                    return;
+                }
+
+                if (number > 9999) {
+                    indonesianOutput.textContent = "Out of Range";
+                    pronunciationOutput.textContent = "Max for this demo is 9999.";
+                    systemNote.textContent = "";
+                    updateNavigationButtons();
+                    return;
+                }
+
+                const indonesian = convertToIndonesian(number);
+                if (indonesian) {
+                    indonesianOutput.textContent = indonesian.text;
+                    pronunciationOutput.textContent = indonesian.pronunciation;
+                    indonesianOutput.dataset.text = indonesian.text;
+                    indonesianOutput.dataset.pronunciation = indonesian.pronunciation;
+                    systemNote.textContent = "Indonesian numbers follow a regular pattern, making them relatively easy to learn.";
+                } else {
+                    indonesianOutput.textContent = "N/A";
+                    pronunciationOutput.textContent = "Number not found.";
+                    systemNote.textContent = "";
+                }
+
+                updateNavigationButtons();
+            };
+
+            const updateNavigationButtons = () => {
+                const number = parseInt(numberInput.value, 10);
+                prevButton.disabled = number <= 0;
+                nextButton.disabled = number >= 9999;
+            };
+
+            const navigateNumber = (direction) => {
+                const currentNumber = parseInt(numberInput.value, 10);
+                let newNumber = currentNumber + direction;
+
+                if (newNumber < 0) newNumber = 0;
+                if (newNumber > 9999) newNumber = 9999;
+
+                numberInput.value = newNumber;
+                convertNumber();
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            };
+
+            const populateTable = () => {
+                let tableHTML = `
+                    <thead>
+                        <tr>
+                            <th>Number</th>
+                            <th>Indonesian</th>
+                            <th>Pronunciation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+
+                // Add numbers 0-20
+                for (let i = 0; i <= 20; i++) {
+                    const indonesian = convertToIndonesian(i);
+                    if (indonesian) {
+                        tableHTML += `
+                            <tr onclick="selectNumberFromTable(${i})" data-number="${i}">
+                                <td>${i}</td>
+                                <td class="indonesian-text"
+                                    onclick="event.stopPropagation(); speakIndonesianText('${indonesian.text}')"
+                                    title="Click to hear pronunciation"
+                                    data-text="${indonesian.text}">
+                                    ${indonesian.text}
+                                </td>
+                                <td>${indonesian.pronunciation}</td>
+                            </tr>
+                        `;
+                    }
+                }
+
+                // Add tens examples
+                const tensExamples = [30, 40, 50, 60, 70, 80, 90];
+                tableHTML += '<tr><td colspan="3" style="font-weight:bold; text-align:center;">Tens Examples</td></tr>';
+
+                tensExamples.forEach(num => {
+                    const indonesian = convertToIndonesian(num);
+                    if (indonesian) {
+                        tableHTML += `
+                            <tr onclick="selectNumberFromTable(${num})" data-number="${num}">
+                                <td>${num}</td>
+                                <td class="indonesian-text"
+                                    onclick="event.stopPropagation(); speakIndonesianText('${indonesian.text}')"
+                                    title="Click to hear pronunciation"
+                                    data-text="${indonesian.text}">
+                                    ${indonesian.text}
+                                </td>
+                                <td>${indonesian.pronunciation}</td>
+                            </tr>
+                        `;
+                    }
+                });
+
+                // Add hundreds examples
+                const hundredsExamples = [100, 200, 345, 500, 678, 999];
+                tableHTML += '<tr><td colspan="3" style="font-weight:bold; text-align:center;">Hundreds Examples</td></tr>';
+
+                hundredsExamples.forEach(num => {
+                    const indonesian = convertToIndonesian(num);
+                    if (indonesian) {
+                        tableHTML += `
+                            <tr onclick="selectNumberFromTable(${num})" data-number="${num}">
+                                <td>${num}</td>
+                                <td class="indonesian-text"
+                                    onclick="event.stopPropagation(); speakIndonesianText('${indonesian.text}')"
+                                    title="Click to hear pronunciation"
+                                    data-text="${indonesian.text}">
+                                    ${indonesian.text}
+                                </td>
+                                <td>${indonesian.pronunciation}</td>
+                            </tr>
+                        `;
+                    }
+                });
+
+                // Add thousands examples
+                const thousandsExamples = [1000, 2000, 3456, 5000, 6789, 9999];
+                tableHTML += '<tr><td colspan="3" style="font-weight:bold; text-align:center;">Thousands Examples</td></tr>';
+
+                thousandsExamples.forEach(num => {
+                    const indonesian = convertToIndonesian(num);
+                    if (indonesian) {
+                        tableHTML += `
+                            <tr onclick="selectNumberFromTable(${num})" data-number="${num}">
+                                <td>${num}</td>
+                                <td class="indonesian-text"
+                                    onclick="event.stopPropagation(); speakIndonesianText('${indonesian.text}')"
+                                    title="Click to hear pronunciation"
+                                    data-text="${indonesian.text}">
+                                    ${indonesian.text}
+                                </td>
+                                <td>${indonesian.pronunciation}</td>
+                            </tr>
+                        `;
+                    }
+                });
+
+                tableHTML += '</tbody>';
+                numbersTable.innerHTML = tableHTML;
+            };
+
+            window.selectNumberFromTable = (number) => {
+                numberInput.value = number;
+                convertNumber();
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.number-learner').scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            window.speakIndonesianText = (text) => {
+                speakIndonesian(text);
+            };
+
+            // Play all numbers in sequence
+            function playAllNumbers() {
+                playAllButton.disabled = true;
+                
+                // Get all numbers from the table
+                const numberRows = Array.from(numbersTable.querySelectorAll('tr[data-number]'));
+                let index = 0;
+                
+                function speakNext() {
+                    if (index < numberRows.length) {
+                        const row = numberRows[index];
+                        const number = parseInt(row.dataset.number);
+                        const indonesianCell = row.querySelector('.indonesian-text');
+                        const text = indonesianCell.dataset.text;
+                        
+                        // Highlight the current row
+                        numberRows.forEach(r => r.style.backgroundColor = '');
+                        row.style.backgroundColor = 'rgba(76, 175, 80, 0.2)';
+                        
+                        // Speak the number
+                        speakIndonesian(text);
+                        
+                        // Wait for speech to finish before moving to next number
+                        speechSynthesis.onend = function() {
+                            index++;
+                            setTimeout(speakNext, 800); // Delay between numbers
+                        };
+                    } else {
+                        playAllButton.disabled = false;
+                        // Remove highlighting
+                        numberRows.forEach(r => r.style.backgroundColor = '');
+                    }
+                }
+                
+                speakNext();
+            }
+
+            // Event listeners
+            convertButton.addEventListener('click', convertNumber);
+            nextButton.addEventListener('click', () => navigateNumber(1));
+            prevButton.addEventListener('click', () => navigateNumber(-1));
+
+            indonesianOutput.addEventListener('click', () => {
+                const text = indonesianOutput.dataset.text;
+                if (text) {
+                    speakIndonesian(text);
+                }
+            });
+
+            // TTS Control Event Listeners
+            voiceSelector.addEventListener('change', function() {
+                const voiceName = this.value;
+                if (voiceName) {
+                    selectedVoice = voices.find(voice => voice.name === voiceName);
+                } else {
+                    selectedVoice = null;
+                }
+            });
+
+            ttsRateSlider.addEventListener('input', function() {
+                ttsRate = parseFloat(this.value);
+                ttsRateValue.textContent = ttsRate.toFixed(1);
+            });
+
+            ttsPitchSlider.addEventListener('input', function() {
+                ttsPitch = parseFloat(this.value);
+                ttsPitchValue.textContent = ttsPitch.toFixed(1);
+            });
+
+            playAllButton.addEventListener('click', playAllNumbers);
+
+            numberInput.addEventListener('keyup', (event) => {
+                if (event.key === 'Enter') {
+                    convertNumber();
+                }
+            });
+
+            // Initial setup
+            convertNumber();
+            populateTable();
+            loadVoices();
+
+            // Canvas Drawing Logic
+            ctx.lineWidth = brushSizeSlider.value;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = brushColorPicker.value;
+
+            function getEventPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+                return {
+                    x: clientX - rect.left,
+                    y: clientY - rect.top
+                };
+            }
+
+            function draw(e) {
+                if (!isDrawing) return;
+                const pos = getEventPos(e);
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+                [lastX, lastY] = [pos.x, pos.y];
+            }
+
+            function startDrawing(e) {
+                e.preventDefault();
+                isDrawing = true;
+                const pos = getEventPos(e);
+                [lastX, lastY] = [pos.x, pos.y];
+            }
+
+            function stopDrawing(e) {
+                if (e) e.preventDefault();
+                isDrawing = false;
+            }
+
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            canvas.addEventListener('touchstart', startDrawing, { passive: false });
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                draw(e);
+            }, { passive: false });
+            canvas.addEventListener('touchend', stopDrawing, { passive: false });
+            canvas.addEventListener('touchcancel', stopDrawing, { passive: false });
+
+            clearCanvasBtn.addEventListener('click', () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            });
+
+            brushColorPicker.addEventListener('change', (e) => {
+                ctx.strokeStyle = e.target.value;
+            });
+
+            brushSizeSlider.addEventListener('input', (e) => {
+                ctx.lineWidth = e.target.value;
+            });
+        });
+
+        function toggleMode() {
+            const body = document.body;
+            body.classList.toggle('light-mode');
+            const modeToggle = document.querySelector('.mode-toggle span');
+            if (body.classList.contains('light-mode')) {
+                modeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'light');
+            } else {
+                modeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        function applySavedTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            const modeToggle = document.querySelector('.mode-toggle span');
+            if (savedTheme === 'light') {
+                body.classList.add('light-mode');
+                modeToggle.textContent = '☀️';
+            } else {
+                body.classList.remove('light-mode');
+                modeToggle.textContent = '🌙';
+            }
+        }
+
+        function goBack() {
+            window.location.href = '../../index.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', applySavedTheme);
+    </script>
+</body>
+</html>
