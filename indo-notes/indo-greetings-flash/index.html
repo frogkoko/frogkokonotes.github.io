@@ -335,6 +335,48 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
         }
 
+        .tts-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tts-control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tts-control-group label {
+            font-size: 0.9em;
+            margin-bottom: 0;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .tts-rate-control, .tts-pitch-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tts-rate-control input, .tts-pitch-control input {
+            width: 100px;
+        }
+
+        .openai-info {
+            background: rgba(16, 163, 127, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9em;
+            text-align: center;
+            border-left: 4px solid #10a37f;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
         @media (max-width: 600px) {
             .indonesian {
                 font-size: 2rem;
@@ -367,8 +409,12 @@
                 <i class="fas fa-arrow-left"></i>
             </a>
             <h1>🇮🇩 Indonesian Core Phrases</h1>
-            <p class="subtitle">Learn with high-quality AI voices powered by Puter.js</p>
+            <p class="subtitle">Learn with high-quality AI voices powered by OpenAI</p>
         </header>
+
+        <div class="openai-info">
+            🔊 <strong>OpenAI TTS Integration:</strong> Now using OpenAI's Echo voice with gpt-4o-mini-tts for authentic Indonesian pronunciation
+        </div>
 
         <div class="deck-selector">
             <button class="deck-btn active" data-deck="greetings">Greetings</button>
@@ -422,17 +468,35 @@
 
         <div class="status-message" id="status-message"></div>
 
-        <div class="voice-controls">
-            <button class="voice-btn active" data-engine="standard">Standard</button>
-            <button class="voice-btn" data-engine="neural">Neural (Better)</button>
-            <button class="voice-btn" data-engine="generative">Generative (Best)</button>
+        <div class="tts-controls">
+            <div class="tts-control-group">
+                <label for="voiceSelector">TTS Provider:</label>
+                <select id="voiceSelector" class="voice-btn">
+                    <option value="openai-echo">OpenAI Echo</option>
+                    <option value="browser">Browser TTS</option>
+                </select>
+            </div>
+            <div class="tts-control-group">
+                <label for="ttsRate">Speech Rate:</label>
+                <div class="tts-rate-control">
+                    <input type="range" id="ttsRate" min="0.5" max="2" step="0.1" value="0.8">
+                    <span id="ttsRateValue">0.8</span>
+                </div>
+            </div>
+            <div class="tts-control-group">
+                <label for="ttsPitch">Speech Pitch:</label>
+                <div class="tts-pitch-control">
+                    <input type="range" id="ttsPitch" min="0.5" max="2" step="0.1" value="1">
+                    <span id="ttsPitchValue">1.0</span>
+                </div>
+            </div>
         </div>
 
         <div class="instructions">
             <h3>How to Use</h3>
             <p><strong>Flip:</strong> Click the blue button or tap the card to see the translation</p>
-            <p><strong>Speak:</strong> Click the purple button to hear Indonesian pronunciation using Puter.js AI (free, unlimited)</p>
-            <p><strong>Voice Quality:</strong> Choose Standard, Neural, or Generative engines above</p>
+            <p><strong>Speak:</strong> Click the purple button to hear Indonesian pronunciation using OpenAI TTS</p>
+            <p><strong>Voice Quality:</strong> Choose OpenAI Echo for authentic Indonesian pronunciation</p>
             <p><strong>Know it:</strong> Click the green button if you know the answer</p>
             <p><strong>Don't know:</strong> Click the red button to review the card again later</p>
             <p><strong>Reset:</strong> Click the orange button to restart the deck</p>
@@ -497,9 +561,11 @@
         let knownCards = 0;
         let dontKnowCards = [];
         let turned = false;
-        let currentEngine = 'standard';
         let currentAudio = null;
         let isSpeaking = false;
+        let useOpenAI = true;
+        let ttsRate = 0.8;
+        let ttsPitch = 1;
 
         const flashcard = document.getElementById('flashcard');
         const frontIndonesian = document.getElementById('front-indonesian');
@@ -517,7 +583,11 @@
         const resetBtn = document.getElementById('reset-btn');
         const speakBtn = document.getElementById('speak-btn');
         const deckButtons = document.querySelectorAll('.deck-btn');
-        const voiceButtons = document.querySelectorAll('.voice-btn');
+        const voiceSelector = document.getElementById('voiceSelector');
+        const ttsRateSlider = document.getElementById('ttsRate');
+        const ttsPitchSlider = document.getElementById('ttsPitch');
+        const ttsRateValue = document.getElementById('ttsRateValue');
+        const ttsPitchValue = document.getElementById('ttsPitchValue');
 
         function init() {
             loadDeck(currentDeck);
@@ -577,58 +647,122 @@
             }
         }
 
-        async function speakCard() {
-            if (cards.length === 0 || isSpeaking) return;
-
-            const currentCard = cards[currentCardIndex];
-            const textToSpeak = currentCard.indonesian;
-            
+        // Enhanced Text-to-Speech functionality with OpenAI integration
+        const speakIndonesian = async (text) => {
             try {
-                isSpeaking = true;
-                speakBtn.disabled = true;
-                statusMessage.textContent = `Speaking with ${currentEngine} engine...`;
-                
-                // Stop any currently playing audio
+                // Cancel any ongoing speech
+                speechSynthesis.cancel();
                 if (currentAudio) {
                     currentAudio.pause();
                     currentAudio = null;
                 }
 
-                // Use Puter.js for Indonesian TTS
-                const audio = await puter.ai.txt2speech(textToSpeak, {
-                    language: "id-ID",
-                    engine: currentEngine
-                });
-                
-                currentAudio = audio;
-                
-                audio.onended = () => {
-                    isSpeaking = false;
-                    speakBtn.disabled = false;
-                    statusMessage.textContent = '';
-                    currentAudio = null;
-                };
-                
-                audio.onerror = () => {
-                    isSpeaking = false;
-                    speakBtn.disabled = false;
-                    statusMessage.textContent = 'Error playing audio';
-                    currentAudio = null;
-                };
-                
-                await audio.play();
-                statusMessage.textContent = `Playing: "${textToSpeak}"`;
-                
-                speakBtn.style.transform = 'scale(1.2)';
-                setTimeout(() => {
-                    speakBtn.style.transform = 'scale(1)';
-                }, 200);
-
+                // Use OpenAI TTS if selected
+                if (useOpenAI) {
+                    updateStatus('Converting with OpenAI...', 'processing');
+                    
+                    try {
+                        const audio = await puter.ai.txt2speech(text, {
+                            provider: 'openai',
+                            voice: 'echo',
+                            model: 'gpt-4o-mini-tts',
+                            response_format: 'mp3',
+                            instructions: 'Speak in Indonesian with clear pronunciation'
+                        });
+                        
+                        currentAudio = audio;
+                        await audio.play();
+                        
+                        // Add event listeners for better UX
+                        audio.addEventListener('ended', () => {
+                            updateStatus('Playback complete', '');
+                            currentAudio = null;
+                            isSpeaking = false;
+                            speakBtn.disabled = false;
+                        });
+                        
+                        audio.addEventListener('error', (e) => {
+                            console.error('OpenAI TTS error:', e);
+                            updateStatus('Error playing audio', 'error');
+                            currentAudio = null;
+                            isSpeaking = false;
+                            speakBtn.disabled = false;
+                        });
+                        
+                    } catch (error) {
+                        console.error('OpenAI TTS failed, falling back to browser TTS:', error);
+                        // Fall back to browser TTS
+                        useBrowserTTS(text);
+                    }
+                } else {
+                    // Use browser TTS
+                    useBrowserTTS(text);
+                }
             } catch (error) {
-                console.error('Error with Puter.js TTS:', error);
-                statusMessage.textContent = `Error: ${error.message}`;
+                console.error('Error with TTS:', error);
                 isSpeaking = false;
                 speakBtn.disabled = false;
+            }
+        };
+
+        // Browser TTS fallback
+        const useBrowserTTS = (text) => {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'id-ID'; // Indonesian language code
+                utterance.rate = ttsRate;
+                utterance.pitch = ttsPitch;
+                utterance.volume = 1;
+                
+                // Add event listeners for better UX
+                utterance.onstart = () => {
+                    updateStatus('Playing audio...', '');
+                };
+                
+                utterance.onend = () => {
+                    updateStatus('Playback complete', '');
+                    isSpeaking = false;
+                    speakBtn.disabled = false;
+                };
+                
+                utterance.onerror = (event) => {
+                    console.error('Speech synthesis error:', event);
+                    updateStatus('Error playing audio', 'error');
+                    isSpeaking = false;
+                    speakBtn.disabled = false;
+                };
+                
+                speechSynthesis.speak(utterance);
+            } else {
+                console.log('Speech synthesis not supported');
+                updateStatus('Speech synthesis not supported', 'error');
+                isSpeaking = false;
+                speakBtn.disabled = false;
+            }
+        };
+
+        function speakCard() {
+            if (cards.length === 0 || isSpeaking) return;
+
+            const currentCard = cards[currentCardIndex];
+            const textToSpeak = currentCard.indonesian;
+            
+            isSpeaking = true;
+            speakBtn.disabled = true;
+            
+            speakBtn.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                speakBtn.style.transform = 'scale(1)';
+            }, 200);
+
+            speakIndonesian(textToSpeak);
+        }
+
+        function updateStatus(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = 'status-message';
+            if (type) {
+                statusMessage.classList.add(type);
             }
         }
 
@@ -713,18 +847,25 @@
                 });
             });
 
-            voiceButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    voiceButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    currentEngine = button.dataset.engine;
-                    statusMessage.textContent = `Voice engine: ${currentEngine}`;
-                    setTimeout(() => {
-                        if (statusMessage.textContent === `Voice engine: ${currentEngine}`) {
-                            statusMessage.textContent = '';
-                        }
-                    }, 2000);
-                });
+            // TTS Control Event Listeners
+            voiceSelector.addEventListener('change', function() {
+                useOpenAI = this.value === 'openai-echo';
+                updateStatus(useOpenAI ? 
+                    "Using OpenAI Echo voice for Indonesian pronunciation" : 
+                    "Using browser TTS for Indonesian pronunciation", 'info');
+                setTimeout(() => {
+                    updateStatus('', '');
+                }, 3000);
+            });
+
+            ttsRateSlider.addEventListener('input', function() {
+                ttsRate = parseFloat(this.value);
+                ttsRateValue.textContent = ttsRate.toFixed(1);
+            });
+
+            ttsPitchSlider.addEventListener('input', function() {
+                ttsPitch = parseFloat(this.value);
+                ttsPitchValue.textContent = ttsPitch.toFixed(1);
             });
         }
 
