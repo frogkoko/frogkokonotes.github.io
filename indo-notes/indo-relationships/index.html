@@ -815,14 +815,16 @@
         const feedbackText = document.getElementById('feedback-text');
         
         // Function to highlight vocabulary words
-        function highlightVocabulary(text) {
-            let highlightedText = text;
-            vocabWords.forEach(word => {
-                const regex = new RegExp(word, 'gi');
-                highlightedText = highlightedText.replace(regex, `<span class="vocab-highlight">${word}</span>`);
-            });
-            return highlightedText;
-        }
+       // Function to highlight vocabulary words
+function highlightVocabulary(text) {
+    let highlightedText = text;
+    vocabWords.forEach(word => {
+        // Use word boundaries to avoid partial matches
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        highlightedText = highlightedText.replace(regex, `<span class="vocab-highlight">$&</span>`);
+    });
+    return highlightedText;
+}
 
         function renderConversation() {
             conversationElement.innerHTML = '';
