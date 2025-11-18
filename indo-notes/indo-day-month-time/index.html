@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Indonesian Time & Calendar</title>
+    <style>
+        :root {
+            --background-color: #0a0a0a;
+            --text-color: #ffffff;
+            --primary-color: #d4373f;
+            --secondary-color: #cccccc;
+            --tertiary-color: #888;
+            --border-color: #333;
+            --card-background: rgba(26, 26, 26, 0.8);
+            --nav-background: rgba(10, 10, 10, 0.9);
+            --header-background: rgba(10, 10, 10, 0.9);
+        }
+        .light-mode {
+            --background-color: #f5f5f5;
+            --text-color: #000000;
+            --primary-color: #d4af37;
+            --secondary-color: #333333;
+            --tertiary-color: #666666;
+            --border-color: #dddddd;
+            --card-background: #ffffff;
+            --nav-background: rgba(255, 255, 255, 0.9);
+            --header-background: rgba(255, 255, 255, 0.9);
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        header {
+            background-color: var(--header-background);
+            color: var(--text-color);
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 20px;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .back-button {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            max-width: 1400px;
+            margin: 15px auto;
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            gap: 15px;
+        }
+        .mobile-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .mobile-top-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .mobile-bottom-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        section {
+            background-color: var(--card-background);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .time-learner,
+        .time-practice,
+        .time-table {
+            border: 1px solid var(--border-color);
+        }
+        .time-table {
+            width: 100%;
+        }
+        h1,
+        h2 {
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .input-section,
+        .output-section {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .navigation-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        select {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            width: 100%;
+            max-width: 200px;
+            margin-bottom: 10px;
+            background-color: var(--card-background);
+            color: var(--text-color);
+        }
+        button {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        button:disabled {
+            background-color: var(--tertiary-color);
+            cursor: not-allowed;
+        }
+        .next-button {
+            background-color: #4CAF50;
+        }
+        .next-button:hover {
+            background-color: #45a049;
+        }
+        .prev-button {
+            background-color: #f44336;
+        }
+        .prev-button:hover {
+            background-color: #da190b;
+        }
+        #indonesianOutput {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 5px;
+            position: relative;
+        }
+        #indonesianOutput:hover {
+            background-color: rgba(240, 248, 240, 0.5);
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+        #indonesianOutput::after {
+            content: '🔊';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.5em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #indonesianOutput:hover::after {
+            opacity: 1;
+        }
+        #pronunciationOutput {
+            font-size: 1.2em;
+            color: var(--tertiary-color);
+            font-style: italic;
+        }
+        .system-note {
+            font-size: 0.9em;
+            color: var(--tertiary-color);
+            margin-top: 10px;
+        }
+        .time-practice {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .clock-container {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            position: relative;
+            margin: 20px auto;
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        .clock-face {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+            background: var(--card-background);
+        }
+        .hour-hand, .minute-hand {
+            position: absolute;
+            background-color: var(--primary-color);
+            transform-origin: bottom center;
+            border-radius: 4px;
+        }
+        .hour-hand {
+            width: 6px;
+            height: 30%;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .minute-hand {
+            width: 4px;
+            height: 40%;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .clock-center {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+        .clock-controls {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        .clock-controls label {
+            margin-bottom: 0;
+            display: inline-block;
+        }
+        .clock-controls input[type="range"] {
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            width: 150px;
+        }
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        .time-table-content {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .time-table-content th,
+        .time-table-content td {
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: center;
+        }
+        .time-table-content th {
+            background-color: var(--nav-background);
+            font-weight: bold;
+        }
+        .time-table-content tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .time-table-content tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+        .indonesian-text {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 5px;
+            border-radius: 3px;
+            position: relative;
+        }
+        .indonesian-text:hover {
+            background-color: rgba(240, 248, 240, 0.5);
+            transform: scale(1.1);
+            box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
+        }
+        .indonesian-text::after {
+            content: '🔊';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 0.7em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .indonesian-text:hover::after {
+            opacity: 1;
+        }
+        .table-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+        .tab-button {
+            padding: 10px 20px;
+            background-color: var(--nav-background);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            border-radius: 4px 4px 0 0;
+            transition: background-color 0.3s ease;
+        }
+        .tab-button.active { 
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border-bottom: 1px solid var(--primary-color);
+        }
+        .tab-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .tab-button.active:hover {
+            background-color: var(--primary-color);
+        }
+        .tts-info {
+            background-color: rgba(247, 241, 246, 0.566);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            text-align: center;
+            color: #420909;
+        }
+        .tts-controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        .tts-control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        .tts-control-group label {
+            font-size: 0.9em;
+            margin-bottom: 0;
+        }
+        .tts-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .tts-button:hover {
+            background-color: #45a049;
+        }
+        .tts-button:disabled {
+            background-color: #a5d6a7;
+            cursor: not-allowed;
+        }
+        .voice-selector {
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-background);
+            color: var(--text-color);
+        }
+        .tts-rate-control, .tts-pitch-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .tts-rate-control input, .tts-pitch-control input {
+            width: 100px;
+        }
+        .voice-info {
+            font-size: 0.8em;
+            color: var(--tertiary-color);
+            text-align: center;
+            margin-top: 5px;
+        }
+        .mode-toggle {
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            background-color: var(--header-background);
+            color: var(--text-color);
+            font-size: 0.9em;
+        }
+        .tts-active {
+            background-color: rgba(76, 175, 80, 0.3) !important;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5) !important;
+        }
+        .accent-info {
+            background-color: rgba(255, 215, 0, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9em;
+            text-align: center;
+            border-left: 4px solid gold;
+        }
+        .openai-info {
+            background-color: rgba(16, 163, 127, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9em;
+            text-align: center;
+            border-left: 4px solid #10a37f;
+        }
+        
+        /* Mobile-first responsive design */
+        @media (min-width: 768px) {
+            .mobile-top-section {
+                flex-direction: row;
+            }
+            .time-learner {
+                flex: 1;
+            }
+            .time-practice {
+                flex: 1;
+            }
+            .mobile-bottom-section {
+                flex-direction: row;
+            }
+            .time-table {
+                flex: 1;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            main {
+                padding: 10px;
+                margin: 10px auto;
+            }
+            section {
+                padding: 15px;
+            }
+            select {
+                width: 100%;
+                max-width: none;
+            }
+            .navigation-buttons {
+                flex-direction: row;
+                align-items: center;
+            }
+            .time-table-content {
+                font-size: 0.9em;
+            }
+            .table-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            .tts-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            .clock-container {
+                width: 250px;
+                height: 250px;
+            }
+            .clock-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .clock-controls > * {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header {
+                padding: 0.5rem 0;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            h2 {
+                font-size: 1.3em;
+            }
+            .back-button {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            .mode-toggle {
+                font-size: 1.2rem;
+            }
+            #indonesianOutput {
+                font-size: 1.3em;
+            }
+            #pronunciationOutput {
+                font-size: 1.1em;
+            }
+            .tts-controls {
+                padding: 8px;
+                gap: 8px;
+            }
+            .tts-button {
+                padding: 6px 12px;
+                font-size: 0.85em;
+            }
+            .clock-container {
+                width: 200px;
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <button class="back-button" onclick="goBack()">← Back</button>
+            <h1>Learn Indonesian Time & Calendar</h1>
+            <div class="mode-toggle" onclick="toggleMode()">
+                <span>🌙</span>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="mobile-layout">
+            <div class="mobile-top-section">
+                <section class="time-learner">
+                    <h2>Indonesian Time & Calendar</h2>
+                    <div class="openai-info">
+                        🔊 <strong>OpenAI TTS Integration:</strong> Now using OpenAI's Echo voice with gpt-4o-mini-tts for authentic Indonesian pronunciation
+                    </div>
+                    
+                    <!-- TTS Controls -->
+                    <div class="tts-controls">
+                        <div class="tts-control-group">
+                            <label for="voiceSelector">TTS Provider:</label>
+                            <select id="voiceSelector" class="voice-selector">
+                                <option value="openai-echo">OpenAI Echo</option>
+                                <option value="browser">Browser TTS</option>
+                            </select>
+                        </div>
+                        <div class="tts-control-group">
+                            <label for="ttsRate">Speech Rate:</label>
+                            <div class="tts-rate-control">
+                                <input type="range" id="ttsRate" min="0.5" max="2" step="0.1" value="0.8">
+                                <span id="ttsRateValue">0.8</span>
+                            </div>
+                        </div>
+                        <div class="tts-control-group">
+                            <label for="ttsPitch">Speech Pitch:</label>
+                            <div class="tts-pitch-control">
+                                <input type="range" id="ttsPitch" min="0.5" max="2" step="0.1" value="1">
+                                <span id="ttsPitchValue">1.0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="voice-info" id="voiceInfo">Using OpenAI Echo voice for Indonesian pronunciation</p>
+                     <div class="output-section">
+                        <h3>Indonesian: <span id="indonesianOutput" title="Click to hear pronunciation">Senin</span></h3>
+                        <p>Pronunciation: <span id="pronunciationOutput">suh-neen</span></p>
+                        <p class="system-note" id="systemNote"></p>
+                    </div>
+                     <div class="input-section">
+                        <label for="categorySelector">Select Category:</label>
+                        <select id="categorySelector">
+                            <option value="days">Days of the Week</option>
+                            <option value="months">Months of the Year</option>
+                            <option value="time">Clock Time</option>
+                        </select>
+                        <button id="convertButton">Get Random</button>
+                    </div>
+                    <div class="navigation-buttons">
+                        <button id="prevButton" class="prev-button">← Previous</button>
+                        <button id="nextButton" class="next-button">Next →</button>
+                    </div>
+                </section>
+                <section class="time-practice">
+                    <h2>Practice Clock Time</h2>
+                    <div class="clock-container">
+                        <div class="clock-face">
+                            <div class="hour-hand" id="hourHand"></div>
+                            <div class="minute-hand" id="minuteHand"></div>
+                            <div class="clock-center"></div>
+                        </div>
+                    </div>
+                    <div class="clock-controls">
+                        <label for="hourSlider">Hour:</label>
+                        <input type="range" id="hourSlider" min="1" max="12" value="9">
+                        <span id="hourValue">9</span>
+                        <label for="minuteSlider">Minute:</label>
+                        <input type="range" id="minuteSlider" min="0" max="55" step="5" value="0">
+                        <span id="minuteValue">00</span>
+                        <button id="speakTimeButton">Speak Time</button>
+                    </div>
+                    <div id="timeOutput" class="indonesian-text" style="margin-top: 15px; font-size: 1.3em;">pukul sembilan</div>
+                </section>
+            </div>
+            <div class="mobile-bottom-section">
+                <section class="time-table">
+                    <div class="openai-info">
+                        🔊 Click on items in the table to hear their pronunciation with OpenAI's Echo voice!
+                    </div>
+                    <div class="table-tabs">
+                        <button class="tab-button active" id="daysTab">Days of Week</button>
+                        <button class="tab-button" id="monthsTab">Months</button>
+                        <button class="tab-button" id="timeTab">Time Phrases</button>
+                    </div>
+                    <div class="table-container">
+                        <table class="time-table-content" id="timeTable">
+                            <!-- Table content will be populated by JavaScript -->
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Learn Indonesian Time & Calendar - A mobile-friendly learning tool</p>
+    </footer>
+
+    <script src="https://js.puter.com/v2/"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM Elements
+            const categorySelector = document.getElementById('categorySelector');
+            const convertButton = document.getElementById('convertButton');
+            const prevButton = document.getElementById('prevButton');
+            const nextButton = document.getElementById('nextButton');
+            const indonesianOutput = document.getElementById('indonesianOutput');
+            const pronunciationOutput = document.getElementById('pronunciationOutput');
+            const systemNote = document.getElementById('systemNote');
+            const daysTab = document.getElementById('daysTab');
+            const monthsTab = document.getElementById('monthsTab');
+            const timeTab = document.getElementById('timeTab');
+            const timeTable = document.getElementById('timeTable');
+            
+            // Clock elements
+            const hourSlider = document.getElementById('hourSlider');
+            const minuteSlider = document.getElementById('minuteSlider');
+            const hourValue = document.getElementById('hourValue');
+            const minuteValue = document.getElementById('minuteValue');
+            const hourHand = document.getElementById('hourHand');
+            const minuteHand = document.getElementById('minuteHand');
+            const speakTimeButton = document.getElementById('speakTimeButton');
+            const timeOutput = document.getElementById('timeOutput');
+            
+            // TTS Controls
+            const voiceSelector = document.getElementById('voiceSelector');
+            const ttsRateSlider = document.getElementById('ttsRate');
+            const ttsPitchSlider = document.getElementById('ttsPitch');
+            const ttsRateValue = document.getElementById('ttsRateValue');
+            const ttsPitchValue = document.getElementById('ttsPitchValue');
+            const voiceInfo = document.getElementById('voiceInfo');
+            
+            let currentCategory = 'days';
+            let currentIndex = 0;
+            let currentAudio = null;
+            let useOpenAI = true;
+            let ttsRate = 0.8;
+            let ttsPitch = 1;
+
+            // Indonesian Time Data
+            const indonesianTimeData = {
+                days: [
+                    { indonesian: "Senin", english: "Monday", pronunciation: "suh-neen" },
+                    { indonesian: "Selasa", english: "Tuesday", pronunciation: "suh-lah-sah" },
+                    { indonesian: "Rabu", english: "Wednesday", pronunciation: "rah-boo" },
+                    { indonesian: "Kamis", english: "Thursday", pronunciation: "kah-mees" },
+                    { indonesian: "Jumat", english: "Friday", pronunciation: "joo-maht" },
+                    { indonesian: "Sabtu", english: "Saturday", pronunciation: "sahb-too" },
+                    { indonesian: "Minggu", english: "Sunday", pronunciation: "meeng-goo" }
+                ],
+                months: [
+                    { indonesian: "Januari", english: "January", pronunciation: "jah-noo-ah-ree" },
+                    { indonesian: "Februari", english: "February", pronunciation: "feh-broo-ah-ree" },
+                    { indonesian: "Maret", english: "March", pronunciation: "mah-reht" },
+                    { indonesian: "April", english: "April", pronunciation: "ah-preel" },
+                    { indonesian: "Mei", english: "May", pronunciation: "may" },
+                    { indonesian: "Juni", english: "June", pronunciation: "joo-nee" },
+                    { indonesian: "Juli", english: "July", pronunciation: "joo-lee" },
+                    { indonesian: "Agustus", english: "August", pronunciation: "ah-goos-toos" },
+                    { indonesian: "September", english: "September", pronunciation: "sep-tehm-ber" },
+                    { indonesian: "Oktober", english: "October", pronunciation: "ok-toh-ber" },
+                    { indonesian: "November", english: "November", pronunciation: "no-vehm-ber" },
+                    { indonesian: "Desember", english: "December", pronunciation: "deh-sem-ber" }
+                ],
+                time: [
+                    { indonesian: "pagi", english: "morning", pronunciation: "pah-gee" },
+                    { indonesian: "siang", english: "afternoon", pronunciation: "see-ahng" },
+                    { indonesian: "sore", english: "evening", pronunciation: "so-reh" },
+                    { indonesian: "malam", english: "night", pronunciation: "mah-lahm" },
+                    { indonesian: "tengah malam", english: "midnight", pronunciation: "tuhn-gah mah-lahm" },
+                    { indonesian: "tengah hari", english: "noon", pronunciation: "tuhn-gah hah-ree" },
+                    { indonesian: "hari ini", english: "today", pronunciation: "hah-ree ee-nee" },
+                    { indonesian: "besok", english: "tomorrow", pronunciation: "beh-sohk" },
+                    { indonesian: "kemarin", english: "yesterday", pronunciation: "kuh-mah-reen" }
+                ]
+            };
+
+            // Indonesian numbers for clock time
+            const indonesianNumbers = {
+                1: "satu", 2: "dua", 3: "tiga", 4: "empat", 5: "lima",
+                6: "enam", 7: "tujuh", 8: "delapan", 9: "sembilan", 10: "sepuluh",
+                11: "sebelas", 12: "dua belas"
+            };
+
+            // Initialize TTS voices
+            function loadVoices() {
+                // This function is kept for browser TTS compatibility
+            }
+
+            // Enhanced Text-to-Speech functionality with OpenAI integration
+            const speakIndonesian = async (text) => {
+                try {
+                    // Cancel any ongoing speech
+                    speechSynthesis.cancel();
+                    if (currentAudio) {
+                        currentAudio.pause();
+                        currentAudio = null;
+                    }
+
+                    // Use OpenAI TTS if selected
+                    if (useOpenAI) {
+                        updateStatus('Converting with OpenAI...', 'processing');
+                        
+                        try {
+                            const audio = await puter.ai.txt2speech(text, {
+                                provider: 'openai',
+                                voice: 'echo',
+                                model: 'gpt-4o-mini-tts',
+                                response_format: 'mp3',
+                                instructions: 'Speak in Indonesian with clear pronunciation'
+                            });
+                            
+                            currentAudio = audio;
+                            await audio.play();
+                            
+                            // Add event listeners for better UX
+                            audio.addEventListener('ended', () => {
+                                updateStatus('Playback complete', '');
+                                currentAudio = null;
+                            });
+                            
+                            audio.addEventListener('error', (e) => {
+                                console.error('OpenAI TTS error:', e);
+                                updateStatus('Error playing audio', 'error');
+                                currentAudio = null;
+                            });
+                            
+                        } catch (error) {
+                            console.error('OpenAI TTS failed, falling back to browser TTS:', error);
+                            // Fall back to browser TTS
+                            useBrowserTTS(text);
+                        }
+                    } else {
+                        // Use browser TTS
+                        useBrowserTTS(text);
+                    }
+                } catch (error) {
+                    console.error('Error with TTS:', error);
+                }
+            };
+
+            // Browser TTS fallback
+            const useBrowserTTS = (text) => {
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'id-ID'; // Indonesian language code
+                    utterance.rate = ttsRate;
+                    utterance.pitch = ttsPitch;
+                    utterance.volume = 1;
+                    
+                    // Add event listeners for better UX
+                    utterance.onstart = () => {
+                        // Highlight the element being spoken
+                        const activeElement = document.querySelector('.tts-active');
+                        if (activeElement) {
+                            activeElement.classList.remove('tts-active');
+                        }
+                    };
+                    
+                    utterance.onend = () => {
+                        // Remove highlight
+                        const activeElement = document.querySelector('.tts-active');
+                        if (activeElement) {
+                            activeElement.classList.remove('tts-active');
+                        }
+                    };
+                    
+                    utterance.onerror = (event) => {
+                        console.error('Speech synthesis error:', event);
+                    };
+                    
+                    speechSynthesis.speak(utterance);
+                } else {
+                    console.log('Speech synthesis not supported');
+                }
+            };
+
+            // Update status display
+            function updateStatus(message, type) {
+                const statusElement = document.getElementById('status') || createStatusElement();
+                statusElement.textContent = message;
+                statusElement.className = 'status';
+                if (type) {
+                    statusElement.classList.add(type);
+                }
+            }
+
+            // Create status element if it doesn't exist
+            function createStatusElement() {
+                const statusDiv = document.createElement('div');
+                statusDiv.id = 'status';
+                statusDiv.className = 'status';
+                document.querySelector('.time-learner').appendChild(statusDiv);
+                return statusDiv;
+            }
+
+            // Convert time to Indonesian
+            function convertTime() {
+                currentCategory = categorySelector.value;
+                const items = indonesianTimeData[currentCategory];
+                const item = items[currentIndex];
+                
+                indonesianOutput.textContent = item.indonesian;
+                pronunciationOutput.textContent = item.pronunciation;
+                indonesianOutput.dataset.text = item.indonesian;
+                indonesianOutput.dataset.pronunciation = item.pronunciation;
+                
+                if (currentCategory === 'days') {
+                    systemNote.textContent = "Days of the week are not capitalized in Indonesian.";
+                } else if (currentCategory === 'months') {
+                    systemNote.textContent = "Months are not capitalized in Indonesian.";
+                } else {
+                    systemNote.textContent = "Time expressions follow simple patterns.";
+                }
+
+                updateNavigationButtons();
+            }
+
+            // Convert clock time to Indonesian
+            function convertClockTime(hours, minutes) {
+                let timeText = "pukul ";
+                
+                // Handle special cases
+                if (hours === 12 && minutes === 0) {
+                    timeText += "dua belas";
+                } else if (hours === 12 && minutes === 30) {
+                    timeText += "dua belas lewat tiga puluh";
+                } else if (minutes === 0) {
+                    timeText += indonesianNumbers[hours];
+                } else if (minutes === 30) {
+                    timeText += indonesianNumbers[hours] + " lewat tiga puluh";
+                } else if (minutes === 15) {
+                    timeText += indonesianNumbers[hours] + " lewat lima belas";
+                } else if (minutes === 45) {
+                    const nextHour = hours === 12 ? 1 : hours + 1;
+                    timeText += indonesianNumbers[nextHour] + " kurang lima belas";
+                } else {
+                    timeText += indonesianNumbers[hours] + " lewat " + convertMinutesToText(minutes);
+                }
+                
+                return timeText;
+            }
+
+            // Convert minutes to text
+            function convertMinutesToText(minutes) {
+                if (minutes <= 19) {
+                    return indonesianNumbers[minutes];
+                } else {
+                    const tens = Math.floor(minutes / 10) * 10;
+                    const units = minutes % 10;
+                    
+                    if (units === 0) {
+                        return indonesianNumbers[tens];
+                    } else {
+                        return indonesianNumbers[tens] + " " + indonesianNumbers[units];
+                    }
+                }
+            }
+
+            // Update navigation buttons
+            function updateNavigationButtons() {
+                const items = indonesianTimeData[currentCategory];
+                prevButton.disabled = currentIndex <= 0;
+                nextButton.disabled = currentIndex >= items.length - 1;
+            }
+
+            // Navigate through items
+            function navigateItem(direction) {
+                const items = indonesianTimeData[currentCategory];
+                currentIndex += direction;
+
+                if (currentIndex < 0) currentIndex = 0;
+                if (currentIndex >= items.length) currentIndex = items.length - 1;
+
+                convertTime();
+            }
+
+            // Update clock display
+            function updateClock() {
+                const hours = parseInt(hourSlider.value);
+                const minutes = parseInt(minuteSlider.value);
+                
+                // Update clock hands
+                const hourAngle = (hours % 12) * 30 + (minutes / 60) * 30;
+                const minuteAngle = minutes * 6;
+                
+                hourHand.style.transform = `translateX(-50%) rotate(${hourAngle}deg)`;
+                minuteHand.style.transform = `translateX(-50%) rotate(${minuteAngle}deg)`;
+                
+                // Update time text
+                const timeText = convertClockTime(hours, minutes);
+                timeOutput.textContent = timeText;
+                timeOutput.dataset.text = timeText;
+                
+                // Update display values
+                hourValue.textContent = hours;
+                minuteValue.textContent = minutes.toString().padStart(2, '0');
+            }
+
+            // Populate table based on active tab
+            function populateTable(tab) {
+                let tableHTML = '';
+                let data = [];
+                let headers = [];
+                
+                if (tab === 'days') {
+                    headers = ['English', 'Indonesian', 'Pronunciation'];
+                    data = indonesianTimeData.days;
+                } else if (tab === 'months') {
+                    headers = ['English', 'Indonesian', 'Pronunciation'];
+                    data = indonesianTimeData.months;
+                } else if (tab === 'time') {
+                    headers = ['English', 'Indonesian', 'Pronunciation'];
+                    data = indonesianTimeData.time;
+                }
+                
+                tableHTML = `
+                    <thead>
+                        <tr>
+                            ${headers.map(header => `<th>${header}</th>`).join('')}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${data.map(item => `
+                            <tr onclick="selectItemFromTable('${item.indonesian}', '${item.pronunciation}')">
+                                <td>${item.english}</td>
+                                <td class="indonesian-text"
+                                    onclick="event.stopPropagation(); speakIndonesianText('${item.indonesian}')"
+                                    title="Click to hear pronunciation"
+                                    data-text="${item.indonesian}">
+                                    ${item.indonesian}
+                                </td>
+                                <td>${item.pronunciation}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                `;
+                
+                timeTable.innerHTML = tableHTML;
+            }
+
+            // Global functions for table interaction
+            window.selectItemFromTable = (indonesian, pronunciation) => {
+                indonesianOutput.textContent = indonesian;
+                pronunciationOutput.textContent = pronunciation;
+                indonesianOutput.dataset.text = indonesian;
+                indonesianOutput.dataset.pronunciation = pronunciation;
+                
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.time-learner').scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            window.speakIndonesianText = (text) => {
+                speakIndonesian(text);
+            };
+
+            // Event listeners
+            convertButton.addEventListener('click', () => {
+                currentCategory = categorySelector.value;
+                const items = indonesianTimeData[currentCategory];
+                currentIndex = Math.floor(Math.random() * items.length);
+                convertTime();
+            });
+
+            nextButton.addEventListener('click', () => navigateItem(1));
+            prevButton.addEventListener('click', () => navigateItem(-1));
+
+            indonesianOutput.addEventListener('click', () => {
+                const text = indonesianOutput.dataset.text;
+                if (text) {
+                    speakIndonesian(text);
+                }
+            });
+
+            // Clock event listeners
+            hourSlider.addEventListener('input', updateClock);
+            minuteSlider.addEventListener('input', updateClock);
+
+            speakTimeButton.addEventListener('click', () => {
+                const text = timeOutput.dataset.text;
+                if (text) {
+                    speakIndonesian(text);
+                }
+            });
+
+            timeOutput.addEventListener('click', () => {
+                const text = timeOutput.dataset.text;
+                if (text) {
+                    speakIndonesian(text);
+                }
+            });
+
+            // Tab event listeners
+            daysTab.addEventListener('click', () => {
+                daysTab.classList.add('active');
+                monthsTab.classList.remove('active');
+                timeTab.classList.remove('active');
+                populateTable('days');
+            });
+
+            monthsTab.addEventListener('click', () => {
+                monthsTab.classList.add('active');
+                daysTab.classList.remove('active');
+                timeTab.classList.remove('active');
+                populateTable('months');
+            });
+
+            timeTab.addEventListener('click', () => {
+                timeTab.classList.add('active');
+                daysTab.classList.remove('active');
+                monthsTab.classList.remove('active');
+                populateTable('time');
+            });
+
+            // TTS Control Event Listeners
+            voiceSelector.addEventListener('change', function() {
+                useOpenAI = this.value === 'openai-echo';
+                voiceInfo.textContent = useOpenAI ? 
+                    "Using OpenAI Echo voice for Indonesian pronunciation" : 
+                    "Using browser TTS for Indonesian pronunciation";
+            });
+
+            ttsRateSlider.addEventListener('input', function() {
+                ttsRate = parseFloat(this.value);
+                ttsRateValue.textContent = ttsRate.toFixed(1);
+            });
+
+            ttsPitchSlider.addEventListener('input', function() {
+                ttsPitch = parseFloat(this.value);
+                ttsPitchValue.textContent = ttsPitch.toFixed(1);
+            });
+
+            // Category selector change
+            categorySelector.addEventListener('change', () => {
+                currentCategory = categorySelector.value;
+                currentIndex = 0;
+                convertTime();
+            });
+
+            // Initial setup
+            convertTime();
+            updateClock();
+            populateTable('days');
+            loadVoices();
+        });
+
+        function toggleMode() {
+            const body = document.body;
+            body.classList.toggle('light-mode');
+            const modeToggle = document.querySelector('.mode-toggle span');
+            if (body.classList.contains('light-mode')) {
+                modeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'light');
+            } else {
+                modeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        function applySavedTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            const modeToggle = document.querySelector('.mode-toggle span');
+            if (savedTheme === 'light') {
+                body.classList.add('light-mode');
+                modeToggle.textContent = '☀️';
+            } else {
+                body.classList.remove('light-mode');
+                modeToggle.textContent = '🌙';
+            }
+        }
+
+        function goBack() {
+            window.location.href = '../../index.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', applySavedTheme);
+    </script>
+</body>
+</html>
