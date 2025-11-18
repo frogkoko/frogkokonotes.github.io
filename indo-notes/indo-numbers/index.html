@@ -42,6 +42,16 @@
             text-align: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 20px;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
         }
         .back-button {
             background-color: var(--primary-color);
@@ -61,23 +71,35 @@
         }
         main {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            padding: 20px;
+            flex-direction: column;
+            padding: 15px;
             max-width: 1400px;
-            margin: 20px auto;
+            margin: 15px auto;
             background-color: var(--card-background);
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            gap: 15px;
+        }
+        .mobile-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .mobile-top-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .mobile-bottom-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
         section {
             background-color: var(--card-background);
-            padding: 25px;
-            margin: 15px;
+            padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            flex: 1;
-            min-width: 300px;
         }
         .number-learner,
         .number-drawer,
@@ -85,14 +107,13 @@
             border: 1px solid var(--border-color);
         }
         .number-table {
-            flex-basis: 100%;
-            max-width: 100%;
+            width: 100%;
         }
         h1,
         h2 {
             color: var(--text-color);
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .input-section,
         .output-section {
@@ -115,9 +136,8 @@
             padding: 10px;
             border: 1px solid var(--border-color);
             border-radius: 4px;
-            width: calc(100% - 120px);
+            width: 100%;
             max-width: 150px;
-            margin-right: 10px;
             margin-bottom: 10px;
         }
         button {
@@ -196,17 +216,21 @@
         #drawingCanvas {
             border: 2px solid var(--primary-color);
             border-radius: 8px;
-            background-color: var(--card-background);
+            background-color: white;
             cursor: crosshair;
             margin-top: 15px;
+            max-width: 100%;
+            height: auto;
+            touch-action: none; /* Important for touch devices */
         }
         .canvas-controls {
             margin-top: 15px;
             display: flex;
+            flex-wrap: wrap;
             gap: 10px;
             align-items: center;
-            flex-wrap: wrap;
             justify-content: center;
+            width: 100%;
         }
         .canvas-controls label {
             margin-bottom: 0;
@@ -367,9 +391,6 @@
             margin-top: 5px;
         }
         .mode-toggle {
-            position: absolute;
-            top: 15px;
-            right: 20px;
             cursor: pointer;
             font-size: 1.5rem;
         }
@@ -403,21 +424,41 @@
             text-align: center;
             border-left: 4px solid #10a37f;
         }
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
+        
+        /* Mobile-first responsive design */
+        @media (min-width: 768px) {
+            .mobile-top-section {
+                flex-direction: row;
+            }
+            .number-learner {
+                flex: 1;
+            }
+            .number-drawer {
+                flex: 1;
+            }
+            .mobile-bottom-section {
+                flex-direction: row;
+            }
+            .number-table {
+                flex: 1;
+            }
+        }
+        
+        @media (max-width: 767px) {
             main {
-                flex-direction: column;
                 padding: 10px;
+                margin: 10px auto;
             }
             section {
-                margin: 10px 0;
+                padding: 15px;
             }
             input[type="number"],
             select {
-                width: calc(100% - 100px);
+                width: 100%;
+                max-width: none;
             }
             .navigation-buttons {
-                flex-direction: column;
+                flex-direction: row;
                 align-items: center;
             }
             .numbers-table {
@@ -430,6 +471,50 @@
             .tts-controls {
                 flex-direction: column;
                 align-items: center;
+            }
+            #drawingCanvas {
+                width: 100%;
+                height: 300px;
+            }
+            .canvas-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .canvas-controls > * {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header {
+                padding: 0.5rem 0;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            h2 {
+                font-size: 1.3em;
+            }
+            .back-button {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            .mode-toggle {
+                font-size: 1.2rem;
+            }
+            #indonesianOutput {
+                font-size: 1.3em;
+            }
+            #pronunciationOutput {
+                font-size: 1.1em;
+            }
+            .tts-controls {
+                padding: 8px;
+                gap: 8px;
+            }
+            .tts-button {
+                padding: 6px 12px;
+                font-size: 0.85em;
             }
         }
     </style>
@@ -445,81 +530,87 @@
         </div>
     </header>
     <main>
-        <section class="number-learner">
-            <h2>Indonesian Number Converter</h2>
-            <div class="openai-info">
-                🔊 <strong>OpenAI TTS Integration:</strong> Now using OpenAI's Echo voice with gpt-4o-mini-tts for authentic Indonesian pronunciation
-            </div>
-            
-            <!-- TTS Controls -->
-            <div class="tts-controls">
-                <div class="tts-control-group">
-                    <label for="voiceSelector">TTS Provider:</label>
-                    <select id="voiceSelector" class="voice-selector">
-                        <option value="openai-echo">OpenAI Echo</option>
-                        <option value="browser">Browser TTS</option>
-                    </select>
-                </div>
-                <div class="tts-control-group">
-                    <label for="ttsRate">Speech Rate:</label>
-                    <div class="tts-rate-control">
-                        <input type="range" id="ttsRate" min="0.5" max="2" step="0.1" value="0.8">
-                        <span id="ttsRateValue">0.8</span>
+        <div class="mobile-layout">
+            <div class="mobile-top-section">
+                <section class="number-learner">
+                    <h2>Indonesian Number Converter</h2>
+                    <div class="openai-info">
+                        🔊 <strong>OpenAI TTS Integration:</strong> Now using OpenAI's Echo voice with gpt-4o-mini-tts for authentic Indonesian pronunciation
                     </div>
-                </div>
-                <div class="tts-control-group">
-                    <label for="ttsPitch">Speech Pitch:</label>
-                    <div class="tts-pitch-control">
-                        <input type="range" id="ttsPitch" min="0.5" max="2" step="0.1" value="1">
-                        <span id="ttsPitchValue">1.0</span>
+                    
+                    <!-- TTS Controls -->
+                    <div class="tts-controls">
+                        <div class="tts-control-group">
+                            <label for="voiceSelector">TTS Provider:</label>
+                            <select id="voiceSelector" class="voice-selector">
+                                <option value="openai-echo">OpenAI Echo</option>
+                                <option value="browser">Browser TTS</option>
+                            </select>
+                        </div>
+                        <div class="tts-control-group">
+                            <label for="ttsRate">Speech Rate:</label>
+                            <div class="tts-rate-control">
+                                <input type="range" id="ttsRate" min="0.5" max="2" step="0.1" value="0.8">
+                                <span id="ttsRateValue">0.8</span>
+                            </div>
+                        </div>
+                        <div class="tts-control-group">
+                            <label for="ttsPitch">Speech Pitch:</label>
+                            <div class="tts-pitch-control">
+                                <input type="range" id="ttsPitch" min="0.5" max="2" step="0.1" value="1">
+                                <span id="ttsPitchValue">1.0</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <button id="playAllButton" class="tts-button">
-                    Play All Numbers
-                </button>
+                    <p class="voice-info" id="voiceInfo">Using OpenAI Echo voice for Indonesian pronunciation</p>
+                     <div class="output-section">
+                        <h3>Indonesian: <span id="indonesianOutput" title="Click to hear pronunciation">nol</span></h3>
+                        <p>Pronunciation: <span id="pronunciationOutput">nol</span></p>
+                        <p class="system-note" id="systemNote"></p>
+                    </div>
+                     <div class="input-section">
+                        <label for="numberInput">Enter a number (0-9999):</label>
+                        <input type="number" id="numberInput" min="0" max="9999" value="0">
+                        <button id="convertButton">Convert</button>
+                    </div>
+                    <div class="navigation-buttons">
+                        <button id="prevButton" class="prev-button">← Previous</button>
+                        <button id="nextButton" class="next-button">Next →</button>
+                    </div>
+                </section>
+                <section class="number-drawer">
+                    <h2>Practice Writing Numbers</h2>
+                    <canvas id="drawingCanvas" width="400" height="400"></canvas>
+                    <div class="canvas-controls">
+                        <button id="clearCanvas">Clear Canvas</button>
+                        <label for="brushColor">Brush Color:</label>
+                        <input type="color" id="brushColor" value="#000000">
+                        <label for="brushSize">Brush Size:</label>
+                        <input type="range" id="brushSize" min="1" max="10" value="3">
+                    </div>
+                </section>
             </div>
-            <p class="voice-info" id="voiceInfo">Using OpenAI Echo voice for Indonesian pronunciation</p>
-             <div class="output-section">
-                <h3>Indonesian: <span id="indonesianOutput" title="Click to hear pronunciation">nol</span></h3>
-                <p>Pronunciation: <span id="pronunciationOutput">nol</span></p>
-                <p class="system-note" id="systemNote"></p>
+            <div class="mobile-bottom-section">
+                <section class="number-table">
+                    <div class="openai-info">
+                        🔊 Click on numbers in the table to hear their pronunciation with OpenAI's Echo voice!
+                    </div>
+                    <div class="table-tabs">
+                        <button class="tab-button active" id="indonesianTab">Indonesian Numbers</button>
+                    </div>
+                    <div class="table-container">
+                        <table class="numbers-table" id="numbersTable">
+                            <!-- Table content will be populated by JavaScript -->
+                        </table>
+                    </div>
+                </section>
             </div>
-             <div class="input-section">
-                <label for="numberInput">Enter a number (0-9999):</label>
-                <input type="number" id="numberInput" min="0" max="9999" value="0">
-                <button id="convertButton">Convert</button>
-            </div>
-        </section>
-        <section class="number-drawer">
-            <h2>Practice Writing Numbers</h2>
-            <canvas id="drawingCanvas" width="400" height="400"></canvas>
-            <div class="canvas-controls">
-                <button id="clearCanvas">Clear Canvas</button>
-                <label for="brushColor">Brush Color:</label>
-                <input type="color" id="brushColor" value="#000000">
-                <label for="brushSize">Brush Size:</label>
-                <input type="range" id="brushSize" min="1" max="10" value="3">
-
-                 <div class="navigation-buttons">
-                <button id="prevButton" class="prev-button">← Previous</button>
-                <button id="nextButton" class="next-button">Next →</button>
-            </div>
-            </div>
-        </section>
-        <section class="number-table">
-            <div class="openai-info">
-                🔊 Click on numbers in the table to hear their pronunciation with OpenAI's Echo voice!
-            </div>
-            <div class="table-tabs">
-                <button class="tab-button active" id="indonesianTab">Indonesian Numbers</button>
-            </div>
-            <div class="table-container">
-                <table class="numbers-table" id="numbersTable">
-                    <!-- Table content will be populated by JavaScript -->
-                </table>
-            </div>
-        </section>
+        </div>
     </main>
+
+    <footer>
+        <p>Learn Indonesian Numbers - A mobile-friendly learning tool</p>
+    </footer>
 
     <script src="https://js.puter.com/v2/"></script>
     <script>
@@ -545,7 +636,6 @@
             const ttsPitchSlider = document.getElementById('ttsPitch');
             const ttsRateValue = document.getElementById('ttsRateValue');
             const ttsPitchValue = document.getElementById('ttsPitchValue');
-            const playAllButton = document.getElementById('playAllButton');
             const voiceInfo = document.getElementById('voiceInfo');
             
             let isDrawing = false;
@@ -604,14 +694,12 @@
                             audio.addEventListener('ended', () => {
                                 updateStatus('Playback complete', '');
                                 currentAudio = null;
-                                playAllButton.disabled = false;
                             });
                             
                             audio.addEventListener('error', (e) => {
                                 console.error('OpenAI TTS error:', e);
                                 updateStatus('Error playing audio', 'error');
                                 currentAudio = null;
-                                playAllButton.disabled = false;
                             });
                             
                         } catch (error) {
@@ -625,7 +713,6 @@
                     }
                 } catch (error) {
                     console.error('Error with TTS:', error);
-                    playAllButton.disabled = false;
                 }
             };
 
@@ -658,18 +745,15 @@
                         if (activeElement) {
                             activeElement.classList.remove('tts-active');
                         }
-                        playAllButton.disabled = false;
                     };
                     
                     utterance.onerror = (event) => {
                         console.error('Speech synthesis error:', event);
-                        playAllButton.disabled = false;
                     };
                     
                     speechSynthesis.speak(utterance);
                 } else {
                     console.log('Speech synthesis not supported');
-                    playAllButton.disabled = false;
                 }
             };
 
@@ -960,41 +1044,6 @@
                 speakIndonesian(text);
             };
 
-            // Play all numbers in sequence
-            function playAllNumbers() {
-                playAllButton.disabled = true;
-                
-                // Get all numbers from the table
-                const numberRows = Array.from(numbersTable.querySelectorAll('tr[data-number]'));
-                let index = 0;
-                
-                async function speakNext() {
-                    if (index < numberRows.length) {
-                        const row = numberRows[index];
-                        const number = parseInt(row.dataset.number);
-                        const indonesianCell = row.querySelector('.indonesian-text');
-                        const text = indonesianCell.dataset.text;
-                        
-                        // Highlight the current row
-                        numberRows.forEach(r => r.style.backgroundColor = '');
-                        row.style.backgroundColor = 'rgba(76, 175, 80, 0.2)';
-                        
-                        // Speak the number
-                        await speakIndonesian(text);
-                        
-                        // Wait before moving to next number
-                        index++;
-                        setTimeout(speakNext, 1500); // Delay between numbers
-                    } else {
-                        playAllButton.disabled = false;
-                        // Remove highlighting
-                        numberRows.forEach(r => r.style.backgroundColor = '');
-                    }
-                }
-                
-                speakNext();
-            }
-
             // Event listeners
             convertButton.addEventListener('click', convertNumber);
             nextButton.addEventListener('click', () => navigateNumber(1));
@@ -1025,8 +1074,6 @@
                 ttsPitchValue.textContent = ttsPitch.toFixed(1);
             });
 
-            playAllButton.addEventListener('click', playAllNumbers);
-
             numberInput.addEventListener('keyup', (event) => {
                 if (event.key === 'Enter') {
                     convertNumber();
@@ -1038,29 +1085,50 @@
             populateTable();
             loadVoices();
 
-            // Canvas Drawing Logic
-            ctx.lineWidth = brushSizeSlider.value;
-            ctx.lineJoin = 'round';
-            ctx.lineCap = 'round';
-            ctx.strokeStyle = brushColorPicker.value;
+            // Canvas Drawing Logic - FIXED
+            function initializeCanvas() {
+                // Set initial canvas properties
+                ctx.lineWidth = brushSizeSlider.value;
+                ctx.lineJoin = 'round';
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = brushColorPicker.value;
+                
+                // Clear canvas with white background
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
 
             function getEventPos(e) {
                 const rect = canvas.getBoundingClientRect();
-                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+                
+                let clientX, clientY;
+                
+                if (e.type.includes('touch')) {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
+                
                 return {
-                    x: clientX - rect.left,
-                    y: clientY - rect.top
+                    x: (clientX - rect.left) * scaleX,
+                    y: (clientY - rect.top) * scaleY
                 };
             }
 
             function draw(e) {
                 if (!isDrawing) return;
+                
                 const pos = getEventPos(e);
+                
                 ctx.beginPath();
                 ctx.moveTo(lastX, lastY);
                 ctx.lineTo(pos.x, pos.y);
                 ctx.stroke();
+                
                 [lastX, lastY] = [pos.x, pos.y];
             }
 
@@ -1076,10 +1144,13 @@
                 isDrawing = false;
             }
 
+            // Mouse event listeners
             canvas.addEventListener('mousedown', startDrawing);
             canvas.addEventListener('mousemove', draw);
             canvas.addEventListener('mouseup', stopDrawing);
             canvas.addEventListener('mouseout', stopDrawing);
+
+            // Touch event listeners
             canvas.addEventListener('touchstart', startDrawing, { passive: false });
             canvas.addEventListener('touchmove', (e) => {
                 e.preventDefault();
@@ -1088,8 +1159,10 @@
             canvas.addEventListener('touchend', stopDrawing, { passive: false });
             canvas.addEventListener('touchcancel', stopDrawing, { passive: false });
 
+            // Canvas controls
             clearCanvasBtn.addEventListener('click', () => {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
             });
 
             brushColorPicker.addEventListener('change', (e) => {
@@ -1099,6 +1172,9 @@
             brushSizeSlider.addEventListener('input', (e) => {
                 ctx.lineWidth = e.target.value;
             });
+
+            // Initialize canvas
+            initializeCanvas();
         });
 
         function toggleMode() {
