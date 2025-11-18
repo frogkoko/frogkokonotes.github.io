@@ -394,6 +394,15 @@
             text-align: center;
             border-left: 4px solid gold;
         }
+        .openai-info {
+            background-color: rgba(16, 163, 127, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9em;
+            text-align: center;
+            border-left: 4px solid #10a37f;
+        }
         /* Responsive adjustments */
         @media (max-width: 768px) {
             main {
@@ -438,19 +447,17 @@
     <main>
         <section class="number-learner">
             <h2>Indonesian Number Converter</h2>
-            <div class="tts-info">
-                💡 Click on Indonesian numbers to hear pronunciation with authentic Indonesian accent!
-            </div>
-            <div class="accent-info">
-                🔊 <strong>Indonesian Accent Feature:</strong> The text-to-speech now uses authentic Indonesian pronunciation patterns
+            <div class="openai-info">
+                🔊 <strong>OpenAI TTS Integration:</strong> Now using OpenAI's Echo voice with gpt-4o-mini-tts for authentic Indonesian pronunciation
             </div>
             
             <!-- TTS Controls -->
             <div class="tts-controls">
                 <div class="tts-control-group">
-                    <label for="voiceSelector">TTS Voice:</label>
+                    <label for="voiceSelector">TTS Provider:</label>
                     <select id="voiceSelector" class="voice-selector">
-                        <option value="">Default Voice</option>
+                        <option value="openai-echo">OpenAI Echo</option>
+                        <option value="browser">Browser TTS</option>
                     </select>
                 </div>
                 <div class="tts-control-group">
@@ -471,7 +478,7 @@
                     Play All Numbers
                 </button>
             </div>
-            <p class="voice-info" id="voiceInfo">Loading available voices...</p>
+            <p class="voice-info" id="voiceInfo">Using OpenAI Echo voice for Indonesian pronunciation</p>
              <div class="output-section">
                 <h3>Indonesian: <span id="indonesianOutput" title="Click to hear pronunciation">nol</span></h3>
                 <p>Pronunciation: <span id="pronunciationOutput">nol</span></p>
@@ -500,8 +507,8 @@
             </div>
         </section>
         <section class="number-table">
-            <div class="tts-info">
-                🎵 Click on numbers in the table to hear their pronunciation with Indonesian accent!
+            <div class="openai-info">
+                🔊 Click on numbers in the table to hear their pronunciation with OpenAI's Echo voice!
             </div>
             <div class="table-tabs">
                 <button class="tab-button active" id="indonesianTab">Indonesian Numbers</button>
@@ -514,6 +521,7 @@
         </section>
     </main>
 
+    <script src="https://js.puter.com/v2/"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const numberInput = document.getElementById('numberInput');
@@ -547,36 +555,17 @@
             let selectedVoice = null;
             let ttsRate = 0.8;
             let ttsPitch = 1;
+            let currentAudio = null;
+            let useOpenAI = true;
 
             // Initialize TTS voices
             function loadVoices() {
                 voices = speechSynthesis.getVoices();
-                voiceSelector.innerHTML = '<option value="">Default Voice</option>';
                 
-                // Filter for Indonesian voices
-                const indonesianVoices = voices.filter(voice => 
-                    voice.lang.startsWith('id') || voice.lang.includes('Indonesian')
-                );
-                
-                if (indonesianVoices.length > 0) {
-                    selectedVoice = indonesianVoices[0];
-                    voiceInfo.textContent = `Using ${indonesianVoices[0].name} as default Indonesian voice`;
-                    
-                    indonesianVoices.forEach((voice, index) => {
-                        const option = document.createElement('option');
-                        option.value = voice.name;
-                        option.textContent = `${voice.name} (${voice.lang})`;
-                        option.selected = (index === 0);
-                        voiceSelector.appendChild(option);
-                    });
+                if (voices.length > 0) {
+                    voiceInfo.textContent = "Browser TTS voices available";
                 } else {
-                    voiceInfo.textContent = "No Indonesian voices found. Using default voice with Indonesian accent simulation.";
-                    voices.forEach(voice => {
-                        const option = document.createElement('option');
-                        option.value = voice.name;
-                        option.textContent = `${voice.name} (${voice.lang})`;
-                        voiceSelector.appendChild(option);
-                    });
+                    voiceInfo.textContent = "No browser TTS voices found. Using OpenAI by default.";
                 }
             }
 
@@ -585,60 +574,123 @@
                 speechSynthesis.onvoiceschanged = loadVoices;
             }
 
-            // Enhanced Text-to-Speech functionality with Indonesian accent
-            const speakIndonesian = (text) => {
+            // Enhanced Text-to-Speech functionality with OpenAI integration
+            const speakIndonesian = async (text) => {
                 try {
-                    if ('speechSynthesis' in window) {
-                        // Cancel any ongoing speech
-                        speechSynthesis.cancel();
+                    // Cancel any ongoing speech
+                    speechSynthesis.cancel();
+                    if (currentAudio) {
+                        currentAudio.pause();
+                        currentAudio = null;
+                    }
+
+                    // Use OpenAI TTS if selected
+                    if (useOpenAI) {
+                        updateStatus('Converting with OpenAI...', 'processing');
                         
-                        const utterance = new SpeechSynthesisUtterance(text);
-                        utterance.lang = 'id-ID'; // Indonesian language code
-                        utterance.rate = ttsRate;
-                        utterance.pitch = ttsPitch;
-                        utterance.volume = 1;
-                        
-                        // Use selected voice if available
-                        if (selectedVoice) {
-                            utterance.voice = selectedVoice;
-                        }
-                        
-                        // Add event listeners for better UX
-                        utterance.onstart = () => {
-                            // Highlight the element being spoken
-                            const activeElement = document.querySelector('.tts-active');
-                            if (activeElement) {
-                                activeElement.classList.remove('tts-active');
-                            }
+                        try {
+                            const audio = await puter.ai.txt2speech(text, {
+                                provider: 'openai',
+                                voice: 'echo',
+                                model: 'gpt-4o-mini-tts',
+                                response_format: 'mp3',
+                                instructions: 'Speak in Indonesian with clear pronunciation'
+                            });
                             
-                            const currentElement = event ? event.target : document.activeElement;
-                            if (currentElement && currentElement.classList.contains('indonesian-text')) {
-                                currentElement.classList.add('tts-active');
-                            }
-                        };
-                        
-                        utterance.onend = () => {
-                            // Remove highlight
-                            const activeElement = document.querySelector('.tts-active');
-                            if (activeElement) {
-                                activeElement.classList.remove('tts-active');
-                            }
-                            playAllButton.disabled = false;
-                        };
-                        
-                        utterance.onerror = (event) => {
-                            console.error('Speech synthesis error:', event);
-                            playAllButton.disabled = false;
-                        };
-                        
-                        speechSynthesis.speak(utterance);
+                            currentAudio = audio;
+                            await audio.play();
+                            
+                            // Add event listeners for better UX
+                            audio.addEventListener('ended', () => {
+                                updateStatus('Playback complete', '');
+                                currentAudio = null;
+                                playAllButton.disabled = false;
+                            });
+                            
+                            audio.addEventListener('error', (e) => {
+                                console.error('OpenAI TTS error:', e);
+                                updateStatus('Error playing audio', 'error');
+                                currentAudio = null;
+                                playAllButton.disabled = false;
+                            });
+                            
+                        } catch (error) {
+                            console.error('OpenAI TTS failed, falling back to browser TTS:', error);
+                            // Fall back to browser TTS
+                            useBrowserTTS(text);
+                        }
                     } else {
-                        console.log('Speech synthesis not supported');
+                        // Use browser TTS
+                        useBrowserTTS(text);
                     }
                 } catch (error) {
                     console.error('Error with TTS:', error);
+                    playAllButton.disabled = false;
                 }
             };
+
+            // Browser TTS fallback
+            const useBrowserTTS = (text) => {
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'id-ID'; // Indonesian language code
+                    utterance.rate = ttsRate;
+                    utterance.pitch = ttsPitch;
+                    utterance.volume = 1;
+                    
+                    // Use selected voice if available
+                    if (selectedVoice) {
+                        utterance.voice = selectedVoice;
+                    }
+                    
+                    // Add event listeners for better UX
+                    utterance.onstart = () => {
+                        // Highlight the element being spoken
+                        const activeElement = document.querySelector('.tts-active');
+                        if (activeElement) {
+                            activeElement.classList.remove('tts-active');
+                        }
+                    };
+                    
+                    utterance.onend = () => {
+                        // Remove highlight
+                        const activeElement = document.querySelector('.tts-active');
+                        if (activeElement) {
+                            activeElement.classList.remove('tts-active');
+                        }
+                        playAllButton.disabled = false;
+                    };
+                    
+                    utterance.onerror = (event) => {
+                        console.error('Speech synthesis error:', event);
+                        playAllButton.disabled = false;
+                    };
+                    
+                    speechSynthesis.speak(utterance);
+                } else {
+                    console.log('Speech synthesis not supported');
+                    playAllButton.disabled = false;
+                }
+            };
+
+            // Update status display
+            function updateStatus(message, type) {
+                const statusElement = document.getElementById('status') || createStatusElement();
+                statusElement.textContent = message;
+                statusElement.className = 'status';
+                if (type) {
+                    statusElement.classList.add(type);
+                }
+            }
+
+            // Create status element if it doesn't exist
+            function createStatusElement() {
+                const statusDiv = document.createElement('div');
+                statusDiv.id = 'status';
+                statusDiv.className = 'status';
+                document.querySelector('.number-learner').appendChild(statusDiv);
+                return statusDiv;
+            }
 
             // Indonesian Numbers (0-9999) with authentic pronunciation
             const indonesianNumbers = {
@@ -916,7 +968,7 @@
                 const numberRows = Array.from(numbersTable.querySelectorAll('tr[data-number]'));
                 let index = 0;
                 
-                function speakNext() {
+                async function speakNext() {
                     if (index < numberRows.length) {
                         const row = numberRows[index];
                         const number = parseInt(row.dataset.number);
@@ -928,13 +980,11 @@
                         row.style.backgroundColor = 'rgba(76, 175, 80, 0.2)';
                         
                         // Speak the number
-                        speakIndonesian(text);
+                        await speakIndonesian(text);
                         
-                        // Wait for speech to finish before moving to next number
-                        speechSynthesis.onend = function() {
-                            index++;
-                            setTimeout(speakNext, 800); // Delay between numbers
-                        };
+                        // Wait before moving to next number
+                        index++;
+                        setTimeout(speakNext, 1500); // Delay between numbers
                     } else {
                         playAllButton.disabled = false;
                         // Remove highlighting
@@ -959,12 +1009,10 @@
 
             // TTS Control Event Listeners
             voiceSelector.addEventListener('change', function() {
-                const voiceName = this.value;
-                if (voiceName) {
-                    selectedVoice = voices.find(voice => voice.name === voiceName);
-                } else {
-                    selectedVoice = null;
-                }
+                useOpenAI = this.value === 'openai-echo';
+                voiceInfo.textContent = useOpenAI ? 
+                    "Using OpenAI Echo voice for Indonesian pronunciation" : 
+                    "Using browser TTS for Indonesian pronunciation";
             });
 
             ttsRateSlider.addEventListener('input', function() {
