@@ -24,6 +24,9 @@
       --zhheadimg: url(https://images.unsplash.com/photo-1547981609-4b6bf67b7d28?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80);
       --zhheadimgicon: url(https://flagcdn.com/w320/cn.png);
       
+      --thheadimg: url(https://images.unsplash.com/photo-1528181304800-259b08848526?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80);
+      --thheadimgicon: url(https://flagcdn.com/w320/th.png);
+      
       --spheadimg: url(img/spheader.png);
       --spheadimgicon: url(img/spicon.jpg);
       
@@ -71,6 +74,14 @@
       --accent1: #AEBFB5;
       --accent2: #BF4F45;
       --accent3: #591919;
+      --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
+    }
+
+    #bg-7,
+    #bs-7 {
+      --accent1: #A020F0;
+      --accent2: #8A2BE2;
+      --accent3: #9370DB;
       --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
     }
 
@@ -189,14 +200,18 @@
     }
 
     #sect-playlist-4 {
-      background-image: var(--spheadimgicon);
+      background-image: var(--thheadimgicon);
     }
 
     #sect-playlist-5 {
-      background-image: var(--cppheadimgicon);
+      background-image: var(--spheadimgicon);
     }
 
     #sect-playlist-6 {
+      background-image: var(--cppheadimgicon);
+    }
+
+    #sect-playlist-7 {
       background-image: var(--pyheadimgicon);
     }
 
@@ -330,14 +345,18 @@
     }
 
     #bi-4 div {
-      background-image: var(--spheadimg);
+      background-image: var(--thheadimg);
     }
 
     #bi-5 div {
-      background-image: var(--cppheadimg);
+      background-image: var(--spheadimg);
     }
 
     #bi-6 div {
+      background-image: var(--cppheadimg);
+    }
+
+    #bi-7 div {
       background-image: var(--pyheadimg);
     }
 
@@ -617,7 +636,8 @@
 
     #bs-4 .sect-topics-1,
     #bs-5 .sect-topics-1,
-    #bs-6 .sect-topics-1 {
+    #bs-6 .sect-topics-1,
+    #bs-7 .sect-topics-1 {
       background: linear-gradient(to right, var(--accent1), var(--accent2), #f3f3f3 65%);
       background-size: 300%;
       background-position: 100% 0px;
@@ -704,7 +724,8 @@
     #sect-tab-3:checked~.sect-tabs #sect-playlist-3,
     #sect-tab-4:checked~.sect-tabs #sect-playlist-4,
     #sect-tab-5:checked~.sect-tabs #sect-playlist-5,
-    #sect-tab-6:checked~.sect-tabs #sect-playlist-6 {
+    #sect-tab-6:checked~.sect-tabs #sect-playlist-6,
+    #sect-tab-7:checked~.sect-tabs #sect-playlist-7 {
       filter: grayscale(0%);
       transform: scale(1);
     }
@@ -714,7 +735,8 @@
     #sect-tab-3:checked~#bg-3,
     #sect-tab-4:checked~#bg-4,
     #sect-tab-5:checked~#bg-5,
-    #sect-tab-6:checked~#bg-6 {
+    #sect-tab-6:checked~#bg-6,
+    #sect-tab-7:checked~#bg-7 {
       opacity: 1;
     }
 
@@ -723,7 +745,8 @@
     #sect-tab-3:checked~#bi-3 div,
     #sect-tab-4:checked~#bi-4 div,
     #sect-tab-5:checked~#bi-5 div,
-    #sect-tab-6:checked~#bi-6 div {
+    #sect-tab-6:checked~#bi-6 div,
+    #sect-tab-7:checked~#bi-7 div {
       opacity: 1;
     }
 
@@ -797,7 +820,8 @@
     #sect-tab-3:checked~#bl-3,
     #sect-tab-4:checked~#bl-4,
     #sect-tab-5:checked~#bl-5,
-    #sect-tab-6:checked~#bl-6 {
+    #sect-tab-6:checked~#bl-6,
+    #sect-tab-7:checked~#bl-7 {
       margin-top: 250px;
       opacity: 1;
     }
@@ -808,7 +832,8 @@
       #sect-tab-3:checked~#bl-3,
       #sect-tab-4:checked~#bl-4,
       #sect-tab-5:checked~#bl-5,
-      #sect-tab-6:checked~#bl-6 {
+      #sect-tab-6:checked~#bl-6,
+      #sect-tab-7:checked~#bl-7 {
         margin-top: 200px;
       }
     }
@@ -819,7 +844,8 @@
       #sect-tab-3:checked~#bl-3,
       #sect-tab-4:checked~#bl-4,
       #sect-tab-5:checked~#bl-5,
-      #sect-tab-6:checked~#bl-6 {
+      #sect-tab-6:checked~#bl-6,
+      #sect-tab-7:checked~#bl-7 {
         margin-top: 150px;
       }
     }
@@ -830,7 +856,8 @@
       #sect-tab-3:checked~#bl-3,
       #sect-tab-4:checked~#bl-4,
       #sect-tab-5:checked~#bl-5,
-      #sect-tab-6:checked~#bl-6 {
+      #sect-tab-6:checked~#bl-6,
+      #sect-tab-7:checked~#bl-7 {
         margin-top: 120px;
       }
     }
@@ -840,7 +867,8 @@
     #sect-tab-3:checked~#bn-3,
     #sect-tab-4:checked~#bn-4,
     #sect-tab-5:checked~#bn-5,
-    #sect-tab-6:checked~#bn-6 {
+    #sect-tab-6:checked~#bn-6,
+    #sect-tab-7:checked~#bn-7 {
       padding-top: 215px;
       opacity: 1;
       pointer-events: auto !important;
@@ -852,7 +880,8 @@
       #sect-tab-3:checked~#bn-3,
       #sect-tab-4:checked~#bn-4,
       #sect-tab-5:checked~#bn-5,
-      #sect-tab-6:checked~#bn-6 {
+      #sect-tab-6:checked~#bn-6,
+      #sect-tab-7:checked~#bn-7 {
         padding-top: 175px;
       }
     }
@@ -863,7 +892,8 @@
       #sect-tab-3:checked~#bn-3,
       #sect-tab-4:checked~#bn-4,
       #sect-tab-5:checked~#bn-5,
-      #sect-tab-6:checked~#bn-6 {
+      #sect-tab-6:checked~#bn-6,
+      #sect-tab-7:checked~#bn-7 {
         padding-top: 145px;
       }
     }
@@ -874,7 +904,8 @@
       #sect-tab-3:checked~#bn-3,
       #sect-tab-4:checked~#bn-4,
       #sect-tab-5:checked~#bn-5,
-      #sect-tab-6:checked~#bn-6 {
+      #sect-tab-6:checked~#bn-6,
+      #sect-tab-7:checked~#bn-7 {
         padding-top: 125px;
       }
     }
@@ -884,7 +915,8 @@
     #sect-tab-3:checked~#bs-3,
     #sect-tab-4:checked~#bs-4,
     #sect-tab-5:checked~#bs-5,
-    #sect-tab-6:checked~#bs-6 {
+    #sect-tab-6:checked~#bs-6,
+    #sect-tab-7:checked~#bs-7 {
       transform: scale(1);
       opacity: 1;
       pointer-events: auto !important;
@@ -900,6 +932,7 @@
     <input type="radio" id="sect-tab-4" name="sect-tabs">
     <input type="radio" id="sect-tab-5" name="sect-tabs">
     <input type="radio" id="sect-tab-6" name="sect-tabs">
+    <input type="radio" id="sect-tab-7" name="sect-tabs">
     <div class="sect-tabs">
       <label for="sect-tab-1" class="sect-tabs-1" id="sect-playlist-1">
         <div></div>
@@ -917,6 +950,9 @@
         <div></div>
       </label>
       <label for="sect-tab-6" class="sect-tabs-1" id="sect-playlist-6">
+        <div></div>
+      </label>
+      <label for="sect-tab-7" class="sect-tabs-1" id="sect-playlist-7">
         <div></div>
       </label>
     </div>
@@ -938,6 +974,9 @@
       <div></div>
     </div>
     <div class="sect-head-img" id="bg-6">
+      <div></div>
+    </div>
+    <div class="sect-head-img" id="bg-7">
       <div></div>
     </div>
     <div class="sect-fade"></div>
@@ -1055,18 +1094,67 @@
       </div>
     </div>
 
-    <!--- Spanish notes --->
+    <!--- Thai notes --->
 
     <div class="sect-img" id="bi-4">
       <div></div>
     </div>
     <div class="sect-name" id="bn-4">
-      <h1>spanish<br>notes 2025</h1>
-      <h2>Reading and Listening</h2>
+      <h1>thai<br>notes 2025</h1>
+      <h2>Basics and intermediate level + reading + writing + listening</h2>
     </div>
     <div class="sect-subsect" id="bl-4">
     </div>
     <div class="sect-topics" id="bs-4">
+      <div class="sect-topics-0">
+
+        <a class="sect-topics-1" href="th-notes/th-alphabet/">
+          <span></span><span><b>Thai Alphabet</b>Writing + Listening</span>
+          <span></span> </a>
+
+        <a class="sect-topics-1" href="thai-notes/thai-numbers/">
+          <span></span><span><b>Thai Numbers</b>Writing + Listening</span>
+          <span></span> </a>
+
+        <a class="sect-topics-1" href="thai-notes/thai-greetings/">
+          <span></span><span><b>Basic Greetings</b>AB conversations + Listening</span>
+          <span></span> </a>
+
+        <a class="sect-topics-1" href="thai-notes/thai-verbs/">
+          <span></span><span><b>Common Verbs</b>Flashcards + Listening</span>
+          <span></span> </a>
+
+        <a class="sect-topics-1" href="thai-notes/thai-tone-marks/">
+          <span></span><span><b>Tone Marks</b>Pronunciation + Listening</span>
+          <span></span> </a>
+
+        <a class="sect-topics-1" href="thai-notes/thai-food-vocab/">
+          <span></span><span><b>Food Vocabulary</b>Common dishes + Ordering</span>
+          <span></span> </a>
+
+        <a class="sect-topics-1" href="thai-notes/thai-travel-phrases/">
+          <span></span><span><b>Travel Phrases</b>Directions + Transportation</span>
+          <span></span> </a>
+
+        <a class="sect-topics-1" href="thai-notes/thai-grammar-basics/">
+          <span></span><span><b>Grammar Basics</b>Sentence structure + Particles</span>
+          <span></span> </a>
+
+      </div>
+    </div>
+
+    <!--- Spanish notes --->
+
+    <div class="sect-img" id="bi-5">
+      <div></div>
+    </div>
+    <div class="sect-name" id="bn-5">
+      <h1>spanish<br>notes 2025</h1>
+      <h2>Reading and Listening</h2>
+    </div>
+    <div class="sect-subsect" id="bl-5">
+    </div>
+    <div class="sect-topics" id="bs-5">
       <div class="sect-topics-0">
 
         <a class="sect-topics-1" href="sp-notes/sp-numbers/" >
@@ -1078,15 +1166,15 @@
 
     <!--- C++ notes --->
 
-    <div class="sect-img" id="bi-5">
+    <div class="sect-img" id="bi-6">
       <div></div>
     </div>
-    <div class="sect-name" id="bn-5">
+    <div class="sect-name" id="bn-6">
       <h1>cpp notes<br>coming soon</h1>
     </div>
-    <div class="sect-subsect" id="bl-5">
+    <div class="sect-subsect" id="bl-6">
     </div>
-    <div class="sect-topics" id="bs-5">
+    <div class="sect-topics" id="bs-6">
       <div class="sect-topics-0">
         <!-- C++ topics will go here -->
       </div>
@@ -1094,16 +1182,16 @@
 
     <!--- Python notes --->
 
-    <div class="sect-img" id="bi-6">
+    <div class="sect-img" id="bi-7">
       <div></div>
     </div>
-    <div class="sect-name" id="bn-6">
+    <div class="sect-name" id="bn-7">
       <h1>python<br>notes 2025</h1>
       <h2>coming soon</h2>
     </div>
-    <div class="sect-subsect" id="bl-6">
+    <div class="sect-subsect" id="bl-7">
     </div>
-    <div class="sect-topics" id="bs-6">
+    <div class="sect-topics" id="bs-7">
       <div class="sect-topics-0">
         <!-- Python topics will go here -->
       </div>
