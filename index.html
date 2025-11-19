@@ -718,6 +718,56 @@
       margin-bottom: 4px;
     }
 
+    /* Dropdown Menu Styles */
+    .dropdown {
+      position: relative;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    .dropdown-header {
+      background: linear-gradient(to right, var(--accent1), var(--accent2), #f3f3f3 65%);
+      background-size: 300%;
+      background-position: 100% 0px;
+      border: solid 1px #dddddd;
+      border-radius: 10px;
+      padding: 25px 35px;
+      box-shadow: 0px 15px 15px -15px rgba(0, 0, 0, .065);
+      font: 800 16px Open Sans;
+      color: #333333;
+      cursor: pointer;
+      transition: .85s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dropdown-header:hover {
+      background-position: -1px 0px !important;
+      color: #eeeeee;
+      border-color: transparent;
+    }
+
+    .dropdown-content {
+      display: none;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 15px;
+      counter-reset: dropdown-topics;
+    }
+
+    .dropdown.active .dropdown-content {
+      display: flex;
+    }
+
+    .dropdown-arrow {
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown.active .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+
     .sect-tabs-1:hover,
     #sect-tab-1:checked~.sect-tabs #sect-playlist-1,
     #sect-tab-2:checked~.sect-tabs #sect-playlist-2,
@@ -994,82 +1044,139 @@
     <div class="sect-topics" id="bs-1">
       <div class="sect-topics-0">
 
-        <a class="sect-topics-1" href="kor-notes/korean-alphabet/">
-          <span></span><span><b>Korean Alphabet</b>Writing + Listening</span>
-          <span></span> </a>
+        <!-- Section 1: Alphabet, Numbers, Times, and Dates -->
+        <div class="dropdown">
+          <div class="dropdown-header">
+            <span>Alphabet, Numbers, Times, and Dates</span>
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="dropdown-content">
+            <a class="sect-topics-1" href="kor-notes/korean-alphabet/">
+              <span></span><span><b>Korean Alphabet</b>Writing + Listening</span>
+              <span></span>
+            </a>
+            <a class="sect-topics-1" href="kor-notes/korean-numbers/">
+              <span></span><span><b>Korean Numbers</b>Sino and Native + Writing + Listening</span>
+              <span></span>
+            </a>
+            <a class="sect-topics-1" href="kor-notes/kor-times/">
+              <span></span><span><b>Korean Times</b>Writing + Listening + Hours + Minutes + Questions about time</span>
+              <span></span>
+            </a>
+            <a class="sect-topics-1" href="kor-notes/kor-dates/">
+              <span></span><span><b>Korean Dates</b>Writing + Listening + Months + Days + Ordinal Numbers + Questions</span>
+              <span></span>
+            </a>
+          </div>
+        </div>
 
-         <a class="sect-topics-1" href="kor-notes/korean-numbers/">
-          <span></span><span><b>Korean Numbers</b>Sino and Native + Writing + Listening</span>
-          <span></span> </a>
+        <!-- Section 2: Korean Phrases -->
+        <div class="dropdown">
+          <div class="dropdown-header">
+            <span>Korean Phrases</span>
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="dropdown-content">
+            <a class="sect-topics-1" href="kor-notes/kor-phrases/">
+              <span></span><span><b>Korean Phrases 1</b>Writing + Listening + Jobs + Common Phrases</span>
+              <span></span>
+            </a>
 
-        <a class="sect-topics-1" href="kor-notes/kor-times/">
-          <span></span><span><b>Korean Times</b>Writing + Listening + Hours + Minutes + Questions about time</span>
-          <span></span> </a>
+            <a class="sect-topics-1" href="kor-notes/kor-present-past-future/">
+              <span></span><span><b>Present, Past, Future</b>Writing + Listening</span>
+              <span></span>
+            </a>
+             <a class="sect-topics-1" href="kor-notes/kor-markers/">
+              <span></span><span><b>Topic, Subject, and Object Markers</b>Writing + Listening</span>
+              <span></span>
+            </a>
+            <a class="sect-topics-1" href="kor-notes/kor-greetings">
+              <span></span><span><b>Greetings and Self Introductions</b>Writing + Listening</span>
+              <span></span>
+            </a>
 
-        <a class="sect-topics-1" href="kor-notes/kor-dates/">
-          <span></span><span><b>Korean Dates</b>Writing + Listening + Months + Days + Ordinal Numbers + Questions</span>
-          <span></span> </a>
-        
-        <a class="sect-topics-1" href="kor-notes/kor-phrases/">
-          <span></span><span><b>Korean Phrases 1</b>Writing + Listening</span>
-          <span></span> </a>
-        
-         <a class="sect-topics-1" href="kor-notes/kor-AB1/">
-          <span></span><span><b>Korean AB Conversation 1</b>Listening</span>
-          <span></span> </a>
-        
-        <a class="sect-topics-1" href="kor-notes/kor-AB2/">
-          <span></span><span><b>Korean AB Conversation 2</b>Listening</span>
-          <span></span> </a>
-        
-        <a class="sect-topics-1" href="kor-notes/kor-who/">
-          <span></span><span><b>Who</b>Writing + Listening</span>
-          <span></span> </a>
+            <a class="sect-topics-1" href="kor-notes/kor-descriptives/">
+              <span></span><span><b>Korean Descriptive Words</b>Writing + Listening</span>
+              <span></span>
+            </a>
+            <a class="sect-topics-1" href="kor-notes/kor-AB1/">
+              <span></span><span><b>Korean AB Conversation 1</b>Listening</span>
+              <span></span>
+            </a>
+            <a class="sect-topics-1" href="kor-notes/kor-AB2/">
+              <span></span><span><b>Korean AB Conversation 2</b>Listening</span>
+              <span></span>
+            </a>
+          </div>
+        </div>
 
-        <a class="sect-topics-1" href="kor-notes/kor-what/">
-          <span></span><span><b>What</b>Writing + Listening</span>
-          <span></span> </a>
-        
-        <a class="sect-topics-1" href="kor-notes/kor-why/">
-          <span></span><span><b>Why</b>Writing + Listening</span>
-          <span></span> </a>
+        <!-- Section 3: Question Phrases -->
+        <div class="dropdown">
+          <div class="dropdown-header">
+            <span>Question Phrases</span>
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="dropdown-content">
+            <a class="sect-topics-1" href="kor-notes/kor-who/">
+              <span></span><span><b>Who</b>Writing + Listening</span>
+              <span></span>
+            </a>
+            <a class="sect-topics-1" href="kor-notes/kor-what/">
+              <span></span><span><b>What</b>Writing + Listening</span>
+              <span></span>
+            </a>
+            <a class="sect-topics-1" href="kor-notes/kor-why/">
+              <span></span><span><b>Why</b>Writing + Listening</span>
+              <span></span>
+            </a>
+            <a class="sect-topics-1" href="kor-notes/kor-when/">
+              <span></span><span><b>When</b>Writing + Listening</span>
+              <span></span>
+            </a>
+            <a class="sect-topics-1" href="kor-notes/kor-where/">
+              <span></span><span><b>Where</b>Writing + Listening</span>
+              <span></span>
+            </a>
+            <a class="sect-topics-1" href="kor-notes/kor-how/">
+              <span></span><span><b>How</b>Writing + Listening</span>
+              <span></span>
+            </a>
+          </div>
+        </div>
 
-      <a class="sect-topics-1" href="kor-notes/kor-when/">
-          <span></span><span><b>When</b>Writing + Listening</span>
-          <span></span> </a>
-      
-        <a class="sect-topics-1" href="kor-notes/kor-where/">
-          <span></span><span><b>Where</b>Writing + Listening</span>
-          <span></span> </a>
-        
-        <a class="sect-topics-1" href="kor-notes/kor-how/">
-          <span></span><span><b>How</b>Writing + Listening</span>
-          <span></span> </a>
-
-        <a class="sect-topics-1" href="kor-notes/kor-daily-active/">
-          <span></span><span><b>Daily Activities Part 1</b>Writing + Listening</span>
-          <span></span> </a>
-        
-         <a class="sect-topics-1" href="kor-notes/kor-daily-active-2/">
-          <span></span><span><b>Daily Activities Part 2</b>Writing + Listening</span>
-          <span></span> </a>
-        
-        <a class="sect-topics-1" href="kor-notes/kor-existance-location/">
-          <span></span><span><b>Existence and Location Phrases</b>Writing + Listening + There is + Back/ Front + Top/Below</span>
-          <span></span> </a>
-
-        <a class="sect-topics-1" href="kor-notes/kor-food-objects/">
-          <span></span><span><b>Food and Objects</b>Writing + Listening </span>
-          <span></span> </a>
-        
-        <a class="sect-topics-1" href="kor-notes/kor-units/">
-          <span></span><span><b>Units and Quantities</b>Writing + Listening</span>
-          <span></span> </a>
-        
-        <a class="sect-topics-1" href="kor-notes/kor-relations/">
-          <span></span><span><b>Relationships and Activities Together</b>Writing + Listening</span>
-          <span></span> </a>
-        
+        <!-- Section 4: Activities, objects, units, and relationships -->
+        <div class="dropdown">
+          <div class="dropdown-header">
+            <span>Activities, objects, units, and relationships</span>
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="dropdown-content">
+            <a class="sect-topics-1" href="kor-notes/kor-daily-active/">
+              <span></span><span><b>Daily Activities Part 1</b>Writing + Listening</span>
+              <span></span>
+            </a>
+            <a class="sect-topics-1" href="kor-notes/kor-daily-active-2/">
+              <span></span><span><b>Daily Activities Part 2</b>Writing + Listening</span>
+              <span></span>
+            </a>
+            <a class="sect-topics-1" href="kor-notes/kor-existance-location/">
+              <span></span><span><b>Existence and Location Phrases</b>Writing + Listening + There is + Back/ Front + Top/Below</span>
+              <span></span>
+            </a>
+            <a class="sect-topics-1" href="kor-notes/kor-food-objects/">
+              <span></span><span><b>Food and Objects</b>Writing + Listening </span>
+              <span></span>
+            </a>
+            <a class="sect-topics-1" href="kor-notes/kor-units/">
+              <span></span><span><b>Units and Quantities</b>Writing + Listening</span>
+              <span></span>
+            </a>
+            <a class="sect-topics-1" href="kor-notes/kor-relations/">
+              <span></span><span><b>Relationships and Activities Together</b>Writing + Listening</span>
+              <span></span>
+            </a>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -1271,6 +1378,21 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Comforter&family=Damion&family=Dawning+of+a+New+Day&family=Open+Sans:wght@400;700;800&display=swap"
     rel="stylesheet">
+  
+  <script>
+    // JavaScript to handle dropdown functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const dropdowns = document.querySelectorAll('.dropdown');
+      
+      dropdowns.forEach(dropdown => {
+        const header = dropdown.querySelector('.dropdown-header');
+        
+        header.addEventListener('click', function() {
+          dropdown.classList.toggle('active');
+        });
+      });
+    });
+  </script>
 </body>
 
 </html>

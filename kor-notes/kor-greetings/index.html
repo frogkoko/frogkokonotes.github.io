@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Korean Greetings & Self-Introduction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .header {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #3498db;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+        }
+
+        .header-nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .back-button {
+            background: #3498db;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .back-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .sticky-nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 15px 20px;
+        }
+
+        #navbar {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin: 0;
+            max-width: none;
+        }
+
+        #navbar a {
+            background: white;
+            color: #3498db;
+            padding: 5px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+        }
+
+        #navbar a:hover, #navbar a.active {
+            background: #3498db;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .tts-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .tts-button {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tts-button:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+        }
+
+        .tts-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .voice-selector {
+            padding: 10px 15px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .tts-info {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .section-title {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin: 60px 0 30px 0;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        /* Special full-width cards */
+        .full-width-card {
+            grid-column: 1 / -1;
+        }
+
+        #basic-grid, #time-grid, #introduction-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        #conversation-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #f0f0f0;
+            height: 480px;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .sketch {
+            position: relative;
+            padding: 20px;
+            background: #f8f9fa;
+            height: 250px;
+            flex-shrink: 0;
+        }
+
+        .paint {
+            width: 100%;
+            height: 100%;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            cursor: crosshair;
+            background: white;
+            touch-action: none;
+        }
+
+        .erase-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            z-index: 10;
+            transition: background 0.2s ease;
+        }
+
+        .erase-button:hover {
+            background: #c0392b;
+        }
+
+        .card_content {
+            padding: 20px;
+            text-align: center;
+            background: white;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 180px;
+        }
+
+        .korean-text {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #3498db;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            margin-bottom: 10px;
+            font-family: 'Noto Serif KR', serif;
+            line-height: 1.2;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        .korean-text:hover {
+            color: #e74c3c;
+            transform: scale(1.05);
+        }
+
+        .char-info {
+            font-size: 1rem;
+            color: #7f8c8d;
+            line-height: 1.4;
+        }
+
+        /* Conversation cards specific styling */
+        .conversation-card .korean-text {
+            font-size: 1.8rem;
+            line-height: 1.4;
+        }
+
+        .conversation-card .char-info {
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        /* Adjust full-width cards to maintain proportions */
+        .full-width-card .card {
+            height: 480px;
+        }
+
+        .full-width-card .sketch {
+            height: 250px;
+        }
+
+        @media (min-width: 992px) {
+            .cards {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            #basic-grid, #time-grid, #introduction-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            #conversation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .cards {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+            
+            #basic-grid, #time-grid, #introduction-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card {
+                height: 450px;
+            }
+            
+            .sketch {
+                height: 230px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+            
+            #basic-grid, #time-grid, #introduction-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card {
+                height: 420px;
+            }
+            
+            .sketch {
+                height: 200px;
+            }
+
+            .header-nav-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .back-button {
+                align-self: flex-start;
+                margin-bottom: 10px;
+            }
+            
+            #navbar {
+                width: 100%;
+                justify-content: center;
+            }
+
+            #navbar a {
+                padding: 10px 18px;
+                font-size: 0.9rem;
+            }
+
+            .tts-controls {
+                flex-direction: column;
+            }
+            
+            .korean-text {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main {
+                padding: 10px;
+            }
+
+            #navbar {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                height: 400px;
+            }
+            
+            .sketch {
+                height: 180px;
+            }
+            
+            .korean-text {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="header">
+            <h1><br>Korean Greetings & Self-Introduction</h1>
+            <p>Learn essential Korean greetings and self-introduction phrases</p>
+            <p>Draw in the white canvas area to practice writing</p>
+            <p>Click on Korean text to hear pronunciation</p>
+        </div>
+        
+        <div class="sticky-nav-container">
+            <div class="nav-content">
+                <a href="../../index.html" class="back-button">← Back to Main</a>
+                <nav id="navbar">
+                    <a class="active" href="#basic">Basic Greetings</a>
+                    <a href="#time">Time-based Greetings</a>
+                    <a href="#introduction">Self-Introduction</a>
+                    <a href="#conversation">Conversation Practice</a>
+                </nav>
+            </div>
+        </div>
+        
+        <div class="tts-controls">
+            <button id="tts-button" class="tts-button">
+                <span>🔊</span> Play All
+            </button>
+            <select id="voice-selector" class="voice-selector">
+                <option value="">Default Voice</option>
+            </select>
+        </div>
+        <p class="tts-info">Click on any Korean text to hear its pronunciation</p>
+        
+        <section id="basic">
+            <h2 class="section-title">Basic Greetings<br/>기본 인사</h2>
+            <ul class="cards" id="basic-grid"></ul>
+        </section>
+
+        <section id="time">
+            <h2 class="section-title">Time-based Greetings<br/>시간별 인사</h2>
+            <ul class="cards" id="time-grid"></ul>
+        </section>
+
+        <section id="introduction">
+            <h2 class="section-title">Self-Introduction<br/>자기소개</h2>
+            <ul class="cards" id="introduction-grid"></ul>
+        </section>
+
+        <section id="conversation">
+            <h2 class="section-title">Conversation Practice<br/>대화 연습</h2>
+            <ul class="cards" id="conversation-grid"></ul>
+        </section>
+    </div>
+
+    <script>
+        const koreanContent = {
+            basic: [
+                { 
+                    korean: '안녕하세요', 
+                    romanized: 'annyeonghaseyo', 
+                    meaning: 'Hello (formal)',
+                    usage: 'Most common greeting, used in formal situations',
+                    examples: 'When meeting someone for the first time'
+                },
+                { 
+                    korean: '안녕', 
+                    romanized: 'annyeong', 
+                    meaning: 'Hello (informal)',
+                    usage: 'Used with friends, family, or people younger than you',
+                    examples: 'When greeting close friends'
+                },
+                { 
+                    korean: '만나서 반갑습니다', 
+                    romanized: 'mannaseo bangapseumnida', 
+                    meaning: 'Nice to meet you (formal)',
+                    usage: 'When meeting someone for the first time',
+                    examples: 'After introductions'
+                },
+                { 
+                    korean: '만나서 반가워', 
+                    romanized: 'mannaseo bangawo', 
+                    meaning: 'Nice to meet you (informal)',
+                    usage: 'With friends or people younger than you',
+                    examples: 'Casual first meeting'
+                },
+                { 
+                    korean: '안녕히 가세요', 
+                    romanized: 'annyeonghi gaseyo', 
+                    meaning: 'Goodbye (to someone leaving)',
+                    usage: 'Said to the person who is leaving',
+                    examples: 'When someone is going home'
+                },
+                { 
+                    korean: '안녕히 계세요', 
+                    romanized: 'annyeonghi gyeseyo', 
+                    meaning: 'Goodbye (to someone staying)',
+                    usage: 'Said when you are leaving',
+                    examples: 'When you are leaving someone\'s place'
+                }
+            ],
+            time: [
+                { 
+                    korean: '좋은 아침', 
+                    romanized: 'joheun achim', 
+                    meaning: 'Good morning (informal)',
+                    usage: 'Used with friends and family',
+                    examples: 'Morning greeting to close people'
+                },
+                { 
+                    korean: '안녕히 주무셨어요?', 
+                    romanized: 'annyeonghi jumusyeosseoyo?', 
+                    meaning: 'Did you sleep well? (formal)',
+                    usage: 'Polite morning greeting',
+                    examples: 'Greeting elders in the morning'
+                },
+                { 
+                    korean: '좋은 오후', 
+                    romanized: 'joheun ohu', 
+                    meaning: 'Good afternoon',
+                    usage: 'General afternoon greeting',
+                    examples: 'Used from noon to early evening'
+                },
+                { 
+                    korean: '좋은 저녁', 
+                    romanized: 'joheun jeonyeok', 
+                    meaning: 'Good evening',
+                    usage: 'Evening greeting',
+                    examples: 'Used in the evening'
+                },
+                { 
+                    korean: '잘 자', 
+                    romanized: 'jal ja', 
+                    meaning: 'Good night (informal)',
+                    usage: 'Said to friends or family before sleeping',
+                    examples: 'Bedtime greeting to close people'
+                },
+                { 
+                    korean: '안녕히 주무세요', 
+                    romanized: 'annyeonghi jumuseyo', 
+                    meaning: 'Good night (formal)',
+                    usage: 'Polite bedtime greeting',
+                    examples: 'Said to elders or in formal situations'
+                }
+            ],
+            introduction: [
+                { 
+                    korean: '제 이름은 [이름]입니다', 
+                    romanized: 'je ireumeun [ireum]imnida', 
+                    meaning: 'My name is [name] (formal)',
+                    usage: 'Formal self-introduction',
+                    examples: '제 이름은 민수입니다 (My name is Minsu)'
+                },
+                { 
+                    korean: '저는 [나라] 사람입니다', 
+                    romanized: 'jeoneun [nara] saraminida', 
+                    meaning: 'I am from [country] (formal)',
+                    usage: 'Telling your nationality',
+                    examples: '저는 미국 사람입니다 (I am American)'
+                },
+                { 
+                    korean: '저는 [나이] 살입니다', 
+                    romanized: 'jeoneun [nai] sarimnida', 
+                    meaning: 'I am [age] years old (formal)',
+                    usage: 'Telling your age formally',
+                    examples: '저는 스물다섯 살입니다 (I am 25 years old)'
+                },
+                { 
+                    korean: '저는 [직업]입니다', 
+                    romanized: 'jeoneun [jigeob]imnida', 
+                    meaning: 'I am a [job] (formal)',
+                    usage: 'Telling your occupation',
+                    examples: '저는 선생님입니다 (I am a teacher)'
+                },
+                { 
+                    korean: '취미는 [취미]입니다', 
+                    romanized: 'chwimineun [chwimi]imnida', 
+                    meaning: 'My hobby is [hobby] (formal)',
+                    usage: 'Talking about your interests',
+                    examples: '취미는 독서입니다 (My hobby is reading)'
+                },
+                { 
+                    korean: '한국어를 배우고 있습니다', 
+                    romanized: 'hangugeoreul baeugo itseumnida', 
+                    meaning: 'I am learning Korean (formal)',
+                    usage: 'Explaining your language studies',
+                    examples: 'Useful for language exchange'
+                }
+            ],
+            conversation: [
+                { 
+                    korean: 'A: 안녕하세요? B: 네, 안녕하세요!', 
+                    romanized: 'A: annyeonghaseyo? B: ne, annyeonghaseyo!', 
+                    meaning: 'A: Hello? B: Yes, hello!',
+                    context: 'Basic greeting exchange'
+                },
+                { 
+                    korean: 'A: 이름이 뭐예요? B: 제 이름은 수지예요.', 
+                    romanized: 'A: ireumi mwoyeyo? B: je ireumeun sujiyeyo.', 
+                    meaning: 'A: What is your name? B: My name is Suji.',
+                    context: 'Asking and telling names'
+                },
+                { 
+                    korean: 'A: 어디에서 왔어요? B: 미국에서 왔어요.', 
+                    romanized: 'A: eodieseo wasseoyo? B: migugeseo wasseoyo.', 
+                    meaning: 'A: Where are you from? B: I am from America.',
+                    context: 'Asking about origin'
+                },
+                { 
+                    korean: 'A: 무슨 일을 하세요? B: 저는 학생이에요.', 
+                    romanized: 'A: museun ireul haseyo? B: jeoneun haksaengieyo.', 
+                    meaning: 'A: What do you do? B: I am a student.',
+                    context: 'Asking about occupation'
+                },
+                { 
+                    korean: 'A: 한국어를 잘 하시네요! B: 아니요, 조금밖에 못 해요.', 
+                    romanized: 'A: hangugeoreul jal hasineyo! B: aniyo, jogeumbakke mot haeyo.', 
+                    meaning: 'A: You speak Korean well! B: No, I can only speak a little.',
+                    context: 'Complimenting language skills'
+                },
+                { 
+                    korean: 'A: 나중에 또 봐요! B: 네, 안녕히 가세요!', 
+                    romanized: 'A: najunge tto bwayo! B: ne, annyeonghi gaseyo!', 
+                    meaning: 'A: See you later! B: Yes, goodbye!',
+                    context: 'Ending a conversation'
+                }
+            ]
+        };
+
+        let currentPlayingAudio = null;
+        let voices = [];
+        let selectedVoice = null;
+
+        function loadVoices() {
+            voices = speechSynthesis.getVoices();
+            const voiceSelector = document.getElementById('voice-selector');
+            voiceSelector.innerHTML = '<option value="">Default Voice</option>';
+            
+            // Filter for Korean voices
+            const koreanVoices = voices.filter(voice => 
+                voice.lang.startsWith('ko') || voice.lang.includes('Korean')
+            );
+            
+            koreanVoices.forEach(voice => {
+                const option = document.createElement('option');
+                option.value = voice.name;
+                option.textContent = `${voice.name} (${voice.lang})`;
+                voiceSelector.appendChild(option);
+                
+                // Prefer Korean voices
+                if (voice.lang.startsWith('ko')) {
+                    selectedVoice = voice;
+                    option.selected = true;
+                }
+            });
+            
+            // If no Korean voice found, use any available voice
+            if (!selectedVoice && voices.length > 0) {
+                selectedVoice = voices[0];
+            }
+        }
+
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+
+        function createCard(koreanData, index, section) {
+            const isConversation = section === 'conversation';
+            const cardClass = isConversation ? 'card conversation-card' : 'card';
+            const fullWidthClass = koreanData.fullWidth ? 'full-width-card' : '';
+            
+            // Format the meaning with additional information
+            let formattedMeaning = koreanData.meaning;
+            if (koreanData.usage) {
+                formattedMeaning += `<br/><small>Usage: ${koreanData.usage}</small>`;
+            }
+            if (koreanData.examples) {
+                formattedMeaning += `<br/><small>Examples: ${koreanData.examples}</small>`;
+            }
+            if (koreanData.context) {
+                formattedMeaning += `<br/><small>Context: ${koreanData.context}</small>`;
+            }
+            
+            return `
+                <li class="cards_item ${fullWidthClass}">
+                    <div class="${cardClass}">
+                        <div class="sketch">
+                            <canvas class="paint" width="300" height="200" data-index="${index}"></canvas>
+                            <button class="erase-button" data-canvas-index="${index}">Erase</button>
+                        </div>
+                        <div class="card_content">
+                            <div class="korean-text" data-romanized="${koreanData.romanized}" data-korean="${koreanData.korean}">${koreanData.korean}</div>
+                            <div class="char-info">${koreanData.romanized}<br/>${formattedMeaning}</div>
+                        </div>
+                    </div>
+                </li>
+            `;
+        }
+
+        function generateCards() {
+            const basicGrid = document.getElementById('basic-grid');
+            const timeGrid = document.getElementById('time-grid');
+            const introductionGrid = document.getElementById('introduction-grid');
+            const conversationGrid = document.getElementById('conversation-grid');
+            
+            let index = 0;
+            basicGrid.innerHTML = koreanContent.basic.map(item => createCard(item, index++, 'basic')).join('');
+            timeGrid.innerHTML = koreanContent.time.map(item => createCard(item, index++, 'time')).join('');
+            introductionGrid.innerHTML = koreanContent.introduction.map(item => createCard(item, index++, 'introduction')).join('');
+            conversationGrid.innerHTML = koreanContent.conversation.map(item => createCard(item, index++, 'conversation')).join('');
+            
+            addAudioEventListeners();
+            addCanvasEventListeners();
+            addEraseButtonListeners();
+        }
+
+        function speakKorean(korean, romanized) {
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+            }
+            
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(korean);
+                utterance.lang = 'ko-KR';
+                utterance.rate = 0.8;
+                
+                if (selectedVoice) {
+                    utterance.voice = selectedVoice;
+                }
+                
+                utterance.onend = function() {
+                    document.getElementById('tts-button').disabled = false;
+                };
+                
+                speechSynthesis.speak(utterance);
+            } else {
+                console.warn('Text-to-speech not supported in this browser.');
+            }
+        }
+
+        function addAudioEventListeners() {
+            document.querySelectorAll('.korean-text').forEach(textElement => {
+                textElement.addEventListener('click', function() {
+                    const korean = this.getAttribute('data-korean');
+                    const romanized = this.getAttribute('data-romanized');
+                    speakKorean(korean, romanized);
+                });
+            });
+        }
+
+        function playAllKorean() {
+            const ttsButton = document.getElementById('tts-button');
+            ttsButton.disabled = true;
+            
+            const allItems = [...koreanContent.basic, ...koreanContent.time, ...koreanContent.introduction, ...koreanContent.conversation];
+            let index = 0;
+            
+            function speakNext() {
+                if (index < allItems.length) {
+                    const koreanData = allItems[index];
+                    speakKorean(koreanData.korean, koreanData.romanized);
+                    
+                    const koreanElements = document.querySelectorAll('.korean-text');
+                    koreanElements.forEach(el => el.style.backgroundColor = '');
+                    
+                    const currentElement = Array.from(koreanElements).find(
+                        el => el.getAttribute('data-korean') === koreanData.korean
+                    );
+                    
+                    if (currentElement) {
+                        currentElement.style.backgroundColor = '#e8f5e9';
+                    }
+                    
+                    speechSynthesis.onend = function() {
+                        index++;
+                        setTimeout(speakNext, 500);
+                    };
+                } else {
+                    ttsButton.disabled = false;
+                    document.querySelectorAll('.korean-text').forEach(el => {
+                        el.style.backgroundColor = '';
+                    });
+                }
+            }
+            
+            speakNext();
+        }
+
+        let isDrawing = false;
+        let canvasesContexts = [];
+        let lastX = 0;
+        let lastY = 0;
+
+        function initializeCanvasContexts() {
+            const canvasElements = document.querySelectorAll('.paint');
+            canvasElements.forEach((canvas, index) => {
+                const ctx = canvas.getContext('2d');
+                canvasesContexts[index] = ctx;
+                
+                // Scale canvas to match display size
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+                
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 3;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+            });
+        }
+
+        function addCanvasEventListeners() {
+            document.querySelectorAll('.paint').forEach(canvas => {
+                canvas.addEventListener('mousedown', startDrawing);
+                canvas.addEventListener('mousemove', draw);
+                canvas.addEventListener('mouseup', stopDrawing);
+                canvas.addEventListener('mouseout', stopDrawing);
+                canvas.addEventListener('touchstart', handleTouch);
+                canvas.addEventListener('touchmove', handleTouch);
+                canvas.addEventListener('touchend', stopDrawing);
+                canvas.addEventListener('touchcancel', stopDrawing);
+            });
+        }
+
+        function getCanvasCoordinates(canvas, clientX, clientY) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            
+            return {
+                x: (clientX - rect.left) * scaleX,
+                y: (clientY - rect.top) * scaleY
+            };
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const canvas = e.target;
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            
+            if (clientX && clientY) {
+                const coords = getCanvasCoordinates(canvas, clientX, clientY);
+                lastX = coords.x;
+                lastY = coords.y;
+                
+                const ctx = canvasesContexts[parseInt(canvas.dataset.index)];
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+            }
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            e.preventDefault();
+            
+            const canvas = e.target;
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            
+            if (clientX && clientY) {
+                const coords = getCanvasCoordinates(canvas, clientX, clientY);
+                const currentX = coords.x;
+                const currentY = coords.y;
+                
+                const ctx = canvasesContexts[parseInt(canvas.dataset.index)];
+                ctx.lineTo(currentX, currentY);
+                ctx.stroke();
+                
+                lastX = currentX;
+                lastY = currentY;
+            }
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function handleTouch(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const target = e.target;
+            
+            if (e.type === 'touchstart') {
+                const mouseDownEvent = new MouseEvent('mousedown', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY,
+                    bubbles: true,
+                    cancelable: true
+                });
+                target.dispatchEvent(mouseDownEvent);
+            } else if (e.type === 'touchmove') {
+                const mouseMoveEvent = new MouseEvent('mousemove', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY,
+                    bubbles: true,
+                    cancelable: true
+                });
+                target.dispatchEvent(mouseMoveEvent);
+            }
+        }
+
+        function clearCanvas(index) {
+            const canvas = document.querySelector(`canvas[data-index="${index}"]`);
+            if (canvas) {
+                const ctx = canvasesContexts[index];
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        function addEraseButtonListeners() {
+            document.querySelectorAll('.erase-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const canvasIndex = parseInt(this.dataset.canvasIndex);
+                    clearCanvas(canvasIndex);
+                });
+            });
+        }
+
+        document.querySelectorAll('#navbar a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    const navbarHeight = document.getElementById('navbar').offsetHeight;
+                    const offsetTop = targetElement.offsetTop - navbarHeight;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                    document.querySelectorAll('#navbar a').forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            generateCards();
+            initializeCanvasContexts();
+            loadVoices();
+            
+            document.getElementById('tts-button').addEventListener('click', playAllKorean);
+            
+            document.getElementById('voice-selector').addEventListener('change', function() {
+                const voiceName = this.value;
+                if (voiceName) {
+                    selectedVoice = voices.find(voice => voice.name === voiceName);
+                } else {
+                    selectedVoice = null;
+                }
+            });
+        });
+
+        // Reinitialize canvas contexts on window resize
+        window.addEventListener('resize', function() {
+            setTimeout(initializeCanvasContexts, 100);
+        });
+    </script>
+</body>
+</html>
