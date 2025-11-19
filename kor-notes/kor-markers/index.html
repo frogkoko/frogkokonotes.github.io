@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Korean Tense Markers - Present, Past, Future</title>
+    <title>Korean Particle Markers - Topic, Subject, Object</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://js.puter.com/v2/"></script>
     <style>
         * {
             margin: 0;
@@ -135,17 +136,7 @@
             gap: 20px;
         }
 
-        .tts-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
+       
 
         .tts-button {
             background: #2ecc71;
@@ -210,7 +201,7 @@
             grid-column: 1 / -1;
         }
 
-        #present-grid, #past-grid, #future-grid {
+        #topic-grid, #subject-grid, #object-grid {
             grid-template-columns: repeat(2, 1fr);
         }
 
@@ -308,7 +299,7 @@
             line-height: 1.4;
         }
 
-        .tense-marker {
+        .particle-marker {
             display: inline-block;
             background-color: #e8f4fd;
             padding: 4px 8px;
@@ -318,18 +309,18 @@
             margin: 0 2px;
         }
 
-        /* Tense-specific styling */
-        .present-card .tense-marker {
+        /* Particle-specific styling */
+        .topic-card .particle-marker {
             background-color: #e8f6f3;
             color: #27ae60;
         }
 
-        .past-card .tense-marker {
+        .subject-card .particle-marker {
             background-color: #fdedec;
             color: #c0392b;
         }
 
-        .future-card .tense-marker {
+        .object-card .particle-marker {
             background-color: #f4ecf7;
             color: #8e44ad;
         }
@@ -354,12 +345,39 @@
             height: 250px;
         }
 
+        /* Status indicator */
+        .status {
+            text-align: center;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+
+        .status.processing {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .status.playing {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
         @media (min-width: 992px) {
             .cards {
                 grid-template-columns: repeat(3, 1fr);
             }
             
-            #present-grid, #past-grid, #future-grid {
+            #topic-grid, #subject-grid, #object-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
             
@@ -373,7 +391,7 @@
                 grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             }
             
-            #present-grid, #past-grid, #future-grid {
+            #topic-grid, #subject-grid, #object-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -395,7 +413,7 @@
                 grid-template-columns: 1fr;
             }
             
-            #present-grid, #past-grid, #future-grid {
+            #topic-grid, #subject-grid, #object-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -427,9 +445,7 @@
                 font-size: 0.9rem;
             }
 
-            .tts-controls {
-                flex-direction: column;
-            }
+         
             
             .korean-text {
                 font-size: 1.8rem;
@@ -466,8 +482,8 @@
 <body>
     <div class="main">
         <div class="header">
-            <h1><br>Korean Tense Markers</h1>
-            <p>Learn present, past, and future tense markers in Korean</p>
+            <h1><br>Korean Particle Markers</h1>
+            <p>Learn topic, subject, object, and other grammatical markers in Korean</p>
             <p>Draw in the white canvas area to practice writing</p>
             <p>Click on Korean text to hear pronunciation</p>
         </div>
@@ -476,37 +492,31 @@
             <div class="nav-content">
                 <a href="../../index.html" class="back-button">← Back to Main</a>
                 <nav id="navbar">
-                    <a class="active" href="#present">Present Tense</a>
-                    <a href="#past">Past Tense</a>
-                    <a href="#future">Future Tense</a>
+                    <a class="active" href="#topic">Topic Markers</a>
+                    <a href="#subject">Subject Markers</a>
+                    <a href="#object">Object Markers</a>
                     <a href="#sentences">Example Sentences</a>
                 </nav>
             </div>
         </div>
         
-        <div class="tts-controls">
-            <button id="tts-button" class="tts-button">
-                <span>🔊</span> Play All
-            </button>
-            <select id="voice-selector" class="voice-selector">
-                <option value="">Default Voice</option>
-            </select>
-        </div>
+        
+        <div id="status" class="status">Ready to convert text to speech</div>
         <p class="tts-info">Click on any Korean text to hear its pronunciation</p>
         
-        <section id="present">
-            <h2 class="section-title">Present Tense<br/>현재 시제</h2>
-            <ul class="cards" id="present-grid"></ul>
+        <section id="topic">
+            <h2 class="section-title">Topic Markers<br/>주제 표지사</h2>
+            <ul class="cards" id="topic-grid"></ul>
         </section>
 
-        <section id="past">
-            <h2 class="section-title">Past Tense<br/>과거 시제</h2>
-            <ul class="cards" id="past-grid"></ul>
+        <section id="subject">
+            <h2 class="section-title">Subject Markers<br/>주어 표지사</h2>
+            <ul class="cards" id="subject-grid"></ul>
         </section>
 
-        <section id="future">
-            <h2 class="section-title">Future Tense<br/>미래 시제</h2>
-            <ul class="cards" id="future-grid"></ul>
+        <section id="object">
+            <h2 class="section-title">Object Markers<br/>목적어 표지사</h2>
+            <ul class="cards" id="object-grid"></ul>
         </section>
 
         <section id="sentences">
@@ -517,225 +527,252 @@
 
     <script>
         const koreanContent = {
-            present: [
+            topic: [
                 { 
-                    korean: '아요/어요', 
-                    romanized: 'ayo/eoyo', 
-                    meaning: 'Present tense informal polite ending',
-                    usage: 'Used with verbs/adjectives',
-                    examples: '가다 → 가요, 먹다 → 먹어요'
+                    korean: '은/는', 
+                    romanized: 'eun/neun', 
+                    meaning: 'Topic markers',
+                    usage: '은 after consonants, 는 after vowels',
+                    examples: '사람은, 저는'
                 },
                 { 
-                    korean: 'ㅂ니다/습니다', 
-                    romanized: 'bnida/seumnida', 
-                    meaning: 'Present tense formal polite ending',
-                    usage: 'Used with verbs/adjectives',
-                    examples: '가다 → 갑니다, 먹다 → 먹습니다'
+                    korean: '도', 
+                    romanized: 'do', 
+                    meaning: 'Also/too marker',
+                    usage: 'Adds meaning of "also" or "too"',
+                    examples: '저도, 이것도'
                 },
                 { 
-                    korean: '는다/ㄴ다', 
-                    romanized: 'neunda/nda', 
-                    meaning: 'Present tense plain form',
-                    usage: 'Used in writing, informal speech',
-                    examples: '가다 → 간다, 먹다 → 먹는다'
+                    korean: '만', 
+                    romanized: 'man', 
+                    meaning: 'Only/just marker',
+                    usage: 'Indicates exclusivity',
+                    examples: '저만, 이것만'
                 },
                 { 
-                    korean: '는', 
-                    romanized: 'neun', 
-                    meaning: 'Present tense modifier',
-                    usage: 'Used to modify nouns',
-                    examples: '먹는 사람 (the person who eats)'
+                    korean: '부터', 
+                    romanized: 'buteo', 
+                    meaning: 'From/starting point marker',
+                    usage: 'Indicates starting point',
+                    examples: '여기부터, 지금부터'
                 },
                 { 
-                    korean: '고 있다', 
-                    romanized: 'go itda', 
-                    meaning: 'Present progressive',
-                    usage: 'Indicates ongoing action',
-                    examples: '먹고 있어요 (I am eating)'
+                    korean: '까지', 
+                    romanized: 'kkaji', 
+                    meaning: 'Until/up to marker',
+                    usage: 'Indicates ending point',
+                    examples: '거기까지, 내일까지'
                 },
                 { 
-                    korean: 'Present Tense Overview', 
-                    romanized: 'hyeonjae sijae', 
-                    meaning: 'Used for current actions, habits, and general truths',
+                    korean: 'Topic Markers Overview', 
+                    romanized: 'juje pyojisa', 
+                    meaning: 'Mark the topic of conversation, provide contrast, or add emphasis',
                     fullWidth: true 
                 }
             ],
-            past: [
+            subject: [
                 { 
-                    korean: '았어요/었어요', 
-                    romanized: 'asseoyo/eosseoyo', 
-                    meaning: 'Past tense informal polite ending',
-                    usage: 'Used with verbs/adjectives',
-                    examples: '가다 → 갔어요, 먹다 → 먹었어요'
+                    korean: '이/가', 
+                    romanized: 'i/ga', 
+                    meaning: 'Subject markers',
+                    usage: '이 after consonants, 가 after vowels',
+                    examples: '친구가, 선생님이'
                 },
                 { 
-                    korean: '았습니다/었습니다', 
-                    romanized: 'atseumnida/eotseumnida', 
-                    meaning: 'Past tense formal polite ending',
-                    usage: 'Used with verbs/adjectives',
-                    examples: '가다 → 갔습니다, 먹다 → 먹었습니다'
+                    korean: '께서', 
+                    romanized: 'kkeseo', 
+                    meaning: 'Honorific subject marker',
+                    usage: 'Used for respected people',
+                    examples: '할아버지께서, 선생님께서'
                 },
                 { 
-                    korean: '았다/었다', 
-                    romanized: 'atda/eotda', 
-                    meaning: 'Past tense plain form',
-                    usage: 'Used in writing, informal speech',
-                    examples: '가다 → 갔다, 먹다 → 먹었다'
-                },
-                { 
-                    korean: '은/ㄴ', 
-                    romanized: 'eun/n', 
-                    meaning: 'Past tense modifier',
-                    usage: 'Used to modify nouns',
-                    examples: '먹은 사과 (the apple that was eaten)'
-                },
-                { 
-                    korean: '고 있었다', 
-                    romanized: 'go isseotda', 
-                    meaning: 'Past progressive',
-                    usage: 'Indicates ongoing action in the past',
-                    examples: '먹고 있었어요 (I was eating)'
+                    korean: '에서', 
+                    romanized: 'eseo', 
+                    meaning: 'Location/group subject marker',
+                    usage: 'Indicates location or group as subject',
+                    examples: '학교에서, 우리 집에서'
                 }
             ],
-            future: [
+            object: [
                 { 
-                    korean: '겠어요', 
-                    romanized: 'gesseoyo', 
-                    meaning: 'Future tense informal polite ending',
-                    usage: 'Used with verbs/adjectives',
-                    examples: '가다 → 가겠어요, 먹다 → 먹겠어요'
+                    korean: '을/를', 
+                    romanized: 'eul/reul', 
+                    meaning: 'Object markers',
+                    usage: '을 after consonants, 를 after vowels',
+                    examples: '밥을, 책을'
                 },
                 { 
-                    korean: '겠습니다', 
-                    romanized: 'getseumnida', 
-                    meaning: 'Future tense formal polite ending',
-                    usage: 'Used with verbs/adjectives',
-                    examples: '가다 → 가겠습니다, 먹다 → 먹겠습니다'
+                    korean: '에게/한테', 
+                    romanized: 'ege/hante', 
+                    meaning: 'To/for someone markers',
+                    usage: '에게 more formal, 한테 more casual',
+                    examples: '친구에게, 엄마한테'
                 },
                 { 
-                    korean: 'ㄹ/을 것이다', 
-                    romanized: 'l/eul geosida', 
-                    meaning: 'Future tense (will do)',
-                    usage: 'Expresses intention or prediction',
-                    examples: '갈 것이다 (will go), 먹을 것이다 (will eat)'
-                },
-                { 
-                    korean: 'ㄹ/을게요', 
-                    romanized: 'l/eulgeyo', 
-                    meaning: 'Future tense (promise/decision)',
-                    usage: 'Expresses personal intention',
-                    examples: '갈게요 (I will go), 먹을게요 (I will eat)'
-                },
-                { 
-                    korean: 'ㄹ/을', 
-                    romanized: 'l/eul', 
-                    meaning: 'Future tense modifier',
-                    usage: 'Used to modify nouns',
-                    examples: '갈 사람 (the person who will go)'
+                    korean: '께', 
+                    romanized: 'kke', 
+                    meaning: 'Honorific "to" marker',
+                    usage: 'Used for respected people',
+                    examples: '선생님께, 아버지께'
                 }
             ],
             sentences: [
                 { 
-                    korean: '저는 한국어를 공부해요', 
-                    romanized: 'jeoneun hangugeoreul gongbuhaeyo', 
-                    meaning: 'I study Korean (present)',
-                    tense: 'present'
+                    korean: '저는 학생입니다', 
+                    romanized: 'jeoneun haksaengimnida', 
+                    meaning: 'I am a student (topic marker)',
+                    particle: 'topic'
                 },
                 { 
-                    korean: '어제 영화를 봤어요', 
-                    romanized: 'eoje yeonghwareul bwasseoyo', 
-                    meaning: 'I watched a movie yesterday (past)',
-                    tense: 'past'
+                    korean: '친구가 왔어요', 
+                    romanized: 'chinguga wasseoyo', 
+                    meaning: 'My friend came (subject marker)',
+                    particle: 'subject'
                 },
                 { 
-                    korean: '내일 친구를 만날 거예요', 
-                    romanized: 'naeil chingureul mannal geoyeyo', 
-                    meaning: 'I will meet my friend tomorrow (future)',
-                    tense: 'future'
+                    korean: '책을 읽어요', 
+                    romanized: 'chaegeul ilgeoyo', 
+                    meaning: 'I read a book (object marker)',
+                    particle: 'object'
                 },
                 { 
-                    korean: '지금 밥을 먹고 있어요', 
-                    romanized: 'jigeum babeul meokgo isseoyo', 
-                    meaning: 'I am eating now (present progressive)',
-                    tense: 'present'
+                    korean: '저도 한국어를 공부해요', 
+                    romanized: 'jeodo hangugeoreul gongbuhaeyo', 
+                    meaning: 'I also study Korean (also marker)',
+                    particle: 'topic'
                 },
                 { 
-                    korean: '어제는 비가 왔어요', 
-                    romanized: 'eoje-neun biga wasseoyo', 
-                    meaning: 'It rained yesterday (past)',
-                    tense: 'past'
+                    korean: '선생님께서 가르치세요', 
+                    romanized: 'seonsaengnimmkkeseo gareuchiseyo', 
+                    meaning: 'The teacher teaches (honorific subject)',
+                    particle: 'subject'
                 },
                 { 
-                    korean: '주말에 여행을 갈 거예요', 
-                    romanized: 'jumare yeohaengeul gal geoyeyo', 
-                    meaning: 'I will travel on the weekend (future)',
-                    tense: 'future'
+                    korean: '엄마한테 전화했어요', 
+                    romanized: 'eommahante jeonhwahaesseoyo', 
+                    meaning: 'I called mom (to someone marker)',
+                    particle: 'object'
                 },
                 { 
-                    korean: '한국 음식을 좋아해요', 
-                    romanized: 'hanguk eumsigeul joahaeyo', 
-                    meaning: 'I like Korean food (present)',
-                    tense: 'present'
+                    korean: '여기부터 시작해요', 
+                    romanized: 'yeogibuteo sijakaeyo', 
+                    meaning: 'Lets start from here (from marker)',
+                    particle: 'topic'
                 },
                 { 
-                    korean: '작년에 한국에 갔어요', 
-                    romanized: 'jangnyeone hanguge gasseoyo', 
-                    meaning: 'I went to Korea last year (past)',
-                    tense: 'past'
+                    korean: '내일까지 끝낼게요', 
+                    romanized: 'naeilkkaji kkeunnaelgeyo', 
+                    meaning: 'Ill finish by tomorrow (until marker)',
+                    particle: 'topic'
                 },
                 { 
-                    korean: '내년에 대학교에 들어갈 거예요', 
-                    romanized: 'naenyeone daehakgyoe deureogal geoyeyo', 
-                    meaning: 'I will enter university next year (future)',
-                    tense: 'future'
+                    korean: '이것만 사고 싶어요', 
+                    romanized: 'igeotman sago sipeoyo', 
+                    meaning: 'I only want to buy this (only marker)',
+                    particle: 'topic'
                 }
             ]
         };
 
-        let currentPlayingAudio = null;
-        let voices = [];
-        let selectedVoice = null;
+        let currentAudio = null;
 
-        function loadVoices() {
-            voices = speechSynthesis.getVoices();
-            const voiceSelector = document.getElementById('voice-selector');
-            voiceSelector.innerHTML = '<option value="">Default Voice</option>';
-            
-            // Filter for Korean voices
-            const koreanVoices = voices.filter(voice => 
-                voice.lang.startsWith('ko') || voice.lang.includes('Korean')
-            );
-            
-            koreanVoices.forEach(voice => {
-                const option = document.createElement('option');
-                option.value = voice.name;
-                option.textContent = `${voice.name} (${voice.lang})`;
-                voiceSelector.appendChild(option);
-                
-                // Prefer Korean voices
-                if (voice.lang.startsWith('ko')) {
-                    selectedVoice = voice;
-                    option.selected = true;
-                }
-            });
-            
-            // If no Korean voice found, use any available voice
-            if (!selectedVoice && voices.length > 0) {
-                selectedVoice = voices[0];
+        // Update status display
+        function updateStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = 'status';
+            if (type) {
+                statusDiv.classList.add(type);
             }
         }
 
-        if (speechSynthesis.onvoiceschanged !== undefined) {
-            speechSynthesis.onvoiceschanged = loadVoices;
-        }
+        // Text-to-Speech functionality using OpenAI TTS
+        const speakKorean = async (text) => {
+            // Stop any currently playing audio
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            
+            // Remove "/" characters to prevent them from being read aloud
+            const cleanText = text.replace(/\//g, ' ');
+            
+            updateStatus('Converting text to speech...', 'processing');
+            
+            try {
+                const audio = await puter.ai.txt2speech(cleanText, {
+                    provider: 'openai',
+                    voice: 'fable',
+                    model: 'gpt-4o-mini-tts',
+                    response_format: 'mp3'
+                });
+                
+                updateStatus(`Playing audio with OpenAI TTS`, 'playing');
+                
+                currentAudio = audio;
+                await audio.play();
+                
+                // Reset status when audio finishes
+                audio.addEventListener('ended', () => {
+                    updateStatus('Ready to convert text to speech', '');
+                    currentAudio = null;
+                });
+                
+                audio.addEventListener('error', (e) => {
+                    updateStatus('Error playing audio', 'error');
+                    console.error('Audio playback error:', e);
+                    currentAudio = null;
+                });
+                
+            } catch (error) {
+                updateStatus(`Error: ${error.message}`, 'error');
+                console.error('TTS Error:', error);
+                
+                // Fallback to browser TTS if OpenAI fails
+                fallbackTTS(cleanText);
+            }
+        };
+
+        // Fallback to browser TTS if OpenAI fails
+        const fallbackTTS = (text) => {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ko-KR';
+                utterance.rate = 0.6;
+                utterance.pitch = 1;
+                utterance.volume = 1;
+                
+                const voices = speechSynthesis.getVoices();
+                const koreanVoice = voices.find(voice => voice.lang.includes('ko'));
+                if (koreanVoice) {
+                    utterance.voice = koreanVoice;
+                }
+                
+                speechSynthesis.speak(utterance);
+                updateStatus('Playing with browser TTS (fallback)', 'playing');
+                
+                utterance.onend = () => {
+                    updateStatus('Ready to convert text to speech', '');
+                };
+                
+                utterance.onerror = () => {
+                    updateStatus('Error with browser TTS', 'error');
+                };
+            } else {
+                console.log('Speech synthesis not supported');
+                updateStatus('Speech synthesis not supported', 'error');
+            }
+        };
 
         function createCard(koreanData, index, section) {
             const isSentence = section === 'sentences';
             const cardClass = isSentence ? 'card sentence-card' : 'card';
             const fullWidthClass = koreanData.fullWidth ? 'full-width-card' : '';
-            const tenseClass = koreanData.tense ? `${koreanData.tense}-card` : '';
+            const particleClass = koreanData.particle ? `${koreanData.particle}-card` : '';
             
-            // Format the meaning with tense markers highlighted
+            // Format the meaning with particle markers highlighted
             let formattedMeaning = koreanData.meaning;
             if (koreanData.usage) {
                 formattedMeaning += `<br/><small>Usage: ${koreanData.usage}</small>`;
@@ -746,7 +783,7 @@
             
             return `
                 <li class="cards_item ${fullWidthClass}">
-                    <div class="${cardClass} ${tenseClass}">
+                    <div class="${cardClass} ${particleClass}">
                         <div class="sketch">
                             <canvas class="paint" width="300" height="200" data-index="${index}"></canvas>
                             <button class="erase-button" data-canvas-index="${index}">Erase</button>
@@ -761,15 +798,15 @@
         }
 
         function generateCards() {
-            const presentGrid = document.getElementById('present-grid');
-            const pastGrid = document.getElementById('past-grid');
-            const futureGrid = document.getElementById('future-grid');
+            const topicGrid = document.getElementById('topic-grid');
+            const subjectGrid = document.getElementById('subject-grid');
+            const objectGrid = document.getElementById('object-grid');
             const sentencesGrid = document.getElementById('sentences-grid');
             
             let index = 0;
-            presentGrid.innerHTML = koreanContent.present.map(item => createCard(item, index++, 'present')).join('');
-            pastGrid.innerHTML = koreanContent.past.map(item => createCard(item, index++, 'past')).join('');
-            futureGrid.innerHTML = koreanContent.future.map(item => createCard(item, index++, 'future')).join('');
+            topicGrid.innerHTML = koreanContent.topic.map(item => createCard(item, index++, 'topic')).join('');
+            subjectGrid.innerHTML = koreanContent.subject.map(item => createCard(item, index++, 'subject')).join('');
+            objectGrid.innerHTML = koreanContent.object.map(item => createCard(item, index++, 'object')).join('');
             sentencesGrid.innerHTML = koreanContent.sentences.map(item => createCard(item, index++, 'sentences')).join('');
             
             addAudioEventListeners();
@@ -777,36 +814,11 @@
             addEraseButtonListeners();
         }
 
-        function speakKorean(korean, romanized) {
-            if (speechSynthesis.speaking) {
-                speechSynthesis.cancel();
-            }
-            
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(korean);
-                utterance.lang = 'ko-KR';
-                utterance.rate = 0.8;
-                
-                if (selectedVoice) {
-                    utterance.voice = selectedVoice;
-                }
-                
-                utterance.onend = function() {
-                    document.getElementById('tts-button').disabled = false;
-                };
-                
-                speechSynthesis.speak(utterance);
-            } else {
-                console.warn('Text-to-speech not supported in this browser.');
-            }
-        }
-
         function addAudioEventListeners() {
             document.querySelectorAll('.korean-text').forEach(textElement => {
                 textElement.addEventListener('click', function() {
                     const korean = this.getAttribute('data-korean');
-                    const romanized = this.getAttribute('data-romanized');
-                    speakKorean(korean, romanized);
+                    speakKorean(korean);
                 });
             });
         }
@@ -815,13 +827,13 @@
             const ttsButton = document.getElementById('tts-button');
             ttsButton.disabled = true;
             
-            const allItems = [...koreanContent.present, ...koreanContent.past, ...koreanContent.future, ...koreanContent.sentences];
+            const allItems = [...koreanContent.topic, ...koreanContent.subject, ...koreanContent.object, ...koreanContent.sentences];
             let index = 0;
             
             function speakNext() {
                 if (index < allItems.length) {
                     const koreanData = allItems[index];
-                    speakKorean(koreanData.korean, koreanData.romanized);
+                    speakKorean(koreanData.korean);
                     
                     const koreanElements = document.querySelectorAll('.korean-text');
                     koreanElements.forEach(el => el.style.backgroundColor = '');
@@ -834,10 +846,14 @@
                         currentElement.style.backgroundColor = '#e8f5e9';
                     }
                     
-                    speechSynthesis.onend = function() {
-                        index++;
-                        setTimeout(speakNext, 500);
-                    };
+                    // Wait for audio to finish before playing next
+                    const checkAudioEnded = setInterval(() => {
+                        if (!currentAudio) {
+                            clearInterval(checkAudioEnded);
+                            index++;
+                            setTimeout(speakNext, 500);
+                        }
+                    }, 100);
                 } else {
                     ttsButton.disabled = false;
                     document.querySelectorAll('.korean-text').forEach(el => {
@@ -1001,18 +1017,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             generateCards();
             initializeCanvasContexts();
-            loadVoices();
             
             document.getElementById('tts-button').addEventListener('click', playAllKorean);
-            
-            document.getElementById('voice-selector').addEventListener('change', function() {
-                const voiceName = this.value;
-                if (voiceName) {
-                    selectedVoice = voices.find(voice => voice.name === voiceName);
-                } else {
-                    selectedVoice = null;
-                }
-            });
         });
 
         // Reinitialize canvas contexts on window resize

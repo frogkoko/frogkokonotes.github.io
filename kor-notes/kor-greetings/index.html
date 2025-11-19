@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Korean Greetings & Self-Introduction</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://js.puter.com/v2/"></script>
     <style>
         * {
             margin: 0;
@@ -328,6 +329,33 @@
             height: 250px;
         }
 
+        /* Status indicator */
+        .status {
+            text-align: center;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+
+        .status.processing {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .status.playing {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
         @media (min-width: 992px) {
             .cards {
                 grid-template-columns: repeat(3, 1fr);
@@ -466,6 +494,7 @@
                 <option value="">Default Voice</option>
             </select>
         </div>
+        <div id="status" class="status">Ready to convert text to speech</div>
         <p class="tts-info">Click on any Korean text to hear its pronunciation</p>
         
         <section id="basic">
@@ -663,42 +692,97 @@
             ]
         };
 
-        let currentPlayingAudio = null;
-        let voices = [];
-        let selectedVoice = null;
+        let currentAudio = null;
 
-        function loadVoices() {
-            voices = speechSynthesis.getVoices();
-            const voiceSelector = document.getElementById('voice-selector');
-            voiceSelector.innerHTML = '<option value="">Default Voice</option>';
-            
-            // Filter for Korean voices
-            const koreanVoices = voices.filter(voice => 
-                voice.lang.startsWith('ko') || voice.lang.includes('Korean')
-            );
-            
-            koreanVoices.forEach(voice => {
-                const option = document.createElement('option');
-                option.value = voice.name;
-                option.textContent = `${voice.name} (${voice.lang})`;
-                voiceSelector.appendChild(option);
-                
-                // Prefer Korean voices
-                if (voice.lang.startsWith('ko')) {
-                    selectedVoice = voice;
-                    option.selected = true;
-                }
-            });
-            
-            // If no Korean voice found, use any available voice
-            if (!selectedVoice && voices.length > 0) {
-                selectedVoice = voices[0];
+        // Update status display
+        function updateStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = 'status';
+            if (type) {
+                statusDiv.classList.add(type);
             }
         }
 
-        if (speechSynthesis.onvoiceschanged !== undefined) {
-            speechSynthesis.onvoiceschanged = loadVoices;
-        }
+        // Text-to-Speech functionality using OpenAI TTS
+        const speakKorean = async (text) => {
+            // Stop any currently playing audio
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            
+            // Clean text for TTS
+            const cleanText = text.replace(/\[.*?\]/g, '').replace(/\//g, ' ');
+            
+            updateStatus('Converting text to speech...', 'processing');
+            
+            try {
+                const audio = await puter.ai.txt2speech(cleanText, {
+                    provider: 'openai',
+                    voice: 'fable',
+                    model: 'gpt-4o-mini-tts',
+                    response_format: 'mp3'
+                });
+                
+                updateStatus(`Playing audio with OpenAI TTS`, 'playing');
+                
+                currentAudio = audio;
+                await audio.play();
+                
+                // Reset status when audio finishes
+                audio.addEventListener('ended', () => {
+                    updateStatus('Ready to convert text to speech', '');
+                    currentAudio = null;
+                });
+                
+                audio.addEventListener('error', (e) => {
+                    updateStatus('Error playing audio', 'error');
+                    console.error('Audio playback error:', e);
+                    currentAudio = null;
+                });
+                
+            } catch (error) {
+                updateStatus(`Error: ${error.message}`, 'error');
+                console.error('TTS Error:', error);
+                
+                // Fallback to browser TTS if OpenAI fails
+                fallbackTTS(cleanText);
+            }
+        };
+
+        // Fallback to browser TTS if OpenAI fails
+        const fallbackTTS = (text) => {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ko-KR';
+                utterance.rate = 0.6;
+                utterance.pitch = 1;
+                utterance.volume = 1;
+                
+                const voices = speechSynthesis.getVoices();
+                const koreanVoice = voices.find(voice => voice.lang.includes('ko'));
+                if (koreanVoice) {
+                    utterance.voice = koreanVoice;
+                }
+                
+                speechSynthesis.speak(utterance);
+                updateStatus('Playing with browser TTS (fallback)', 'playing');
+                
+                utterance.onend = () => {
+                    updateStatus('Ready to convert text to speech', '');
+                };
+                
+                utterance.onerror = () => {
+                    updateStatus('Error with browser TTS', 'error');
+                };
+            } else {
+                console.log('Speech synthesis not supported');
+                updateStatus('Speech synthesis not supported', 'error');
+            }
+        };
 
         function createCard(koreanData, index, section) {
             const isConversation = section === 'conversation';
@@ -750,36 +834,11 @@
             addEraseButtonListeners();
         }
 
-        function speakKorean(korean, romanized) {
-            if (speechSynthesis.speaking) {
-                speechSynthesis.cancel();
-            }
-            
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(korean);
-                utterance.lang = 'ko-KR';
-                utterance.rate = 0.8;
-                
-                if (selectedVoice) {
-                    utterance.voice = selectedVoice;
-                }
-                
-                utterance.onend = function() {
-                    document.getElementById('tts-button').disabled = false;
-                };
-                
-                speechSynthesis.speak(utterance);
-            } else {
-                console.warn('Text-to-speech not supported in this browser.');
-            }
-        }
-
         function addAudioEventListeners() {
             document.querySelectorAll('.korean-text').forEach(textElement => {
                 textElement.addEventListener('click', function() {
                     const korean = this.getAttribute('data-korean');
-                    const romanized = this.getAttribute('data-romanized');
-                    speakKorean(korean, romanized);
+                    speakKorean(korean);
                 });
             });
         }
@@ -794,7 +853,7 @@
             function speakNext() {
                 if (index < allItems.length) {
                     const koreanData = allItems[index];
-                    speakKorean(koreanData.korean, koreanData.romanized);
+                    speakKorean(koreanData.korean);
                     
                     const koreanElements = document.querySelectorAll('.korean-text');
                     koreanElements.forEach(el => el.style.backgroundColor = '');
@@ -807,10 +866,14 @@
                         currentElement.style.backgroundColor = '#e8f5e9';
                     }
                     
-                    speechSynthesis.onend = function() {
-                        index++;
-                        setTimeout(speakNext, 500);
-                    };
+                    // Wait for audio to finish before playing next
+                    const checkAudioEnded = setInterval(() => {
+                        if (!currentAudio) {
+                            clearInterval(checkAudioEnded);
+                            index++;
+                            setTimeout(speakNext, 500);
+                        }
+                    }, 100);
                 } else {
                     ttsButton.disabled = false;
                     document.querySelectorAll('.korean-text').forEach(el => {
@@ -974,18 +1037,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             generateCards();
             initializeCanvasContexts();
-            loadVoices();
             
             document.getElementById('tts-button').addEventListener('click', playAllKorean);
-            
-            document.getElementById('voice-selector').addEventListener('change', function() {
-                const voiceName = this.value;
-                if (voiceName) {
-                    selectedVoice = voices.find(voice => voice.name === voiceName);
-                } else {
-                    selectedVoice = null;
-                }
-            });
         });
 
         // Reinitialize canvas contexts on window resize
