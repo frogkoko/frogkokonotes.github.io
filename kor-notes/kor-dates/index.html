@@ -374,6 +374,21 @@
             color: #2e7d32;
         }
 
+        .status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            background: rgba(39, 39, 62, 0.5);
+            text-align: center;
+            font-weight: 500;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
         footer {
             text-align: center;
             padding: 20px;
@@ -465,7 +480,7 @@
         <section class="date-learner">
             <h2>Korean Date Converter</h2>
             <div class="tts-info">
-                💡 Hover over or click Korean text to hear pronunciation!
+                💡 Click on Korean text to hear pronunciation using OpenAI TTS with Fable voice!
             </div>
             <div class="date-inputs">
                 <div class="date-input-group">
@@ -513,6 +528,7 @@
                 <p>Pronunciation: <span id="pronunciationOutput">sam-wol gu-il</span></p>
                 <p class="system-note" id="systemNote"></p>
             </div>
+            <div id="status" class="status">Ready to convert text to speech</div>
         </section>
 
         <section class="date-drawer">
@@ -546,6 +562,7 @@
         </section>
     </main>
 
+    <script src="https://js.puter.com/v2/"></script>
     <script>
         // Back button functionality
         function goBack() {
@@ -566,6 +583,7 @@
             const ordinalsTab = document.getElementById('ordinalsTab');
             const questionsTab = document.getElementById('questionsTab');
             const datesTable = document.getElementById('datesTable');
+            const statusDiv = document.getElementById('status');
 
             const canvas = document.getElementById('drawingCanvas');
             const ctx = canvas.getContext('2d');
@@ -576,34 +594,57 @@
             let isDrawing = false;
             let lastX = 0;
             let lastY = 0;
+            let currentAudio = null;
 
-            // Text-to-Speech functionality
-            const speakKorean = (text) => {
-                if ('speechSynthesis' in window) {
-                    speechSynthesis.cancel();
+            // Text-to-Speech functionality using OpenAI TTS
+            const speakKorean = async (text) => {
+                // Stop any currently playing audio
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio = null;
+                }
+                
+                updateStatus('Converting text to speech...', 'processing');
+                
+                try {
+                    const audio = await puter.ai.txt2speech(text, {
+                        provider: 'openai',
+                        voice: 'fable',
+                        model: 'gpt-4o-mini-tts',
+                        response_format: 'mp3'
+                    });
                     
-                    const utterance = new SpeechSynthesisUtterance(text);
-                    utterance.lang = 'ko-KR';
-                    utterance.rate = 0.7;
-                    utterance.pitch = 1;
-                    utterance.volume = 1;
+                    updateStatus(`Playing audio with OpenAI TTS`, 'playing');
                     
-                    const voices = speechSynthesis.getVoices();
-                    const koreanVoice = voices.find(voice => voice.lang.includes('ko'));
-                    if (koreanVoice) {
-                        utterance.voice = koreanVoice;
-                    }
+                    currentAudio = audio;
+                    await audio.play();
                     
-                    speechSynthesis.speak(utterance);
-                } else {
-                    console.log('Speech synthesis not supported');
+                    // Reset status when audio finishes
+                    audio.addEventListener('ended', () => {
+                        updateStatus('Ready to convert text to speech', '');
+                        currentAudio = null;
+                    });
+                    
+                    audio.addEventListener('error', (e) => {
+                        updateStatus('Error playing audio', 'error');
+                        console.error('Audio playback error:', e);
+                        currentAudio = null;
+                    });
+                    
+                } catch (error) {
+                    updateStatus(`Error: ${error.message}`, 'error');
+                    console.error('TTS Error:', error);
                 }
             };
 
-            // Load voices when they become available
-            speechSynthesis.onvoiceschanged = () => {
-                // Voices are now loaded
-            };
+            // Update status display
+            function updateStatus(message, type) {
+                statusDiv.textContent = message;
+                statusDiv.className = 'status';
+                if (type) {
+                    statusDiv.classList.add(type);
+                }
+            }
 
             // Korean months (1월 to 12월)
             const koreanMonths = {
@@ -774,10 +815,9 @@
                             <tr onclick="selectMonthFromTable(${i})" data-month="${i}">
                                 <td>${item.meaning}</td>
                                 <td class="korean-text"
-                                    onclick="event.stopPropagation(); speakKoreanText('${item.han}', '${item.pron}')"
+                                    onclick="event.stopPropagation(); speakKoreanText('${item.han}')"
                                     title="Click to hear pronunciation"
-                                    data-korean="${item.han}"
-                                    data-pronunciation="${item.pron}">
+                                    data-korean="${item.han}">
                                     ${item.han}
                                 </td>
                                 <td>${item.pron}</td>
@@ -791,10 +831,9 @@
                             <tr onclick="selectWeekdayFromTable(${i})" data-weekday="${i}">
                                 <td>${item.meaning}</td>
                                 <td class="korean-text"
-                                    onclick="event.stopPropagation(); speakKoreanText('${item.han}', '${item.pron}')"
+                                    onclick="event.stopPropagation(); speakKoreanText('${item.han}')"
                                     title="Click to hear pronunciation"
-                                    data-korean="${item.han}"
-                                    data-pronunciation="${item.pron}">
+                                    data-korean="${item.han}">
                                     ${item.han}
                                 </td>
                                 <td>${item.pron}</td>
@@ -810,10 +849,9 @@
                             <tr onclick="selectDayFromTable(${day})" data-day="${day}">
                                 <td>${item.meaning}</td>
                                 <td class="korean-text"
-                                    onclick="event.stopPropagation(); speakKoreanText('${item.han}', '${item.pron}')"
+                                    onclick="event.stopPropagation(); speakKoreanText('${item.han}')"
                                     title="Click to hear pronunciation"
-                                    data-korean="${item.han}"
-                                    data-pronunciation="${item.pron}">
+                                    data-korean="${item.han}">
                                     ${item.han}
                                 </td>
                                 <td>${item.pron}</td>
@@ -826,10 +864,9 @@
                             <tr>
                                 <td>${item.meaning}</td>
                                 <td class="korean-text"
-                                    onclick="speakKoreanText('${item.han}', '${item.pron}')"
+                                    onclick="speakKoreanText('${item.han}')"
                                     title="Click to hear pronunciation"
-                                    data-korean="${item.han}"
-                                    data-pronunciation="${item.pron}">
+                                    data-korean="${item.han}">
                                     ${item.han}
                                 </td>
                                 <td>${item.pron}</td>
@@ -894,7 +931,7 @@
                 }
             };
 
-            window.speakKoreanText = (korean, pronunciation) => {
+            window.speakKoreanText = (korean) => {
                 speakKorean(korean);
             };
 
@@ -905,24 +942,11 @@
             nextButton.addEventListener('click', () => navigateDay(1));
             prevButton.addEventListener('click', () => navigateDay(-1));
             
-            // Add TTS functionality to Korean output
+            // Add TTS functionality to Korean output - CLICK ONLY, no hover
             koreanOutput.addEventListener('click', () => {
                 const korean = koreanOutput.dataset.korean;
                 if (korean) {
                     speakKorean(korean);
-                }
-            });
-
-            // Also add hover functionality for Korean output
-            koreanOutput.addEventListener('mouseenter', () => {
-                const korean = koreanOutput.dataset.korean;
-                if (korean) {
-                    // Small delay to prevent accidental triggers
-                    setTimeout(() => {
-                        if (koreanOutput.matches(':hover')) {
-                            speakKorean(korean);
-                        }
-                    }, 500);
                 }
             });
 

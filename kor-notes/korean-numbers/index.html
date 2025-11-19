@@ -3,552 +3,679 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learn Korean Numbers</title>
-      <style>
-        :root {
-            --accent1: #B31942; /* Red */
-            --accent2: #0A3161; /* Blue */
-            --accent3: #FFFFFF; /* White */
-            --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
-            
-            --background-color: #0a0a0a;
-            --text-color: #ffffff;
-            --primary-color: var(--accent1);
-            --secondary-color: #cccccc;
-            --tertiary-color: #888;
-            --border-color: #333;
-            --card-background: rgba(26, 26, 26, 0.8);
-            --nav-background: rgba(10, 10, 10, 0.9);
-            --header-background: rgba(10, 10, 10, 0.9);
-        }
-
-        .light-mode {
-            --background-color: #f5f5f5;
-            --text-color: #000000;
-            --primary-color: var(--accent1);
-            --secondary-color: #333333;
-            --tertiary-color: #666666;
-            --border-color: #dddddd;
-            --card-background: #ffffff;
-            --nav-background: rgba(255, 255, 255, 0.9);
-            --header-background: rgba(255, 255, 255, 0.9);
-        }
-
-        /* Back Button Styles */
-        .back-button {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: var(--accent2);
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 1001;
-            border: 2px solid var(--accent1);
-        }
-
-        .back-button:hover {
-            background: var(--accent1);
-            transform: translateY(-2px);
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    <title>Learn Korean Numbers with OpenAI TTS</title>
+    <style>
+        * {
             margin: 0;
             padding: 0;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
+        :root {
+            --bg-primary: #0f0f23;
+            --bg-secondary: #1a1a2e;
+            --bg-tertiary: #16213e;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a5b4cb;
+            --accent-primary: #6d28d9;
+            --accent-secondary: #ec4899;
+            --success: #10b981;
+            --warning: #fbbf24;
+            --error: #ef4444;
+        }
+        
+        body.light-mode {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #e2e8f0;
+            --bg-tertiary: #cbd5e1;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --accent-primary: #6d28d9;
+            --accent-secondary: #ec4899;
+            --success: #059669;
+            --warning: #d97706;
+            --error: #dc2626;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary), var(--bg-tertiary));
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(30, 30, 46, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+        
+        body.light-mode .container {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
         header {
-            color: white;
-            padding: 1rem 0;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
             position: relative;
         }
-
+        
+        h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(109, 40, 217, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.8;
+            color: var(--text-secondary);
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: var(--accent-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .back-button:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-2px);
+        }
+        
         .mode-toggle {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            cursor: pointer;
-            font-size: 1.5rem;
-            z-index: 1001;
-        }
-
-        main {
+            top: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            padding: 20px;
-            max-width: 1400px;
-            margin: 20px auto;
-            background-color: var(--card-background);
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        section {
-            background-color: var(--card-background);
-            padding: 25px;
-            margin: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            flex: 1;
-            min-width: 300px;
-            border: 2px solid var(--border-color);
-        }
-
-        .number-learner,
-        .number-drawer,
-        .number-table {
-            border: 1px solid var(--border-color);
-        }
-
-        .number-table {
-            flex-basis: 100%;
-            max-width: 100%;
-        }
-
-        h1,
-        h2 {
-            color: var(--text-color);
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .input-section,
-        .output-section {
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .navigation-buttons {
-            display: flex;
-            gap: 10px;
+            align-items: center;
             justify-content: center;
-            margin-top: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-
-        input[type="number"],
-        select {
-            padding: 10px;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            width: calc(100% - 120px);
-            max-width: 150px;
-            margin-right: 10px;
-            margin-bottom: 10px;
-            background-color: var(--card-background);
-            color: var(--text-color);
-        }
-
-        button {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-            border: 1px solid var(--accent2);
-        }
-
-        button:hover {
-            opacity: 0.9;
-        }
-
-        button:disabled {
-            background-color: var(--tertiary-color);
-            cursor: not-allowed;
-        }
-
-        .next-button {
-            background-color: var(--accent2);
-        }
-
-        .next-button:hover {
-            background-color: #1a4a8a;
-        }
-
-        .prev-button {
-            background-color: var(--accent1);
-        }
-
-        .prev-button:hover {
-            background-color: #d42a5a;
-        }
-
-        #koreanOutput {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: var(--primary-color);
-            display: block;
-            margin-top: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
-            padding: 10px;
-            border-radius: 5px;
-            position: relative;
         }
-
-        #koreanOutput:hover {
-            background-color: rgba(179, 25, 66, 0.1);
-            transform: scale(1.05);
-            box-shadow: 0 2px 8px rgba(179, 25, 66, 0.3);
+        
+        .mode-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
         }
-
-        #koreanOutput::after {
-            content: '🔊';
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            font-size: 0.5em;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        
+        main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
         }
-
-        #koreanOutput:hover::after {
-            opacity: 1;
+        
+        section {
+            background: rgba(39, 39, 62, 0.5);
+            border-radius: 15px;
+            padding: 1.25rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
         }
-
-        #pronunciationOutput {
-            font-size: 1.2em;
-            color: var(--tertiary-color);
-            font-style: italic;
+        
+        body.light-mode section {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
-
-        .system-note {
-            font-size: 0.9em;
-            color: var(--tertiary-color);
-            margin-top: 10px;
+        
+        .number-learner {
+            grid-column: 1 / 3;
         }
-
+        
         .number-drawer {
+            grid-column: 1 / 2;
+        }
+        
+        .number-table {
+            grid-column: 2 / 3;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .tts-info {
+            background: rgba(59, 130, 246, 0.2);
+            border-radius: 8px;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .input-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            align-items: end;
+            margin-bottom: 1.5rem;
+        }
+        
+        .input-group {
             display: flex;
             flex-direction: column;
-            align-items: center;
         }
-
-        #drawingCanvas {
-            border: 2px solid var(--primary-color);
-            border-radius: 8px;
-            background-color: white;
-            cursor: crosshair;
-            margin-top: 15px;
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
-
-        .canvas-controls {
-            margin-top: 15px;
+        
+        input, select, button {
+            padding: 0.8rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(31, 41, 55, 0.8);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        body.light-mode input, 
+        body.light-mode select, 
+        body.light-mode button {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            color: var(--text-primary);
+        }
+        
+        input:focus, select:focus, button:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.2);
+        }
+        
+        button {
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
             display: flex;
-            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        button:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        body.light-mode button:disabled {
+            background: rgba(0, 0, 0, 0.1);
+            color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .navigation-buttons button {
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .output-section {
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 10px;
+            padding: 1.25rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            margin-bottom: 1.5rem;
+        }
+        
+        .output-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            word-break: break-word;
+        }
+        
+        #koreanOutput {
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            word-break: break-word;
+        }
+        
+        #koreanOutput:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        body.light-mode #koreanOutput:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        
+        .system-note {
+            margin-top: 1rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .canvas-container {
+            position: relative;
+            width: 100%;
+        }
+        
+        canvas {
+            width: 100%;
+            height: 300px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            cursor: crosshair;
+            display: block;
+            touch-action: none; /* Prevent scrolling on touch devices */
+        }
+        
+        body.light-mode canvas {
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .canvas-controls {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
             align-items: center;
             flex-wrap: wrap;
-            justify-content: center;
         }
-
+        
         .canvas-controls label {
             margin-bottom: 0;
-            display: inline-block;
+            font-size: 0.85rem;
+            white-space: nowrap;
         }
-
-        .canvas-controls input[type="color"],
+        
+        .canvas-controls input[type="color"] {
+            width: 40px;
+            height: 35px;
+            padding: 0;
+            border: none;
+            flex-shrink: 0;
+        }
+        
         .canvas-controls input[type="range"] {
-            padding: 5px;
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
+            flex: 1;
+            min-width: 80px;
         }
-
-        .table-container {
-            overflow-x: auto;
-            margin-top: 20px;
-        }
-
-        .numbers-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        .numbers-table th,
-        .numbers-table td {
-            border: 1px solid var(--border-color);
-            padding: 8px;
-            text-align: center;
-        }
-
-        .numbers-table th {
-            background-color: var(--nav-background);
-            font-weight: bold;
-        }
-
-        .numbers-table tr:nth-child(even) {
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .light-mode .numbers-table tr:nth-child(even) {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
-
-        .numbers-table tr:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            cursor: pointer;
-        }
-
-        .light-mode .numbers-table tr:hover {
-            background-color: rgba(0, 0, 0, 0.1);
-        }
-
-        .korean-text {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: var(--primary-color);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 5px;
-            border-radius: 3px;
-            position: relative;
-        }
-
-        .korean-text:hover {
-            background-color: rgba(179, 25, 66, 0.1);
-            transform: scale(1.1);
-            box-shadow: 0 2px 5px rgba(179, 25, 66, 0.3);
-        }
-
-        .korean-text::after {
-            content: '🔊';
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            font-size: 0.7em;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .korean-text:hover::after {
-            opacity: 1;
-        }
-
+        
         .table-tabs {
             display: flex;
-            gap: 5px;
-            margin-bottom: 15px;
-            justify-content: center;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-x: auto;
         }
-
+        
+        body.light-mode .table-tabs {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
         .tab-button {
-            padding: 10px 20px;
-            background-color: var(--nav-background);
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-            border-radius: 4px 4px 0 0;
-            transition: background-color 0.3s ease;
+            background: none;
+            border: none;
+            padding: 0.7rem 1rem;
+            border-radius: 8px 8px 0 0;
+            color: var(--text-secondary);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 0.9rem;
         }
-
+        
         .tab-button.active {
-            background-color: var(--primary-color);
-            color: white;
-            border-bottom: 1px solid var(--primary-color);
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--accent-primary);
         }
-
-        .tab-button:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+        
+        .table-container {
+            max-height: 350px;
+            overflow-y: auto;
         }
-
-        .light-mode .tab-button:hover {
-            background-color: rgba(0, 0, 0, 0.1);
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
         }
-
-        .tab-button.active:hover {
-            background-color: var(--primary-color);
+        
+        th, td {
+            padding: 0.7rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            word-break: break-word;
         }
-
-        .tts-info {
-            background-color: rgba(179, 25, 66, 0.1);
-            padding: 10px;
+        
+        body.light-mode th, 
+        body.light-mode td {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        th {
+            background: rgba(59, 130, 246, 0.1);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            font-size: 0.85rem;
+        }
+        
+        tr {
+            transition: all 0.3s ease;
+        }
+        
+        tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        body.light-mode tr:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        
+        .korean-text {
+            cursor: pointer;
+            padding: 0.3rem 0.5rem;
             border-radius: 5px;
-            margin-bottom: 15px;
-            font-size: 0.9em;
+            transition: all 0.3s ease;
+            word-break: keep-all;
+        }
+        
+        .korean-text:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+        
+        .status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            background: rgba(39, 39, 62, 0.5);
             text-align: center;
-            color: var(--primary-color);
-            border: 1px solid rgba(179, 25, 66, 0.3);
+            font-weight: 500;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
         }
-
-        .light-mode .tts-info {
-            background-color: rgba(10, 49, 97, 0.1);
-            color: var(--accent2);
-            border: 1px solid rgba(10, 49, 97, 0.3);
+        
+        body.light-mode .status {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 30px;
-            background-color: var(--header-background);
-            color: var(--text-color);
-            font-size: 0.9em;
+        
+        .status.playing {
+            background: rgba(16, 185, 129, 0.2);
+            color: #a7f3d0;
+            border-color: rgba(16, 185, 129, 0.3);
         }
-
-        /* Fixed dark mode for examples in thousands section */
-        .examples-header {
-            background-color: rgba(10, 49, 97, 0.2);
-            font-weight: bold;
-            text-align: center;
+        
+        .status.processing {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fde68a;
+            border-color: rgba(245, 158, 11, 0.3);
         }
-
-        .light-mode .examples-header {
-            background-color: rgba(10, 49, 97, 0.1);
+        
+        .status.error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fecaca;
+            border-color: rgba(239, 68, 68, 0.3);
         }
-
-        .examples-row {
-            background-color: rgba(10, 49, 97, 0.1);
-        }
-
-        .light-mode .examples-row {
-            background-color: rgba(10, 49, 97, 0.05);
-        }
-
-        /* Section-specific color schemes */
-        #consonants .section-title,
-        #consonants .korean-char:hover {
-            color: var(--accent1);
-        }
-
-        #double-consonants .section-title,
-        #double-consonants .korean-char:hover {
-            color: var(--accent2);
-        }
-
-        #vowels .section-title,
-        #vowels .korean-char:hover {
-            color: #000000;
-        }
-
-        .light-mode #vowels .section-title,
-        .light-mode #vowels .korean-char:hover {
-            color: #333333;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            main {
-                flex-direction: column;
-                padding: 10px;
-            }
-
-            section {
-                margin: 10px 0;
-            }
-
-            input[type="number"],
-            select {
-                width: calc(100% - 100px);
-            }
-
-            .navigation-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .numbers-table {
-                font-size: 0.9em;
-            }
-
-            .table-tabs {
-                flex-direction: column;
-                align-items: center;
+        
+        /* Mobile Responsive Styles */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 1.25rem;
             }
             
-            .back-button {
-                top: 10px;
-                left: 10px;
-                padding: 8px 16px;
+            section {
+                padding: 1rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 0.75rem;
+            }
+            
+            .container {
+                padding: 1rem;
+                border-radius: 15px;
+            }
+            
+            main {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .number-learner, .number-drawer, .number-table {
+                grid-column: 1 / 2;
+            }
+            
+            .input-section {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+            
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 1.5rem;
+            }
+            
+            .mode-toggle {
+                position: relative;
+                margin-top: 1rem;
+                align-self: flex-end;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+            }
+            
+            .canvas-controls {
+                gap: 0.5rem;
+            }
+            
+            .canvas-controls label {
+                font-size: 0.8rem;
+            }
+            
+            table {
+                font-size: 0.85rem;
+            }
+            
+            th, td {
+                padding: 0.5rem;
+            }
+            
+            .output-section {
+                padding: 1rem;
+            }
+            
+            .output-section h3 {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 0.5rem;
+            }
+            
+            .container {
+                padding: 0.75rem;
+                border-radius: 12px;
+            }
+            
+            section {
+                padding: 0.75rem;
+                border-radius: 12px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            h2 {
+                font-size: 1.3rem;
+            }
+            
+            .input-section {
+                gap: 0.5rem;
+            }
+            
+            input, select, button {
+                padding: 0.7rem;
                 font-size: 0.9rem;
+            }
+            
+            .tab-button {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.85rem;
+            }
+            
+            .table-container {
+                max-height: 300px;
+            }
+            
+            canvas {
+                height: 250px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Back Button -->
-    <a href="../../index.html" class="back-button">← Back</a>
-    
-    <header>
-        <h1>Learn and Draw Korean Numbers</h1>
-        <div class="mode-toggle" onclick="toggleMode()">
-            <span>🌙</span>
-        </div>
-    </header>
+    <div class="container">
+        <!-- Back Button -->
+        <a href="../../index.html" class="back-button">← Back</a>
+        
+        <header>
+            <div>
+                <h1>Learn and Draw Korean Numbers</h1>
+                <p class="subtitle">With OpenAI TTS Integration</p>
+            </div>
+            <div class="mode-toggle" onclick="toggleMode()">
+                <span>🌙</span>
+            </div>
+        </header>
 
-    <main>
-        <section class="number-learner">
-            <h2>Korean Number Converter</h2>
-            <div class="tts-info">
-                💡 Hover over or click Korean text to hear pronunciation!
-            </div>
-             <div class="input-section">
-                <label for="numberInput">Enter a number (0-99/9999):</label>
-                <input type="number" id="numberInput" min="0" max="100" value="0">
-                <label for="numberSystemSelect">Number System:</label>
-                <select id="numberSystemSelect">
-                    <option value="sino">Sino-Korean (0-9999)</option>
-                    <option value="native">Native Korean (0-99)</option>
-                </select>
-                <button id="convertButton">Convert</button>
-            </div>
-            <div class="navigation-buttons">
-                <button id="prevButton" class="prev-button">← Previous</button>
-                <button id="nextButton" class="next-button">Next →</button>
-            </div>
-             <div class="output-section">
-                <h3>Korean: <span id="koreanOutput" title="Click to hear pronunciation">영 (yeong)</span></h3>
-                <p>Pronunciation: <span id="pronunciationOutput">yeong</span></p>
-                <p class="system-note" id="systemNote"></p>
-            </div>
-        </section>
+        <main>
+            <section class="number-learner">
+                <h2>Korean Number Converter</h2>
+                <div class="tts-info">
+                    💡 Click on Korean text to hear pronunciation using OpenAI TTS with Fable voice!
+                </div>
+                
+                <div id="status" class="status">Ready to convert text to speech</div>
+            </section>
 
-        <section class="number-drawer">
-            <h2>Draw Korean Numbers</h2>
-            <canvas id="drawingCanvas" width="400" height="400"></canvas>
-            <div class="canvas-controls">
-                <button id="clearCanvas">Clear Canvas</button>
-                <label for="brushColor">Brush Color:</label>
-                <input type="color" id="brushColor" value="#000000">
-                <label for="brushSize">Brush Size:</label>
-                <input type="range" id="brushSize" min="1" max="10" value="3">
-            </div>
-        </section>
+            <section class="number-drawer">
+                <h2>Draw Korean Numbers</h2>
+                <div class="canvas-container">
+                    <canvas id="drawingCanvas" width="400" height="400"></canvas>
+                </div>
+                <div class="canvas-controls">
+                    <button id="clearCanvas">Clear Canvas</button>
+                    <label for="brushColor">Brush Color:</label>
+                    <input type="color" id="brushColor" value="#000000">
+                    <label for="brushSize">Brush Size:</label>
+                    <input type="range" id="brushSize" min="1" max="10" value="3">
+                </div>
+                <br/>
+                <div class="navigation-buttons">
+                    <button id="prevButton" class="prev-button">← Previous</button>
+                    <button id="nextButton" class="next-button">Next →</button>
+                </div>
+            </section>
 
-        <section class="number-table">
-            <h2>Korean Numbers Reference Table</h2>
-            <div class="tts-info">
-                🎵 Click on Korean characters in the table to hear their pronunciation!
-            </div>
-            <div class="table-tabs">
-                <button class="tab-button active" id="sinoTab">Sino-Korean Numbers</button>
-                <button class="tab-button" id="nativeTab">Native Korean Numbers</button>
-            </div>
-            <div class="table-container">
-                <table class="numbers-table" id="numbersTable">
-                    <!-- Table content will be populated by JavaScript -->
-                </table>
-            </div>
-        </section>
-    </main>
+            <section class="number-table">
+                <div class="output-section">
+                    <h3>Korean: <span id="koreanOutput" title="Click to hear pronunciation">영 (yeong)</span></h3>
+                    <p>Pronunciation: <span id="pronunciationOutput">yeong</span></p>
+                    <p class="system-note" id="systemNote"></p>
+                </div>
+                <div class="input-section">
+                    <div class="input-group">
+                        <label for="numberInput">Enter a number (0-99/9999):</label>
+                        <input type="number" id="numberInput" min="0" max="100" value="0">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="numberSystemSelect">Number System:</label>
+                        <select id="numberSystemSelect">
+                            <option value="sino">Sino-Korean (0-9999)</option>
+                            <option value="native">Native Korean (0-99)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <button id="convertButton">Convert</button>
+                    </div>
+                </div>
+                <h2>Korean Numbers Reference Table</h2>
+                <div class="tts-info">
+                    🎵 Click on Korean characters in the table to hear their pronunciation!
+                </div>
+                <div class="table-tabs">
+                    <button class="tab-button active" id="sinoTab">Sino-Korean Numbers</button>
+                    <button class="tab-button" id="nativeTab">Native Korean Numbers</button>
+                </div>
+                <div class="table-container">
+                    <table class="numbers-table" id="numbersTable">
+                        <!-- Table content will be populated by JavaScript -->
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
 
+    <script src="https://js.puter.com/v2/"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const numberInput = document.getElementById('numberInput');
@@ -562,6 +689,7 @@
             const sinoTab = document.getElementById('sinoTab');
             const nativeTab = document.getElementById('nativeTab');
             const numbersTable = document.getElementById('numbersTable');
+            const statusDiv = document.getElementById('status');
 
             const canvas = document.getElementById('drawingCanvas');
             const ctx = canvas.getContext('2d');
@@ -572,20 +700,68 @@
             let isDrawing = false;
             let lastX = 0;
             let lastY = 0;
+            let currentAudio = null;
+            
+            // Set up canvas for proper scaling
+            function resizeCanvas() {
+                const displayWidth = canvas.clientWidth;
+                const displayHeight = canvas.clientHeight;
+                
+                if (canvas.width !== displayWidth || canvas.height !== displayHeight) {
+                    canvas.width = displayWidth;
+                    canvas.height = displayHeight;
+                    // Redraw any existing content if needed
+                }
+            }
+            
+            // Initialize canvas size
+            resizeCanvas();
 
-            // Text-to-Speech functionality using PyScript
-            const speakKorean = async (text, pronunciation) => {
+            // Text-to-Speech functionality using OpenAI TTS
+            const speakKorean = async (text) => {
+                // Stop any currently playing audio
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio = null;
+                }
+                
+                updateStatus('Converting text to speech...', 'processing');
+                
                 try {
-                    console.log(`Requesting TTS for: ${text}`);
-                    await pyscript.interpreter.globals.get('speak_korean')(text);
+                    const audio = await puter.ai.txt2speech(text, {
+                        provider: 'openai',
+                        voice: 'fable',
+                        model: 'gpt-4o-mini-tts',
+                        response_format: 'mp3'
+                    });
+                    
+                    updateStatus(`Playing audio with OpenAI TTS`, 'playing');
+                    
+                    currentAudio = audio;
+                    await audio.play();
+                    
+                    // Reset status when audio finishes
+                    audio.addEventListener('ended', () => {
+                        updateStatus('Ready to convert text to speech', '');
+                        currentAudio = null;
+                    });
+                    
+                    audio.addEventListener('error', (e) => {
+                        updateStatus('Error playing audio', 'error');
+                        console.error('Audio playback error:', e);
+                        currentAudio = null;
+                    });
+                    
                 } catch (error) {
-                    console.error('Error with PyScript TTS:', error);
-                    // Fallback to browser TTS if PyScript fails
+                    updateStatus(`Error: ${error.message}`, 'error');
+                    console.error('TTS Error:', error);
+                    
+                    // Fallback to browser TTS if OpenAI fails
                     fallbackTTS(text);
                 }
             };
 
-            // Fallback to browser TTS if PyScript fails
+            // Fallback to browser TTS if OpenAI fails
             const fallbackTTS = (text) => {
                 if ('speechSynthesis' in window) {
                     speechSynthesis.cancel();
@@ -603,8 +779,18 @@
                     }
                     
                     speechSynthesis.speak(utterance);
+                    updateStatus('Playing with browser TTS (fallback)', 'playing');
+                    
+                    utterance.onend = () => {
+                        updateStatus('Ready to convert text to speech', '');
+                    };
+                    
+                    utterance.onerror = () => {
+                        updateStatus('Error with browser TTS', 'error');
+                    };
                 } else {
                     console.log('Speech synthesis not supported');
+                    updateStatus('Speech synthesis not supported', 'error');
                 }
             };
 
@@ -831,10 +1017,9 @@
                             <tr onclick="selectNumberFromTable(${i})" data-number="${i}">
                                 <td>${i}</td>
                                 <td class="korean-text"
-                                    onclick="event.stopPropagation(); speakKoreanText('${numbers[i].han}', '${numbers[i].pron}')"
+                                    onclick="event.stopPropagation(); speakKoreanText('${numbers[i].han}')"
                                     title="Click to hear pronunciation"
-                                    data-korean="${numbers[i].han}"
-                                    data-pronunciation="${numbers[i].pron}">
+                                    data-korean="${numbers[i].han}">
                                     ${numbers[i].han}
                                 </td>
                                 <td>${numbers[i].pron}</td>
@@ -855,10 +1040,9 @@
                                 <tr onclick="selectNumberFromTable(${num})" data-number="${num}">
                                     <td>${num}</td>
                                     <td class="korean-text"
-                                        onclick="event.stopPropagation(); speakKoreanText('${korean.han}', '${korean.pron}')"
+                                        onclick="event.stopPropagation(); speakKoreanText('${korean.han}')"
                                         title="Click to hear pronunciation"
-                                        data-korean="${korean.han}"
-                                        data-pronunciation="${korean.pron}">
+                                        data-korean="${korean.han}">
                                         ${korean.han}
                                     </td>
                                     <td>${korean.pron}</td>
@@ -883,6 +1067,15 @@
                 populateTable(system);
             };
 
+            // Update status display
+            function updateStatus(message, type) {
+                statusDiv.textContent = message;
+                statusDiv.className = 'status';
+                if (type) {
+                    statusDiv.classList.add(type);
+                }
+            }
+
             // Make functions globally available
             window.selectNumberFromTable = (number) => {
                 const currentTab = sinoTab.classList.contains('active') ? 'sino' : 'native';
@@ -896,8 +1089,8 @@
                 }
             };
 
-            window.speakKoreanText = (korean, pronunciation) => {
-                speakKorean(korean, pronunciation);
+            window.speakKoreanText = (korean) => {
+                speakKorean(korean);
             };
 
             // Event listeners
@@ -905,26 +1098,11 @@
             nextButton.addEventListener('click', () => navigateNumber(1));
             prevButton.addEventListener('click', () => navigateNumber(-1));
             
-            // Add TTS functionality to Korean output
+            // Add TTS functionality to Korean output - CLICK ONLY, no hover
             koreanOutput.addEventListener('click', () => {
                 const korean = koreanOutput.dataset.korean;
-                const pronunciation = koreanOutput.dataset.pronunciation;
-                if (korean && pronunciation) {
-                    speakKorean(korean, pronunciation);
-                }
-            });
-
-            // Also add hover functionality for Korean output
-            koreanOutput.addEventListener('mouseenter', () => {
-                const korean = koreanOutput.dataset.korean;
-                const pronunciation = koreanOutput.dataset.pronunciation;
-                if (korean && pronunciation) {
-                    // Small delay to prevent accidental triggers
-                    setTimeout(() => {
-                        if (koreanOutput.matches(':hover')) {
-                            speakKorean(korean, pronunciation);
-                        }
-                    }, 500);
+                if (korean) {
+                    speakKorean(korean);
                 }
             });
             
@@ -953,7 +1131,7 @@
             convertNumber();
             populateTable('sino');
 
-            // Canvas Drawing Logic
+            // Canvas Drawing Logic - FIXED COORDINATES
             ctx.lineWidth = brushSizeSlider.value;
             ctx.lineJoin = 'round';
             ctx.lineCap = 'round';
@@ -961,11 +1139,15 @@
 
             function getEventPos(e) {
                 const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+                
                 const clientX = e.clientX || (e.touches && e.touches[0].clientX);
                 const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+                
                 return {
-                    x: clientX - rect.left,
-                    y: clientY - rect.top
+                    x: (clientX - rect.left) * scaleX,
+                    y: (clientY - rect.top) * scaleY
                 };
             }
 
@@ -1017,6 +1199,9 @@
             brushSizeSlider.addEventListener('input', (e) => {
                 ctx.lineWidth = e.target.value;
             });
+            
+            // Handle window resize
+            window.addEventListener('resize', resizeCanvas);
         });
 
         function toggleMode() {
