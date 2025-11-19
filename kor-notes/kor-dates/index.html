@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Korean Dates & Calendar</title>
+    <style>
+        :root {
+            --background-color: #0a0a0a;
+            --text-color: #ffffff;
+            --primary-color: #d4373f;
+            --secondary-color: #cccccc;
+            --tertiary-color: #888;
+            --border-color: #333;
+            --card-background: rgba(26, 26, 26, 0.8);
+            --nav-background: rgba(10, 10, 10, 0.9);
+            --header-background: rgba(10, 10, 10, 0.9);
+        }
+
+        .light-mode {
+            --background-color: #f5f5f5;
+            --text-color: #000000;
+            --primary-color: #377bd4;
+            --secondary-color: #333333;
+            --tertiary-color: #666666;
+            --border-color: #dddddd;
+            --card-background: #ffffff;
+            --nav-background: rgba(255, 255, 255, 0.9);
+            --header-background: rgba(255, 255, 255, 0.9);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--header-background);
+            color: var(--text-color);
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .back-button {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-button:hover {
+            opacity: 0.9;
+            transform: translateX(-2px);
+        }
+
+        .header-title {
+            flex: 1;
+            text-align: center;
+        }
+
+        .mode-toggle {
+            cursor: pointer;
+        }
+
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 20px auto;
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            background-color: var(--card-background);
+            padding: 25px;
+            margin: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .date-learner,
+        .date-drawer,
+        .date-table {
+            border: 1px solid var(--border-color);
+        }
+
+        .date-table {
+            flex-basis: 100%;
+            max-width: 100%;
+        }
+
+        h1,
+        h2 {
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-section,
+        .output-section {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        select {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            width: calc(100% - 120px);
+            max-width: 200px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            background-color: var(--card-background);
+            color: var(--text-color);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:disabled {
+            background-color: var(--tertiary-color);
+            cursor: not-allowed;
+        }
+
+        .next-button {
+            background-color: #4CAF50;
+        }
+
+        .next-button:hover {
+            background-color: #45a049;
+        }
+
+        .prev-button {
+            background-color: #f44336;
+        }
+
+        .prev-button:hover {
+            background-color: #da190b;
+        }
+
+        #koreanOutput {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        #koreanOutput:hover {
+            background-color: rgba(240, 248, 240, 0.5);
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        #koreanOutput::after {
+            content: '🔊';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.5em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #koreanOutput:hover::after {
+            opacity: 1;
+        }
+
+        #pronunciationOutput {
+            font-size: 1.2em;
+            color: var(--tertiary-color);
+            font-style: italic;
+        }
+
+        .system-note {
+            font-size: 0.9em;
+            color: var(--tertiary-color);
+            margin-top: 10px;
+        }
+
+        .date-drawer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #drawingCanvas {
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            background-color: var(--card-background);
+            cursor: crosshair;
+            margin-top: 15px;
+        }
+
+        .canvas-controls {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .canvas-controls label {
+            margin-bottom: 0;
+            display: inline-block;
+        }
+
+        .canvas-controls input[type="color"],
+        .canvas-controls input[type="range"] {
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        .dates-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .dates-table th,
+        .dates-table td {
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: center;
+        }
+
+        .dates-table th {
+            background-color: var(--nav-background);
+            font-weight: bold;
+        }
+
+        .dates-table tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .dates-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+
+        .korean-text {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 5px;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .korean-text:hover {
+            background-color: rgba(240, 248, 240, 0.5);
+            transform: scale(1.1);
+            box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
+        }
+
+        .korean-text::after {
+            content: '🔊';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 0.7em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .korean-text:hover::after {
+            opacity: 1;
+        }
+
+        .table-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            background-color: var(--nav-background);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            border-radius: 4px 4px 0 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab-button.active {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border-bottom: 1px solid var(--primary-color);
+        }
+
+        .tab-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-button.active:hover {
+            background-color: var(--primary-color);
+        }
+
+        .tts-info {
+            background-color: rgba(232, 245, 232, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            text-align: center;
+            color: #2e7d32;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            background-color: var(--header-background);
+            color: var(--text-color);
+            font-size: 0.9em;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .back-button {
+                align-self: flex-start;
+            }
+            
+            main {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            section {
+                margin: 10px 0;
+            }
+
+            select {
+                width: calc(100% - 100px);
+            }
+
+            .navigation-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .dates-table {
+                font-size: 0.9em;
+            }
+
+            .table-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        .date-inputs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .date-input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .date-input-group label {
+            margin-bottom: 5px;
+        }
+
+        .date-input-group select {
+            width: 120px;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <button class="back-button" onclick="goBack()">
+                ← Back
+            </button>
+            <div class="header-title">
+                <h1>Learn Korean Dates & Calendar</h1>
+            </div>
+            <div class="mode-toggle" onclick="toggleMode()">
+                <span>🌙</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="date-learner">
+            <h2>Korean Date Converter</h2>
+            <div class="tts-info">
+                💡 Hover over or click Korean text to hear pronunciation!
+            </div>
+            <div class="date-inputs">
+                <div class="date-input-group">
+                    <label for="monthSelect">Month:</label>
+                    <select id="monthSelect">
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+                <div class="date-input-group">
+                    <label for="daySelect">Day:</label>
+                    <select id="daySelect">
+                        <!-- Days will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div class="date-input-group">
+                    <label for="weekdaySelect">Weekday:</label>
+                    <select id="weekdaySelect">
+                        <option value="0">Sunday</option>
+                        <option value="1">Monday</option>
+                        <option value="2">Tuesday</option>
+                        <option value="3">Wednesday</option>
+                        <option value="4">Thursday</option>
+                        <option value="5">Friday</option>
+                        <option value="6">Saturday</option>
+                    </select>
+                </div>
+            </div>
+            <div class="navigation-buttons">
+                <button id="prevButton" class="prev-button">← Previous</button>
+                <button id="nextButton" class="next-button">Next →</button>
+            </div>
+            <div class="output-section">
+                <h3>Korean: <span id="koreanOutput" title="Click to hear pronunciation">3월 9일 (sam-wol gu-il)</span></h3>
+                <p>Pronunciation: <span id="pronunciationOutput">sam-wol gu-il</span></p>
+                <p class="system-note" id="systemNote"></p>
+            </div>
+        </section>
+
+        <section class="date-drawer">
+            <h2>Draw Korean Characters</h2>
+            <canvas id="drawingCanvas" width="400" height="400"></canvas>
+            <div class="canvas-controls">
+                <button id="clearCanvas">Clear Canvas</button>
+                <label for="brushColor">Brush Color:</label>
+                <input type="color" id="brushColor" value="#000000">
+                <label for="brushSize">Brush Size:</label>
+                <input type="range" id="brushSize" min="1" max="10" value="3">
+            </div>
+        </section>
+
+        <section class="date-table">
+            <h2>Korean Calendar Reference</h2>
+            <div class="tts-info">
+                🎵 Click on Korean characters in the table to hear their pronunciation!
+            </div>
+            <div class="table-tabs">
+                <button class="tab-button active" id="monthsTab">Months</button>
+                <button class="tab-button" id="daysTab">Days of Week</button>
+                <button class="tab-button" id="ordinalsTab">Ordinal Numbers</button>
+                <button class="tab-button" id="questionsTab">Questions</button>
+            </div>
+            <div class="table-container">
+                <table class="dates-table" id="datesTable">
+                    <!-- Table content will be populated by JavaScript -->
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Back button functionality
+        function goBack() {
+            window.location.href = "../../index.html";
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const monthSelect = document.getElementById('monthSelect');
+            const daySelect = document.getElementById('daySelect');
+            const weekdaySelect = document.getElementById('weekdaySelect');
+            const prevButton = document.getElementById('prevButton');
+            const nextButton = document.getElementById('nextButton');
+            const koreanOutput = document.getElementById('koreanOutput');
+            const pronunciationOutput = document.getElementById('pronunciationOutput');
+            const systemNote = document.getElementById('systemNote');
+            const monthsTab = document.getElementById('monthsTab');
+            const daysTab = document.getElementById('daysTab');
+            const ordinalsTab = document.getElementById('ordinalsTab');
+            const questionsTab = document.getElementById('questionsTab');
+            const datesTable = document.getElementById('datesTable');
+
+            const canvas = document.getElementById('drawingCanvas');
+            const ctx = canvas.getContext('2d');
+            const clearCanvasBtn = document.getElementById('clearCanvas');
+            const brushColorPicker = document.getElementById('brushColor');
+            const brushSizeSlider = document.getElementById('brushSize');
+
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+
+            // Text-to-Speech functionality
+            const speakKorean = (text) => {
+                if ('speechSynthesis' in window) {
+                    speechSynthesis.cancel();
+                    
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'ko-KR';
+                    utterance.rate = 0.7;
+                    utterance.pitch = 1;
+                    utterance.volume = 1;
+                    
+                    const voices = speechSynthesis.getVoices();
+                    const koreanVoice = voices.find(voice => voice.lang.includes('ko'));
+                    if (koreanVoice) {
+                        utterance.voice = koreanVoice;
+                    }
+                    
+                    speechSynthesis.speak(utterance);
+                } else {
+                    console.log('Speech synthesis not supported');
+                }
+            };
+
+            // Load voices when they become available
+            speechSynthesis.onvoiceschanged = () => {
+                // Voices are now loaded
+            };
+
+            // Korean months (1월 to 12월)
+            const koreanMonths = {
+                1: { han: "1월", pron: "일월", meaning: "January" },
+                2: { han: "2월", pron: "이월", meaning: "February" },
+                3: { han: "3월", pron: "삼월", meaning: "March" },
+                4: { han: "4월", pron: "사월", meaning: "April" },
+                5: { han: "5월", pron: "오월", meaning: "May" },
+                6: { han: "6월", pron: "유월", meaning: "June" },
+                7: { han: "7월", pron: "칠월", meaning: "July" },
+                8: { han: "8월", pron: "팔월", meaning: "August" },
+                9: { han: "9월", pron: "구월", meaning: "September" },
+                10: { han: "10월", pron: "시월", meaning: "October" },
+                11: { han: "11월", pron: "십일월", meaning: "November" },
+                12: { han: "12월", pron: "십이월", meaning: "December" }
+            };
+
+            // Korean days of the week
+            const koreanDaysOfWeek = {
+                0: { han: "일요일", pron: "illyoil", meaning: "Sunday" },
+                1: { han: "월요일", pron: "wollyoil", meaning: "Monday" },
+                2: { han: "화요일", pron: "hwayoil", meaning: "Tuesday" },
+                3: { han: "수요일", pron: "suyoil", meaning: "Wednesday" },
+                4: { han: "목요일", pron: "mogyoil", meaning: "Thursday" },
+                5: { han: "금요일", pron: "geumyoil", meaning: "Friday" },
+                6: { han: "토요일", pron: "toyoil", meaning: "Saturday" }
+            };
+
+            // Korean ordinal numbers (1st to 31st)
+            const koreanOrdinals = {
+                1: { han: "1일", pron: "일일", meaning: "1st" },
+                2: { han: "2일", pron: "이일", meaning: "2nd" },
+                3: { han: "3일", pron: "삼일", meaning: "3rd" },
+                4: { han: "4일", pron: "사일", meaning: "4th" },
+                5: { han: "5일", pron: "오일", meaning: "5th" },
+                6: { han: "6일", pron: "육일", meaning: "6th" },
+                7: { han: "7일", pron: "칠일", meaning: "7th" },
+                8: { han: "8일", pron: "팔일", meaning: "8th" },
+                9: { han: "9일", pron: "구일", meaning: "9th" },
+                10: { han: "10일", pron: "십일", meaning: "10th" },
+                11: { han: "11일", pron: "십일일", meaning: "11th" },
+                12: { han: "12일", pron: "십이일", meaning: "12th" },
+                13: { han: "13일", pron: "십삼일", meaning: "13th" },
+                14: { han: "14일", pron: "십사일", meaning: "14th" },
+                15: { han: "15일", pron: "십오일", meaning: "15th" },
+                16: { han: "16일", pron: "십육일", meaning: "16th" },
+                17: { han: "17일", pron: "십칠일", meaning: "17th" },
+                18: { han: "18일", pron: "십팔일", meaning: "18th" },
+                19: { han: "19일", pron: "십구일", meaning: "19th" },
+                20: { han: "20일", pron: "이십일", meaning: "20th" },
+                21: { han: "21일", pron: "이십일일", meaning: "21st" },
+                22: { han: "22일", pron: "이십이일", meaning: "22nd" },
+                23: { han: "23일", pron: "이십삼일", meaning: "23rd" },
+                24: { han: "24일", pron: "이십사일", meaning: "24th" },
+                25: { han: "25일", pron: "이십오일", meaning: "25th" },
+                26: { han: "26일", pron: "이십육일", meaning: "26th" },
+                27: { han: "27일", pron: "이십칠일", meaning: "27th" },
+                28: { han: "28일", pron: "이십팔일", meaning: "28th" },
+                29: { han: "29일", pron: "이십구일", meaning: "29th" },
+                30: { han: "30일", pron: "삼십일", meaning: "30th" },
+                31: { han: "31일", pron: "삼십일일", meaning: "31st" }
+            };
+
+            // Korean questions
+            const koreanQuestions = {
+                date: { han: "오늘은 몇 월 며칠이에요?", pron: "oneureun myeot wol myeochirieyo?", meaning: "What is the date today?" },
+                dayOfWeek: { han: "오늘은 무슨 요일이에요?", pron: "oneureun museun yoirieyo?", meaning: "What day of the week is it?" },
+                dayOfMonth: { han: "오늘은 며칠이에요?", pron: "oneureun myeochirieyo?", meaning: "What day of the month is it?" }
+            };
+
+            // Populate day select
+            function populateDaySelect() {
+                daySelect.innerHTML = '';
+                for (let i = 1; i <= 31; i++) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = i;
+                    daySelect.appendChild(option);
+                }
+                // Set current date as default
+                const today = new Date();
+                monthSelect.value = today.getMonth() + 1;
+                daySelect.value = today.getDate();
+                weekdaySelect.value = today.getDay();
+            }
+
+            const convertDate = () => {
+                const month = parseInt(monthSelect.value, 10);
+                const day = parseInt(daySelect.value, 10);
+                const weekday = parseInt(weekdaySelect.value, 10);
+
+                const monthKorean = koreanMonths[month];
+                const dayKorean = koreanOrdinals[day];
+                const weekdayKorean = koreanDaysOfWeek[weekday];
+
+                if (monthKorean && dayKorean && weekdayKorean) {
+                    const fullDate = `${monthKorean.han} ${dayKorean.han} ${weekdayKorean.han}`;
+                    const fullPron = `${monthKorean.pron} ${dayKorean.pron} ${weekdayKorean.pron}`;
+                    
+                    koreanOutput.textContent = fullDate;
+                    pronunciationOutput.textContent = fullPron;
+                    
+                    // Store the korean data for TTS
+                    koreanOutput.dataset.korean = fullDate;
+                    koreanOutput.dataset.pronunciation = fullPron;
+                    
+                    systemNote.textContent = `Example: ${monthKorean.meaning} ${day}${getOrdinalSuffix(day)}, ${getWeekdayName(weekday)}`;
+                } else {
+                    koreanOutput.textContent = "Invalid Date";
+                    pronunciationOutput.textContent = "Please select valid date components.";
+                    systemNote.textContent = "";
+                }
+                
+                updateNavigationButtons();
+            };
+
+            const getOrdinalSuffix = (day) => {
+                if (day > 3 && day < 21) return 'th';
+                switch (day % 10) {
+                    case 1: return 'st';
+                    case 2: return 'nd';
+                    case 3: return 'rd';
+                    default: return 'th';
+                }
+            };
+
+            const getWeekdayName = (weekday) => {
+                const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                return weekdays[weekday];
+            };
+
+            const updateNavigationButtons = () => {
+                const currentDay = parseInt(daySelect.value, 10);
+                prevButton.disabled = currentDay <= 1;
+                nextButton.disabled = currentDay >= 31;
+            };
+
+            const navigateDay = (direction) => {
+                const currentDay = parseInt(daySelect.value, 10);
+                let newDay = currentDay + direction;
+                
+                if (newDay < 1) newDay = 1;
+                if (newDay > 31) newDay = 31;
+                
+                daySelect.value = newDay;
+                convertDate();
+                
+                // Clear the canvas when navigating to a new date
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            };
+
+            const populateTable = (category) => {
+                let tableHTML = `
+                    <thead>
+                        <tr>
+                            <th>English</th>
+                            <th>Korean</th>
+                            <th>Pronunciation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+                
+                if (category === 'months') {
+                    for (let i = 1; i <= 12; i++) {
+                        const item = koreanMonths[i];
+                        tableHTML += `
+                            <tr onclick="selectMonthFromTable(${i})" data-month="${i}">
+                                <td>${item.meaning}</td>
+                                <td class="korean-text"
+                                    onclick="event.stopPropagation(); speakKoreanText('${item.han}', '${item.pron}')"
+                                    title="Click to hear pronunciation"
+                                    data-korean="${item.han}"
+                                    data-pronunciation="${item.pron}">
+                                    ${item.han}
+                                </td>
+                                <td>${item.pron}</td>
+                            </tr>
+                        `;
+                    }
+                } else if (category === 'days') {
+                    for (let i = 0; i <= 6; i++) {
+                        const item = koreanDaysOfWeek[i];
+                        tableHTML += `
+                            <tr onclick="selectWeekdayFromTable(${i})" data-weekday="${i}">
+                                <td>${item.meaning}</td>
+                                <td class="korean-text"
+                                    onclick="event.stopPropagation(); speakKoreanText('${item.han}', '${item.pron}')"
+                                    title="Click to hear pronunciation"
+                                    data-korean="${item.han}"
+                                    data-pronunciation="${item.pron}">
+                                    ${item.han}
+                                </td>
+                                <td>${item.pron}</td>
+                            </tr>
+                        `;
+                    }
+                } else if (category === 'ordinals') {
+                    // Show selected ordinals (1st-10th, 20th, 21st, 30th, 31st)
+                    const selectedOrdinals = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 21, 30, 31];
+                    selectedOrdinals.forEach(day => {
+                        const item = koreanOrdinals[day];
+                        tableHTML += `
+                            <tr onclick="selectDayFromTable(${day})" data-day="${day}">
+                                <td>${item.meaning}</td>
+                                <td class="korean-text"
+                                    onclick="event.stopPropagation(); speakKoreanText('${item.han}', '${item.pron}')"
+                                    title="Click to hear pronunciation"
+                                    data-korean="${item.han}"
+                                    data-pronunciation="${item.pron}">
+                                    ${item.han}
+                                </td>
+                                <td>${item.pron}</td>
+                            </tr>
+                        `;
+                    });
+                } else if (category === 'questions') {
+                    Object.values(koreanQuestions).forEach(item => {
+                        tableHTML += `
+                            <tr>
+                                <td>${item.meaning}</td>
+                                <td class="korean-text"
+                                    onclick="speakKoreanText('${item.han}', '${item.pron}')"
+                                    title="Click to hear pronunciation"
+                                    data-korean="${item.han}"
+                                    data-pronunciation="${item.pron}">
+                                    ${item.han}
+                                </td>
+                                <td>${item.pron}</td>
+                            </tr>
+                        `;
+                    });
+                }
+                
+                tableHTML += '</tbody>';
+                datesTable.innerHTML = tableHTML;
+            };
+
+            const switchTab = (category) => {
+                // Remove active class from all tabs
+                monthsTab.classList.remove('active');
+                daysTab.classList.remove('active');
+                ordinalsTab.classList.remove('active');
+                questionsTab.classList.remove('active');
+                
+                // Add active class to selected tab
+                if (category === 'months') {
+                    monthsTab.classList.add('active');
+                } else if (category === 'days') {
+                    daysTab.classList.add('active');
+                } else if (category === 'ordinals') {
+                    ordinalsTab.classList.add('active');
+                } else if (category === 'questions') {
+                    questionsTab.classList.add('active');
+                }
+                
+                populateTable(category);
+            };
+
+            // Make functions globally available
+            window.selectMonthFromTable = (month) => {
+                monthSelect.value = month;
+                convertDate();
+                
+                // Scroll back to converter section on mobile
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.date-learner').scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            window.selectDayFromTable = (day) => {
+                daySelect.value = day;
+                convertDate();
+                
+                // Scroll back to converter section on mobile
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.date-learner').scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            window.selectWeekdayFromTable = (weekday) => {
+                weekdaySelect.value = weekday;
+                convertDate();
+                
+                // Scroll back to converter section on mobile
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.date-learner').scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            window.speakKoreanText = (korean, pronunciation) => {
+                speakKorean(korean);
+            };
+
+            // Event listeners
+            monthSelect.addEventListener('change', convertDate);
+            daySelect.addEventListener('change', convertDate);
+            weekdaySelect.addEventListener('change', convertDate);
+            nextButton.addEventListener('click', () => navigateDay(1));
+            prevButton.addEventListener('click', () => navigateDay(-1));
+            
+            // Add TTS functionality to Korean output
+            koreanOutput.addEventListener('click', () => {
+                const korean = koreanOutput.dataset.korean;
+                if (korean) {
+                    speakKorean(korean);
+                }
+            });
+
+            // Also add hover functionality for Korean output
+            koreanOutput.addEventListener('mouseenter', () => {
+                const korean = koreanOutput.dataset.korean;
+                if (korean) {
+                    // Small delay to prevent accidental triggers
+                    setTimeout(() => {
+                        if (koreanOutput.matches(':hover')) {
+                            speakKorean(korean);
+                        }
+                    }, 500);
+                }
+            });
+
+            monthsTab.addEventListener('click', () => switchTab('months'));
+            daysTab.addEventListener('click', () => switchTab('days'));
+            ordinalsTab.addEventListener('click', () => switchTab('ordinals'));
+            questionsTab.addEventListener('click', () => switchTab('questions'));
+
+            // Initial setup
+            populateDaySelect();
+            convertDate();
+            populateTable('months');
+
+            // Canvas Drawing Logic
+            ctx.lineWidth = brushSizeSlider.value;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = brushColorPicker.value;
+
+            function getEventPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+                return {
+                    x: clientX - rect.left,
+                    y: clientY - rect.top
+                };
+            }
+
+            function draw(e) {
+                if (!isDrawing) return;
+                const pos = getEventPos(e);
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+                [lastX, lastY] = [pos.x, pos.y];
+            }
+
+            function startDrawing(e) {
+                e.preventDefault(); // Prevent scrolling on mobile
+                isDrawing = true;
+                const pos = getEventPos(e);
+                [lastX, lastY] = [pos.x, pos.y];
+            }
+
+            function stopDrawing(e) {
+                if (e) e.preventDefault(); // Prevent scrolling on mobile
+                isDrawing = false;
+            }
+
+            // Mouse events
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+
+            // Touch events for mobile
+            canvas.addEventListener('touchstart', startDrawing, { passive: false });
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault(); // Prevent scrolling while drawing
+                draw(e);
+            }, { passive: false });
+            canvas.addEventListener('touchend', stopDrawing, { passive: false });
+            canvas.addEventListener('touchcancel', stopDrawing, { passive: false });
+
+            clearCanvasBtn.addEventListener('click', () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            });
+
+            brushColorPicker.addEventListener('change', (e) => {
+                ctx.strokeStyle = e.target.value;
+            });
+
+            brushSizeSlider.addEventListener('input', (e) => {
+                ctx.lineWidth = e.target.value;
+            });
+        });
+
+        function toggleMode() {
+            const body = document.body;
+            body.classList.toggle('light-mode');
+            const modeToggle = document.querySelector('.mode-toggle span');
+
+            if (body.classList.contains('light-mode')) {
+                modeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'light');
+            } else {
+                modeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Function to apply the saved theme
+        function applySavedTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            const modeToggle = document.querySelector('.mode-toggle span');
+
+            if (savedTheme === 'light') {
+                body.classList.add('light-mode');
+                modeToggle.textContent = '☀️';
+            } else {
+                body.classList.remove('light-mode');
+                modeToggle.textContent = '🌙';
+            }
+        }
+
+        // Apply the saved theme when the page loads
+        document.addEventListener('DOMContentLoaded', applySavedTheme);
+    </script>
+</body>
+</html>

@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한국어 - Daily Activities & Phrases</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .header {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #3498db;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+        }
+
+        .header-nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .back-button {
+            background: #3498db;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .back-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .sticky-nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 15px 20px;
+        }
+
+        #navbar {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin: 0;
+            max-width: none;
+        }
+
+        #navbar a {
+            background: white;
+            color: #3498db;
+            padding: 5px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+        }
+
+        #navbar a:hover, #navbar a.active {
+            background: #3498db;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .tts-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .tts-button {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tts-button:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+        }
+
+        .tts-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .voice-selector {
+            padding: 10px 15px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .tts-info {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .section-title {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin: 60px 0 30px 0;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .cards {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #f0f0f0;
+            height: 480px;
+            width: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .sketch {
+            position: relative;
+            padding: 20px;
+            background: #f8f9fa;
+            height: 250px;
+            flex-shrink: 0;
+        }
+
+        .paint {
+            width: 100%;
+            height: 100%;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            cursor: crosshair;
+            background: white;
+            touch-action: none;
+        }
+
+        .erase-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            z-index: 10;
+            transition: background 0.2s ease;
+        }
+
+        .erase-button:hover {
+            background: #c0392b;
+        }
+
+        .card_content {
+            padding: 20px;
+            text-align: center;
+            background: white;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 180px;
+        }
+
+        .korean-text {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #3498db;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            margin-bottom: 10px;
+            font-family: 'Noto Serif KR', serif;
+            line-height: 1.2;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        .korean-text:hover {
+            color: #e74c3c;
+            transform: scale(1.05);
+        }
+
+        .char-info {
+            font-size: 1rem;
+            color: #7f8c8d;
+            line-height: 1.4;
+        }
+
+        /* Common Phrases Specific Styles */
+        .phrase-card .korean-text {
+            font-size: 1.8rem;
+            line-height: 1.4;
+        }
+
+        .phrase-card .char-info {
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 991px) {
+            .card {
+                height: 450px;
+            }
+            
+            .sketch {
+                height: 230px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .card {
+                height: 420px;
+            }
+            
+            .sketch {
+                height: 200px;
+            }
+
+            .header-nav-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .back-button {
+                align-self: flex-start;
+                margin-bottom: 10px;
+            }
+            
+            #navbar {
+                width: 100%;
+                justify-content: center;
+            }
+
+            #navbar a {
+                padding: 10px 18px;
+                font-size: 0.9rem;
+            }
+
+            .tts-controls {
+                flex-direction: column;
+            }
+            
+            .korean-text {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main {
+                padding: 10px;
+            }
+
+            #navbar {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                height: 400px;
+            }
+            
+            .sketch {
+                height: 180px;
+            }
+            
+            .korean-text {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="header">
+            <h1><br>Daily Activities & Phrases</h1>
+            <p>Draw in the white canvas area to practice writing</p>
+            <p>Click on Korean text to hear pronunciation</p>
+        </div>
+        
+        <div class="sticky-nav-container">
+            <div class="nav-content">
+                <a href="../../index.html" class="back-button">← Back to Main</a>
+                <nav id="navbar">
+                    <a class="active" href="#basic-verbs">Basic Verbs</a>
+                    <a href="#daily-activities">Daily Activities</a>
+                    <a href="#locations">Locations</a>
+                    <a href="#full-sentences">Full Sentences</a>
+                </nav>
+            </div>
+        </div>
+        
+        <div class="tts-controls">
+            <button id="tts-button" class="tts-button">
+                <span>🔊</span> Play All
+            </button>
+            <select id="voice-selector" class="voice-selector">
+                <option value="">Default Voice</option>
+            </select>
+        </div>
+        <p class="tts-info">Click on any Korean text to hear its pronunciation</p>
+        
+        <!-- Section 1: Basic Verbs -->
+        <section id="basic-verbs">
+            <h2 class="section-title">Basic Verbs<br/>기본 동사</h2>
+            <ul class="cards" id="basic-verbs-grid"></ul>
+        </section>
+
+        <!-- Section 2: Daily Activities -->
+        <section id="daily-activities">
+            <h2 class="section-title">Daily Activities<br/>일상 활동</h2>
+            <ul class="cards" id="daily-activities-grid"></ul>
+        </section>
+
+        <!-- Section 3: Locations -->
+        <section id="locations">
+            <h2 class="section-title">Locations<br/>장소</h2>
+            <ul class="cards" id="locations-grid"></ul>
+        </section>
+
+        <!-- Section 4: Full Sentences -->
+        <section id="full-sentences">
+            <h2 class="section-title">Full Sentences<br/>완전한 문장</h2>
+            <ul class="cards" id="full-sentences-grid"></ul>
+        </section>
+    </div>
+
+    <script>
+        const koreanContent = {
+          basicVerbs: [
+    { korean: '만나다', romanized: 'mannada', meaning: 'To meet' },
+    { korean: '만들다', romanized: 'mandeulda', meaning: 'To make' },
+    { korean: '쇼핑하다', romanized: 'syopinghada', meaning: 'To shop/shopping' },
+    { korean: '일하다', romanized: 'ilhada', meaning: 'To work' },
+    { korean: '얻다', romanized: 'eotda', meaning: 'To get' },
+    { korean: '가다', romanized: 'gada', meaning: 'To go' },
+    { korean: '먹다', romanized: 'meokda', meaning: 'To eat' },
+    { korean: '사다', romanized: 'sada', meaning: 'To buy' }
+],
+dailyActivities: [
+    { korean: '빵을 만들다', romanized: 'ppangeul mandeulda', meaning: 'To make bread', fullWidth: true },
+    { korean: '그 회사에서 일하다', romanized: 'geu hoesaeseo ilhada', meaning: 'To work at that company', fullWidth: true },
+    { korean: '공원에 가다', romanized: 'gongwone gada', meaning: 'To go to the park', fullWidth: true },
+    { korean: '가게에서 쇼핑하다', romanized: 'gagaeeseo syopinghada', meaning: 'To shop at the store', fullWidth: true },
+    { korean: '식당에서 식사하다', romanized: 'sikdangeseo siksahada', meaning: 'To have a meal at the restaurant', fullWidth: true },
+    { korean: '사과가 있다', romanized: 'sagwaga itda', meaning: 'There is an apple', fullWidth: true },
+    { korean: '콜라 한 병과 맥주 두 병을 사다', romanized: 'kolla han byeong-gwa maekju du byeong-eul sada', meaning: 'To buy one bottle of cola and two bottles of beer', fullWidth: true },
+    { korean: '오렌지 다섯 개를 주다', romanized: 'orenji daseot gaereul juda', meaning: 'To give five oranges', fullWidth: true },
+    { korean: '안나를 만나다', romanized: 'annareul mannada', meaning: 'To meet Anna', fullWidth: true },
+    { korean: '집에서 빵을 만들다', romanized: 'jibeseo ppangeul mandeulda', meaning: 'To make bread at home', fullWidth: true }
+],
+locations: [
+    { korean: '공원', romanized: 'gongwon', meaning: 'Park' },
+    { korean: '식당', romanized: 'sikdang', meaning: 'Restaurant' },
+    { korean: '가게', romanized: 'gagae', meaning: 'Store' },
+    { korean: '회사', romanized: 'hoesa', meaning: 'Company' },
+    { korean: '집', romanized: 'jip', meaning: 'Home' },
+    { korean: '마트', romanized: 'mateu', meaning: 'Mart' },
+    { korean: '상점', romanized: 'sangjeom', meaning: 'Shop' },
+    { korean: '사무실', romanized: 'samusil', meaning: 'Office' }
+],
+fullSentences: [
+    { korean: '저는 빵을 만들었어요', romanized: 'jeoneun ppangeul mandeureosseoyo', meaning: 'I made bread', fullWidth: true },
+    { korean: '저는 그 회사에서 일했어요', romanized: 'jeoneun geu hoesaeseo ilhaesseoyo', meaning: 'I worked at that company', fullWidth: true },
+    { korean: '저는 공원에 갔어요', romanized: 'jeoneun gongwone gasseoyo', meaning: 'I went to the park', fullWidth: true },
+    { korean: '어제 뭐 했어요?', romanized: 'eoje mwo haesseoyo?', meaning: 'What did you do yesterday?', fullWidth: true },
+    { korean: '지금 뭐 하고 있어요?', romanized: 'jigeum mwo hago isseoyo?', meaning: 'What are you doing now?', fullWidth: true },
+    { korean: '저는 가게에서 쇼핑했어요', romanized: 'jeoneun gagaeeseo syopinghaesseoyo', meaning: 'I went shopping at the store', fullWidth: true },
+    { korean: '저는 식당에서 식사했어요', romanized: 'jeoneun sikdangeseo siksahaesseoyo', meaning: 'I had a meal at the restaurant', fullWidth: true },
+    { korean: '사과가 있어요', romanized: 'sagwaga isseoyo', meaning: 'There is an apple', fullWidth: true },
+    { korean: '저는 콜라 한 병과 맥주 두 병을 사요', romanized: 'jeoneun kolla han byeong-gwa maekju du byeong-eul sayo', meaning: 'I buy one bottle of cola and two bottles of beer', fullWidth: true },
+    { korean: '오렌지 다섯 개 주세요', romanized: 'orenji daseot gae juseyo', meaning: 'Give me 5 oranges', fullWidth: true },
+    { korean: '저는 안나를 만났어요', romanized: 'jeoneun annareul mannasseoyo', meaning: 'I met Anna', fullWidth: true },
+    { korean: '저는 집에서 빵을 만들었어요', romanized: 'jeoneun jibeseo ppangeul mandeureosseoyo', meaning: 'I made bread at home', fullWidth: true },
+    { korean: '지금 쇼핑하고 있어요', romanized: 'jigeum syopinghago isseoyo', meaning: 'I am shopping now', fullWidth: true },
+    { korean: '저는 일하고 있어요', romanized: 'jeoneun ilhago isseoyo', meaning: 'I am working', fullWidth: true },
+    { korean: '저는 지금 얻었어요', romanized: 'jeoneun jigeum eodeosseoyo', meaning: 'I got it now', fullWidth: true }
+]
+        };
+        
+        let voices = [];
+        let selectedVoice = null;
+
+        function loadVoices() {
+            // Wait for voices to be loaded
+            setTimeout(() => {
+                voices = speechSynthesis.getVoices();
+                const voiceSelector = document.getElementById('voice-selector');
+                voiceSelector.innerHTML = '<option value="">Default Voice</option>';
+                
+                console.log('Available voices:', voices);
+                
+                if (voices.length === 0) {
+                    console.warn('No voices available');
+                    return;
+                }
+                
+                // Filter for Korean voices
+                const koreanVoices = voices.filter(voice => 
+                    voice.lang.startsWith('ko') || 
+                    voice.lang.includes('Korean') ||
+                    voice.name.includes('Korean')
+                );
+                
+                console.log('Korean voices found:', koreanVoices);
+                
+                koreanVoices.forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voice.name;
+                    option.textContent = `${voice.name} (${voice.lang})`;
+                    voiceSelector.appendChild(option);
+                    
+                    // Auto-select the first Korean voice
+                    if (!selectedVoice && voice.lang.startsWith('ko')) {
+                        selectedVoice = voice;
+                        option.selected = true;
+                    }
+                });
+                
+                // If no Korean voice found, use first available voice
+                if (!selectedVoice && voices.length > 0) {
+                    selectedVoice = voices[0];
+                    console.log('Using default voice:', selectedVoice);
+                }
+            }, 100);
+        }
+
+        // Initialize voices when they change and on page load
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+
+        function createCard(koreanData, index, isPhrase = false) {
+            const cardClass = isPhrase ? 'card phrase-card' : 'card';
+            
+            return `
+                <li class="cards_item">
+                    <div class="${cardClass}">
+                        <div class="sketch">
+                            <canvas class="paint" width="300" height="200" data-index="${index}"></canvas>
+                            <button class="erase-button" data-canvas-index="${index}">Erase</button>
+                        </div>
+                        <div class="card_content">
+                            <div class="korean-text" data-romanized="${koreanData.romanized}" data-korean="${koreanData.korean}">${koreanData.korean}</div>
+                            <div class="char-info">${koreanData.romanized}<br/>${koreanData.meaning}</div>
+                        </div>
+                    </div>
+                </li>
+            `;
+        }
+
+        function generateCards() {
+            const basicVerbsGrid = document.getElementById('basic-verbs-grid');
+            const dailyActivitiesGrid = document.getElementById('daily-activities-grid');
+            const locationsGrid = document.getElementById('locations-grid');
+            const fullSentencesGrid = document.getElementById('full-sentences-grid');
+            
+            let index = 0;
+            basicVerbsGrid.innerHTML = koreanContent.basicVerbs.map(item => createCard(item, index++)).join('');
+            dailyActivitiesGrid.innerHTML = koreanContent.dailyActivities.map(item => createCard(item, index++)).join('');
+            locationsGrid.innerHTML = koreanContent.locations.map(item => createCard(item, index++)).join('');
+            fullSentencesGrid.innerHTML = koreanContent.fullSentences.map(item => createCard(item, index++, true)).join('');
+            
+            addAudioEventListeners();
+            addCanvasEventListeners();
+            addEraseButtonListeners();
+        }
+
+        function speakKorean(korean, romanized) {
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+            }
+            
+            if ('speechSynthesis' in window) {
+                try {
+                    const utterance = new SpeechSynthesisUtterance(korean);
+                    utterance.lang = 'ko-KR';
+                    utterance.rate = 0.8;
+                    
+                    if (selectedVoice) {
+                        utterance.voice = selectedVoice;
+                    }
+                    
+                    utterance.onerror = function(event) {
+                        console.error('Speech synthesis error:', event.error);
+                        document.getElementById('tts-button').disabled = false;
+                    };
+                    
+                    utterance.onend = function() {
+                        document.getElementById('tts-button').disabled = false;
+                    };
+                    
+                    speechSynthesis.speak(utterance);
+                } catch (error) {
+                    console.error('Error with speech synthesis:', error);
+                    document.getElementById('tts-button').disabled = false;
+                }
+            } else {
+                console.warn('Text-to-speech not supported in this browser.');
+                document.getElementById('tts-button').disabled = false;
+            }
+        }
+
+        function addAudioEventListeners() {
+            document.querySelectorAll('.korean-text').forEach(textElement => {
+                textElement.addEventListener('click', function() {
+                    const korean = this.getAttribute('data-korean');
+                    const romanized = this.getAttribute('data-romanized');
+                    speakKorean(korean, romanized);
+                });
+            });
+        }
+
+        function playAllKorean() {
+            const ttsButton = document.getElementById('tts-button');
+            ttsButton.disabled = true;
+            
+            const allItems = [
+                ...koreanContent.basicVerbs, 
+                ...koreanContent.dailyActivities, 
+                ...koreanContent.locations, 
+                ...koreanContent.fullSentences
+            ];
+            let index = 0;
+            
+            function speakNext() {
+                if (index < allItems.length) {
+                    const koreanData = allItems[index];
+                    speakKorean(koreanData.korean, koreanData.romanized);
+                    
+                    const koreanElements = document.querySelectorAll('.korean-text');
+                    koreanElements.forEach(el => el.style.backgroundColor = '');
+                    
+                    const currentElement = Array.from(koreanElements).find(
+                        el => el.getAttribute('data-korean') === koreanData.korean
+                    );
+                    
+                    if (currentElement) {
+                        currentElement.style.backgroundColor = '#e8f5e9';
+                    }
+                    
+                    // Wait for speech to finish before continuing
+                    setTimeout(() => {
+                        index++;
+                        if (index < allItems.length) {
+                            setTimeout(speakNext, 500);
+                        } else {
+                            ttsButton.disabled = false;
+                            document.querySelectorAll('.korean-text').forEach(el => {
+                                el.style.backgroundColor = '';
+                            });
+                        }
+                    }, 1500);
+                }
+            }
+            
+            speakNext();
+        }
+
+        // Canvas and drawing functions remain the same
+        let isDrawing = false;
+        let canvasesContexts = [];
+        let lastX = 0;
+        let lastY = 0;
+
+        function initializeCanvasContexts() {
+            const canvasElements = document.querySelectorAll('.paint');
+            canvasElements.forEach((canvas, index) => {
+                const ctx = canvas.getContext('2d');
+                canvasesContexts[index] = ctx;
+                
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+                
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 3;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+            });
+        }
+
+        function addCanvasEventListeners() {
+            document.querySelectorAll('.paint').forEach(canvas => {
+                canvas.addEventListener('mousedown', startDrawing);
+                canvas.addEventListener('mousemove', draw);
+                canvas.addEventListener('mouseup', stopDrawing);
+                canvas.addEventListener('mouseout', stopDrawing);
+                canvas.addEventListener('touchstart', handleTouch);
+                canvas.addEventListener('touchmove', handleTouch);
+                canvas.addEventListener('touchend', stopDrawing);
+                canvas.addEventListener('touchcancel', stopDrawing);
+            });
+        }
+
+        function getCanvasCoordinates(canvas, clientX, clientY) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            
+            return {
+                x: (clientX - rect.left) * scaleX,
+                y: (clientY - rect.top) * scaleY
+            };
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const canvas = e.target;
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            
+            if (clientX && clientY) {
+                const coords = getCanvasCoordinates(canvas, clientX, clientY);
+                lastX = coords.x;
+                lastY = coords.y;
+                
+                const ctx = canvasesContexts[parseInt(canvas.dataset.index)];
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+            }
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            e.preventDefault();
+            
+            const canvas = e.target;
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            
+            if (clientX && clientY) {
+                const coords = getCanvasCoordinates(canvas, clientX, clientY);
+                const currentX = coords.x;
+                const currentY = coords.y;
+                
+                const ctx = canvasesContexts[parseInt(canvas.dataset.index)];
+                ctx.lineTo(currentX, currentY);
+                ctx.stroke();
+                
+                lastX = currentX;
+                lastY = currentY;
+            }
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function handleTouch(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const target = e.target;
+            
+            if (e.type === 'touchstart') {
+                const mouseDownEvent = new MouseEvent('mousedown', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY,
+                    bubbles: true,
+                    cancelable: true
+                });
+                target.dispatchEvent(mouseDownEvent);
+            } else if (e.type === 'touchmove') {
+                const mouseMoveEvent = new MouseEvent('mousemove', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY,
+                    bubbles: true,
+                    cancelable: true
+                });
+                target.dispatchEvent(mouseMoveEvent);
+            }
+        }
+
+        function clearCanvas(index) {
+            const canvas = document.querySelector(`canvas[data-index="${index}"]`);
+            if (canvas) {
+                const ctx = canvasesContexts[index];
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        function addEraseButtonListeners() {
+            document.querySelectorAll('.erase-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const canvasIndex = parseInt(this.dataset.canvasIndex);
+                    clearCanvas(canvasIndex);
+                });
+            });
+        }
+
+        document.querySelectorAll('#navbar a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    const navContainer = document.querySelector('.sticky-nav-container');
+                    const offsetTop = targetElement.offsetTop - navContainer.offsetHeight - 20;
+                    
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                    document.querySelectorAll('#navbar a').forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            generateCards();
+            initializeCanvasContexts();
+            loadVoices();
+            
+            document.getElementById('tts-button').addEventListener('click', playAllKorean);
+            
+            document.getElementById('voice-selector').addEventListener('change', function() {
+                const voiceName = this.value;
+                if (voiceName) {
+                    selectedVoice = voices.find(voice => voice.name === voiceName);
+                } else {
+                    selectedVoice = null;
+                }
+            });
+        });
+
+        window.addEventListener('resize', function() {
+            setTimeout(initializeCanvasContexts, 100);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Korean Time & Schedule</title>
+    <style>
+        :root {
+            --background-color: #0a0a0a;
+            --text-color: #ffffff;
+            --primary-color: #d4373f;
+            --secondary-color: #cccccc;
+            --tertiary-color: #888;
+            --border-color: #333;
+            --card-background: rgba(26, 26, 26, 0.8);
+            --nav-background: rgba(10, 10, 10, 0.9);
+            --header-background: rgba(10, 10, 10, 0.9);
+        }
+
+        .light-mode {
+            --background-color: #f5f5f5;
+            --text-color: #000000;
+            --primary-color: #377bd4;
+            --secondary-color: #333333;
+            --tertiary-color: #666666;
+            --border-color: #dddddd;
+            --card-background: #ffffff;
+            --nav-background: rgba(255, 255, 255, 0.9);
+            --header-background: rgba(255, 255, 255, 0.9);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--header-background);
+            color: var(--text-color);
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .back-button {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-button:hover {
+            opacity: 0.9;
+            transform: translateX(-2px);
+        }
+
+        .header-title {
+            flex: 1;
+            text-align: center;
+        }
+
+        .mode-toggle {
+            cursor: pointer;
+        }
+
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 20px auto;
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            background-color: var(--card-background);
+            padding: 25px;
+            margin: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .time-learner,
+        .time-drawer,
+        .time-table {
+            border: 1px solid var(--border-color);
+        }
+
+        .time-table {
+            flex-basis: 100%;
+            max-width: 100%;
+        }
+
+        h1,
+        h2 {
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-section,
+        .output-section {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        select {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            width: calc(100% - 120px);
+            max-width: 200px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            background-color: var(--card-background);
+            color: var(--text-color);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:disabled {
+            background-color: var(--tertiary-color);
+            cursor: not-allowed;
+        }
+
+        .next-button {
+            background-color: #4CAF50;
+        }
+
+        .next-button:hover {
+            background-color: #45a049;
+        }
+
+        .prev-button {
+            background-color: #f44336;
+        }
+
+        .prev-button:hover {
+            background-color: #da190b;
+        }
+
+        #koreanOutput {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        #koreanOutput:hover {
+            background-color: rgba(240, 248, 240, 0.5);
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        #koreanOutput::after {
+            content: '🔊';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.5em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #koreanOutput:hover::after {
+            opacity: 1;
+        }
+
+        #pronunciationOutput {
+            font-size: 1.2em;
+            color: var(--tertiary-color);
+            font-style: italic;
+        }
+
+        .system-note {
+            font-size: 0.9em;
+            color: var(--tertiary-color);
+            margin-top: 10px;
+        }
+
+        .time-drawer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #drawingCanvas {
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            background-color: var(--card-background);
+            cursor: crosshair;
+            margin-top: 15px;
+        }
+
+        .canvas-controls {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .canvas-controls label {
+            margin-bottom: 0;
+            display: inline-block;
+        }
+
+        .canvas-controls input[type="color"],
+        .canvas-controls input[type="range"] {
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        .time-table-content {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .time-table-content th,
+        .time-table-content td {
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: center;
+        }
+
+        .time-table-content th {
+            background-color: var(--nav-background);
+            font-weight: bold;
+        }
+
+        .time-table-content tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .time-table-content tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+
+        .korean-text {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 5px;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .korean-text:hover {
+            background-color: rgba(240, 248, 240, 0.5);
+            transform: scale(1.1);
+            box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
+        }
+
+        .korean-text::after {
+            content: '🔊';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 0.7em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .korean-text:hover::after {
+            opacity: 1;
+        }
+
+        .table-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            background-color: var(--nav-background);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            border-radius: 4px 4px 0 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab-button.active {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border-bottom: 1px solid var(--primary-color);
+        }
+
+        .tab-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-button.active:hover {
+            background-color: var(--primary-color);
+        }
+
+        .tts-info {
+            background-color: rgba(232, 245, 232, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            text-align: center;
+            color: #2e7d32;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            background-color: var(--header-background);
+            color: var(--text-color);
+            font-size: 0.9em;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .back-button {
+                align-self: flex-start;
+            }
+            
+            main {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            section {
+                margin: 10px 0;
+            }
+
+            select {
+                width: calc(100% - 100px);
+            }
+
+            .navigation-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .time-table-content {
+                font-size: 0.9em;
+            }
+
+            .table-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        .time-inputs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .time-input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .time-input-group label {
+            margin-bottom: 5px;
+        }
+
+        .time-input-group select {
+            width: 120px;
+            margin: 0;
+        }
+
+        .time-period {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin: 0 2px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <button class="back-button" onclick="goBack()">
+                ← Back
+            </button>
+            <div class="header-title">
+                <h1>Learn Korean Time & Schedule</h1>
+            </div>
+            <div class="mode-toggle" onclick="toggleMode()">
+                <span>🌙</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="time-learner">
+            <h2>Korean Time Converter</h2>
+            <div class="tts-info">
+                💡 Hover over or click Korean text to hear pronunciation!
+            </div>
+            <div class="time-inputs">
+                <div class="time-input-group">
+                    <label for="hourSelect">Hour:</label>
+                    <select id="hourSelect">
+                        <!-- Hours will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div class="time-input-group">
+                    <label for="minuteSelect">Minute:</label>
+                    <select id="minuteSelect">
+                        <!-- Minutes will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div class="time-input-group">
+                    <label for="periodSelect">Period:</label>
+                    <select id="periodSelect">
+                        <option value="am">AM</option>
+                        <option value="pm">PM</option>
+                    </select>
+                </div>
+            </div>
+            <div class="navigation-buttons">
+                <button id="prevButton" class="prev-button">← Previous</button>
+                <button id="nextButton" class="next-button">Next →</button>
+            </div>
+            <div class="output-section">
+                <h3>Korean: <span id="koreanOutput" title="Click to hear pronunciation">여덟 시 (yeodeol si)</span></h3>
+                <p>Pronunciation: <span id="pronunciationOutput">yeodeol si</span></p>
+                <p class="system-note" id="systemNote"></p>
+            </div>
+        </section>
+
+        <section class="time-drawer">
+            <h2>Draw Korean Characters</h2>
+            <canvas id="drawingCanvas" width="400" height="400"></canvas>
+            <div class="canvas-controls">
+                <button id="clearCanvas">Clear Canvas</button>
+                <label for="brushColor">Brush Color:</label>
+                <input type="color" id="brushColor" value="#000000">
+                <label for="brushSize">Brush Size:</label>
+                <input type="range" id="brushSize" min="1" max="10" value="3">
+            </div>
+        </section>
+
+        <section class="time-table">
+            <h2>Korean Time Reference</h2>
+            <div class="tts-info">
+                🎵 Click on Korean characters in the table to hear their pronunciation!
+            </div>
+            <div class="table-tabs">
+                <button class="tab-button active" id="hoursTab">Hours</button>
+                <button class="tab-button" id="minutesTab">Minutes</button>
+                <button class="tab-button" id="periodsTab">Time Periods</button>
+                <button class="tab-button" id="sentencesTab">Sentences</button>
+                <button class="tab-button" id="questionsTab">Questions</button>
+            </div>
+            <div class="table-container">
+                <table class="time-table-content" id="timeTable">
+                    <!-- Table content will be populated by JavaScript -->
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Back button functionality
+        function goBack() {
+            window.location.href = "../../index.html";
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const hourSelect = document.getElementById('hourSelect');
+            const minuteSelect = document.getElementById('minuteSelect');
+            const periodSelect = document.getElementById('periodSelect');
+            const prevButton = document.getElementById('prevButton');
+            const nextButton = document.getElementById('nextButton');
+            const koreanOutput = document.getElementById('koreanOutput');
+            const pronunciationOutput = document.getElementById('pronunciationOutput');
+            const systemNote = document.getElementById('systemNote');
+            const hoursTab = document.getElementById('hoursTab');
+            const minutesTab = document.getElementById('minutesTab');
+            const periodsTab = document.getElementById('periodsTab');
+            const sentencesTab = document.getElementById('sentencesTab');
+            const questionsTab = document.getElementById('questionsTab');
+            const timeTable = document.getElementById('timeTable');
+
+            const canvas = document.getElementById('drawingCanvas');
+            const ctx = canvas.getContext('2d');
+            const clearCanvasBtn = document.getElementById('clearCanvas');
+            const brushColorPicker = document.getElementById('brushColor');
+            const brushSizeSlider = document.getElementById('brushSize');
+
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+
+            // Text-to-Speech functionality
+            const speakKorean = (text) => {
+                if ('speechSynthesis' in window) {
+                    speechSynthesis.cancel();
+                    
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'ko-KR';
+                    utterance.rate = 0.7;
+                    utterance.pitch = 1;
+                    utterance.volume = 1;
+                    
+                    const voices = speechSynthesis.getVoices();
+                    const koreanVoice = voices.find(voice => voice.lang.includes('ko'));
+                    if (koreanVoice) {
+                        utterance.voice = koreanVoice;
+                    }
+                    
+                    speechSynthesis.speak(utterance);
+                } else {
+                    console.log('Speech synthesis not supported');
+                }
+            };
+
+            // Load voices when they become available
+            speechSynthesis.onvoiceschanged = () => {
+                // Voices are now loaded
+            };
+
+            // Korean hours (1시 to 12시)
+            const koreanHours = {
+                1: { han: "한 시", pron: "han si", meaning: "1 o'clock" },
+                2: { han: "두 시", pron: "du si", meaning: "2 o'clock" },
+                3: { han: "세 시", pron: "se si", meaning: "3 o'clock" },
+                4: { han: "네 시", pron: "ne si", meaning: "4 o'clock" },
+                5: { han: "다섯 시", pron: "daseot si", meaning: "5 o'clock" },
+                6: { han: "여섯 시", pron: "yeoseot si", meaning: "6 o'clock" },
+                7: { han: "일곱 시", pron: "ilgop si", meaning: "7 o'clock" },
+                8: { han: "여덟 시", pron: "yeodeol si", meaning: "8 o'clock" },
+                9: { han: "아홉 시", pron: "ahop si", meaning: "9 o'clock" },
+                10: { han: "열 시", pron: "yeol si", meaning: "10 o'clock" },
+                11: { han: "열한 시", pron: "yeolhan si", meaning: "11 o'clock" },
+                12: { han: "열두 시", pron: "yeoldu si", meaning: "12 o'clock" }
+            };
+
+            // Korean minutes
+            const koreanMinutes = {
+                0: { han: "정각", pron: "jeonggak", meaning: "exactly" },
+                5: { han: "오 분", pron: "o bun", meaning: "5 minutes" },
+                10: { han: "십 분", pron: "sip bun", meaning: "10 minutes" },
+                15: { han: "십오 분", pron: "sibo bun", meaning: "15 minutes" },
+                20: { han: "이십 분", pron: "isip bun", meaning: "20 minutes" },
+                25: { han: "이십오 분", pron: "isibo bun", meaning: "25 minutes" },
+                30: { han: "삼십 분", pron: "samsip bun", meaning: "30 minutes" },
+                35: { han: "삼십오 분", pron: "samsibo bun", meaning: "35 minutes" },
+                40: { han: "사십 분", pron: "sasip bun", meaning: "40 minutes" },
+                45: { han: "사십오 분", pron: "sasibo bun", meaning: "45 minutes" },
+                50: { han: "오십 분", pron: "osip bun", meaning: "50 minutes" },
+                55: { han: "오십오 분", pron: "osibo bun", meaning: "55 minutes" }
+            };
+
+            // Korean time periods
+            const koreanPeriods = {
+                am: { han: "오전", pron: "ojeon", meaning: "A.M." },
+                pm: { han: "오후", pron: "ohu", meaning: "P.M." },
+                morning: { han: "아침", pron: "achim", meaning: "morning" },
+                noon: { han: "점심", pron: "jeomsim", meaning: "noon/lunch" },
+                evening: { han: "저녁", pron: "jeonyeok", meaning: "evening/dinner" },
+                night: { han: "밤", pron: "bam", meaning: "night" },
+                midnight: { han: "자정", pron: "jajeong", meaning: "midnight" }
+            };
+
+            // Korean time marker
+            const koreanTimeMarker = {
+                marker: { han: "~에", pron: "~e", meaning: "time marker (when action happens)" }
+            };
+
+            // Korean time sentences
+            const koreanSentences = {
+                eightOclock: { han: "여덟 시예요", pron: "yeodeol siyeyo", meaning: "It is 8 o'clock" },
+                meetFriends: { han: "저녁에 친구들을 만나요", pron: "jeonyeoge chinggudeureul mannayo", meaning: "I'll meet with my friends in the evening" },
+                haveLunch: { han: "점심에 점심을 먹어요", pron: "jeomsime jeomsimeul meogeoyo", meaning: "I have lunch at noon" },
+                goToWork: { han: "오전 여덟 시에 출근해요", pron: "ojeon yeodeol sie chulgeunhaeyo", meaning: "I go to work at 8 AM" },
+                afternoonTime: { han: "오후 세 시 삼십일 분", pron: "ohu se si samsibil bun", meaning: "3:31 in the afternoon" },
+                twelveTwentySeven: { han: "열두 시 이십칠 분", pron: "yeoldu si isipchil bun", meaning: "12:27" }
+            };
+
+            // Korean questions
+            const koreanQuestions = {
+                whatTime: { han: "지금 몇 시예요?", pron: "jigeum myeot siyeyo?", meaning: "What time is it now?" }
+            };
+
+            // Populate hour and minute selects
+            function populateTimeSelects() {
+                // Populate hours
+                hourSelect.innerHTML = '';
+                for (let i = 1; i <= 12; i++) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = i;
+                    hourSelect.appendChild(option);
+                }
+
+                // Populate minutes
+                minuteSelect.innerHTML = '';
+                for (let i = 0; i < 60; i++) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = i.toString().padStart(2, '0');
+                    minuteSelect.appendChild(option);
+                }
+
+                // Set current time as default
+                const now = new Date();
+                let hours = now.getHours();
+                const minutes = now.getMinutes();
+                const period = hours >= 12 ? 'pm' : 'am';
+                
+                hours = hours % 12 || 12; // Convert to 12-hour format
+                
+                hourSelect.value = hours;
+                minuteSelect.value = minutes;
+                periodSelect.value = period;
+            }
+
+            const convertTime = () => {
+                const hour = parseInt(hourSelect.value, 10);
+                const minute = parseInt(minuteSelect.value, 10);
+                const period = periodSelect.value;
+
+                const hourKorean = koreanHours[hour];
+                const minuteKorean = getMinuteKorean(minute);
+                const periodKorean = koreanPeriods[period];
+
+                if (hourKorean && minuteKorean && periodKorean) {
+                    let fullTime = "";
+                    let fullPron = "";
+
+                    if (minute === 0) {
+                        fullTime = `${periodKorean.han} ${hourKorean.han} ${minuteKorean.han}`;
+                        fullPron = `${periodKorean.pron} ${hourKorean.pron} ${minuteKorean.pron}`;
+                    } else {
+                        fullTime = `${periodKorean.han} ${hourKorean.han} ${minuteKorean.han}`;
+                        fullPron = `${periodKorean.pron} ${hourKorean.pron} ${minuteKorean.pron}`;
+                    }
+                    
+                    koreanOutput.textContent = fullTime;
+                    pronunciationOutput.textContent = fullPron;
+                    
+                    // Store the korean data for TTS
+                    koreanOutput.dataset.korean = fullTime;
+                    koreanOutput.dataset.pronunciation = fullPron;
+                    
+                    systemNote.textContent = `Example: ${periodKorean.meaning} ${hour}:${minute.toString().padStart(2, '0')}`;
+                } else {
+                    koreanOutput.textContent = "Invalid Time";
+                    pronunciationOutput.textContent = "Please select valid time components.";
+                    systemNote.textContent = "";
+                }
+                
+                updateNavigationButtons();
+            };
+
+            const getMinuteKorean = (minute) => {
+                if (minute === 0) return koreanMinutes[0];
+                if (minute === 30) return koreanMinutes[30];
+                if (minute === 15) return koreanMinutes[15];
+                
+                // For other minutes, construct from basic numbers
+                const tens = Math.floor(minute / 10);
+                const units = minute % 10;
+                
+                let han = "";
+                let pron = "";
+                
+                if (tens > 0) {
+                    han += koreanMinutes[tens * 10].han.split(' ')[0];
+                    pron += koreanMinutes[tens * 10].pron.split(' ')[0];
+                }
+                
+                if (units > 0) {
+                    if (tens > 0) {
+                        han += koreanHours[units].han.split(' ')[0];
+                        pron += koreanHours[units].pron.split(' ')[0];
+                    } else {
+                        han = koreanHours[units].han.split(' ')[0] + " 분";
+                        pron = koreanHours[units].pron.split(' ')[0] + " bun";
+                    }
+                } else {
+                    han += " 분";
+                    pron += " bun";
+                }
+                
+                return { han: han, pron: pron, meaning: `${minute} minutes` };
+            };
+
+            const updateNavigationButtons = () => {
+                const currentHour = parseInt(hourSelect.value, 10);
+                const currentMinute = parseInt(minuteSelect.value, 10);
+                prevButton.disabled = currentHour === 1 && currentMinute === 0;
+                nextButton.disabled = currentHour === 12 && currentMinute === 59;
+            };
+
+            const navigateTime = (direction) => {
+                let currentHour = parseInt(hourSelect.value, 10);
+                let currentMinute = parseInt(minuteSelect.value, 10);
+                
+                currentMinute += direction;
+                
+                if (currentMinute < 0) {
+                    currentMinute = 59;
+                    currentHour -= 1;
+                } else if (currentMinute > 59) {
+                    currentMinute = 0;
+                    currentHour += 1;
+                }
+                
+                if (currentHour < 1) currentHour = 12;
+                if (currentHour > 12) currentHour = 1;
+                
+                hourSelect.value = currentHour;
+                minuteSelect.value = currentMinute;
+                convertTime();
+                
+                // Clear the canvas when navigating to a new time
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            };
+
+            const populateTable = (category) => {
+                let tableHTML = `
+                    <thead>
+                        <tr>
+                            <th>English</th>
+                            <th>Korean</th>
+                            <th>Pronunciation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+                
+                if (category === 'hours') {
+                    for (let i = 1; i <= 12; i++) {
+                        const item = koreanHours[i];
+                        tableHTML += `
+                            <tr onclick="selectHourFromTable(${i})" data-hour="${i}">
+                                <td>${item.meaning}</td>
+                                <td class="korean-text"
+                                    onclick="event.stopPropagation(); speakKoreanText('${item.han}', '${item.pron}')"
+                                    title="Click to hear pronunciation"
+                                    data-korean="${item.han}"
+                                    data-pronunciation="${item.pron}">
+                                    ${item.han}
+                                </td>
+                                <td>${item.pron}</td>
+                            </tr>
+                        `;
+                    }
+                } else if (category === 'minutes') {
+                    Object.entries(koreanMinutes).forEach(([minute, item]) => {
+                        tableHTML += `
+                            <tr onclick="selectMinuteFromTable(${minute})" data-minute="${minute}">
+                                <td>${item.meaning}</td>
+                                <td class="korean-text"
+                                    onclick="event.stopPropagation(); speakKoreanText('${item.han}', '${item.pron}')"
+                                    title="Click to hear pronunciation"
+                                    data-korean="${item.han}"
+                                    data-pronunciation="${item.pron}">
+                                    ${item.han}
+                                </td>
+                                <td>${item.pron}</td>
+                            </tr>
+                        `;
+                    });
+                } else if (category === 'periods') {
+                    Object.entries(koreanPeriods).forEach(([key, item]) => {
+                        tableHTML += `
+                            <tr onclick="selectPeriodFromTable('${key}')" data-period="${key}">
+                                <td>${item.meaning}</td>
+                                <td class="korean-text"
+                                    onclick="event.stopPropagation(); speakKoreanText('${item.han}', '${item.pron}')"
+                                    title="Click to hear pronunciation"
+                                    data-korean="${item.han}"
+                                    data-pronunciation="${item.pron}">
+                                    ${item.han}
+                                </td>
+                                <td>${item.pron}</td>
+                            </tr>
+                        `;
+                    });
+                    // Add time marker
+                    const marker = koreanTimeMarker.marker;
+                    tableHTML += `
+                        <tr>
+                            <td>${marker.meaning}</td>
+                            <td class="korean-text"
+                                onclick="speakKoreanText('${marker.han}', '${marker.pron}')"
+                                title="Click to hear pronunciation"
+                                data-korean="${marker.han}"
+                                data-pronunciation="${marker.pron}">
+                                ${marker.han}
+                            </td>
+                            <td>${marker.pron}</td>
+                        </tr>
+                    `;
+                } else if (category === 'sentences') {
+                    Object.values(koreanSentences).forEach(item => {
+                        tableHTML += `
+                            <tr>
+                                <td>${item.meaning}</td>
+                                <td class="korean-text"
+                                    onclick="speakKoreanText('${item.han}', '${item.pron}')"
+                                    title="Click to hear pronunciation"
+                                    data-korean="${item.han}"
+                                    data-pronunciation="${item.pron}">
+                                    ${item.han}
+                                </td>
+                                <td>${item.pron}</td>
+                            </tr>
+                        `;
+                    });
+                } else if (category === 'questions') {
+                    Object.values(koreanQuestions).forEach(item => {
+                        tableHTML += `
+                            <tr>
+                                <td>${item.meaning}</td>
+                                <td class="korean-text"
+                                    onclick="speakKoreanText('${item.han}', '${item.pron}')"
+                                    title="Click to hear pronunciation"
+                                    data-korean="${item.han}"
+                                    data-pronunciation="${item.pron}">
+                                    ${item.han}
+                                </td>
+                                <td>${item.pron}</td>
+                            </tr>
+                        `;
+                    });
+                }
+                
+                tableHTML += '</tbody>';
+                timeTable.innerHTML = tableHTML;
+            };
+
+            const switchTab = (category) => {
+                // Remove active class from all tabs
+                hoursTab.classList.remove('active');
+                minutesTab.classList.remove('active');
+                periodsTab.classList.remove('active');
+                sentencesTab.classList.remove('active');
+                questionsTab.classList.remove('active');
+                
+                // Add active class to selected tab
+                if (category === 'hours') {
+                    hoursTab.classList.add('active');
+                } else if (category === 'minutes') {
+                    minutesTab.classList.add('active');
+                } else if (category === 'periods') {
+                    periodsTab.classList.add('active');
+                } else if (category === 'sentences') {
+                    sentencesTab.classList.add('active');
+                } else if (category === 'questions') {
+                    questionsTab.classList.add('active');
+                }
+                
+                populateTable(category);
+            };
+
+            // Make functions globally available
+            window.selectHourFromTable = (hour) => {
+                hourSelect.value = hour;
+                convertTime();
+                
+                // Scroll back to converter section on mobile
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.time-learner').scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            window.selectMinuteFromTable = (minute) => {
+                minuteSelect.value = minute;
+                convertTime();
+                
+                // Scroll back to converter section on mobile
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.time-learner').scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            window.selectPeriodFromTable = (period) => {
+                periodSelect.value = period;
+                convertTime();
+                
+                // Scroll back to converter section on mobile
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.time-learner').scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            window.speakKoreanText = (korean, pronunciation) => {
+                speakKorean(korean);
+            };
+
+            // Event listeners
+            hourSelect.addEventListener('change', convertTime);
+            minuteSelect.addEventListener('change', convertTime);
+            periodSelect.addEventListener('change', convertTime);
+            nextButton.addEventListener('click', () => navigateTime(1));
+            prevButton.addEventListener('click', () => navigateTime(-1));
+            
+            // Add TTS functionality to Korean output
+            koreanOutput.addEventListener('click', () => {
+                const korean = koreanOutput.dataset.korean;
+                if (korean) {
+                    speakKorean(korean);
+                }
+            });
+
+            // Also add hover functionality for Korean output
+            koreanOutput.addEventListener('mouseenter', () => {
+                const korean = koreanOutput.dataset.korean;
+                if (korean) {
+                    // Small delay to prevent accidental triggers
+                    setTimeout(() => {
+                        if (koreanOutput.matches(':hover')) {
+                            speakKorean(korean);
+                        }
+                    }, 500);
+                }
+            });
+
+            hoursTab.addEventListener('click', () => switchTab('hours'));
+            minutesTab.addEventListener('click', () => switchTab('minutes'));
+            periodsTab.addEventListener('click', () => switchTab('periods'));
+            sentencesTab.addEventListener('click', () => switchTab('sentences'));
+            questionsTab.addEventListener('click', () => switchTab('questions'));
+
+            // Initial setup
+            populateTimeSelects();
+            convertTime();
+            populateTable('hours');
+
+            // Canvas Drawing Logic
+            ctx.lineWidth = brushSizeSlider.value;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = brushColorPicker.value;
+
+            function getEventPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+                return {
+                    x: clientX - rect.left,
+                    y: clientY - rect.top
+                };
+            }
+
+            function draw(e) {
+                if (!isDrawing) return;
+                const pos = getEventPos(e);
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+                [lastX, lastY] = [pos.x, pos.y];
+            }
+
+            function startDrawing(e) {
+                e.preventDefault(); // Prevent scrolling on mobile
+                isDrawing = true;
+                const pos = getEventPos(e);
+                [lastX, lastY] = [pos.x, pos.y];
+            }
+
+            function stopDrawing(e) {
+                if (e) e.preventDefault(); // Prevent scrolling on mobile
+                isDrawing = false;
+            }
+
+            // Mouse events
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+
+            // Touch events for mobile
+            canvas.addEventListener('touchstart', startDrawing, { passive: false });
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault(); // Prevent scrolling while drawing
+                draw(e);
+            }, { passive: false });
+            canvas.addEventListener('touchend', stopDrawing, { passive: false });
+            canvas.addEventListener('touchcancel', stopDrawing, { passive: false });
+
+            clearCanvasBtn.addEventListener('click', () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            });
+
+            brushColorPicker.addEventListener('change', (e) => {
+                ctx.strokeStyle = e.target.value;
+            });
+
+            brushSizeSlider.addEventListener('input', (e) => {
+                ctx.lineWidth = e.target.value;
+            });
+        });
+
+        function toggleMode() {
+            const body = document.body;
+            body.classList.toggle('light-mode');
+            const modeToggle = document.querySelector('.mode-toggle span');
+
+            if (body.classList.contains('light-mode')) {
+                modeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'light');
+            } else {
+                modeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Function to apply the saved theme
+        function applySavedTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            const modeToggle = document.querySelector('.mode-toggle span');
+
+            if (savedTheme === 'light') {
+                body.classList.add('light-mode');
+                modeToggle.textContent = '☀️';
+            } else {
+                body.classList.remove('light-mode');
+                modeToggle.textContent = '🌙';
+            }
+        }
+
+        // Apply the saved theme when the page loads
+        document.addEventListener('DOMContentLoaded', applySavedTheme);
+    </script>
+</body>
+</html>

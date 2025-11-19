@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indonesian A/B Conversations - Complete Vocabulary</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #090327, #010b02);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            width: 100%;
+        }
+        .back-btn {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .conversation-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            max-width: 700px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .conversation {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+        .message {
+            padding: 15px 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            word-wrap: break-word;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+        .message:hover {
+            transform: scale(1.02);
+        }
+        .message.a {
+            align-self: flex-start;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border-bottom-left-radius: 0;
+        }
+        .message.b {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            border-bottom-right-radius: 0;
+        }
+        .speak-btn {
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #3498db;
+        }
+        .message.b .speak-btn {
+            left: -30px;
+            right: auto;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .control-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+        .control-btn.active {
+            background: rgba(255, 255, 255, 0.6);
+        }
+        .instructions {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
+        }
+        .instructions h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .instructions p {
+            color: #34495e;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        .voice-info {
+            color: white;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        .vocab-highlight {
+            background-color: #ffeb3b;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        /* Test Section Styles */
+        .test-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            max-width: 700px;
+            width: 100%;
+            display: none;
+        }
+        .test-container.active {
+            display: block;
+        }
+        .test-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-size: 1.5rem;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .option {
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .option:hover {
+            background: #e9ecef;
+        }
+        .option.selected {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+        }
+        .option.correct {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+        .option.incorrect {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+        .test-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .test-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #3498db;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .test-btn:hover {
+            background: #2980b9;
+        }
+        .test-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+        .results {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            display: none;
+        }
+        .results.show {
+            display: block;
+        }
+        .score {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .feedback {
+            font-style: italic;
+            color: #6c757d;
+        }
+        
+        /* Loading indicator */
+        .loading {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 5px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../../index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1>Indonesian A/B Conversations - Complete Vocabulary</h1>
+            <p class="subtitle">400+ Essential Words & Phrases with Audio Practice</p>
+        </header>
+        
+        <div class="voice-info">
+            <p>Speaker A: Male voice | Speaker B: Female voice</p>
+        </div>
+        
+        <div class="conversation-container">
+            <div class="conversation" id="conversation">
+                <!-- Messages will be added here dynamically -->
+            </div>
+        </div>
+        
+        <div class="test-container" id="test-container">
+            <h2 class="test-title">Comprehension Test</h2>
+            <div id="questions-container">
+                <!-- Questions will be added here dynamically -->
+            </div>
+            <div class="test-controls">
+                <button class="test-btn" id="prev-question-btn" disabled>Previous Question</button>
+                <button class="test-btn" id="check-answer-btn">Check Answer</button>
+                <button class="test-btn" id="next-question-btn">Next Question</button>
+            </div>
+            <div class="results" id="results">
+                <div class="score" id="score-text"></div>
+                <div class="feedback" id="feedback-text"></div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="control-btn" id="prev-btn">Previous</button>
+            <button class="control-btn" id="next-btn">Next</button>
+            <button class="control-btn" id="test-btn">Take Test</button>
+            <button class="control-btn" id="reset-btn">Reset</button>
+        </div>
+        
+        <div class="instructions">
+            <h3>How to Use</h3>
+            <p><strong>Click on a message</strong> to hear it spoken in Indonesian.</p>
+            <p><strong>Speaker A</strong> uses a male voice, <strong>Speaker B</strong> uses a female voice.</p>
+            <p><strong>Next/Previous:</strong> Navigate through the conversation.</p>
+            <p><strong>Take Test:</strong> Test your understanding of the current conversation.</p>
+            <p><strong>Reset:</strong> Start the conversation from the beginning.</p>
+            <p><strong>Vocabulary:</strong> Key words are highlighted in yellow for easier learning.</p>
+        </div>
+    </div>
+    <script>
+        const conversations = [
+            // Core Phrases - Greetings
+            [
+                { speaker: 'a', text: "Halo, selamat pagi.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/halo_m.mp3" },
+                { speaker: 'b', text: "Selamat pagi juga.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/selamat_pagi_f.mp3" },
+                { speaker: 'a', text: "Apa kabar?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/apa_kabar_m.mp3" },
+                { speaker: 'b', text: "Baik-baik saja, terima kasih.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/baik_baik_saja_f.mp3" }
+            ],
+            [
+                { speaker: 'a', text: "Selamat siang.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/selamat_siang_m.mp3" },
+                { speaker: 'b', text: "Selamat siang, bagaimana hari Anda?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/selamat_siang_f.mp3" },
+                { speaker: 'a', text: "Lumayan, terima kasih.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/lumayan_m.mp3" }
+            ],
+            [
+                { speaker: 'a', text: "Selamat sore.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/selamat_sore_m.mp3" },
+                { speaker: 'b', text: "Selamat sore, sudah makan?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/selamat_sore_f.mp3" },
+                { speaker: 'a', text: "Belum, nanti saja.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/belum_makan_m.mp3" }
+            ],
+            [
+                { speaker: 'a', text: "Selamat malam.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/selamat_malam_m.mp3" },
+                { speaker: 'b', text: "Selamat malam, selamat tidur.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/selamat_malam_f.mp3" },
+                { speaker: 'a', text: "Terima kasih, selamat tidur juga.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/terima_kasih_m.mp3" }
+            ],
+            // Core Phrases - Introductions
+            [
+                { speaker: 'a', text: "Nama saya Budi.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/nama_saya_m.mp3" },
+                { speaker: 'b', text: "Nama saya Sari. Senang bertemu dengan Anda.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/nama_saya_f.mp3" },
+                { speaker: 'a', text: "Senang bertemu dengan Anda juga.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/senang_bertemu_m.mp3" }
+            ],
+            [
+                { speaker: 'a', text: "Saya dari Jakarta.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/saya_dari_m.mp3" },
+                { speaker: 'b', text: "Saya dari Bandung.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/saya_dari_f.mp3" },
+                { speaker: 'a', text: "Oh, bagus sekali.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/oh_bagus_m.mp3" }
+            ],
+            // Core Phrases - Basic Courtesy
+            [
+                { speaker: 'a', text: "Terima kasih banyak.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/terima_kasih_banyak_m.mp3" },
+                { speaker: 'b', text: "Sama-sama, tidak usah sungkan.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/sama_sama_f.mp3" }
+            ],
+            [
+                { speaker: 'a', text: "Maaf, saya terlambat.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/maaf_terlambat_m.mp3" },
+                { speaker: 'b', text: "Tidak apa-apa, jangan khawatir.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/tidak_apa_apa_f.mp3" }
+            ],
+            [
+                { speaker: 'a', text: "Permisi, boleh lewat?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/permisi_m.mp3" },
+                { speaker: 'b', text: "Silakan, silakan.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/silakan_f.mp3" }
+            ],
+            // Numbers and Time
+            [
+                { speaker: 'a', text: "Sekarang pukul berapa?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/pukul_berapa_m.mp3" },
+                { speaker: 'b', text: "Sekarang pukul sembilan.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/pukul_sembilan_f.mp3" },
+                { speaker: 'a', text: "Terima kasih.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/terima_kasih_m.mp3" }
+            ],
+            [
+                { speaker: 'a', text: "Hari ini hari apa?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/hari_apa_m.mp3" },
+                { speaker: 'b', text: "Hari ini hari Senin.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/hari_senin_f.mp3" },
+                { speaker: 'a', text: "Besok hari Selasa.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/besok_selasa_m.mp3" }
+            ],
+            [
+                { speaker: 'a', text: "Bulan ini bulan apa?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/bulan_apa_m.mp3" },
+                { speaker: 'b', text: "Bulan ini bulan Januari.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/bulan_januari_f.mp3" },
+                { speaker: 'a', text: "Bulan depan bulan Februari.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/bulan_februari_m.mp3" }
+            ],
+            // Family Members
+            [
+                { speaker: 'a', text: "Ini keluarga saya.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/mine/ini_keluarga_m.mp3" },
+                { speaker: 'b', text: "Siapa nama ayah Anda?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/siapa_ayah_f.mp3" },
+                { speaker: 'a', text: "Nama ayah saya Heru.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/nama_ayah_m.mp3" },
+                { speaker: 'b', text: "Dan nama ibu Anda?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/nama_ibu_f.mp3" },
+                { speaker: 'a', text: "Nama ibu saya Rina.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/nama_ibu_m.mp3" }
+            ],
+            [
+                { speaker: 'a', text: "Berapa saudara Anda?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/berapa_saudara_m.mp3" },
+                { speaker: 'b', text: "Saya punya dua saudara.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/dua_saudara_f.mp3" },
+                { speaker: 'a', text: "Satu kakak dan satu adik?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/kakak_adik_m.mp3" },
+                { speaker: 'b', text: "Ya, benar sekali.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/ya_benar_f.mp3" }
+            ],
+            // Common Objects
+            [
+                { speaker: 'a', text: "Ini rumah saya.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/ini_rumah_m.mp3" },
+                { speaker: 'b', text: "Rumah yang bagus.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/rumah_bagus_f.mp3" },
+                { speaker: 'a', text: "Terima kasih. Ini mobil saya.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/ini_mobil_m.mp3" },
+                { speaker: 'b', text: "Mobil yang besar.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/mobil_besar_f.mp3" }
+            ],
+            [
+                { speaker: 'a', text: "Saya punya buku baru.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/buku_baru_m.mp3" },
+                { speaker: 'b', text: "Buku tentang apa?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/buku_tentang_apa_f.mp3" },
+                { speaker: 'a', text: "Buku tentang sejarah Indonesia.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/buku_sejarah_m.mp3" },
+                { speaker: 'b', text: "Menarik sekali.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/menarik_f.mp3" }
+            ],
+            // Colors
+            [
+                { speaker: 'a', text: "Mobil saya berwarna merah.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/mobil_merah_m.mp3" },
+                { speaker: 'b', text: "Mobil saya biru.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/mobil_biru_f.mp3" },
+                { speaker: 'a', text: "Saya suka warna hijau.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/suka_hijau_m.mp3" },
+                { speaker: 'b', text: "Saya lebih suka kuning.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/suka_kuning_f.mp3" }
+            ],
+            // Grammar Elements - Noun Phrases
+            [
+                { speaker: 'a', text: "Saya punya rumah besar.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/rumah_besar_m.mp3" },
+                { speaker: 'b', text: "Rumah besar atau rumah kecil?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/rumah_besar_kecil_f.mp3" },
+                { speaker: 'a', text: "Rumah besar, dengan taman hijau.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/rumah_taman_m.mp3" }
+            ],
+            [
+                { speaker: 'a', text: "Ini mobil merah saya.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/mobil_merah_saya_m.mp3" },
+                { speaker: 'b', text: "Mobil merah yang bagus.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/mobil_merah_bagus_f.mp3" },
+                { speaker: 'a', text: "Terima kasih, saya suka mobil ini.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/suka_mobil_m.mp3" }
+            ],
+            // Grammar Elements - Possessives
+            [
+                { speaker: 'a', text: "Ini bukunya.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/ini_bukunya_m.mp3" },
+                { speaker: 'b', text: "Buku siapa?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/buku_siapa_f.mp3" },
+                { speaker: 'a', text: "Bukunya Andi.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/bukunya_andi_m.mp3" },
+                { speaker: 'b', text: "Oh, begitu. Ini bukuku.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/ini_bukuku_f.mp3" }
+            ],
+            [
+                { speaker: 'a', text: "Rumahku di sini.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/rumahku_disini_m.mp3" },
+                { speaker: 'b', text: "Rumahmu besar sekali.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/rumahmu_besar_f.mp3" },
+                { speaker: 'a', text: "Terima kasih, memang besar.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/memang_besar_m.mp3" }
+            ],
+            // Grammar Elements - Questions
+            [
+                { speaker: 'a', text: "Apa ini?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/apa_ini_m.mp3" },
+                { speaker: 'b', text: "Ini buku.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/ini_buku_f.mp3" },
+                { speaker: 'a', text: "Siapa pemiliknya?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/siapa_pemilik_m.mp3" },
+                { speaker: 'b', text: "Pemiliknya saya.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/pemilik_saya_f.mp3" }
+            ],
+            [
+                { speaker: 'a', text: "Di mana rumah Anda?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/dimana_rumah_m.mp3" },
+                { speaker: 'b', text: "Rumah saya di Jakarta.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/rumah_jakarta_f.mp3" },
+                { speaker: 'a', text: "Kapan Anda pindah ke sana?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/kapan_pindah_m.mp3" },
+                { speaker: 'b', text: "Dua tahun yang lalu.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/dua_tahun_f.mp3" }
+            ],
+            [
+                { speaker: 'a', text: "Bagaimana cuaca hari ini?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/bagaimana_cuaca_m.mp3" },
+                { speaker: 'b', text: "Cuacanya cerah dan panas.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/cuaca_cerah_f.mp3" },
+                { speaker: 'a', text: "Berapa suhunya?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/berapa_suhu_m.mp3" },
+                { speaker: 'b', text: "Sekitar tiga puluh derajat.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/tiga_puluh_derajat_f.mp3" }
+            ],
+            // Grammar Elements - Demonstratives
+            [
+                { speaker: 'a', text: "Ini rumah saya.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/ini_rumah_saya_m.mp3" },
+                { speaker: 'b', text: "Itu rumah siapa?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/itu_rumah_siapa_f.mp3" },
+                { speaker: 'a', text: "Itu rumah tetangga saya.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/rumah_tetangga_m.mp3" },
+                { speaker: 'b', text: "Rumah yang bagus juga.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/rumah_bagus_juga_f.mp3" }
+            ],
+            // Time Expressions and Frequency
+            [
+                { speaker: 'a', text: "Anda selalu datang tepat waktu.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/selalu_tepat_waktu_m.mp3" },
+                { speaker: 'b', text: "Ya, saya sering bangun pagi.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/sering_bangun_pagi_f.mp3" },
+                { speaker: 'a', text: "Saya kadang-kadang terlambat.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/kadang_terlambat_m.mp3" },
+                { speaker: 'b', text: "Tidak apa-apa, yang penting datang.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/yang_penting_f.mp3" }
+            ],
+            [
+                { speaker: 'a', text: "Saya jarang makan di luar.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/jarang_makan_luar_m.mp3" },
+                { speaker: 'b', text: "Saya tidak pernah makan di restoran mewah.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/tidak_pernah_mewah_f.mp3" },
+                { speaker: 'a', text: "Mengapa tidak?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/mengapa_tidak_m.mp3" },
+                { speaker: 'b', text: "Karena mahal sekali.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/karena_mahal_f.mp3" }
+            ],
+            // Past/Present/Future Markers
+            [
+                { speaker: 'a', text: "Saya sudah makan.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/sudah_makan_m.mp3" },
+                { speaker: 'b', text: "Saya sedang makan.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/sedang_makan_f.mp3" },
+                { speaker: 'a', text: "Dia akan makan nanti.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/akan_makan_m.mp3" },
+                { speaker: 'b', text: "Kami belum makan.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/belum_makan_f.mp3" }
+            ],
+            // Duration
+            [
+                { speaker: 'a', text: "Sudah lama kita tidak bertemu.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/sudah_lama_m.mp3" },
+                { speaker: 'b', text: "Ya, sejak tahun lalu.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/sejak_tahun_lalu_f.mp3" },
+                { speaker: 'a', text: "Tunggu sebentar, saya ambil minuman.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/tunggu_sebentar_m.mp3" },
+                { speaker: 'b', text: "Baik, saya tunggu sampai Anda kembali.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/sampai_kembali_f.mp3" }
+            ],
+            // Extended Vocabulary - Food and Drinks
+            [
+                { speaker: 'a', text: "Saya lapar.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/saya_lapar_m.mp3" },
+                { speaker: 'b', text: "Mau makan apa?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/mau_makan_apa_f.mp3" },
+                { speaker: 'a', text: "Saya mau nasi goreng.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/mau_nasi_goreng_m.mp3" },
+                { speaker: 'b', text: "Saya mau sate ayam.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/mau_sate_f.mp3" }
+            ],
+            [
+                { speaker: 'a', text: "Saya haus.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/saya_haus_m.mp3" },
+                { speaker: 'b', text: "Mau minum apa?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/mau_minum_apa_f.mp3" },
+                { speaker: 'a', text: "Saya mau air putih.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/mau_air_putih_m.mp3" },
+                { speaker: 'b', text: "Saya mau teh manis.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/mau_teh_manis_f.mp3" }
+            ],
+            // Extended Vocabulary - Daily Activities
+            [
+                { speaker: 'a', text: "Apa yang Anda lakukan setiap hari?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/apa_yang_dilakukan_m.mp3" },
+                { speaker: 'b', text: "Saya bekerja dari pukul sembilan sampai lima.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/bekerja_sembilan_lima_f.mp3" },
+                { speaker: 'a', text: "Kemudian apa?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/kemudian_apa_m.mp3" },
+                { speaker: 'b', text: "Saya pulang, makan malam, dan tidur.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/pulang_makan_tidur_f.mp3" }
+            ],
+            // Extended Vocabulary - Weather
+            [
+                { speaker: 'a', text: "Cuaca hari ini panas sekali.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/cuaca_panas_m.mp3" },
+                { speaker: 'b', text: "Ya, sangat panas. Saya berkeringat.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/sangat_panas_f.mp3" },
+                { speaker: 'a', text: "Mungkin nanti hujan.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/mungkin_hujan_m.mp3" },
+                { speaker: 'b', text: "Saya harap begitu, agar dingin.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/harap_dingin_f.mp3" }
+            ],
+            // Extended Vocabulary - Shopping
+            [
+                { speaker: 'a', text: "Saya mau pergi ke pasar.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/mau_ke_pasar_m.mp3" },
+                { speaker: 'b', text: "Mau beli apa?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/mau_beli_apa_f.mp3" },
+                { speaker: 'a', text: "Saya mau beli sayuran dan buah-buahan.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/beli_sayuran_m.mp3" },
+                { speaker: 'b', text: "Bawa uang cukup?", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/female/bawa_uang_f.mp3" },
+                { speaker: 'a', text: "Ya, saya bawa uang cukup.", audioUrl: "https://github.com/frogkoko/indonesian-audio/raw/main/male/bawa_uang_cukup_m.mp3" }
+            ]
+        ];
+
+        // Test questions for each conversation
+        const testQuestions = [
+            // Core Phrases - Greetings
+            [
+                {
+                    question: "What greeting is used in this conversation?",
+                    options: [
+                        "Selamat pagi",
+                        "Selamat siang",
+                        "Selamat sore",
+                        "Selamat malam"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "How does person B respond to 'Apa kabar?'",
+                    options: [
+                        "Baik-baik saja",
+                        "Sama-sama",
+                        "Terima kasih",
+                        "Tidak apa-apa"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            [
+                {
+                    question: "What time of day is this greeting for?",
+                    options: [
+                        "Afternoon",
+                        "Morning",
+                        "Evening",
+                        "Night"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What does person A say about their day?",
+                    options: [
+                        "Lumayan",
+                        "Sangat bagus",
+                        "Tidak baik",
+                        "Biasa saja"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            [
+                {
+                    question: "What time of day is this greeting for?",
+                    options: [
+                        "Evening",
+                        "Morning",
+                        "Afternoon",
+                        "Night"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "Has person A eaten yet?",
+                    options: [
+                        "No, not yet",
+                        "Yes, already",
+                        "Maybe later",
+                        "Don't know"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            [
+                {
+                    question: "What time of day is this greeting for?",
+                    options: [
+                        "Night",
+                        "Morning",
+                        "Afternoon",
+                        "Evening"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What do they wish each other?",
+                    options: [
+                        "Good night",
+                        "Good day",
+                        "Good luck",
+                        "Good bye"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            // Core Phrases - Introductions
+            [
+                {
+                    question: "What is person A's name?",
+                    options: [
+                        "Budi",
+                        "Sari",
+                        "Andi",
+                        "Rina"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What do they say to each other?",
+                    options: [
+                        "Nice to meet you",
+                        "Good morning",
+                        "Thank you",
+                        "Goodbye"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            [
+                {
+                    question: "Where is person A from?",
+                    options: [
+                        "Jakarta",
+                        "Bandung",
+                        "Surabaya",
+                        "Bali"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "Where is person B from?",
+                    options: [
+                        "Bandung",
+                        "Jakarta",
+                        "Surabaya",
+                        "Bali"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            // Core Phrases - Basic Courtesy
+            [
+                {
+                    question: "What does person A say?",
+                    options: [
+                        "Thank you very much",
+                        "You're welcome",
+                        "Excuse me",
+                        "I'm sorry"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "How does person B respond?",
+                    options: [
+                        "You're welcome",
+                        "Thank you",
+                        "Nice to meet you",
+                        "Goodbye"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            [
+                {
+                    question: "Why is person A apologizing?",
+                    options: [
+                        "For being late",
+                        "For making a mistake",
+                        "For interrupting",
+                        "For forgetting something"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "How does person B respond?",
+                    options: [
+                        "It's okay, don't worry",
+                        "You should be sorry",
+                        "That's fine",
+                        "No problem at all"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            [
+                {
+                    question: "What does person A want to do?",
+                    options: [
+                        "Pass through",
+                        "Ask a question",
+                        "Get attention",
+                        "Say sorry"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "How does person B respond?",
+                    options: [
+                        "Please, go ahead",
+                        "Wait a moment",
+                        "No, you can't",
+                        "Later please"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            // Numbers and Time
+            [
+                {
+                    question: "What is person A asking?",
+                    options: [
+                        "What time is it?",
+                        "What day is it?",
+                        "What month is it?",
+                        "What year is it?"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What time is it?",
+                    options: [
+                        "Nine o'clock",
+                        "Ten o'clock",
+                        "Eleven o'clock",
+                        "Twelve o'clock"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            [
+                {
+                    question: "What is person A asking?",
+                    options: [
+                        "What day is it?",
+                        "What time is it?",
+                        "What month is it?",
+                        "What year is it?"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What day is it?",
+                    options: [
+                        "Monday",
+                        "Tuesday",
+                        "Wednesday",
+                        "Thursday"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            [
+                {
+                    question: "What is person A asking?",
+                    options: [
+                        "What month is it?",
+                        "What day is it?",
+                        "What time is it?",
+                        "What year is it?"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What month is it?",
+                    options: [
+                        "January",
+                        "February",
+                        "March",
+                        "April"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            // Family Members
+            [
+                {
+                    question: "What is person A showing?",
+                    options: [
+                        "Their family",
+                        "Their house",
+                        "Their car",
+                        "Their book"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What is the father's name?",
+                    options: [
+                        "Heru",
+                        "Budi",
+                        "Andi",
+                        "Sari"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            [
+                {
+                    question: "How many siblings does person B have?",
+                    options: [
+                        "Two",
+                        "One",
+                        "Three",
+                        "Four"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What is the combination of siblings?",
+                    options: [
+                        "One older and one younger",
+                        "Two older",
+                        "Two younger",
+                        "All older"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            // Common Objects
+            [
+                {
+                    question: "What is person A showing?",
+                    options: [
+                        "Their house and car",
+                        "Their book and pen",
+                        "Their family and friends",
+                        "Their food and drinks"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "How does person B describe the car?",
+                    options: [
+                        "Big",
+                        "Small",
+                        "Red",
+                        "Fast"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            [
+                {
+                    question: "What does person A have?",
+                    options: [
+                        "A new book",
+                        "A new car",
+                        "A new house",
+                        "A new phone"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What is the book about?",
+                    options: [
+                        "Indonesian history",
+                        "Indonesian food",
+                        "Indonesian culture",
+                        "Indonesian language"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            // Colors
+            [
+                {
+                    question: "What color is person A's car?",
+                    options: [
+                        "Red",
+                        "Blue",
+                        "Green",
+                        "Yellow"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What color does person A like?",
+                    options: [
+                        "Green",
+                        "Blue",
+                        "Red",
+                        "Yellow"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            // Grammar Elements - Noun Phrases
+            [
+                {
+                    question: "What kind of house does person A have?",
+                    options: [
+                        "Big house",
+                        "Small house",
+                        "Red house",
+                        "Green house"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What does the house have?",
+                    options: [
+                        "Green garden",
+                        "Blue pool",
+                        "Red roof",
+                        "Yellow door"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            [
+                {
+                    question: "What does person A have?",
+                    options: [
+                        "A red car",
+                        "A blue car",
+                        "A big house",
+                        "A small book"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "How does person B describe the car?",
+                    options: [
+                        "Nice",
+                        "Big",
+                        "Small",
+                        "Fast"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            // Grammar Elements - Possessives
+            [
+                {
+                    question: "Whose book is it?",
+                    options: [
+                        "Andi's",
+                        "Budi's",
+                        "Sari's",
+                        "Rina's"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What does person B say?",
+                    options: [
+                        "This is my book",
+                        "This is your book",
+                        "This is his book",
+                        "This is her book"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            [
+                {
+                    question: "Where is person A's house?",
+                    options: [
+                        "Here",
+                        "There",
+                        "Far away",
+                        "Nearby"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "How does person B describe the house?",
+                    options: [
+                        "Very big",
+                        "Very small",
+                        "Very beautiful",
+                        "Very old"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            // Grammar Elements - Questions
+            [
+                {
+                    question: "What is person A asking about?",
+                    options: [
+                        "What this is",
+                        "Where this is",
+                        "Whose this is",
+                        "When this is"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "Who is the owner?",
+                    options: [
+                        "Person B",
+                        "Person A",
+                        "Andi",
+                        "Budi"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            [
+                {
+                    question: "What is person A asking?",
+                    options: [
+                        "Where person B's house is",
+                        "When person B moved",
+                        "What person B does",
+                        "How person B is"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "When did person B move there?",
+                    options: [
+                        "Two years ago",
+                        "One year ago",
+                        "Three years ago",
+                        "Five years ago"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            [
+                {
+                    question: "What is person A asking about?",
+                    options: [
+                        "The weather",
+                        "The time",
+                        "The temperature",
+                        "The day"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What is the temperature?",
+                    options: [
+                        "About thirty degrees",
+                        "About twenty degrees",
+                        "About twenty-five degrees",
+                        "About thirty-five degrees"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            // Grammar Elements - Demonstratives
+            [
+                {
+                    question: "What is person A showing?",
+                    options: [
+                        "Their house",
+                        "Their car",
+                        "Their book",
+                        "Their family"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "Whose house is that?",
+                    options: [
+                        "Neighbor's house",
+                        "Friend's house",
+                        "Relative's house",
+                        "Brother's house"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            // Time Expressions and Frequency
+            [
+                {
+                    question: "How often does person B arrive on time?",
+                    options: [
+                        "Always",
+                        "Often",
+                        "Sometimes",
+                        "Rarely"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "How often does person A wake up early?",
+                    options: [
+                        "Often",
+                        "Always",
+                        "Sometimes",
+                        "Never"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            [
+                {
+                    question: "How often does person A eat out?",
+                    options: [
+                        "Rarely",
+                        "Often",
+                        "Always",
+                        "Sometimes"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "How often does person B eat at fancy restaurants?",
+                    options: [
+                        "Never",
+                        "Rarely",
+                        "Sometimes",
+                        "Often"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            // Past/Present/Future Markers
+            [
+                {
+                    question: "What has person A already done?",
+                    options: [
+                        "Eaten",
+                        "Slept",
+                        "Worked",
+                        "Studied"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What is person B currently doing?",
+                    options: [
+                        "Eating",
+                        "Sleeping",
+                        "Working",
+                        "Studying"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            // Duration
+            [
+                {
+                    question: "How long has it been since they met?",
+                    options: [
+                        "A long time",
+                        "A short time",
+                        "A week",
+                        "A month"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "Since when haven't they met?",
+                    options: [
+                        "Since last year",
+                        "Since last month",
+                        "Since last week",
+                        "Since yesterday"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            // Extended Vocabulary - Food and Drinks
+            [
+                {
+                    question: "What does person A want to eat?",
+                    options: [
+                        "Fried rice",
+                        "Chicken satay",
+                        "Noodle soup",
+                        "Fried chicken"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What does person B want to eat?",
+                    options: [
+                        "Chicken satay",
+                        "Fried rice",
+                        "Noodle soup",
+                        "Fried chicken"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            [
+                {
+                    question: "What does person A want to drink?",
+                    options: [
+                        "Plain water",
+                        "Sweet tea",
+                        "Coffee",
+                        "Juice"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What does person B want to drink?",
+                    options: [
+                        "Sweet tea",
+                        "Plain water",
+                        "Coffee",
+                        "Juice"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            // Extended Vocabulary - Daily Activities
+            [
+                {
+                    question: "What does person B do every day?",
+                    options: [
+                        "Works from nine to five",
+                        "Studies from nine to five",
+                        "Exercises from nine to five",
+                        "Shops from nine to five"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What does person B do after work?",
+                    options: [
+                        "Goes home, eats dinner, and sleeps",
+                        "Goes out, meets friends, and parties",
+                        "Exercises, showers, and reads",
+                        "Cooks, cleans, and watches TV"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            // Extended Vocabulary - Weather
+            [
+                {
+                    question: "How is the weather today?",
+                    options: [
+                        "Very hot",
+                        "Very cold",
+                        "Very rainy",
+                        "Very windy"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What does person B hope will happen?",
+                    options: [
+                        "It will rain to cool down",
+                        "It will stop raining",
+                        "The wind will stop",
+                        "The sun will come out"
+                    ],
+                    correctAnswer: 0
+                }
+            ],
+            // Extended Vocabulary - Shopping
+            [
+                {
+                    question: "Where does person A want to go?",
+                    options: [
+                        "To the market",
+                        "To the mall",
+                        "To the supermarket",
+                        "To the store"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What does person A want to buy?",
+                    options: [
+                        "Vegetables and fruits",
+                        "Meat and fish",
+                        "Clothes and shoes",
+                        "Books and pens"
+                    ],
+                    correctAnswer: 0
+                }
+            ]
+        ];
+
+        // Indonesian vocabulary to highlight (400+ words)
+        const vocabWords = [
+            // Core Phrases
+            "Halo", "Selamat", "pagi", "siang", "sore", "malam", "tinggal", "jalan", 
+            "Terima", "kasih", "Sama-sama", "Permisi", "Maaf", "Tidak", "apa-apa", 
+            "Senang", "bertemu", "dengan", "Anda", "Saya", "juga", "Apa", "kabar", 
+            "Baik-baik", "saja", "Lumayan", "sudah", "makan", "Belum", "nanti", 
+            "tidur", "Nama", "saya", "dari", "Jakarta", "Bandung", "Oh", "bagus", 
+            "sekali", "banyak", "usah", "sungkan", "terlambat", "jangan", "khawatir", 
+            "boleh", "lewat", "Silakan",
+            
+            // Numbers and Time
+            "Sekarang", "pukul", "berapa", "sembilan", "hari", "ini", "Senin", 
+            "Besok", "Selasa", "Bulan", "Januari", "depan", "Februari", "tahun", 
+            "lalu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", 
+            "sepuluh", "sebelas", "dua belas", "dua puluh", "tiga puluh", "seratus", 
+            "seribu",
+            
+            // Family Members
+            "keluarga", "Siapa", "ayah", "ibu", "nama", "Heru", "Rina", "Berapa", 
+            "saudara", "punya", "satu", "kakak", "adik", "Ya", "benar",
+            
+            // Common Objects
+            "rumah", "mobil", "yang", "besar", "buku", "baru", "tentang", "sejarah", 
+            "Indonesia", "Menarik",
+            
+            // Colors
+            "berwarna", "merah", "biru", "suka", "warna", "hijau", "lebih", "kuning",
+            
+            // Grammar Elements - Noun Phrases
+            "dengan", "taman",
+            
+            // Grammar Elements - Possessives
+            "bukunya", "siapa", "Andi", "bukuku", "Rumahku", "disini", "Rumahmu", 
+            "memang",
+            
+            // Grammar Elements - Questions
+            "pemiliknya", "mana", "Kapan", "pindah", "sana", "Bagaimana", "cuaca", 
+            "cerah", "panas", "suhunya", "sekitar", "derajat",
+            
+            // Grammar Elements - Demonstratives
+            "Itu", "tetangga",
+            
+            // Time Expressions and Frequency
+            "datang", "tepat", "waktu", "sering", "bangun", "kadang-kadang", 
+            "jarang", "tidak", "pernah", "restoran", "mewah", "Mengapa", "Karena", 
+            "mahal",
+            
+            // Past/Present/Future Markers
+            "sedang", "akan", "Kami",
+            
+            // Duration
+            "lama", "kita", "tidak", "sejak", "Tunggu", "sebentar", "ambil", 
+            "minuman", "Baik", "tunggu", "kembali",
+            
+            // Extended Vocabulary - Food and Drinks
+            "lapar", "Mau", "nasi", "goreng", "sate", "ayam", "haus", "minum", 
+            "air", "putih", "teh", "manis",
+            
+            // Extended Vocabulary - Daily Activities
+            "yang", "lakukan", "setiap", "bekerja", "sampai", "Kemudian", "pulang", 
+            "malam",
+            
+            // Extended Vocabulary - Weather
+            "sekali", "berkeringat", "Mungkin", "hujan", "harap", "begitu", "agar", 
+            "dingin",
+            
+            // Extended Vocabulary - Shopping
+            "pergi", "ke", "pasar", "beli", "sayuran", "buah-buahan", "Bawa", 
+            "uang", "cukup"
+        ];
+
+        let currentConversationIndex = 0;
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let testStarted = false;
+        let audio = new Audio();
+        
+        const conversationElement = document.getElementById('conversation');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const testBtn = document.getElementById('test-btn');
+        const testContainer = document.getElementById('test-container');
+        const questionsContainer = document.getElementById('questions-container');
+        const prevQuestionBtn = document.getElementById('prev-question-btn');
+        const nextQuestionBtn = document.getElementById('next-question-btn');
+        const checkAnswerBtn = document.getElementById('check-answer-btn');
+        const results = document.getElementById('results');
+        const scoreText = document.getElementById('score-text');
+        const feedbackText = document.getElementById('feedback-text');
+        
+        // Function to highlight vocabulary words
+        function highlightVocabulary(text) {
+            let highlightedText = text;
+            vocabWords.forEach(word => {
+                const regex = new RegExp(`\\b${word}\\b`, 'gi');
+                highlightedText = highlightedText.replace(regex, `<span class="vocab-highlight">${word}</span>`);
+            });
+            return highlightedText;
+        }
+
+        function renderConversation() {
+            conversationElement.innerHTML = '';
+            const currentConversation = conversations[currentConversationIndex];
+            
+            currentConversation.forEach(message => {
+                const messageElement = document.createElement('div');
+                messageElement.className = `message ${message.speaker}`;
+                
+                // Highlight vocabulary words
+                const highlightedText = highlightVocabulary(message.text);
+                
+                messageElement.innerHTML = `
+                    ${highlightedText}
+                    <button class="speak-btn" data-audio="${message.audioUrl}">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                `;
+                conversationElement.appendChild(messageElement);
+            });
+            
+            // Add event listeners to speak buttons
+            document.querySelectorAll('.speak-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const audioUrl = e.target.closest('.speak-btn').dataset.audio;
+                    playAudio(audioUrl, e.target.closest('.speak-btn'));
+                });
+            });
+            
+            // Add event listeners to messages
+            document.querySelectorAll('.message').forEach(message => {
+                message.addEventListener('click', (e) => {
+                    if (!e.target.closest('.speak-btn')) {
+                        const audioUrl = e.currentTarget.querySelector('.speak-btn').dataset.audio;
+                        playAudio(audioUrl, e.currentTarget.querySelector('.speak-btn'));
+                    }
+                });
+            });
+        }
+
+        function playAudio(audioUrl, button) {
+            // Stop any currently playing audio
+            audio.pause();
+            
+            // Remove loading indicators from all buttons
+            document.querySelectorAll('.speak-btn').forEach(btn => {
+                const icon = btn.querySelector('i');
+                const loading = btn.querySelector('.loading');
+                if (loading) {
+                    btn.removeChild(loading);
+                }
+                icon.style.display = 'inline-block';
+            });
+            
+            // Show loading indicator on clicked button
+            const icon = button.querySelector('i');
+            icon.style.display = 'none';
+            const loading = document.createElement('span');
+            loading.className = 'loading';
+            button.appendChild(loading);
+            
+            // Set up the audio
+            audio.src = audioUrl;
+            audio.oncanplaythrough = () => {
+                // Remove loading indicator when ready to play
+                const loading = button.querySelector('.loading');
+                if (loading) {
+                    button.removeChild(loading);
+                }
+                icon.style.display = 'inline-block';
+            };
+            audio.onerror = () => {
+                // Remove loading indicator on error
+                const loading = button.querySelector('.loading');
+                if (loading) {
+                    button.removeChild(loading);
+                }
+                icon.style.display = 'inline-block';
+                alert('Error loading audio. Please try again.');
+            };
+            
+            // Play the audio
+            audio.play();
+        }
+
+        function startTest() {
+            testStarted = true;
+            currentQuestionIndex = 0;
+            userAnswers = new Array(testQuestions[currentConversationIndex].length).fill(null);
+            testContainer.classList.add('active');
+            renderQuestion();
+            updateTestControls();
+            results.classList.remove('show');
+        }
+
+        function renderQuestion() {
+            questionsContainer.innerHTML = '';
+            const questions = testQuestions[currentConversationIndex];
+            const question = questions[currentQuestionIndex];
+            
+            const questionElement = document.createElement('div');
+            questionElement.className = 'question';
+            questionElement.innerHTML = `
+                <div class="question-text">${currentQuestionIndex + 1}. ${question.question}</div>
+                <div class="options">
+                    ${question.options.map((option, index) => `
+                        <div class="option ${userAnswers[currentQuestionIndex] === index ? 'selected' : ''}" data-index="${index}">
+                            ${option}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            questionsContainer.appendChild(questionElement);
+            
+            // Add event listeners to options
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', () => {
+                    // Remove selected class from all options
+                    document.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Add selected class to clicked option
+                    option.classList.add('selected');
+                    
+                    // Store user's answer
+                    userAnswers[currentQuestionIndex] = parseInt(option.dataset.index);
+                    
+                    // Enable check answer button
+                    checkAnswerBtn.disabled = false;
+                });
+            });
+        }
+
+        function updateTestControls() {
+            prevQuestionBtn.disabled = currentQuestionIndex === 0;
+            nextQuestionBtn.disabled = currentQuestionIndex === testQuestions[currentConversationIndex].length - 1;
+            checkAnswerBtn.disabled = userAnswers[currentQuestionIndex] === null;
+        }
+
+        function checkAnswer() {
+            const questions = testQuestions[currentConversationIndex];
+            const question = questions[currentQuestionIndex];
+            const userAnswer = userAnswers[currentQuestionIndex];
+            
+            // Show correct/incorrect styling
+            document.querySelectorAll('.option').forEach(option => {
+                const index = parseInt(option.dataset.index);
+                if (index === question.correctAnswer) {
+                    option.classList.add('correct');
+                } else if (index === userAnswer && userAnswer !== question.correctAnswer) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            // Disable further selection
+            document.querySelectorAll('.option').forEach(option => {
+                option.style.pointerEvents = 'none';
+            });
+            
+            checkAnswerBtn.disabled = true;
+            
+            // If this is the last question, show results
+            if (currentQuestionIndex === questions.length - 1) {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            const questions = testQuestions[currentConversationIndex];
+            let correctCount = 0;
+            
+            questions.forEach((question, index) => {
+                if (userAnswers[index] === question.correctAnswer) {
+                    correctCount++;
+                }
+            });
+            
+            const score = Math.round((correctCount / questions.length) * 100);
+            scoreText.textContent = `Your Score: ${score}% (${correctCount}/${questions.length})`;
+            
+            // Provide feedback based on score
+            if (score >= 90) {
+                feedbackText.textContent = "Excellent! You have a great understanding of this conversation.";
+            } else if (score >= 70) {
+                feedbackText.textContent = "Good job! You understood most of the conversation.";
+            } else if (score >= 50) {
+                feedbackText.textContent = "Not bad! Review the conversation and try again.";
+            } else {
+                feedbackText.textContent = "Keep practicing! Listen to the conversation again and pay attention to the details.";
+            }
+            
+            results.classList.add('show');
+        }
+
+        // Event listeners for conversation navigation
+        prevBtn.addEventListener('click', () => {
+            if (currentConversationIndex > 0) {
+                currentConversationIndex--;
+                renderConversation();
+                testContainer.classList.remove('active');
+                testStarted = false;
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentConversationIndex < conversations.length - 1) {
+                currentConversationIndex++;
+                renderConversation();
+                testContainer.classList.remove('active');
+                testStarted = false;
+            }
+        });
+
+        resetBtn.addEventListener('click', () => {
+            currentConversationIndex = 0;
+            renderConversation();
+            testContainer.classList.remove('active');
+            testStarted = false;
+        });
+
+        testBtn.addEventListener('click', () => {
+            startTest();
+        });
+
+        // Event listeners for test navigation
+        prevQuestionBtn.addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+                updateTestControls();
+            }
+        });
+
+        nextQuestionBtn.addEventListener('click', () => {
+            if (currentQuestionIndex < testQuestions[currentConversationIndex].length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+                updateTestControls();
+            }
+        });
+
+        checkAnswerBtn.addEventListener('click', checkAnswer);
+
+        // Initial render
+        renderConversation();
+    </script>
+</body>
+</html>
