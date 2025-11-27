@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Korean Job Conversations - Multiple Choice</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://js.puter.com/v2/"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a2a, #1a1a4a, #0a0a2a);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #ffffff;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            color: #e0e0e0;
+        }
+
+        .conversation-container {
+            background: rgba(30, 30, 46, 0.8);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            border-radius: 15px;
+            max-width: 80%;
+            position: relative;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .speaker-a {
+            background: linear-gradient(135deg, #1a1a2e, #0f3460);
+            align-self: flex-start;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+
+        .speaker-b {
+            background: linear-gradient(135deg, #0f3460, #1a1a2e);
+            align-self: flex-end;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+
+        .speaker-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .speaker-a .speaker-label {
+            color: #ff6b6b;
+        }
+
+        .speaker-b .speaker-label {
+            color: #1e90ff;
+        }
+
+        .message-content {
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        .korean {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: #ff6b6b;
+        }
+
+        .romanized {
+            font-style: italic;
+            color: #8e8eff;
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+        }
+
+        .english {
+            color: #e0e0e0;
+            font-size: 1rem;
+            display: none;
+        }
+
+        .english.show {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .choices-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .choice-btn {
+            padding: 15px 20px;
+            border: none;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .choice-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .choice-btn.correct {
+            background: linear-gradient(135deg, #2ed573, #1e90ff);
+            border-color: #2ed573;
+        }
+
+        .choice-btn.incorrect {
+            background: linear-gradient(135deg, #ff6b6b, #ff4757);
+            border-color: #ff6b6b;
+        }
+
+        .choice-korean {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .choice-romanized {
+            font-style: italic;
+            color: #8e8eff;
+            font-size: 0.9rem;
+        }
+
+        .choice-english {
+            color: #e0e0e0;
+            font-size: 1rem;
+            display: none;
+        }
+
+        .choice-english.show {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #1e90ff, #3742fa);
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #2ed573, #1e90ff);
+        }
+
+        .speak-btn {
+            background: linear-gradient(135deg, #ffa502, #ff7f50);
+        }
+
+        .translate-btn {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
+        .status-message {
+            text-align: center;
+            color: #1e90ff;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            min-height: 20px;
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .instructions {
+            background: rgba(30, 30, 46, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .instructions h3 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+
+        .instructions p {
+            color: #e0e0e0;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .openai-info {
+            background: rgba(30, 144, 255, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9em;
+            text-align: center;
+            border-left: 4px solid #1e90ff;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .typing-indicator {
+            display: inline-block;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+        }
+
+        .typing-dots {
+            display: inline-block;
+        }
+
+        .typing-dots span {
+            animation: typing 1.4s infinite;
+            opacity: 0;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { opacity: 0; }
+            30% { opacity: 1; }
+        }
+
+        @media (max-width: 600px) {
+            .choices-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+            
+            .controls {
+                gap: 10px;
+            }
+            
+            .control-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../../index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1>Korean Job Conversations</h1>
+            <p class="subtitle">Multiple Choice Practice - Select the best response</p>
+        </header>
+
+        <div class="openai-info">
+            🔊 <strong>OpenAI TTS Integration:</strong> Using OpenAI's advanced text-to-speech for authentic Korean pronunciation
+        </div>
+
+        <div class="score-display" id="score-display">
+            Score: <span id="score">0</span> / <span id="total">0</span>
+        </div>
+
+        <div class="conversation-container" id="conversation-container">
+            <div class="message speaker-a">
+                <div class="speaker-label">Speaker A</div>
+                <div class="message-content">
+                    <div class="korean">안녕하세요! 직업이 어떻게 되세요?</div>
+                    <div class="romanized">Annyeonghaseyo! Jigeobi eotteoke doeseyo?</div>
+                    <div class="english">Hello! What is your job?</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="choices-container" id="choices-container">
+            <!-- Multiple choice options will be inserted here -->
+        </div>
+
+        <div class="controls">
+            <button class="control-btn speak-btn" id="speak-btn">
+                <i class="fas fa-volume-up"></i> Speak Question
+            </button>
+            <button class="control-btn translate-btn" id="translate-btn">
+                <i class="fas fa-language"></i> Show Translation
+            </button>
+            <button class="control-btn next-btn" id="next-btn" disabled>
+                <i class="fas fa-arrow-right"></i> Next Question
+            </button>
+            <button class="control-btn reset-btn" id="reset-btn">
+                <i class="fas fa-sync-alt"></i> Restart Quiz
+            </button>
+        </div>
+
+        <div class="status-message" id="status-message">
+            Select the best response to continue the conversation
+        </div>
+
+        <div class="instructions">
+            <h3>How to Practice</h3>
+            <p><strong>Multiple Choice:</strong> Select the most appropriate response to continue the conversation</p>
+            <p><strong>Hidden Translations:</strong> English translations are hidden by default - use the "Show Translation" button to reveal them</p>
+            <p><strong>Scoring:</strong> Earn points for correct answers</p>
+            <p><strong>Speak Question:</strong> Hear the Korean question spoken aloud</p>
+            <p><strong>Practice Topics:</strong> Students, jobs, work experience, and related conversations</p>
+        </div>
+    </div>
+
+    <script>
+        const koreanContent = {
+            students: [
+                { korean: '학생', romanized: 'haksaeng', meaning: 'student' },
+                { korean: '학생들', romanized: 'haksaengdeul', meaning: 'students' },
+                { korean: '저는 학생입니다', romanized: 'jeoneun haksaengimnida', meaning: 'I am a student', fullWidth: true }
+            ],
+            jobs: [
+                { korean: '의사', romanized: 'uisa', meaning: 'doctor', plural: '의사들' },
+                { korean: '간호사', romanized: 'ganhosa', meaning: 'nurse', plural: '간호사들' },
+                { korean: '가수', romanized: 'gasu', meaning: 'singer', plural: '가수들' },
+                { korean: '배우', romanized: 'bae-u', meaning: 'actor/actress', plural: '배우들' },
+                { korean: '선생님', romanized: 'seonsaengnim', meaning: 'teacher', plural: '선생님들' },
+                { korean: '학생', romanized: 'haksaeng', meaning: 'student', plural: '학생들' },
+                { korean: '요리사', romanized: 'yorisa', meaning: 'chef', plural: '요리사들' },
+                { korean: '경찰관', romanized: 'gyeongchalgwan', meaning: 'police officer', plural: '경찰관들' },
+                { korean: '소방관', romanized: 'sobanggwan', meaning: 'firefighter', plural: '소방관들' },
+                { korean: '군인', romanized: 'gunin', meaning: 'soldier', plural: '군인들' },
+                { korean: '변호사', romanized: 'beonhosa', meaning: 'lawyer', plural: '변호사들' },
+                { korean: '판사', romanized: 'pansa', meaning: 'judge', plural: '판사들' },
+                { korean: '회사원', romanized: 'hoesawon', meaning: 'office worker', plural: '회사원들' },
+                { korean: '비서', romanized: 'biseo', meaning: 'secretary', plural: '비서들' },
+                { korean: '회계사', romanized: 'hoegyesa', meaning: 'accountant', plural: '회계사들' },
+                { korean: '은행원', romanized: 'eunhaeng-won', meaning: 'bank clerk', plural: '은행원들' },
+                { korean: '경영자', romanized: 'gyeong-yeongja', meaning: 'manager/executive', plural: '경영자들' },
+                { korean: '사장님', romanized: 'sajangnim', meaning: 'president/CEO', plural: '사장님들' },
+                { korean: '과학자', romanized: 'gwahakja', meaning: 'scientist', plural: '과학자들' },
+                { korean: '연구원', romanized: 'yeonguwon', meaning: 'researcher', plural: '연구원들' },
+                { korean: '엔지니어', romanized: 'enjinieo', meaning: 'engineer', plural: '엔지니어들' },
+                { korean: '건축가', romanized: 'geonchukga', meaning: 'architect', plural: '건축가들' },
+                { korean: '프로그래머', romanized: 'peurogeuraemeo', meaning: 'programmer', plural: '프로그래머들' },
+                { korean: '디자이너', romanized: 'dijaineo', meaning: 'designer', plural: '디자이너들' },
+                { korean: '화가', romanized: 'hwaga', meaning: 'painter', plural: '화가들' },
+                { korean: '작가', romanized: 'jakga', meaning: 'writer', plural: '작가들' },
+                { korean: '시인', romanized: 'siin', meaning: 'poet', plural: '시인들' },
+                { korean: '기자', romanized: 'gija', meaning: 'journalist', plural: '기자들' },
+                { korean: '편집자', romanized: 'pyeonjibja', meaning: 'editor', plural: '편집자들' },
+                { korean: '사진작가', romanized: 'sajinjakga', meaning: 'photographer', plural: '사진작가들' },
+                { korean: '음악가', romanized: 'eumakga', meaning: 'musician', plural: '음악가들' },
+                { korean: '무용가', romanized: 'muyongga', meaning: 'dancer', plural: '무용가들' },
+                { korean: '모델', romanized: 'model', meaning: 'model', plural: '모델들' },
+                { korean: '운동선수', romanized: 'undongseonsu', meaning: 'athlete', plural: '운동선수들' },
+                { korean: '코치', romanized: 'kochi', meaning: 'coach', plural: '코치들' },
+                { korean: '심판', romanized: 'simpan', meaning: 'referee', plural: '심판들' },
+                { korean: '의료진', romanized: 'uiryojin', meaning: 'medical staff', plural: '의료진들' },
+                { korean: '약사', romanized: 'yaksa', meaning: 'pharmacist', plural: '약사들' },
+                { korean: '치과의사', romanized: 'chigwauisa', meaning: 'dentist', plural: '치과의사들' },
+                { korean: '수의사', romanized: 'suuisa', meaning: 'veterinarian', plural: '수의사들' },
+                { korean: '심리학자', romanized: 'simnihakja', meaning: 'psychologist', plural: '심리학자들' },
+                { korean: '상담사', romanized: 'sangdamsa', meaning: 'counselor', plural: '상담사들' },
+                { korean: '사회복지사', romanized: 'sahoebokjisa', meaning: 'social worker', plural: '사회복지사들' },
+                { korean: '판매원', romanized: 'panmaewon', meaning: 'salesperson', plural: '판매원들' },
+                { korean: '점원', romanized: 'jeom-won', meaning: 'shop assistant', plural: '점원들' },
+                { korean: '카센터 직원', romanized: 'kasenteo jig-won', meaning: 'auto mechanic', plural: '카센터 직원들' },
+                { korean: '배달원', romanized: 'baedal-won', meaning: 'delivery person', plural: '배달원들' },
+                { korean: '택시 기사', romanized: 'taeksi gisa', meaning: 'taxi driver', plural: '택시 기사들' },
+                { korean: '버스 기사', romanized: 'beoseu gisa', meaning: 'bus driver', plural: '버스 기사들' },
+                { korean: '조종사', romanized: 'jojongsa', meaning: 'pilot', plural: '조종사들' },
+                { korean: '승무원', romanized: 'seungmu-won', meaning: 'flight attendant', plural: '승무원들' },
+                { korean: '선장', romanized: 'seonjang', meaning: 'ship captain', plural: '선장들' },
+                { korean: '항해사', romanized: 'hanghaesa', meaning: 'sailor', plural: '항해사들' },
+                { korean: '농부', romanized: 'nongbu', meaning: 'farmer', plural: '농부들' },
+                { korean: '어부', romanized: 'eobu', meaning: 'fisherman', plural: '어부들' },
+                { korean: '정원사', romanized: 'jeong-wonsa', meaning: 'gardener', plural: '정원사들' },
+                { korean: '미용사', romanized: 'miyongsa', meaning: 'hairdresser', plural: '미용사들' },
+                { korean: '메이크업 아티스트', romanized: 'meikeu-eop atiseuteu', meaning: 'makeup artist', plural: '메이크업 아티스트들' },
+                { korean: '네일 아티스트', romanized: 'neil atiseuteu', meaning: 'nail artist', plural: '네일 아티스트들' },
+                { korean: '경비원', romanized: 'gyeongbi-won', meaning: 'security guard', plural: '경비원들' },
+                { korean: '청소부', romanized: 'cheongsobu', meaning: 'cleaner', plural: '청소부들' }
+            ],
+            questions: [
+                { korean: '무슨 일을 하세요?', romanized: 'museun ireul haseyo?', meaning: 'What is your job?', fullWidth: true },
+                { korean: '그녀는 무슨 일을 해요?', romanized: 'geunyeoneun museun ireul haeyo?', meaning: 'What is her job?', fullWidth: true },
+                { korean: '하늘은 무슨 일을 해요?', romanized: 'haneureun museun ireul haeyo?', meaning: 'What is Haneul\'s job?', fullWidth: true }
+            ],
+            phrases: [
+                { korean: '저는 의사입니다', romanized: 'jeoneun uisaimnida', meaning: 'I am a doctor' },
+                { korean: '저는 간호사입니다', romanized: 'jeoneun ganhosaimnida', meaning: 'I am a nurse' },
+                { korean: '저는 가수입니다', romanized: 'jeoneun gasuimnida', meaning: 'I am a singer' },
+                { korean: '저는 배우입니다', romanized: 'jeoneun bae-uimnida', meaning: 'I am an actor' },
+                { korean: '하늘은 의사입니다', romanized: 'haneureun uisaimnida', meaning: 'Haneul is a doctor' },
+                { korean: '하늘은 간호사입니다', romanized: 'haneureun ganhosaimnida', meaning: 'Haneul is a nurse' },
+                { korean: '하늘은 가수입니다', romanized: 'haneureun gasuimnida', meaning: 'Haneul is a singer' },
+                { korean: '하늘은 배우입니다', romanized: 'haneureun bae-uimnida', meaning: 'Haneul is an actor' },
+
+                // Work Schedule Phrases
+                { korean: '출근 시간은 아침 7시입니다', romanized: 'chulgeun sigan-eun achim ilgopsiimnida', meaning: 'Work starts at 7:00 AM' },
+                { korean: '퇴근 시간은 오후 5시입니다', romanized: 'toegeun sigan-eun ohu dasotsiimnida', meaning: 'Work ends at 5:00 PM' },
+                { korean: '저는 보통 9시에 출근해요', romanized: 'jeoneun botong ahopsie chulgeunhaeyo', meaning: 'I usually start work at 9:00' },
+                { korean: '점심 시간은 12시에서 1시까지입니다', romanized: 'jeomsim sigan-eun yeoldusi-eseo hansikkajiimnida', meaning: 'Lunch break is from 12:00 to 1:00' },
+                { korean: '주 5일 근무합니다', romanized: 'ju oilil geunmuhamnida', meaning: 'I work 5 days a week' },
+                { korean: '저는 주말에 근무해요', romanized: 'jeoneun sumare geunmuhaeyo', meaning: 'I work on weekends' },
+                { korean: '야근을 자주 해요', romanized: 'yageuneul jaju haeyo', meaning: 'I often work overtime' },
+
+                // Work Experience & Duration Phrases
+                { korean: '저는 6년 동안 배우로 일했어요', romanized: 'jeoneun yeoseotnyeon dong-an bae-ulo ilhaesseoyo', meaning: 'I have worked as an actor for 6 years' },
+                { korean: '의사로 지낸 지 10년 됐어요', romanized: 'uisaro jinæn ji simnyeon dwaesseoyo', meaning: 'It has been 10 years since I became a doctor' },
+                { korean: '저는 3년 차 간호사입니다', romanized: 'jeoneun samnyeon cha ganhosaimnida', meaning: 'I am a nurse in my 3rd year' },
+                { korean: '이 회사에서 2년 동안 일했어요', romanized: 'i hoesa-eseo inyeon dong-an ilhaesseoyo', meaning: 'I worked at this company for 2 years' },
+                { korean: '저는 신입 사원입니다', romanized: 'jeoneun sinip sawonimnida', meaning: 'I am a new employee' },
+                { korean: '경력이 5년 이상입니다', romanized: 'gyeongnyeogi daseotnyeon isangimnida', meaning: 'I have over 5 years of experience' },
+
+                // Other Useful Job-related Phrases
+                { korean: '무슨 일을 하세요?', romanized: 'museun ireul haseyo?', meaning: 'What kind of work do you do?' },
+                { korean: '어디에서 일하세요?', romanized: 'eodi-eseo ilhaseyo?', meaning: 'Where do you work?' },
+                { korean: '직업이 무엇인가요?', romanized: 'jigeobi mueosingayo?', meaning: 'What is your occupation?' },
+                { korean: '저는 회사원입니다', romanized: 'jeoneun hoesawonimnida', meaning: 'I am an office worker' },
+                { korean: '일이 힘들지만 보람돼요', romanized: 'iri himdeuljiman boramdwaeyo', meaning: 'The work is hard but rewarding' },
+                { korean: '직장이 멀어서 출퇴근이 힘들어요', romanized: 'jikjangi meoreoseo chultoegeuni himdeureoyo', meaning: 'My workplace is far, so commuting is difficult' }
+            ]
+        };
+
+        // Generate conversation scenarios based on the Korean content
+        const conversationScenarios = [
+            {
+                question: {
+                    speaker: "A",
+                    korean: "안녕하세요! 직업이 어떻게 되세요?",
+                    romanized: "Annyeonghaseyo! Jigeobi eotteoke doeseyo?",
+                    english: "Hello! What is your job?"
+                },
+                choices: [
+                    {
+                        korean: "저는 학생입니다.",
+                        romanized: "Jeoneun haksaengimnida.",
+                        english: "I am a student.",
+                        correct: true
+                    },
+                    {
+                        korean: "저는 학교에 갑니다.",
+                        romanized: "Jeoneun hakgyoe gamnida.",
+                        english: "I go to school.",
+                        correct: false
+                    },
+                    {
+                        korean: "그는 의사입니다.",
+                        romanized: "Geuneun uisaimnida.",
+                        english: "He is a doctor.",
+                        correct: false
+                    },
+                    {
+                        korean: "제 엄마는 의사입니다.",
+                        romanized: "Je eommaneun uisaimnida.",
+                        english: "My mom is a doctor.",
+                        correct: false
+                    }
+                ]
+            },
+            {
+                question: {
+                    speaker: "A",
+                    korean: "하늘 씨는 무슨 일을 해요?",
+                    romanized: "Haneul ssineun museun ireul haeyo?",
+                    english: "What does Haneul do?"
+                },
+                choices: [
+                    {
+                        korean: "네, 하늘 씨는 간호사예요.",
+                        romanized: "Ne, Haneul ssineun ganhosayeyo.",
+                        english: "Yes, Haneul is a nurse.",
+                        correct: true
+                    },
+                    {
+                        korean: "하늘 씨는 1년째 간호사입니다.",
+                        romanized: "Haneul ssineun il-nyeonjjae ganhosaimnida.",
+                        english: "Haneul has been a nurse for a year.",
+                        correct: false
+                    },
+                    {
+                        korean: "하늘 씨는 간호사를 만나요.",
+                        romanized: "Haneul ssineun ganhosareul mannayo.",
+                        english: "Haneul is meeting a nurse.",
+                        correct: false
+                    },
+                    {
+                        korean: "아니요, 그녀는 간호사예요.",
+                        romanized: "Aniyo, geunyeoneun ganhosayeyo.",
+                        english: "No, she is a nurse.",
+                        correct: false
+                    }
+                ]
+            },
+            {
+                question: {
+                    speaker: "A",
+                    korean: "그 직업을 얼마나 오래 하셨어요?",
+                    romanized: "Geu jigeobeul eolmana orae hasyeosseoyo?",
+                    english: "How long have you been doing that job?"
+                },
+                choices: [
+                    {
+                        korean: "6년 동안 배우로 일했어요.",
+                        romanized: "Yeoseotnyeon dongan baeworo ilhaesseoyo.",
+                        english: "I have worked as an actor for 6 years.",
+                        correct: true
+                    },
+                    {
+                        korean: "저는 배우였어요.",
+                        romanized: "Jeoneun baewuyeosseoyo.",
+                        english: "I was an actor.",
+                        correct: false
+                    },
+                    {
+                        korean: "저는 6살이에요.",
+                        romanized: "Jeoneun yeoseot sarieyo.",
+                        english: "I am 6 years old.",
+                        correct: false
+                    },
+                    {
+                        korean: "그는 6년 동안 배우로 일했어요.",
+                        romanized: "Geuneun yeoseotnyeon dongan baeworo ilhaesseoyo.",
+                        english: "He has worked as an actor for 6 years.",
+                        correct: false
+                    }
+                ]
+            },
+            {
+                question: {
+                    speaker: "A",
+                    korean: "일이 재미있으세요?",
+                    romanized: "Iri jaemiisseoseyo?",
+                    english: "Is your work interesting?"
+                },
+                choices: [
+                    {
+                        korean: "네, 매우 재미있어요.",
+                        romanized: "Ne, maeu jaemiisseoyo.",
+                        english: "Yes, it's very interesting.",
+                        correct: true
+                    },
+                    {
+                        korean: "일은 재미없어요.",
+                        romanized: "Ireun jaemieopseoyo.",
+                        english: "Working is not interesting.",
+                        correct: false
+                    },
+                    {
+                        korean: "저는 재미있는 사람이에요.",
+                        romanized: "Jeoneun jaemiinneun saramieyo.",
+                        english: "I am interesting.",
+                        correct: false
+                    },
+                    {
+                        korean: "저는 재미없는 사람이에요.",
+                        romanized: "Jeoneun jaemieomneun saramieyo.",
+                        english: "I am not interesting.",
+                        correct: false
+                    }
+                ]
+            },
+            {
+                question: {
+                    speaker: "A",
+                    korean: "어떤 일을 하시나요?",
+                    romanized: "Eotteon ireul hasinayo?",
+                    english: "What kind of work do you do?"
+                },
+                choices: [
+                    {
+                        korean: "저는 엔지니어로 일해요.",
+                        romanized: "Jeoneun enjinieoro ilhaeyo.",
+                        english: "I work as an engineer.",
+                        correct: true
+                    },
+                    {
+                        korean: "그녀는 엔지니어예요.",
+                        romanized: "Geunyeoneun enjinieoyeyo.",
+                        english: "She is an engineer.",
+                        correct: false
+                    },
+                    {
+                        korean: "저는 엔지니어를 알아요.",
+                        romanized: "Jeoneun enjinieoreul arayo.",
+                        english: "I know an engineer.",
+                        correct: false
+                    },
+                    {
+                        korean: "그들은 엔지니어예요.",
+                        romanized: "Geudeureun enjinieoyeyo.",
+                        english: "They are engineers.",
+                        correct: false
+                    }
+                ]
+            }
+        ];
+
+        let currentScenarioIndex = 0;
+        let score = 0;
+        let totalAnswered = 0;
+        let currentAudio = null;
+        let isSpeaking = false;
+        let answerSelected = false;
+        let translationsVisible = false;
+
+        const conversationContainer = document.getElementById('conversation-container');
+        const choicesContainer = document.getElementById('choices-container');
+        const nextBtn = document.getElementById('next-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const speakBtn = document.getElementById('speak-btn');
+        const translateBtn = document.getElementById('translate-btn');
+        const statusMessage = document.getElementById('status-message');
+        const scoreDisplay = document.getElementById('score-display');
+        const scoreElement = document.getElementById('score');
+        const totalElement = document.getElementById('total');
+
+        function init() {
+            loadScenario(currentScenarioIndex);
+            updateScoreDisplay();
+            setupEventListeners();
+        }
+
+        function loadScenario(index) {
+            if (index >= conversationScenarios.length) {
+                showCompletionMessage();
+                return;
+            }
+
+            const scenario = conversationScenarios[index];
+            conversationContainer.innerHTML = '';
+            addMessage(scenario.question);
+            
+            renderChoices(scenario.choices);
+            
+            answerSelected = false;
+            nextBtn.disabled = true;
+            updateStatus('Select the best response');
+            
+            // Reset translation visibility when loading new scenario
+            translationsVisible = false;
+            updateTranslationButton();
+            hideAllTranslations();
+        }
+
+        function addMessage(messageData) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message speaker-${messageData.speaker.toLowerCase()}`;
+            
+            messageDiv.innerHTML = `
+                <div class="speaker-label">Speaker ${messageData.speaker}</div>
+                <div class="message-content">
+                    <div class="korean">${messageData.korean}</div>
+                    <div class="romanized">${messageData.romanized}</div>
+                    <div class="english">${messageData.english}</div>
+                </div>
+            `;
+            
+            conversationContainer.appendChild(messageDiv);
+            conversationContainer.scrollTop = conversationContainer.scrollHeight;
+        }
+
+        function renderChoices(choices) {
+            choicesContainer.innerHTML = '';
+            
+            choices.forEach((choice, index) => {
+                const choiceBtn = document.createElement('button');
+                choiceBtn.className = 'choice-btn';
+                choiceBtn.innerHTML = `
+                    <div class="choice-korean">${choice.korean}</div>
+                    <div class="choice-romanized">${choice.romanized}</div>
+                    <div class="choice-english">${choice.english}</div>
+                `;
+                
+                choiceBtn.addEventListener('click', () => handleChoiceSelection(choiceBtn, choice, index));
+                choicesContainer.appendChild(choiceBtn);
+            });
+        }
+
+        function handleChoiceSelection(button, choice, index) {
+            if (answerSelected) return;
+            
+            answerSelected = true;
+            totalAnswered++;
+            
+            if (choice.correct) {
+                button.classList.add('correct');
+                score++;
+                updateStatus('Correct! Good job!', 'correct');
+            } else {
+                button.classList.add('incorrect');
+                updateStatus('Not quite. Try another question!', 'incorrect');
+                
+                // Highlight the correct answer
+                const buttons = choicesContainer.querySelectorAll('.choice-btn');
+                buttons.forEach((btn, i) => {
+                    const currentChoice = conversationScenarios[currentScenarioIndex].choices[i];
+                    if (currentChoice.correct) {
+                        btn.classList.add('correct');
+                    }
+                });
+            }
+            
+            updateScoreDisplay();
+            nextBtn.disabled = false;
+        }
+
+        function toggleTranslations() {
+            translationsVisible = !translationsVisible;
+            updateTranslationButton();
+            
+            if (translationsVisible) {
+                showAllTranslations();
+            } else {
+                hideAllTranslations();
+            }
+        }
+
+        function showAllTranslations() {
+            // Show translations in conversation
+            const englishElements = conversationContainer.querySelectorAll('.english');
+            englishElements.forEach(element => {
+                element.classList.add('show');
+            });
+            
+            // Show translations in choices
+            const choiceEnglishElements = choicesContainer.querySelectorAll('.choice-english');
+            choiceEnglishElements.forEach(element => {
+                element.classList.add('show');
+            });
+        }
+
+        function hideAllTranslations() {
+            // Hide translations in conversation
+            const englishElements = conversationContainer.querySelectorAll('.english');
+            englishElements.forEach(element => {
+                element.classList.remove('show');
+            });
+            
+            // Hide translations in choices
+            const choiceEnglishElements = choicesContainer.querySelectorAll('.choice-english');
+            choiceEnglishElements.forEach(element => {
+                element.classList.remove('show');
+            });
+        }
+
+        function updateTranslationButton() {
+            if (translationsVisible) {
+                translateBtn.innerHTML = '<i class="fas fa-language"></i> Hide Translation';
+                translateBtn.style.background = 'linear-gradient(135deg, #8e44ad, #9b59b6)';
+            } else {
+                translateBtn.innerHTML = '<i class="fas fa-language"></i> Show Translation';
+                translateBtn.style.background = 'linear-gradient(135deg, #9b59b6, #8e44ad)';
+            }
+        }
+
+        function nextScenario() {
+            currentScenarioIndex++;
+            if (currentScenarioIndex < conversationScenarios.length) {
+                loadScenario(currentScenarioIndex);
+            } else {
+                showCompletionMessage();
+            }
+        }
+
+        function showCompletionMessage() {
+            conversationContainer.innerHTML = '';
+            choicesContainer.innerHTML = '';
+            
+            const completionDiv = document.createElement('div');
+            completionDiv.className = 'message speaker-a';
+            completionDiv.innerHTML = `
+                <div class="speaker-label">Quiz Complete</div>
+                <div class="message-content">
+                    <div class="korean">훌륭해요! ${score}개 중 ${totalAnswered}개를 맞췄어요!</div>
+                    <div class="romanized">Hullyunghaeyo! ${score}gae jung ${totalAnswered}gaereul matchwosseoyo!</div>
+                    <div class="english">Excellent! You got ${score} out of ${totalAnswered} correct!</div>
+                </div>
+            `;
+            
+            conversationContainer.appendChild(completionDiv);
+            nextBtn.disabled = true;
+            updateStatus('Quiz completed! Click restart to try again.');
+        }
+
+        async function speakText(text) {
+            try {
+                // Cancel any ongoing speech
+                speechSynthesis.cancel();
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio = null;
+                }
+
+                updateStatus('Converting with OpenAI...', 'processing');
+                
+                try {
+                    const audio = await puter.ai.txt2speech(text, {
+                        provider: 'openai',
+                        voice: 'nova',
+                        model: 'gpt-4o-mini-tts',
+                        response_format: 'mp3',
+                        instructions: 'Speak in Korean with clear, natural pronunciation'
+                    });
+                    
+                    currentAudio = audio;
+                    await audio.play();
+                    
+                    audio.addEventListener('ended', () => {
+                        updateStatus('Playback complete');
+                        currentAudio = null;
+                        isSpeaking = false;
+                    });
+                    
+                    audio.addEventListener('error', (e) => {
+                        console.error('OpenAI TTS error:', e);
+                        updateStatus('Error playing audio', 'error');
+                        currentAudio = null;
+                        isSpeaking = false;
+                    });
+                    
+                } catch (error) {
+                    console.error('OpenAI TTS failed:', error);
+                    updateStatus('TTS service unavailable', 'error');
+                    isSpeaking = false;
+                }
+            } catch (error) {
+                console.error('Error with TTS:', error);
+                isSpeaking = false;
+            }
+        }
+
+        function speakQuestion() {
+            if (currentScenarioIndex >= conversationScenarios.length) return;
+            
+            const currentQuestion = conversationScenarios[currentScenarioIndex].question;
+            speakText(currentQuestion.korean);
+            
+            speakBtn.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                speakBtn.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function resetQuiz() {
+            currentScenarioIndex = 0;
+            score = 0;
+            totalAnswered = 0;
+            loadScenario(currentScenarioIndex);
+            updateScoreDisplay();
+            updateStatus('Select the best response to continue the conversation');
+        }
+
+        function updateStatus(message, type = '') {
+            statusMessage.textContent = message;
+            statusMessage.className = 'status-message';
+            if (type) {
+                statusMessage.classList.add(type);
+            }
+        }
+
+        function updateScoreDisplay() {
+            scoreElement.textContent = score;
+            totalElement.textContent = totalAnswered;
+        }
+
+        function setupEventListeners() {
+            nextBtn.addEventListener('click', nextScenario);
+            resetBtn.addEventListener('click', resetQuiz);
+            speakBtn.addEventListener('click', speakQuestion);
+            translateBtn.addEventListener('click', toggleTranslations);
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

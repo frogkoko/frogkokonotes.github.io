@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Basic Phrases</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            color: #000000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #e6f0ff;
+            color: #0066cc;
+            border: 1px solid #b3d1ff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-button:hover {
+            background: #cce0ff;
+            transform: translateX(-2px);
+        }
+
+        /* Main Container */
+        .main {
+            max-width: 1200px;
+            margin: 0 auto; 
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        /* Header Styles */
+        .header {
+            text-align: center;
+            color: #000000;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #0066cc, #004d99);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            color: #333333;
+        }
+
+        /* Navigation Bar */
+        #navbar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            position: sticky; 
+            top: 0; 
+            background: #f0f7ff; 
+            padding: 15px 20px; 
+            z-index: 1000; 
+            box-shadow: 0 2px 10px rgba(0, 102, 204, 0.1);
+            width: 100%; 
+            box-sizing: border-box; 
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        #navbar a {
+            background: #e6f0ff;
+            color: #0066cc;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid #b3d1ff;
+        }
+
+        #navbar a:hover, #navbar a.active {
+            background: #0066cc;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 102, 204, 0.3);
+        }
+
+        /* Section Titles */
+        .section-title {
+            text-align: center;
+            color: #000000;
+            font-size: 1.8rem;
+            margin: 60px 0 30px 0;
+            font-weight: 300;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #0066cc, #004d99);
+            border-radius: 3px;
+        }
+
+        /* Cards Container - MODIFIED */
+        .cards {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        /* Individual Card - MODIFIED */
+        .card {
+            background: #f8fbff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 102, 204, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #d9e7ff;
+            width: 100%; /* Ensure full width */
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 102, 204, 0.15);
+        }
+
+        /* Sketch Area (Canvas) - MODIFIED */
+        .sketch {
+            position: relative;
+            padding: 20px;
+            background: #f0f7ff;
+            border-bottom: 1px solid #d9e7ff;
+            order: 1; /* Ensure canvas is first in flex order */
+        }
+
+        .paint-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #ffffff;
+            border: 1px solid #d9e7ff;
+        }
+
+        .paint {
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+            background: transparent;
+            touch-action: none;
+            display: block;
+        }
+
+        .canvas-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .erase-button {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .erase-button:hover {
+            background: #ff3838;
+            transform: translateY(-2px);
+        }
+
+        .brush-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .brush-size {
+            width: 80px;
+        }
+
+        /* Card Content - MODIFIED */
+        .card_content {
+            padding: 20px;
+            text-align: center;
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            order: 2; /* Ensure text content is after canvas in flex order */
+        }
+
+        .chinese-char {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #0066cc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            margin-bottom: 10px; 
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+
+        .chinese-char:hover {
+            color: #004d99;
+            transform: scale(1.1);
+        }
+
+        .char-info {
+            font-size: 1rem;
+            color: #333333;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .pinyin {
+            font-size: 1.2rem;
+            color: #ff6b6b;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        /* TTS Controls */
+        .tts-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .tts-control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tts-control-group label {
+            font-size: 0.9em;
+            margin-bottom: 0;
+            color: rgba(0, 0, 0, 0.8);
+        }
+
+        .tts-rate-control, .tts-pitch-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tts-rate-control input, .tts-pitch-control input {
+            width: 100px;
+        }
+
+        .voice-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 107, 107, 0.1);
+            color: #333;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .voice-btn:hover {
+            background: rgba(255, 107, 107, 0.15);
+        }
+
+        .voice-btn.active {
+            background: rgba(255, 107, 107, 0.2);
+            box-shadow: 0 3px 10px rgba(255, 107, 107, 0.2);
+        }
+
+        .status-message {
+            text-align: center;
+            color: #1e90ff;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            min-height: 20px;
+        }
+
+        /* Responsive Design - MODIFIED */
+        @media (min-width: 992px) {
+            .cards {
+                /* Keep one card per row on all screen sizes */
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .cards {
+                /* Keep one card per row on all screen sizes */
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .cards {
+                /* Keep one card per row on all screen sizes */
+                grid-template-columns: 1fr;
+            }
+            
+            #navbar {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .back-button {
+                top: 10px;
+                left: 10px;
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main {
+                padding: 10px;
+            }
+            #navbar {
+                padding: 10px 15px;
+            }
+            #navbar a {
+                padding: 10px 20px; 
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .chinese-char {
+                font-size: 3rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Back Button -->
+    <button class="back-button" onclick="goBack()">
+        ← Back
+    </button>
+
+    <div class="main">
+        <div class="header">
+            <h1>中文基本短语<br>Chinese Basic Phrases</h1>
+            <p>Hover over/click phrases to hear pronunciation • Practice writing in the canvas area</p>
+        </div>
+        
+        <nav id="navbar">
+            <a class="active" href="#courtesy">Courtesy Phrases</a>
+            <a href="#yesno">Yes/No & Questions</a>
+            <a href="#people">People & Pronouns</a>
+        </nav>
+
+        <!-- TTS Controls -->
+        <div class="tts-controls">
+            <div class="tts-control-group">
+                <label for="voiceSelector">TTS Provider:</label>
+                <select id="voiceSelector" class="voice-btn">
+                    <option value="openai-fable">OpenAI Fable (Chinese)</option>
+                    <option value="browser">Browser TTS</option>
+                </select>
+            </div>
+            <div class="tts-control-group">
+                <label for="ttsRate">Speech Rate:</label>
+                <div class="tts-rate-control">
+                    <input type="range" id="ttsRate" min="0.5" max="2" step="0.1" value="0.8">
+                    <span id="ttsRateValue">0.8</span>
+                </div>
+            </div>
+            <div class="tts-control-group">
+                <label for="ttsPitch">Speech Pitch:</label>
+                <div class="tts-pitch-control">
+                    <input type="range" id="ttsPitch" min="0.5" max="2" step="0.1" value="1">
+                    <span id="ttsPitchValue">1.0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-message" id="status-message"></div>
+
+        <section id="courtesy">
+            <h2 class="section-title">Courtesy Phrases<br/>谢谢 不客气 对不起 没关系</h2>
+            <ul class="cards" id="courtesy-grid"></ul>
+        </section>
+
+        <section id="yesno">
+            <h2 class="section-title">Yes/No & Questions<br/>是 不是 好 可以 什么</h2>
+            <ul class="cards" id="yesno-grid"></ul>
+        </section>
+
+        <section id="people">
+            <h2 class="section-title">People & Pronouns<br/>人 男人 女人 我 你 他 她</h2>
+            <ul class="cards" id="people-grid"></ul>
+        </section>
+    </div>
+
+    <script src="https://js.puter.com/v2/"></script>
+    <script>
+      // Back button functionality
+function goBack() {
+    window.location.href = "../../index.html";
+}
+
+const phrases = {
+    "courtesy": [
+        { char: '谢谢', pinyin: 'xiè xiè', meaning: 'Thank you', example: '谢谢你的帮助。 (Thank you for your help.)' },
+        { char: '不客气', pinyin: 'bú kè qì', meaning: 'You are welcome', example: 'A: 谢谢！ B: 不客气。 (A: Thank you! B: You are welcome.)' },
+        { char: '对不起', pinyin: 'duì bu qǐ', meaning: 'Sorry', example: '对不起，我迟到了。 (Sorry, I am late.)' },
+        { char: '没关系', pinyin: 'méi guān xi', meaning: 'It is okay', example: 'A: 对不起。 B: 没关系。 (A: Sorry. B: It is okay.)' },
+        { char: '请', pinyin: 'qǐng', meaning: 'Please', example: '请坐。 (Please sit down.)' },
+        { char: '请问', pinyin: 'qǐng wèn', meaning: 'Excuse me/May I ask', example: '请问，厕所在哪里？ (Excuse me, where is the restroom?)' },
+        { char: '不好意思', pinyin: 'bù hǎo yì si', meaning: 'Excuse me/Sorry', example: '不好意思，可以帮我一下吗？ (Excuse me, can you help me?)' },
+        { char: '麻烦你', pinyin: 'má fan nǐ', meaning: 'Sorry to trouble you', example: '麻烦你，把这个给我。 (Sorry to trouble you, please give this to me.)' },
+        { char: '不用谢', pinyin: 'bú yòng xiè', meaning: 'No need to thank', example: 'A: 谢谢你。 B: 不用谢。 (A: Thank you. B: No need to thank.)' },
+        { char: '抱歉', pinyin: 'bào qiàn', meaning: 'Apologies', example: '抱歉，我忘了。 (Apologies, I forgot.)' }
+    ],
+    "yesno": [
+        { char: '是', pinyin: 'shì', meaning: 'Yes', example: 'A: 你是学生吗？ B: 是。 (A: Are you a student? B: Yes.)' },
+        { char: '不是', pinyin: 'bú shì', meaning: 'No', example: 'A: 你是老师吗？ B: 不是。 (A: Are you a teacher? B: No.)' },
+        { char: '好', pinyin: 'hǎo', meaning: 'Good/Okay', example: '好，我们走吧。 (Okay, let us go.)' },
+        { char: '可以', pinyin: 'kě yǐ', meaning: 'Can/May', example: '我可以进来吗？ (May I come in?)' },
+        { char: '什么', pinyin: 'shén me', meaning: 'What', example: '这是什么？ (What is this?)' },
+        { char: '谁', pinyin: 'shéi', meaning: 'Who', example: '你是谁？ (Who are you?)' },
+        { char: '哪里', pinyin: 'nǎ lǐ', meaning: 'Where', example: '厕所在哪里？ (Where is the restroom?)' },
+        { char: '为什么', pinyin: 'wèi shén me', meaning: 'Why', example: '你为什么学习中文？ (Why do you study Chinese?)' },
+        { char: '怎么样', pinyin: 'zěn me yàng', meaning: 'How', example: '你觉得怎么样？ (How do you feel?)' },
+        { char: '什么时候', pinyin: 'shén me shí hòu', meaning: 'When', example: '你什么时候来？ (When will you come?)' }
+    ],
+    "people": [
+        { char: '人', pinyin: 'rén', meaning: 'Person/People', example: '很多人。 (Many people.)' },
+        { char: '男人', pinyin: 'nán rén', meaning: 'Man', example: '那个男人是我的爸爸。 (That man is my father.)' },
+        { char: '女人', pinyin: 'nǚ rén', meaning: 'Woman', example: '那个女人是我的妈妈。 (That woman is my mother.)' },
+        { char: '我', pinyin: 'wǒ', meaning: 'I/Me', example: '我是学生。 (I am a student.)' },
+        { char: '你', pinyin: 'nǐ', meaning: 'You', example: '你叫什么名字？ (What is your name?)' },
+        { char: '他', pinyin: 'tā', meaning: 'He/Him', example: '他是我的朋友。 (He is my friend.)' },
+        { char: '她', pinyin: 'tā', meaning: 'She/Her', example: '她是我的老师。 (She is my teacher.)' },
+        { char: '我们', pinyin: 'wǒ men', meaning: 'We/Us', example: '我们是中国人。 (We are Chinese.)' },
+        { char: '你们', pinyin: 'nǐ men', meaning: 'You (plural)', example: '你们好！ (Hello everyone!)' },
+        { char: '他们', pinyin: 'tā men', meaning: 'They/Them', example: '他们是我的同学。 (They are my classmates.)' }
+    ]
+};
+
+// TTS variables
+let currentAudio = null;
+let isSpeaking = false;
+let useOpenAI = true;
+let ttsRate = 0.8;
+let ttsPitch = 1;
+let audioCooldown = false; // NEW: Prevent rapid audio triggers
+
+// DOM elements
+const voiceSelector = document.getElementById('voiceSelector');
+const ttsRateSlider = document.getElementById('ttsRate');
+const ttsPitchSlider = document.getElementById('ttsPitch');
+const ttsRateValue = document.getElementById('ttsRateValue');
+const ttsPitchValue = document.getElementById('ttsPitchValue');
+const statusMessage = document.getElementById('status-message');
+
+/**
+ * Creates the HTML string for a phrase card.
+ * @param {Object} phraseData - The phrase data (char, pinyin, meaning, example).
+ * @param {number} index - The index for canvas identification.
+ * @returns {string} The HTML string for the card.
+ */
+function createCard(phraseData, index) {
+    return `
+        <li class="cards_item">
+            <div class="card">
+                <div class="sketch">
+                    <div class="paint-container">
+                        <canvas class="paint" width="300" height="200" data-index="${index}"></canvas>
+                    </div>
+                    <div class="canvas-controls">
+                        <button class="erase-button" data-canvas-index="${index}">Erase</button>
+                        <div class="brush-controls">
+                            <input type="range" class="brush-size" min="1" max="10" value="3" data-canvas-index="${index}">
+                        </div>
+                    </div>
+                </div>
+                <div class="card_content">
+                    <div class="chinese-char" data-pinyin="${phraseData.pinyin}" data-char="${phraseData.char}">${phraseData.char}</div>
+                    <div class="pinyin">${phraseData.pinyin}</div>
+                    <div class="char-info">Meaning: ${phraseData.meaning}</div>
+                    <div class="char-info">Example: ${phraseData.example}</div>
+                </div>
+            </div>
+        </li>
+    `;
+}
+
+function generateCards() {
+    const courtesyGrid = document.getElementById('courtesy-grid');
+    const yesnoGrid = document.getElementById('yesno-grid');
+    const peopleGrid = document.getElementById('people-grid');
+
+    let index = 0; // Universal index for canvases
+
+    // Generate courtesy phrases
+    courtesyGrid.innerHTML = phrases.courtesy.map(phrase => createCard(phrase, index++)).join('');
+
+    // Generate yes/no phrases
+    yesnoGrid.innerHTML = phrases.yesno.map(phrase => createCard(phrase, index++)).join('');
+
+    // Generate people phrases
+    peopleGrid.innerHTML = phrases.people.map(phrase => createCard(phrase, index++)).join('');
+
+    addAudioEventListeners(); 
+    addCanvasEventListeners(); 
+    addEraseButtonListeners(); 
+    addBrushSizeListeners();
+}
+
+// Enhanced Text-to-Speech functionality with OpenAI integration
+const speakChinese = async (text) => {
+    try {
+        // Cancel any ongoing speech
+        speechSynthesis.cancel();
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio = null;
+        }
+
+        // Use OpenAI TTS if selected
+        if (useOpenAI) {
+            updateStatus('Converting with OpenAI...', 'processing');
+            
+            try {
+                const audio = await puter.ai.txt2speech(text, {
+                    provider: 'openai',
+                    voice: 'fable',
+                    model: 'gpt-4o-mini-tts',
+                    response_format: 'mp3',
+                    instructions: 'Speak in Chinese with clear pronunciation'
+                });
+                
+                currentAudio = audio;
+                await audio.play();
+                
+                // Add event listeners for better UX
+                audio.addEventListener('ended', () => {
+                    updateStatus('Playback complete', '');
+                    currentAudio = null;
+                    isSpeaking = false;
+                    audioCooldown = false; // NEW: Reset cooldown when audio ends
+                });
+                
+                audio.addEventListener('error', (e) => {
+                    console.error('OpenAI TTS error:', e);
+                    updateStatus('Error playing audio', 'error');
+                    currentAudio = null;
+                    isSpeaking = false;
+                    audioCooldown = false; // NEW: Reset cooldown on error
+                });
+                
+            } catch (error) {
+                console.error('OpenAI TTS failed, falling back to browser TTS:', error);
+                // Fall back to browser TTS
+                useBrowserTTS(text);
+            }
+        } else {
+            // Use browser TTS
+            useBrowserTTS(text);
+        }
+    } catch (error) {
+        console.error('Error with TTS:', error);
+        isSpeaking = false;
+        audioCooldown = false; // NEW: Reset cooldown on error
+    }
+};
+
+// Browser TTS fallback
+const useBrowserTTS = (text) => {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'zh-CN'; // Chinese language code
+        utterance.rate = ttsRate;
+        utterance.pitch = ttsPitch;
+        utterance.volume = 1;
+        
+        // Add event listeners for better UX
+        utterance.onstart = () => {
+            updateStatus('Playing audio...', '');
+        };
+        
+        utterance.onend = () => {
+            updateStatus('Playback complete', '');
+            isSpeaking = false;
+            audioCooldown = false; // NEW: Reset cooldown when audio ends
+        };
+        
+        utterance.onerror = (event) => {
+            console.error('Speech synthesis error:', event);
+            updateStatus('Error playing audio', 'error');
+            isSpeaking = false;
+            audioCooldown = false; // NEW: Reset cooldown on error
+        };
+        
+        speechSynthesis.speak(utterance);
+    } else {
+        console.log('Speech synthesis not supported');
+        updateStatus('Speech synthesis not supported', 'error');
+        isSpeaking = false;
+        audioCooldown = false; // NEW: Reset cooldown on error
+    }
+};
+
+/**
+ * Plays the audio for the given Chinese phrase.
+ * @param {string} pinyin - The pinyin text to speak.
+ * @param {string} character - The Chinese phrase.
+ */
+function playAudio(pinyin, character) {
+    // NEW: Prevent audio from playing if already speaking or in cooldown
+    if (!pinyin || isSpeaking || audioCooldown) return;
+
+    isSpeaking = true;
+    audioCooldown = true; // NEW: Set cooldown to prevent multiple triggers
+    
+    // Speak both the phrase and its pinyin for better learning
+    speakChinese(`${character}，${pinyin}`);
+}
+
+function updateStatus(message, type) {
+    statusMessage.textContent = message;
+    statusMessage.className = 'status-message';
+    if (type) {
+        statusMessage.classList.add(type);
+    }
+}
+
+/**
+ * Adds mouseover event listeners to all Chinese phrase elements for audio playback.
+ */
+function addAudioEventListeners() {
+    document.querySelectorAll('.chinese-char').forEach(charElement => {
+        let hoverTimeout = null; // NEW: Track hover timeout
+        
+        charElement.addEventListener('mouseover', function() {
+            // NEW: Use timeout to prevent immediate trigger on hover
+            hoverTimeout = setTimeout(() => {
+                const pinyin = this.dataset.pinyin;
+                const character = this.dataset.char;
+                playAudio(pinyin, character);
+            }, 500); // 500ms delay before playing on hover
+        });
+
+        charElement.addEventListener('mouseout', function() {
+            // NEW: Clear timeout if mouse leaves before audio plays
+            if (hoverTimeout) {
+                clearTimeout(hoverTimeout);
+                hoverTimeout = null;
+            }
+        });
+
+        // Play on click (immediate)
+        charElement.addEventListener('click', function() {
+            // NEW: Clear any pending hover timeout
+            if (hoverTimeout) {
+                clearTimeout(hoverTimeout);
+                hoverTimeout = null;
+            }
+            
+            const pinyin = this.dataset.pinyin;
+            const character = this.dataset.char;
+            playAudio(pinyin, character);
+        });
+    });
+}
+
+// Canvas drawing functionality
+let isDrawing = false;
+let canvasesContexts = []; // Stores 2D contexts for each canvas
+let lastX = 0;
+let lastY = 0;
+
+/**
+ * Initializes and stores contexts for all canvas elements.
+ */
+function initializeCanvasContexts() {
+    const canvasElements = document.querySelectorAll('.paint');
+    canvasElements.forEach((canvas, index) => {
+        const ctx = canvas.getContext('2d');
+        canvasesContexts[index] = ctx;
+        
+        // Set canvas size to match container
+        const container = canvas.parentElement;
+        canvas.width = container.clientWidth;
+        canvas.height = container.clientHeight;
+        
+        ctx.strokeStyle = '#0066cc';
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+    });
+}
+
+/**
+ * Adds event listeners for drawing on canvases.
+ */
+function addCanvasEventListeners() {
+    document.querySelectorAll('.paint').forEach(canvas => {
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+
+        // Touch events for mobile
+        canvas.addEventListener('touchstart', handleTouch, { passive: false });
+        canvas.addEventListener('touchmove', handleTouch, { passive: false });
+        canvas.addEventListener('touchend', stopDrawing);
+        canvas.addEventListener('touchcancel', stopDrawing);
+    });
+}
+
+/**
+ * Starts the drawing process.
+ * @param {MouseEvent|TouchEvent} e - The event object.
+ */
+function startDrawing(e) {
+    e.preventDefault();
+    isDrawing = true;
+    const canvas = e.target;
+    const rect = canvas.getBoundingClientRect();
+    
+    // Get coordinates relative to canvas
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    
+    const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+    const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+    
+    lastX = (clientX - rect.left) * scaleX;
+    lastY = (clientY - rect.top) * scaleY;
+
+    const ctx = canvasesContexts[parseInt(canvas.dataset.index)];
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+}
+
+/**
+ * Draws on the canvas as the mouse/finger moves.
+ * @param {MouseEvent|TouchEvent} e - The event object.
+ */
+function draw(e) {
+    if (!isDrawing) return;
+    e.preventDefault();
+    
+    const canvas = e.target;
+    const rect = canvas.getBoundingClientRect();
+    
+    // Get coordinates relative to canvas
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    
+    const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+    const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+    const currentX = (clientX - rect.left) * scaleX;
+    const currentY = (clientY - rect.top) * scaleY;
+    
+    const ctx = canvasesContexts[parseInt(canvas.dataset.index)];
+    ctx.lineTo(currentX, currentY);
+    ctx.stroke();
+    
+    lastX = currentX;
+    lastY = currentY;
+}
+
+/**
+ * Stops the drawing process.
+ */
+function stopDrawing() {
+    isDrawing = false;
+}
+
+/**
+ * Handles touch events by converting them to mouse events.
+ * @param {TouchEvent} e - The touch event object.
+ */
+function handleTouch(e) {
+    // Prevent scrolling and zooming
+    e.preventDefault(); 
+    const touch = e.touches[0];
+    const target = e.target;
+
+    // Create a synthetic mouse event from touch event
+    const mouseEvent = new MouseEvent(
+        e.type === 'touchstart' ? 'mousedown' : 'mousemove', 
+        {
+            clientX: touch.clientX,
+            clientY: touch.clientY,
+            bubbles: true,
+            cancelable: true
+        }
+    );
+    target.dispatchEvent(mouseEvent);
+}
+
+/**
+ * Clears the specified canvas.
+ * @param {number} index - The index of the canvas to clear.
+ */
+function clearCanvas(index) {
+    const canvas = document.querySelector(`canvas[data-index="${index}"]`);
+    if (canvas) {
+        const ctx = canvasesContexts[index];
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+}
+
+/**
+ * Adds click listeners to all erase buttons.
+ */
+function addEraseButtonListeners() {
+    document.querySelectorAll('.erase-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const canvasIndex = parseInt(this.dataset.canvasIndex);
+            clearCanvas(canvasIndex);
+        });
+    });
+}
+
+/**
+ * Adds change listeners to brush size controls.
+ */
+function addBrushSizeListeners() {
+    document.querySelectorAll('.brush-size').forEach(slider => {
+        slider.addEventListener('input', function() {
+            const canvasIndex = parseInt(this.dataset.canvasIndex);
+            const ctx = canvasesContexts[canvasIndex];
+            ctx.lineWidth = this.value;
+        });
+    });
+}
+
+// TTS Control Event Listeners
+voiceSelector.addEventListener('change', function() {
+    useOpenAI = this.value === 'openai-fable';
+    updateStatus(useOpenAI ? 
+        "Using OpenAI Fable voice for Chinese pronunciation" : 
+        "Using browser TTS for Chinese pronunciation", 'info');
+    setTimeout(() => {
+        updateStatus('', '');
+    }, 3000);
+});
+
+ttsRateSlider.addEventListener('input', function() {
+    ttsRate = parseFloat(this.value);
+    ttsRateValue.textContent = ttsRate.toFixed(1);
+});
+
+ttsPitchSlider.addEventListener('input', function() {
+    ttsPitch = parseFloat(this.value);
+    ttsPitchValue.textContent = ttsPitch.toFixed(1);
+});
+
+// Smooth scrolling for navigation
+document.querySelectorAll('#navbar a').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        
+        if (targetElement) {
+            // Adjust scroll position to account for sticky navbar height
+            const navbarHeight = document.getElementById('navbar').offsetHeight;
+            const offsetTop = targetElement.offsetTop - navbarHeight;
+
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
+            
+            // Update active nav item
+            document.querySelectorAll('#navbar a').forEach(a => a.classList.remove('active'));
+            this.classList.add('active');
+        }
+    });
+});
+
+// Initialize the app when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    generateCards();
+    initializeCanvasContexts(); // Initialize contexts after cards are generated
+    
+    // Reinitialize contexts on window resize
+    window.addEventListener('resize', function() {
+        initializeCanvasContexts();
+    });
+});
+    </script>
+</body>
+</html>

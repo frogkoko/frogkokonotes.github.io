@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Korean Greetings & Self-Introduction</title>
+    <title>한국어 - Korean Language Practice</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://js.puter.com/v2/"></script>
     <style>
         * {
             margin: 0;
@@ -173,15 +172,6 @@
             transform: none;
         }
 
-        .voice-selector {
-            padding: 10px 15px;
-            border-radius: 25px;
-            border: 1px solid #ddd;
-            background: white;
-            color: #333;
-            font-family: 'Poppins', sans-serif;
-        }
-
         .tts-info {
             text-align: center;
             color: #7f8c8d;
@@ -211,11 +201,19 @@
             grid-column: 1 / -1;
         }
 
-        #basic-grid, #time-grid, #introduction-grid {
+        #objects-grid {
             grid-template-columns: repeat(2, 1fr);
         }
 
-        #conversation-grid {
+        #objects-grid .full-width-card {
+            grid-column: 1 / -1;
+        }
+
+        #actions-grid {
+            grid-template-columns: 1fr;
+        }
+
+        #phrases-grid {
             grid-template-columns: 1fr;
         }
 
@@ -228,7 +226,7 @@
             display: flex;
             flex-direction: column;
             border: 1px solid #f0f0f0;
-            height: 480px;
+            height: 480px; /* Fixed height for all cards */
         }
 
         .card:hover {
@@ -240,7 +238,7 @@
             position: relative;
             padding: 20px;
             background: #f8f9fa;
-            height: 250px;
+            height: 250px; /* Fixed height for sketch area */
             flex-shrink: 0;
         }
 
@@ -281,11 +279,11 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            min-height: 180px;
+            min-height: 180px; /* Minimum height for content area */
         }
 
         .korean-text {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: bold;
             color: #3498db;
             cursor: pointer;
@@ -309,51 +307,58 @@
             line-height: 1.4;
         }
 
-        /* Conversation cards specific styling */
-        .conversation-card .korean-text {
+        /* Common Phrases Specific Styles */
+        .phrase-card .korean-text {
             font-size: 1.8rem;
             line-height: 1.4;
         }
 
-        .conversation-card .char-info {
+        .phrase-card .char-info {
             font-size: 0.9rem;
             margin-top: 8px;
         }
 
         /* Adjust full-width cards to maintain proportions */
         .full-width-card .card {
-            height: 480px;
+            height: 480px; /* Same height as regular cards */
         }
 
         .full-width-card .sketch {
-            height: 250px;
+            height: 250px; /* Same height as regular cards */
         }
 
-        /* Status indicator */
         .status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            background: rgba(39, 39, 62, 0.5);
             text-align: center;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
             font-weight: 500;
-        }
-
-        .status.processing {
-            background-color: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
         }
 
         .status.playing {
-            background-color: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
+            background: rgba(16, 185, 129, 0.2);
+            color: #a7f3d0;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .status.processing {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fde68a;
+            border-color: rgba(245, 158, 11, 0.3);
         }
 
         .status.error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background: rgba(239, 68, 68, 0.2);
+            color: #fecaca;
+            border-color: rgba(239, 68, 68, 0.3);
         }
 
         @media (min-width: 992px) {
@@ -361,11 +366,11 @@
                 grid-template-columns: repeat(3, 1fr);
             }
             
-            #basic-grid, #time-grid, #introduction-grid {
+            #objects-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
             
-            #conversation-grid {
+            #actions-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -375,12 +380,12 @@
                 grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             }
             
-            #basic-grid, #time-grid, #introduction-grid {
+            #objects-grid {
                 grid-template-columns: 1fr;
             }
             
             .card {
-                height: 450px;
+                height: 450px; /* Slightly smaller on medium screens */
             }
             
             .sketch {
@@ -397,12 +402,12 @@
                 grid-template-columns: 1fr;
             }
             
-            #basic-grid, #time-grid, #introduction-grid {
+            #objects-grid {
                 grid-template-columns: 1fr;
             }
             
             .card {
-                height: 420px;
+                height: 420px; /* Adjusted for mobile */
             }
             
             .sketch {
@@ -434,7 +439,7 @@
             }
             
             .korean-text {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
         }
 
@@ -452,7 +457,7 @@
             }
             
             .card {
-                height: 400px;
+                height: 400px; /* Further adjusted for small mobile */
             }
             
             .sketch {
@@ -460,7 +465,7 @@
             }
             
             .korean-text {
-                font-size: 1.6rem;
+                font-size: 1.8rem;
             }
         }
     </style>
@@ -468,241 +473,91 @@
 <body>
     <div class="main">
         <div class="header">
-            <h1><br>Korean Greetings & Self-Introduction</h1>
-            <p>Learn essential Korean greetings and self-introduction phrases</p>
+            <h1><br>Learn Korean (한국어)</h1>
             <p>Draw in the white canvas area to practice writing</p>
-            <p>Click on Korean text to hear pronunciation</p>
+            <p>Click on Korean text to hear pronunciation using OpenAI TTS</p>
         </div>
         
         <div class="sticky-nav-container">
             <div class="nav-content">
                 <a href="../../index.html" class="back-button">← Back to Main</a>
                 <nav id="navbar">
-                    <a class="active" href="#basic">Basic Greetings</a>
-                    <a href="#time">Time-based Greetings</a>
-                    <a href="#introduction">Self-Introduction</a>
-                    <a href="#conversation">Conversation Practice</a>
+                    <a class="active" href="#objects">Objects</a>
+                    <a href="#actions">Actions</a>
+                    <a href="#phrases">Common Phrases</a>
                 </nav>
             </div>
         </div>
         
-       
+
         <div id="status" class="status">Ready to convert text to speech</div>
-        <p class="tts-info">Click on any Korean text to hear its pronunciation</p>
+        <p class="tts-info">Click on any Korean text to hear its pronunciation using OpenAI TTS with Fable voice</p>
         
-        <section id="basic">
-            <h2 class="section-title">Basic Greetings<br/>기본 인사</h2>
-            <ul class="cards" id="basic-grid"></ul>
+        <section id="objects">
+            <h2 class="section-title">Common Objects<br/>일상 물건</h2>
+            <ul class="cards" id="objects-grid"></ul>
         </section>
 
-        <section id="time">
-            <h2 class="section-title">Time-based Greetings<br/>시간별 인사</h2>
-            <ul class="cards" id="time-grid"></ul>
+        <section id="actions">
+            <h2 class="section-title">Actions<br/>행동</h2>
+            <ul class="cards" id="actions-grid"></ul>
         </section>
 
-        <section id="introduction">
-            <h2 class="section-title">Self-Introduction<br/>자기소개</h2>
-            <ul class="cards" id="introduction-grid"></ul>
-        </section>
-
-        <section id="conversation">
-            <h2 class="section-title">Conversation Practice<br/>대화 연습</h2>
-            <ul class="cards" id="conversation-grid"></ul>
+        <section id="phrases">
+            <h2 class="section-title">Common Phrases<br/>일상 표현</h2>
+            <ul class="cards" id="phrases-grid"></ul>
         </section>
     </div>
 
+    <script src="https://js.puter.com/v2/"></script>
     <script>
         const koreanContent = {
-            basic: [
-                { 
-                    korean: '안녕하세요', 
-                    romanized: 'annyeonghaseyo', 
-                    meaning: 'Hello (formal)',
-                    usage: 'Most common greeting, used in formal situations',
-                    examples: 'When meeting someone for the first time'
-                },
-                { 
-                    korean: '안녕', 
-                    romanized: 'annyeong', 
-                    meaning: 'Hello (informal)',
-                    usage: 'Used with friends, family, or people younger than you',
-                    examples: 'When greeting close friends'
-                },
-                { 
-                    korean: '만나서 반갑습니다', 
-                    romanized: 'mannaseo bangapseumnida', 
-                    meaning: 'Nice to meet you (VERY formal)',
-                    usage: 'When meeting someone for the first time',
-                    examples: 'After introductions'
-                },
-                { 
-                    korean: '반갑습니다', 
-                    romanized: 'mannaseo bangapseumnida', 
-                    meaning: 'Nice to meet you (formal, more common)',
-                    usage: 'When meeting someone for the first time',
-                    examples: 'After introductions'
-                },
-                { 
-                    korean: '만나서 반가워', 
-                    romanized: 'mannaseo bangawo', 
-                    meaning: 'Nice to meet you (informal)',
-                    usage: 'With friends or people younger than you',
-                    examples: 'Casual first meeting'
-                },
-                { 
-                    korean: '안녕히 가세요', 
-                    romanized: 'annyeonghi gaseyo', 
-                    meaning: 'Goodbye (to someone leaving)',
-                    usage: 'Said to the person who is leaving',
-                    examples: 'When someone is going home'
-                },
-                { 
-                    korean: '안녕히 계세요', 
-                    romanized: 'annyeonghi gyeseyo', 
-                    meaning: 'Goodbye (to someone staying)',
-                    usage: 'Said when you are leaving',
-                    examples: 'When you are leaving someone\'s place'
-                }
+            objects: [
+                { korean: '밥', romanized: 'bap', meaning: 'rice/meal' },
+                { korean: '집', romanized: 'jip', meaning: 'house' },
+                { korean: '차', romanized: 'cha', meaning: 'car/tea' },
+                { korean: '일', romanized: 'il', meaning: 'work' },
+                { korean: '친구', romanized: 'chingu', meaning: 'friend' },
+                { korean: '학교', romanized: 'hakgyo', meaning: 'school' },
+                { korean: '음식', romanized: 'eumsik', meaning: 'food' },
+                { korean: '물', romanized: 'mul', meaning: 'water' },
+                { korean: '시간', romanized: 'sigan', meaning: 'time' },
+                { korean: '돈', romanized: 'don', meaning: 'money' }
             ],
-            time: [
-                { 
-                    korean: '좋은 아침', 
-                    romanized: 'joheun achim', 
-                    meaning: 'Good morning (informal)',
-                    usage: 'Used with friends and family',
-                    examples: 'Morning greeting to close people'
-                },
-                { 
-                    korean: '안녕히 주무셨어요?', 
-                    romanized: 'annyeonghi jumusyeosseoyo?', 
-                    meaning: 'Did you sleep well? (formal)',
-                    usage: 'Polite morning greeting',
-                    examples: 'Greeting elders in the morning'
-                },
-                { 
-                    korean: '좋은 오후', 
-                    romanized: 'joheun ohu', 
-                    meaning: 'Good afternoon',
-                    usage: 'General afternoon greeting',
-                    examples: 'Used from noon to early evening'
-                },
-                { 
-                    korean: '좋은 저녁', 
-                    romanized: 'joheun jeonyeok', 
-                    meaning: 'Good evening',
-                    usage: 'Evening greeting',
-                    examples: 'Used in the evening'
-                },
-                { 
-                    korean: '잘 자', 
-                    romanized: 'jal ja', 
-                    meaning: 'Good night (informal)',
-                    usage: 'Said to friends or family before sleeping',
-                    examples: 'Bedtime greeting to close people'
-                },
-                { 
-                    korean: '안녕히 주무세요', 
-                    romanized: 'annyeonghi jumuseyo', 
-                    meaning: 'Good night (formal)',
-                    usage: 'Polite bedtime greeting',
-                    examples: 'Said to elders or in formal situations'
-                }
+            actions: [
+                { korean: '먹다', romanized: 'meokda', meaning: 'to eat' },
+                { korean: '가다', romanized: 'gada', meaning: 'to go' },
+                { korean: '있다', romanized: 'itda', meaning: 'to be (at a place)' },
+                { korean: '하다', romanized: 'hada', meaning: 'to do' },
+                { korean: '일하다', romanized: 'ilhada', meaning: 'to work' },
+                { korean: '공부하다', romanized: 'gongbuhada', meaning: 'to study' },
+                { korean: '갑자기', romanized: 'gapjagi', meaning: 'suddenly' },
+                { korean: '제가 갈 거예요', romanized: 'jega gal geoyeyo', meaning: 'I will go', fullWidth: true },
+                { korean: '제가 먹을 거예요', romanized: 'jega meogeul geoyeyo', meaning: 'I will eat', fullWidth: true },
+                { korean: '제가 있었어요', romanized: 'jega isseosseoyo', meaning: 'I was there', fullWidth: true }
             ],
-            introduction: [
-                { 
-                    korean: '제 이름은 [이름]입니다', 
-                    romanized: 'je ireumeun [ireum]imnida', 
-                    meaning: 'My name is [name] (formal)',
-                    usage: 'Formal self-introduction',
-                    examples: '제 이름은 민수입니다 (My name is Minsu)'
-                },
-                { 
-                    korean: '저는 [나라] 사람입니다', 
-                    romanized: 'jeoneun [nara] saraminida', 
-                    meaning: 'I am from [country] (formal)',
-                    usage: 'Telling your nationality',
-                    examples: '저는 미국 사람입니다 (I am American)'
-                },
-                { 
-                    korean: '저는 [나이] 살입니다', 
-                    romanized: 'jeoneun [nai] sarimnida', 
-                    meaning: 'I am [age] years old (formal)',
-                    usage: 'Telling your age formally',
-                    examples: '저는 스물다섯 살입니다 (I am 25 years old)'
-                },
-                { 
-                    korean: '저는 [직업]입니다', 
-                    romanized: 'jeoneun [jigeob]imnida', 
-                    meaning: 'I am a [job] (formal)',
-                    usage: 'Telling your occupation',
-                    examples: '저는 선생님입니다 (I am a teacher)'
-                },
-                { 
-                    korean: '취미는 [취미]입니다', 
-                    romanized: 'chwimineun [chwimi]imnida', 
-                    meaning: 'My hobby is [hobby] (formal)',
-                    usage: 'Talking about your interests',
-                    examples: '취미는 독서입니다 (My hobby is reading)'
-                },
-                { 
-                    korean: '한국어를 배우고 있습니다', 
-                    romanized: 'hangugeoreul baeugo itseumnida', 
-                    meaning: 'I am learning Korean (formal)',
-                    usage: 'Explaining your language studies',
-                    examples: 'Useful for language exchange'
-                }
-            ],
-            conversation: [
-                { 
-                    korean: 'A: 안녕하세요? B: 네, 안녕하세요!', 
-                    romanized: 'A: annyeonghaseyo? B: ne, annyeonghaseyo!', 
-                    meaning: 'A: Hello? B: Yes, hello!',
-                    context: 'Basic greeting exchange'
-                },
-                { 
-                    korean: 'A: 이름이 뭐예요? B: 제 이름은 수지예요.', 
-                    romanized: 'A: ireumi mwoyeyo? B: je ireumeun sujiyeyo.', 
-                    meaning: 'A: What is your name? B: My name is Suji.',
-                    context: 'Asking and telling names'
-                },
-                { 
-                    korean: 'A: 어디에서 왔어요? B: 미국에서 왔어요.', 
-                    romanized: 'A: eodieseo wasseoyo? B: migugeseo wasseoyo.', 
-                    meaning: 'A: Where are you from? B: I am from America.',
-                    context: 'Asking about origin'
-                },
-                { 
-                    korean: 'A: 무슨 일을 하세요? B: 저는 학생이에요.', 
-                    romanized: 'A: museun ireul haseyo? B: jeoneun haksaengieyo.', 
-                    meaning: 'A: What do you do? B: I am a student.',
-                    context: 'Asking about occupation'
-                },
-                { 
-                    korean: 'A: 한국어를 잘 하시네요! B: 아니요, 조금밖에 못 해요.', 
-                    romanized: 'A: hangugeoreul jal hasineyo! B: aniyo, jogeumbakke mot haeyo.', 
-                    meaning: 'A: You speak Korean well! B: No, I can only speak a little.',
-                    context: 'Complimenting language skills'
-                },
-                { 
-                    korean: 'A: 나중에 또 봐요! B: 네, 안녕히 가세요!', 
-                    romanized: 'A: najunge tto bwayo! B: ne, annyeonghi gaseyo!', 
-                    meaning: 'A: See you later! B: Yes, goodbye!',
-                    context: 'Ending a conversation'
-                }
+            phrases: [
+                { korean: '갑자기 비가 왔어요', romanized: 'gapjagi biga wasseoyo', meaning: 'It suddenly rained' },
+                { korean: '저는 거기에 있었어요', romanized: 'jeoneun geogie isseosseoyo', meaning: 'I was there' },
+                { korean: '제 일은 힘들어요', romanized: 'je ireun himdeureoyo', meaning: 'My work is difficult' },
+                { korean: '저는 밥을 먹을 거예요', romanized: 'jeoneun babeul meogeul geoyeyo', meaning: 'I will eat rice' },
+                { korean: '저는 밥을 먹지 않을 거예요', romanized: 'jeoneun babeul meokji aneul geoyeyo', meaning: 'I will not eat rice' },
+                { korean: '저는 돈이 있어요', romanized: 'jeoneun doni isseoyo', meaning: 'I have money' },
+                { korean: '저는 시간이 없어요', romanized: 'jeoneun sigani eopseoyo', meaning: 'I don\'t have time' },
+                { korean: '저는 그 일을 했어요', romanized: 'jeoneun geu ireul haesseoyo', meaning: 'I did that work' },
+                { korean: '저는 그 일을 하지 않았어요', romanized: 'jeoneun geu ireul haji anasseoyo', meaning: 'I did not do that work' },
+                { korean: '저는 친구를 만났어요', romanized: 'jeoneun chingureul mannasseoyo', meaning: 'I met a friend' },
+                { korean: '저는 학교에 갔어요', romanized: 'jeoneun hakgyoe gasseoyo', meaning: 'I went to school' },
+                { korean: '저는 음식을 먹었어요', romanized: 'jeoneun eumsigeul meogeosseoyo', meaning: 'I ate food' },
+                { korean: '저는 물을 마셨어요', romanized: 'jeoneun mureul masyeosseoyo', meaning: 'I drank water' },
+                { korean: '저는 차를 샀어요', romanized: 'jeoneun chareul sasseoyo', meaning: 'I bought a car' },
+                { korean: '저는 공부했어요', romanized: 'jeoneun gongbuhaesseoyo', meaning: 'I studied' }
             ]
         };
 
         let currentAudio = null;
-
-        // Update status display
-        function updateStatus(message, type) {
-            const statusDiv = document.getElementById('status');
-            statusDiv.textContent = message;
-            statusDiv.className = 'status';
-            if (type) {
-                statusDiv.classList.add(type);
-            }
-        }
+        let isPlayingAll = false;
+        let currentPlayingIndex = 0;
 
         // Text-to-Speech functionality using OpenAI TTS
         const speakKorean = async (text) => {
@@ -712,13 +567,10 @@
                 currentAudio = null;
             }
             
-            // Clean text for TTS
-            const cleanText = text.replace(/\[.*?\]/g, '').replace(/\//g, ' ');
-            
             updateStatus('Converting text to speech...', 'processing');
             
             try {
-                const audio = await puter.ai.txt2speech(cleanText, {
+                const audio = await puter.ai.txt2speech(text, {
                     provider: 'openai',
                     voice: 'fable',
                     model: 'gpt-4o-mini-tts',
@@ -734,72 +586,40 @@
                 audio.addEventListener('ended', () => {
                     updateStatus('Ready to convert text to speech', '');
                     currentAudio = null;
+                    
+                    // If playing all, continue to next item
+                    if (isPlayingAll) {
+                        playNextKorean();
+                    }
                 });
                 
                 audio.addEventListener('error', (e) => {
                     updateStatus('Error playing audio', 'error');
                     console.error('Audio playback error:', e);
                     currentAudio = null;
+                    isPlayingAll = false;
                 });
                 
             } catch (error) {
                 updateStatus(`Error: ${error.message}`, 'error');
                 console.error('TTS Error:', error);
-                
-                // Fallback to browser TTS if OpenAI fails
-                fallbackTTS(cleanText);
+                isPlayingAll = false;
             }
         };
 
-        // Fallback to browser TTS if OpenAI fails
-        const fallbackTTS = (text) => {
-            if ('speechSynthesis' in window) {
-                speechSynthesis.cancel();
-                
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'ko-KR';
-                utterance.rate = 0.6;
-                utterance.pitch = 1;
-                utterance.volume = 1;
-                
-                const voices = speechSynthesis.getVoices();
-                const koreanVoice = voices.find(voice => voice.lang.includes('ko'));
-                if (koreanVoice) {
-                    utterance.voice = koreanVoice;
-                }
-                
-                speechSynthesis.speak(utterance);
-                updateStatus('Playing with browser TTS (fallback)', 'playing');
-                
-                utterance.onend = () => {
-                    updateStatus('Ready to convert text to speech', '');
-                };
-                
-                utterance.onerror = () => {
-                    updateStatus('Error with browser TTS', 'error');
-                };
-            } else {
-                console.log('Speech synthesis not supported');
-                updateStatus('Speech synthesis not supported', 'error');
+        // Update status display
+        function updateStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = 'status';
+            if (type) {
+                statusDiv.classList.add(type);
             }
-        };
+        }
 
-        function createCard(koreanData, index, section) {
-            const isConversation = section === 'conversation';
-            const cardClass = isConversation ? 'card conversation-card' : 'card';
+        function createCard(koreanData, index, isPhrase = false) {
+            const cardClass = isPhrase ? 'card phrase-card' : 'card';
             const fullWidthClass = koreanData.fullWidth ? 'full-width-card' : '';
-            
-            // Format the meaning with additional information
-            let formattedMeaning = koreanData.meaning;
-            if (koreanData.usage) {
-                formattedMeaning += `<br/><small>Usage: ${koreanData.usage}</small>`;
-            }
-            if (koreanData.examples) {
-                formattedMeaning += `<br/><small>Examples: ${koreanData.examples}</small>`;
-            }
-            if (koreanData.context) {
-                formattedMeaning += `<br/><small>Context: ${koreanData.context}</small>`;
-            }
             
             return `
                 <li class="cards_item ${fullWidthClass}">
@@ -810,7 +630,7 @@
                         </div>
                         <div class="card_content">
                             <div class="korean-text" data-romanized="${koreanData.romanized}" data-korean="${koreanData.korean}">${koreanData.korean}</div>
-                            <div class="char-info">${koreanData.romanized}<br/>${formattedMeaning}</div>
+                            <div class="char-info">${koreanData.romanized}<br/>${koreanData.meaning}</div>
                         </div>
                     </div>
                 </li>
@@ -818,16 +638,14 @@
         }
 
         function generateCards() {
-            const basicGrid = document.getElementById('basic-grid');
-            const timeGrid = document.getElementById('time-grid');
-            const introductionGrid = document.getElementById('introduction-grid');
-            const conversationGrid = document.getElementById('conversation-grid');
+            const objectsGrid = document.getElementById('objects-grid');
+            const actionsGrid = document.getElementById('actions-grid');
+            const phrasesGrid = document.getElementById('phrases-grid');
             
             let index = 0;
-            basicGrid.innerHTML = koreanContent.basic.map(item => createCard(item, index++, 'basic')).join('');
-            timeGrid.innerHTML = koreanContent.time.map(item => createCard(item, index++, 'time')).join('');
-            introductionGrid.innerHTML = koreanContent.introduction.map(item => createCard(item, index++, 'introduction')).join('');
-            conversationGrid.innerHTML = koreanContent.conversation.map(item => createCard(item, index++, 'conversation')).join('');
+            objectsGrid.innerHTML = koreanContent.objects.map(item => createCard(item, index++)).join('');
+            actionsGrid.innerHTML = koreanContent.actions.map(item => createCard(item, index++)).join('');
+            phrasesGrid.innerHTML = koreanContent.phrases.map(item => createCard(item, index++, true)).join('');
             
             addAudioEventListeners();
             addCanvasEventListeners();
@@ -847,42 +665,54 @@
             const ttsButton = document.getElementById('tts-button');
             ttsButton.disabled = true;
             
-            const allItems = [...koreanContent.basic, ...koreanContent.time, ...koreanContent.introduction, ...koreanContent.conversation];
-            let index = 0;
+            const allItems = [...koreanContent.objects, ...koreanContent.actions, ...koreanContent.phrases];
             
-            function speakNext() {
-                if (index < allItems.length) {
-                    const koreanData = allItems[index];
-                    speakKorean(koreanData.korean);
-                    
-                    const koreanElements = document.querySelectorAll('.korean-text');
-                    koreanElements.forEach(el => el.style.backgroundColor = '');
-                    
-                    const currentElement = Array.from(koreanElements).find(
-                        el => el.getAttribute('data-korean') === koreanData.korean
-                    );
-                    
-                    if (currentElement) {
-                        currentElement.style.backgroundColor = '#e8f5e9';
-                    }
-                    
-                    // Wait for audio to finish before playing next
-                    const checkAudioEnded = setInterval(() => {
-                        if (!currentAudio) {
-                            clearInterval(checkAudioEnded);
-                            index++;
-                            setTimeout(speakNext, 500);
-                        }
-                    }, 100);
-                } else {
-                    ttsButton.disabled = false;
-                    document.querySelectorAll('.korean-text').forEach(el => {
-                        el.style.backgroundColor = '';
-                    });
-                }
+            if (allItems.length === 0) {
+                ttsButton.disabled = false;
+                return;
             }
             
-            speakNext();
+            isPlayingAll = true;
+            currentPlayingIndex = 0;
+            
+            // Reset all highlights
+            document.querySelectorAll('.korean-text').forEach(el => {
+                el.style.backgroundColor = '';
+            });
+            
+            playNextKorean();
+        }
+
+        function playNextKorean() {
+            if (!isPlayingAll) {
+                document.getElementById('tts-button').disabled = false;
+                return;
+            }
+            
+            const allItems = [...koreanContent.objects, ...koreanContent.actions, ...koreanContent.phrases];
+            
+            if (currentPlayingIndex >= allItems.length) {
+                // Finished playing all items
+                isPlayingAll = false;
+                document.getElementById('tts-button').disabled = false;
+                document.querySelectorAll('.korean-text').forEach(el => {
+                    el.style.backgroundColor = '';
+                });
+                return;
+            }
+            
+            const koreanData = allItems[currentPlayingIndex];
+            
+            // Highlight current item
+            document.querySelectorAll('.korean-text').forEach(el => {
+                el.style.backgroundColor = '';
+                if (el.getAttribute('data-korean') === koreanData.korean) {
+                    el.style.backgroundColor = '#e8f5e9';
+                }
+            });
+            
+            speakKorean(koreanData.korean);
+            currentPlayingIndex++;
         }
 
         let isDrawing = false;

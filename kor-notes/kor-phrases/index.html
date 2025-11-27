@@ -490,11 +490,7 @@
             </div>
         </div>
         
-        <div class="tts-controls">
-            <button id="tts-button" class="tts-button">
-                <span>🔊</span> Play All
-            </button>
-        </div>
+
         <div id="status" class="status">Ready to convert text to speech</div>
         <p class="tts-info">Click on any Korean text to hear its pronunciation using OpenAI TTS with Fable voice</p>
         
@@ -528,28 +524,108 @@
                 { korean: '저는 학생입니다', romanized: 'jeoneun haksaengimnida', meaning: 'I am a student', fullWidth: true }
             ],
             jobs: [
-                { korean: '의사', romanized: 'uisa', meaning: 'doctor' },
-                { korean: '간호사', romanized: 'ganhosa', meaning: 'nurse' },
-                { korean: '가수', romanized: 'gasu', meaning: 'singer' },
-                { korean: '배우', romanized: 'bae-u', meaning: 'actor' },
-                { korean: '선생님', romanized: 'seonsaengnim', meaning: 'teacher' },
-                { korean: '학생', romanized: 'haksaeng', meaning: 'student' }
-            ],
+    { korean: '의사', romanized: 'uisa', meaning: 'doctor', plural: '의사들' },
+    { korean: '간호사', romanized: 'ganhosa', meaning: 'nurse', plural: '간호사들' },
+    { korean: '가수', romanized: 'gasu', meaning: 'singer', plural: '가수들' },
+    { korean: '배우', romanized: 'bae-u', meaning: 'actor/actress', plural: '배우들' },
+    { korean: '선생님', romanized: 'seonsaengnim', meaning: 'teacher', plural: '선생님들' },
+    { korean: '학생', romanized: 'haksaeng', meaning: 'student', plural: '학생들' },
+    { korean: '요리사', romanized: 'yorisa', meaning: 'chef', plural: '요리사들' },
+    { korean: '경찰관', romanized: 'gyeongchalgwan', meaning: 'police officer', plural: '경찰관들' },
+    { korean: '소방관', romanized: 'sobanggwan', meaning: 'firefighter', plural: '소방관들' },
+    { korean: '군인', romanized: 'gunin', meaning: 'soldier', plural: '군인들' },
+    { korean: '변호사', romanized: 'beonhosa', meaning: 'lawyer', plural: '변호사들' },
+    { korean: '판사', romanized: 'pansa', meaning: 'judge', plural: '판사들' },
+    { korean: '회사원', romanized: 'hoesawon', meaning: 'office worker', plural: '회사원들' },
+    { korean: '비서', romanized: 'biseo', meaning: 'secretary', plural: '비서들' },
+    { korean: '회계사', romanized: 'hoegyesa', meaning: 'accountant', plural: '회계사들' },
+    { korean: '은행원', romanized: 'eunhaeng-won', meaning: 'bank clerk', plural: '은행원들' },
+    { korean: '경영자', romanized: 'gyeong-yeongja', meaning: 'manager/executive', plural: '경영자들' },
+    { korean: '사장님', romanized: 'sajangnim', meaning: 'president/CEO', plural: '사장님들' },
+    { korean: '과학자', romanized: 'gwahakja', meaning: 'scientist', plural: '과학자들' },
+    { korean: '연구원', romanized: 'yeonguwon', meaning: 'researcher', plural: '연구원들' },
+    { korean: '엔지니어', romanized: 'enjinieo', meaning: 'engineer', plural: '엔지니어들' },
+    { korean: '건축가', romanized: 'geonchukga', meaning: 'architect', plural: '건축가들' },
+    { korean: '프로그래머', romanized: 'peurogeuraemeo', meaning: 'programmer', plural: '프로그래머들' },
+    { korean: '디자이너', romanized: 'dijaineo', meaning: 'designer', plural: '디자이너들' },
+    { korean: '화가', romanized: 'hwaga', meaning: 'painter', plural: '화가들' },
+    { korean: '작가', romanized: 'jakga', meaning: 'writer', plural: '작가들' },
+    { korean: '시인', romanized: 'siin', meaning: 'poet', plural: '시인들' },
+    { korean: '기자', romanized: 'gija', meaning: 'journalist', plural: '기자들' },
+    { korean: '편집자', romanized: 'pyeonjibja', meaning: 'editor', plural: '편집자들' },
+    { korean: '사진작가', romanized: 'sajinjakga', meaning: 'photographer', plural: '사진작가들' },
+    { korean: '음악가', romanized: 'eumakga', meaning: 'musician', plural: '음악가들' },
+    { korean: '무용가', romanized: 'muyongga', meaning: 'dancer', plural: '무용가들' },
+    { korean: '모델', romanized: 'model', meaning: 'model', plural: '모델들' },
+    { korean: '운동선수', romanized: 'undongseonsu', meaning: 'athlete', plural: '운동선수들' },
+    { korean: '코치', romanized: 'kochi', meaning: 'coach', plural: '코치들' },
+    { korean: '심판', romanized: 'simpan', meaning: 'referee', plural: '심판들' },
+    { korean: '의료진', romanized: 'uiryojin', meaning: 'medical staff', plural: '의료진들' },
+    { korean: '약사', romanized: 'yaksa', meaning: 'pharmacist', plural: '약사들' },
+    { korean: '치과의사', romanized: 'chigwauisa', meaning: 'dentist', plural: '치과의사들' },
+    { korean: '수의사', romanized: 'suuisa', meaning: 'veterinarian', plural: '수의사들' },
+    { korean: '심리학자', romanized: 'simnihakja', meaning: 'psychologist', plural: '심리학자들' },
+    { korean: '상담사', romanized: 'sangdamsa', meaning: 'counselor', plural: '상담사들' },
+    { korean: '사회복지사', romanized: 'sahoebokjisa', meaning: 'social worker', plural: '사회복지사들' },
+    { korean: '판매원', romanized: 'panmaewon', meaning: 'salesperson', plural: '판매원들' },
+    { korean: '점원', romanized: 'jeom-won', meaning: 'shop assistant', plural: '점원들' },
+    { korean: '카센터 직원', romanized: 'kasenteo jig-won', meaning: 'auto mechanic', plural: '카센터 직원들' },
+    { korean: '배달원', romanized: 'baedal-won', meaning: 'delivery person', plural: '배달원들' },
+    { korean: '택시 기사', romanized: 'taeksi gisa', meaning: 'taxi driver', plural: '택시 기사들' },
+    { korean: '버스 기사', romanized: 'beoseu gisa', meaning: 'bus driver', plural: '버스 기사들' },
+    { korean: '조종사', romanized: 'jojongsa', meaning: 'pilot', plural: '조종사들' },
+    { korean: '승무원', romanized: 'seungmu-won', meaning: 'flight attendant', plural: '승무원들' },
+    { korean: '선장', romanized: 'seonjang', meaning: 'ship captain', plural: '선장들' },
+    { korean: '항해사', romanized: 'hanghaesa', meaning: 'sailor', plural: '항해사들' },
+    { korean: '농부', romanized: 'nongbu', meaning: 'farmer', plural: '농부들' },
+    { korean: '어부', romanized: 'eobu', meaning: 'fisherman', plural: '어부들' },
+    { korean: '정원사', romanized: 'jeong-wonsa', meaning: 'gardener', plural: '정원사들' },
+    { korean: '미용사', romanized: 'miyongsa', meaning: 'hairdresser', plural: '미용사들' },
+    { korean: '메이크업 아티스트', romanized: 'meikeu-eop atiseuteu', meaning: 'makeup artist', plural: '메이크업 아티스트들' },
+    { korean: '네일 아티스트', romanized: 'neil atiseuteu', meaning: 'nail artist', plural: '네일 아티스트들' },
+    { korean: '경비원', romanized: 'gyeongbi-won', meaning: 'security guard', plural: '경비원들' },
+    { korean: '청소부', romanized: 'cheongsobu', meaning: 'cleaner', plural: '청소부들' }
+],
             questions: [
                 { korean: '무슨 일을 하세요?', romanized: 'museun ireul haseyo?', meaning: 'What is your job?', fullWidth: true },
                 { korean: '그녀는 무슨 일을 해요?', romanized: 'geunyeoneun museun ireul haeyo?', meaning: 'What is her job?', fullWidth: true },
                 { korean: '하늘은 무슨 일을 해요?', romanized: 'haneureun museun ireul haeyo?', meaning: 'What is Haneul\'s job?', fullWidth: true }
             ],
-            phrases: [
-                { korean: '저는 의사입니다', romanized: 'jeoneun uisaimnida', meaning: 'I am a doctor' },
-                { korean: '저는 간호사입니다', romanized: 'jeoneun ganhosaimnida', meaning: 'I am a nurse' },
-                { korean: '저는 가수입니다', romanized: 'jeoneun gasuimnida', meaning: 'I am a singer' },
-                { korean: '저는 배우입니다', romanized: 'jeoneun bae-uimnida', meaning: 'I am an actor' },
-                { korean: '하늘은 의사입니다', romanized: 'haneureun uisaimnida', meaning: 'Haneul is a doctor' },
-                { korean: '하늘은 간호사입니다', romanized: 'haneureun ganhosaimnida', meaning: 'Haneul is a nurse' },
-                { korean: '하늘은 가수입니다', romanized: 'haneureun gasuimnida', meaning: 'Haneul is a singer' },
-                { korean: '하늘은 배우입니다', romanized: 'haneureun bae-uimnida', meaning: 'Haneul is an actor' }
-            ]
+           phrases: [
+    { korean: '저는 의사입니다', romanized: 'jeoneun uisaimnida', meaning: 'I am a doctor' },
+    { korean: '저는 간호사입니다', romanized: 'jeoneun ganhosaimnida', meaning: 'I am a nurse' },
+    { korean: '저는 가수입니다', romanized: 'jeoneun gasuimnida', meaning: 'I am a singer' },
+    { korean: '저는 배우입니다', romanized: 'jeoneun bae-uimnida', meaning: 'I am an actor' },
+    { korean: '하늘은 의사입니다', romanized: 'haneureun uisaimnida', meaning: 'Haneul is a doctor' },
+    { korean: '하늘은 간호사입니다', romanized: 'haneureun ganhosaimnida', meaning: 'Haneul is a nurse' },
+    { korean: '하늘은 가수입니다', romanized: 'haneureun gasuimnida', meaning: 'Haneul is a singer' },
+    { korean: '하늘은 배우입니다', romanized: 'haneureun bae-uimnida', meaning: 'Haneul is an actor' },
+
+    // Work Schedule Phrases
+    { korean: '출근 시간은 아침 7시입니다', romanized: 'chulgeun sigan-eun achim ilgopsiimnida', meaning: 'Work starts at 7:00 AM' },
+    { korean: '퇴근 시간은 오후 5시입니다', romanized: 'toegeun sigan-eun ohu dasotsiimnida', meaning: 'Work ends at 5:00 PM' },
+    { korean: '저는 보통 9시에 출근해요', romanized: 'jeoneun botong ahopsie chulgeunhaeyo', meaning: 'I usually start work at 9:00' },
+    { korean: '점심 시간은 12시에서 1시까지입니다', romanized: 'jeomsim sigan-eun yeoldusi-eseo hansikkajiimnida', meaning: 'Lunch break is from 12:00 to 1:00' },
+    { korean: '주 5일 근무합니다', romanized: 'ju oilil geunmuhamnida', meaning: 'I work 5 days a week' },
+    { korean: '저는 주말에 근무해요', romanized: 'jeoneun sumare geunmuhaeyo', meaning: 'I work on weekends' },
+    { korean: '야근을 자주 해요', romanized: 'yageuneul jaju haeyo', meaning: 'I often work overtime' },
+
+    // Work Experience & Duration Phrases
+    { korean: '저는 6년 동안 배우로 일했어요', romanized: 'jeoneun yeoseotnyeon dong-an bae-ulo ilhaesseoyo', meaning: 'I have worked as an actor for 6 years' },
+    { korean: '의사로 지낸 지 10년 됐어요', romanized: 'uisaro jinæn ji simnyeon dwaesseoyo', meaning: 'It has been 10 years since I became a doctor' },
+    { korean: '저는 3년 차 간호사입니다', romanized: 'jeoneun samnyeon cha ganhosaimnida', meaning: 'I am a nurse in my 3rd year' },
+    { korean: '이 회사에서 2년 동안 일했어요', romanized: 'i hoesa-eseo inyeon dong-an ilhaesseoyo', meaning: 'I worked at this company for 2 years' },
+    { korean: '저는 신입 사원입니다', romanized: 'jeoneun sinip sawonimnida', meaning: 'I am a new employee' },
+    { korean: '경력이 5년 이상입니다', romanized: 'gyeongnyeogi daseotnyeon isangimnida', meaning: 'I have over 5 years of experience' },
+
+    // Other Useful Job-related Phrases
+    { korean: '무슨 일을 하세요?', romanized: 'museun ireul haseyo?', meaning: 'What kind of work do you do?' },
+    { korean: '어디에서 일하세요?', romanized: 'eodi-eseo ilhaseyo?', meaning: 'Where do you work?' },
+    { korean: '직업이 무엇인가요?', romanized: 'jigeobi mueosingayo?', meaning: 'What is your occupation?' },
+    { korean: '저는 회사원입니다', romanized: 'jeoneun hoesawonimnida', meaning: 'I am an office worker' },
+    { korean: '일이 힘들지만 보람돼요', romanized: 'iri himdeuljiman boramdwaeyo', meaning: 'The work is hard but rewarding' },
+    { korean: '직장이 멀어서 출퇴근이 힘들어요', romanized: 'jikjangi meoreoseo chultoegeuni himdeureoyo', meaning: 'My workplace is far, so commuting is difficult' }
+]
         };
 
         let currentAudio = null;

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Korean Greetings & Self-Introduction</title>
+    <title>Korean Nuance Markers</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://js.puter.com/v2/"></script>
     <style>
@@ -136,18 +136,6 @@
             gap: 20px;
         }
 
-        .tts-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
         .tts-button {
             background: #2ecc71;
             color: white;
@@ -211,11 +199,11 @@
             grid-column: 1 / -1;
         }
 
-        #basic-grid, #time-grid, #introduction-grid {
+        #ateotdeni-grid, #daga-grid, #gineunyo-grid {
             grid-template-columns: repeat(2, 1fr);
         }
 
-        #conversation-grid {
+        #sentences-grid {
             grid-template-columns: 1fr;
         }
 
@@ -309,13 +297,39 @@
             line-height: 1.4;
         }
 
-        /* Conversation cards specific styling */
-        .conversation-card .korean-text {
+        .grammar-marker {
+            display: inline-block;
+            background-color: #e8f4fd;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: bold;
+            color: #2980b9;
+            margin: 0 2px;
+        }
+
+        /* Grammar-specific styling */
+        .ateotdeni-card .grammar-marker {
+            background-color: #e8f6f3;
+            color: #27ae60;
+        }
+
+        .daga-card .grammar-marker {
+            background-color: #fdedec;
+            color: #c0392b;
+        }
+
+        .gineunyo-card .grammar-marker {
+            background-color: #f4ecf7;
+            color: #8e44ad;
+        }
+
+        /* Sentence cards specific styling */
+        .sentence-card .korean-text {
             font-size: 1.8rem;
             line-height: 1.4;
         }
 
-        .conversation-card .char-info {
+        .sentence-card .char-info {
             font-size: 0.9rem;
             margin-top: 8px;
         }
@@ -361,11 +375,11 @@
                 grid-template-columns: repeat(3, 1fr);
             }
             
-            #basic-grid, #time-grid, #introduction-grid {
+            #ateotdeni-grid, #daga-grid, #gineunyo-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
             
-            #conversation-grid {
+            #sentences-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -375,7 +389,7 @@
                 grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             }
             
-            #basic-grid, #time-grid, #introduction-grid {
+            #ateotdeni-grid, #daga-grid, #gineunyo-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -397,7 +411,7 @@
                 grid-template-columns: 1fr;
             }
             
-            #basic-grid, #time-grid, #introduction-grid {
+            #ateotdeni-grid, #daga-grid, #gineunyo-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -429,10 +443,6 @@
                 font-size: 0.9rem;
             }
 
-            .tts-controls {
-                flex-direction: column;
-            }
-            
             .korean-text {
                 font-size: 1.8rem;
             }
@@ -468,8 +478,8 @@
 <body>
     <div class="main">
         <div class="header">
-            <h1><br>Korean Greetings & Self-Introduction</h1>
-            <p>Learn essential Korean greetings and self-introduction phrases</p>
+            <h1>Korean Subtle Nuance Markers</h1>
+            <p>Learn how to use subtle nuance markers in Korean conversations</p>
             <p>Draw in the white canvas area to practice writing</p>
             <p>Click on Korean text to hear pronunciation</p>
         </div>
@@ -478,216 +488,173 @@
             <div class="nav-content">
                 <a href="../../index.html" class="back-button">← Back to Main</a>
                 <nav id="navbar">
-                    <a class="active" href="#basic">Basic Greetings</a>
-                    <a href="#time">Time-based Greetings</a>
-                    <a href="#introduction">Self-Introduction</a>
-                    <a href="#conversation">Conversation Practice</a>
+                    <a class="active" href="#neyo">네요</a>
+                    <a href="#gunyo">군요</a>
+                    <a href="#deonde">던데</a>
+                    <a href="#sentences">Example Sentences</a>
                 </nav>
             </div>
         </div>
         
-       
+        
         <div id="status" class="status">Ready to convert text to speech</div>
         <p class="tts-info">Click on any Korean text to hear its pronunciation</p>
         
-        <section id="basic">
-            <h2 class="section-title">Basic Greetings<br/>기본 인사</h2>
-            <ul class="cards" id="basic-grid"></ul>
+        <section id="neyo">
+            <h2 class="section-title">네요 Marker<br/>감탄/놀람 표현<br>(Used to express surprise, admiration, or personal realization about something just discovered)</h2>
+            <ul class="cards" id="neyo-grid"></ul>
         </section>
 
-        <section id="time">
-            <h2 class="section-title">Time-based Greetings<br/>시간별 인사</h2>
-            <ul class="cards" id="time-grid"></ul>
+        <section id="gunyo">
+            <h2 class="section-title">군요 Marker<br/>발견/인식 표현<br>(Used to express realization or acknowledgment of new information, often with a sense of discovery)</h2>
+            <ul class="cards" id="gunyo-grid"></ul>
         </section>
 
-        <section id="introduction">
-            <h2 class="section-title">Self-Introduction<br/>자기소개</h2>
-            <ul class="cards" id="introduction-grid"></ul>
+        <section id="deonde">
+            <h2 class="section-title">던데 Marker<br/>회상/대조 표현<br>(Used to recall past experiences while contrasting them with present situations, often with emotional nuance)</h2>
+            <ul class="cards" id="deonde-grid"></ul>
         </section>
 
-        <section id="conversation">
-            <h2 class="section-title">Conversation Practice<br/>대화 연습</h2>
-            <ul class="cards" id="conversation-grid"></ul>
+        <section id="sentences">
+            <h2 class="section-title">Example Sentences<br/>예문</h2>
+            <ul class="cards" id="sentences-grid"></ul>
         </section>
     </div>
 
     <script>
         const koreanContent = {
-            basic: [
+            neyo: [
                 { 
-                    korean: '안녕하세요', 
-                    romanized: 'annyeonghaseyo', 
-                    meaning: 'Hello (formal)',
-                    usage: 'Most common greeting, used in formal situations',
-                    examples: 'When meeting someone for the first time'
+                    korean: '네요', 
+                    romanized: 'neyo', 
+                    meaning: 'Oh, I see... / How...!',
+                    usage: 'Expresses surprise, admiration, or realization',
+                    examples: '예쁘네요 (Oh, how pretty!), 맛있네요 (Oh, this is delicious!)',
+                    fullWidth: true
                 },
                 { 
-                    korean: '안녕', 
-                    romanized: 'annyeong', 
-                    meaning: 'Hello (informal)',
-                    usage: 'Used with friends, family, or people younger than you',
-                    examples: 'When greeting close friends'
+                    korean: '네요 + 감탄', 
+                    romanized: 'neyo + gamtan', 
+                    meaning: 'Exclamation or admiration',
+                    usage: 'Shows impressed reaction to something',
+                    examples: '정말 크네요! (Oh, it is really big!), 아름답네요 (How beautiful!)',
+                    fullWidth: true
                 },
                 { 
-                    korean: '만나서 반갑습니다', 
-                    romanized: 'mannaseo bangapseumnida', 
-                    meaning: 'Nice to meet you (VERY formal)',
-                    usage: 'When meeting someone for the first time',
-                    examples: 'After introductions'
-                },
-                { 
-                    korean: '반갑습니다', 
-                    romanized: 'mannaseo bangapseumnida', 
-                    meaning: 'Nice to meet you (formal, more common)',
-                    usage: 'When meeting someone for the first time',
-                    examples: 'After introductions'
-                },
-                { 
-                    korean: '만나서 반가워', 
-                    romanized: 'mannaseo bangawo', 
-                    meaning: 'Nice to meet you (informal)',
-                    usage: 'With friends or people younger than you',
-                    examples: 'Casual first meeting'
-                },
-                { 
-                    korean: '안녕히 가세요', 
-                    romanized: 'annyeonghi gaseyo', 
-                    meaning: 'Goodbye (to someone leaving)',
-                    usage: 'Said to the person who is leaving',
-                    examples: 'When someone is going home'
-                },
-                { 
-                    korean: '안녕히 계세요', 
-                    romanized: 'annyeonghi gyeseyo', 
-                    meaning: 'Goodbye (to someone staying)',
-                    usage: 'Said when you are leaving',
-                    examples: 'When you are leaving someone\'s place'
+                    korean: '네요 + 놀람', 
+                    romanized: 'neyo + nollam', 
+                    meaning: 'Surprise or unexpected discovery',
+                    usage: 'Expresses surprise at new information',
+                    examples: '벌써 저녁이네요 (Oh, it is already evening!), 생각보다 쉽네요 (Oh, it is easier than I thought!)',
+                    fullWidth: true
                 }
             ],
-            time: [
+            gunyo: [
                 { 
-                    korean: '좋은 아침', 
-                    romanized: 'joheun achim', 
-                    meaning: 'Good morning (informal)',
-                    usage: 'Used with friends and family',
-                    examples: 'Morning greeting to close people'
+                    korean: '군요', 
+                    romanized: 'gunyo', 
+                    meaning: 'I see that... / So that is...',
+                    usage: 'Expresses realization or acknowledgment',
+                    examples: '그렇군요 (I see), 한국 분이시군요 (So you are Korean)',
+                    fullWidth: true
                 },
                 { 
-                    korean: '안녕히 주무셨어요?', 
-                    romanized: 'annyeonghi jumusyeosseoyo?', 
-                    meaning: 'Did you sleep well? (formal)',
-                    usage: 'Polite morning greeting',
-                    examples: 'Greeting elders in the morning'
+                    korean: '군요 + 발견', 
+                    romanized: 'gunyo + balgyeon', 
+                    meaning: 'Discovery of new information',
+                    usage: 'Acknowledges something just learned',
+                    examples: '여기가 사무실이군요 (So this is the office), 그게 사실이군요 (So that is true)',
+                    fullWidth: true
                 },
                 { 
-                    korean: '좋은 오후', 
-                    romanized: 'joheun ohu', 
-                    meaning: 'Good afternoon',
-                    usage: 'General afternoon greeting',
-                    examples: 'Used from noon to early evening'
-                },
-                { 
-                    korean: '좋은 저녁', 
-                    romanized: 'joheun jeonyeok', 
-                    meaning: 'Good evening',
-                    usage: 'Evening greeting',
-                    examples: 'Used in the evening'
-                },
-                { 
-                    korean: '잘 자', 
-                    romanized: 'jal ja', 
-                    meaning: 'Good night (informal)',
-                    usage: 'Said to friends or family before sleeping',
-                    examples: 'Bedtime greeting to close people'
-                },
-                { 
-                    korean: '안녕히 주무세요', 
-                    romanized: 'annyeonghi jumuseyo', 
-                    meaning: 'Good night (formal)',
-                    usage: 'Polite bedtime greeting',
-                    examples: 'Said to elders or in formal situations'
+                    korean: '군요 + 인식', 
+                    romanized: 'gunyo + insik', 
+                    meaning: 'Recognition or understanding',
+                    usage: 'Shows cognitive realization',
+                    examples: '그래서 그런 일이 있었군요 (So that is why that happened), 이제 알겠군요 (Now I understand)',
+                    fullWidth: true
                 }
             ],
-            introduction: [
+            deonde: [
                 { 
-                    korean: '제 이름은 [이름]입니다', 
-                    romanized: 'je ireumeun [ireum]imnida', 
-                    meaning: 'My name is [name] (formal)',
-                    usage: 'Formal self-introduction',
-                    examples: '제 이름은 민수입니다 (My name is Minsu)'
+                    korean: '던데', 
+                    romanized: 'deonde', 
+                    meaning: 'I remember that... / But...',
+                    usage: 'Recalls past experience with present contrast',
+                    examples: '좋았던데 (I remember it was good), 그랬던데 (I remember it was like that)',
+                    fullWidth: true
                 },
                 { 
-                    korean: '저는 [나라] 사람입니다', 
-                    romanized: 'jeoneun [nara] saraminida', 
-                    meaning: 'I am from [country] (formal)',
-                    usage: 'Telling your nationality',
-                    examples: '저는 미국 사람입니다 (I am American)'
+                    korean: '던데 + 회상', 
+                    romanized: 'deonde + hoesang', 
+                    meaning: 'Nostalgic recollection',
+                    usage: 'Remembers past experiences fondly',
+                    examples: '어릴 때는 자주 놀러 갔던데 (I remember going there often when I was young), 그때는 참 좋았던데 (It was really good back then)',
+                    fullWidth: true
                 },
                 { 
-                    korean: '저는 [나이] 살입니다', 
-                    romanized: 'jeoneun [nai] sarimnida', 
-                    meaning: 'I am [age] years old (formal)',
-                    usage: 'Telling your age formally',
-                    examples: '저는 스물다섯 살입니다 (I am 25 years old)'
-                },
-                { 
-                    korean: '저는 [직업]입니다', 
-                    romanized: 'jeoneun [jigeob]imnida', 
-                    meaning: 'I am a [job] (formal)',
-                    usage: 'Telling your occupation',
-                    examples: '저는 선생님입니다 (I am a teacher)'
-                },
-                { 
-                    korean: '취미는 [취미]입니다', 
-                    romanized: 'chwimineun [chwimi]imnida', 
-                    meaning: 'My hobby is [hobby] (formal)',
-                    usage: 'Talking about your interests',
-                    examples: '취미는 독서입니다 (My hobby is reading)'
-                },
-                { 
-                    korean: '한국어를 배우고 있습니다', 
-                    romanized: 'hangugeoreul baeugo itseumnida', 
-                    meaning: 'I am learning Korean (formal)',
-                    usage: 'Explaining your language studies',
-                    examples: 'Useful for language exchange'
+                    korean: '던데 + 대조', 
+                    romanized: 'deonde + daejo', 
+                    meaning: 'Contrast with present',
+                    usage: 'Compares past with current situation',
+                    examples: '예전에는 조용했던데 지금은 시끄럽네요 (It used to be quiet, but now it is noisy), 그때는 싸던데 지금은 비싸졌어요 (It was cheap back then, but now it has become expensive)',
+                    fullWidth: true
                 }
             ],
-            conversation: [
+            sentences: [
                 { 
-                    korean: 'A: 안녕하세요? B: 네, 안녕하세요!', 
-                    romanized: 'A: annyeonghaseyo? B: ne, annyeonghaseyo!', 
-                    meaning: 'A: Hello? B: Yes, hello!',
-                    context: 'Basic greeting exchange'
+                    korean: '와, 이 음식 정말 맛있네요!', 
+                    romanized: 'wa, i eumsik jeongmal masinneyo!', 
+                    meaning: 'Wow, this food is really delicious!',
+                    pattern: 'neyo'
                 },
                 { 
-                    korean: 'A: 이름이 뭐예요? B: 제 이름은 수지예요.', 
-                    romanized: 'A: ireumi mwoyeyo? B: je ireumeun sujiyeyo.', 
-                    meaning: 'A: What is your name? B: My name is Suji.',
-                    context: 'Asking and telling names'
+                    korean: '아, 그분이 선생님이시군요', 
+                    romanized: 'a, geubuni seonsaengnimisigunyo', 
+                    meaning: 'Oh, so that person is a teacher',
+                    pattern: 'gunyo'
                 },
                 { 
-                    korean: 'A: 어디에서 왔어요? B: 미국에서 왔어요.', 
-                    romanized: 'A: eodieseo wasseoyo? B: migugeseo wasseoyo.', 
-                    meaning: 'A: Where are you from? B: I am from America.',
-                    context: 'Asking about origin'
+                    korean: '어릴 때는 이 공원에서 자주 놀았던데', 
+                    romanized: 'eoril ttaeneun i gongwoneseo jaju noratdeonde', 
+                    meaning: 'I remember playing in this park often when I was young',
+                    pattern: 'deonde'
                 },
                 { 
-                    korean: 'A: 무슨 일을 하세요? B: 저는 학생이에요.', 
-                    romanized: 'A: museun ireul haseyo? B: jeoneun haksaengieyo.', 
-                    meaning: 'A: What do you do? B: I am a student.',
-                    context: 'Asking about occupation'
+                    korean: '날씨가 참 따뜻하네요', 
+                    romanized: 'nalssiga cham ttatteuthaneyo', 
+                    meaning: 'The weather is quite warm, isn t it?',
+                    pattern: 'neyo'
                 },
                 { 
-                    korean: 'A: 한국어를 잘 하시네요! B: 아니요, 조금밖에 못 해요.', 
-                    romanized: 'A: hangugeoreul jal hasineyo! B: aniyo, jogeumbakke mot haeyo.', 
-                    meaning: 'A: You speak Korean well! B: No, I can only speak a little.',
-                    context: 'Complimenting language skills'
+                    korean: '그래서 그 일이 있었군요, 이제 이해가 돼요', 
+                    romanized: 'geuraeseo geu iri isseotgunyo, ije ihaega dwaeyo', 
+                    meaning: 'So that is what happened, now I understand',
+                    pattern: 'gunyo'
                 },
                 { 
-                    korean: 'A: 나중에 또 봐요! B: 네, 안녕히 가세요!', 
-                    romanized: 'A: najunge tto bwayo! B: ne, annyeonghi gaseyo!', 
-                    meaning: 'A: See you later! B: Yes, goodbye!',
-                    context: 'Ending a conversation'
+                    korean: '옛날에는 이 길이 좁았던데 지금은 넓어졌어요', 
+                    romanized: 'yennaleneun i giri jobatdeonde jigeumeun neolbeojyeosseoyo', 
+                    meaning: 'This street used to be narrow, but now it has widened',
+                    pattern: 'deonde'
+                },
+                { 
+                    korean: '한국어를 정말 잘하시네요!', 
+                    romanized: 'hangugeoreul jeongmal jalhasineyo!', 
+                    meaning: 'You speak Korean really well!',
+                    pattern: 'neyo'
+                },
+                { 
+                    korean: '아, 내일이 공휴일이군요, 깜빡했어요', 
+                    romanized: 'a, naeiri gonghyuirigunyo, kkamppakaesseoyo', 
+                    meaning: 'Oh, tomorrow is a holiday, I forgot',
+                    pattern: 'gunyo'
+                },
+                { 
+                    korean: '그 가게 커피가 맛있었던데 아직도 영업하나요?', 
+                    romanized: 'geu gagee keopiga masisseotdeonde ajikdo yeongeopanayo?', 
+                    meaning: 'I remember that store had good coffee, are they still in business?',
+                    pattern: 'deonde'
                 }
             ]
         };
@@ -712,8 +679,8 @@
                 currentAudio = null;
             }
             
-            // Clean text for TTS
-            const cleanText = text.replace(/\[.*?\]/g, '').replace(/\//g, ' ');
+            // Remove "/" characters to prevent them from being read aloud
+            const cleanText = text.replace(/\//g, ' ');
             
             updateStatus('Converting text to speech...', 'processing');
             
@@ -785,11 +752,12 @@
         };
 
         function createCard(koreanData, index, section) {
-            const isConversation = section === 'conversation';
-            const cardClass = isConversation ? 'card conversation-card' : 'card';
+            const isSentence = section === 'sentences';
+            const cardClass = isSentence ? 'card sentence-card' : 'card';
             const fullWidthClass = koreanData.fullWidth ? 'full-width-card' : '';
+            const patternClass = koreanData.pattern ? `${koreanData.pattern}-card` : '';
             
-            // Format the meaning with additional information
+            // Format the meaning with grammar markers highlighted
             let formattedMeaning = koreanData.meaning;
             if (koreanData.usage) {
                 formattedMeaning += `<br/><small>Usage: ${koreanData.usage}</small>`;
@@ -797,13 +765,10 @@
             if (koreanData.examples) {
                 formattedMeaning += `<br/><small>Examples: ${koreanData.examples}</small>`;
             }
-            if (koreanData.context) {
-                formattedMeaning += `<br/><small>Context: ${koreanData.context}</small>`;
-            }
             
             return `
                 <li class="cards_item ${fullWidthClass}">
-                    <div class="${cardClass}">
+                    <div class="${cardClass} ${patternClass}">
                         <div class="sketch">
                             <canvas class="paint" width="300" height="200" data-index="${index}"></canvas>
                             <button class="erase-button" data-canvas-index="${index}">Erase</button>
@@ -818,16 +783,16 @@
         }
 
         function generateCards() {
-            const basicGrid = document.getElementById('basic-grid');
-            const timeGrid = document.getElementById('time-grid');
-            const introductionGrid = document.getElementById('introduction-grid');
-            const conversationGrid = document.getElementById('conversation-grid');
+            const neyoGrid = document.getElementById('neyo-grid');
+            const gunyoGrid = document.getElementById('gunyo-grid');
+            const deondeGrid = document.getElementById('deonde-grid');
+            const sentencesGrid = document.getElementById('sentences-grid');
             
             let index = 0;
-            basicGrid.innerHTML = koreanContent.basic.map(item => createCard(item, index++, 'basic')).join('');
-            timeGrid.innerHTML = koreanContent.time.map(item => createCard(item, index++, 'time')).join('');
-            introductionGrid.innerHTML = koreanContent.introduction.map(item => createCard(item, index++, 'introduction')).join('');
-            conversationGrid.innerHTML = koreanContent.conversation.map(item => createCard(item, index++, 'conversation')).join('');
+            neyoGrid.innerHTML = koreanContent.neyo.map(item => createCard(item, index++, 'neyo')).join('');
+            gunyoGrid.innerHTML = koreanContent.gunyo.map(item => createCard(item, index++, 'gunyo')).join('');
+            deondeGrid.innerHTML = koreanContent.deonde.map(item => createCard(item, index++, 'deonde')).join('');
+            sentencesGrid.innerHTML = koreanContent.sentences.map(item => createCard(item, index++, 'sentences')).join('');
             
             addAudioEventListeners();
             addCanvasEventListeners();
@@ -847,7 +812,7 @@
             const ttsButton = document.getElementById('tts-button');
             ttsButton.disabled = true;
             
-            const allItems = [...koreanContent.basic, ...koreanContent.time, ...koreanContent.introduction, ...koreanContent.conversation];
+            const allItems = [...koreanContent.neyo, ...koreanContent.gunyo, ...koreanContent.deonde, ...koreanContent.sentences];
             let index = 0;
             
             function speakNext() {

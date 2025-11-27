@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Korean Greetings & Self-Introduction</title>
+    <title>한국어 - chinese "Who" Questions</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://js.puter.com/v2/"></script>
     <style>
@@ -23,8 +23,6 @@
         }
 
         .main {
-            max-width: 1200px;
-            margin: 0 auto;
             padding: 20px;
             flex-grow: 1;
         }
@@ -199,24 +197,11 @@
         }
 
         .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            display: flex;
+            flex-direction: column;
             gap: 25px;
             list-style: none;
             margin-bottom: 40px;
-        }
-
-        /* Special full-width cards */
-        .full-width-card {
-            grid-column: 1 / -1;
-        }
-
-        #basic-grid, #time-grid, #introduction-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        #conversation-grid {
-            grid-template-columns: 1fr;
         }
 
         .card {
@@ -229,6 +214,7 @@
             flex-direction: column;
             border: 1px solid #f0f0f0;
             height: 480px;
+            width: 100%;
         }
 
         .card:hover {
@@ -284,8 +270,8 @@
             min-height: 180px;
         }
 
-        .korean-text {
-            font-size: 2.2rem;
+        .chinese-text {
+            font-size: 2.5rem;
             font-weight: bold;
             color: #3498db;
             cursor: pointer;
@@ -298,7 +284,7 @@
             overflow-wrap: break-word;
         }
 
-        .korean-text:hover {
+        .chinese-text:hover {
             color: #e74c3c;
             transform: scale(1.05);
         }
@@ -307,26 +293,6 @@
             font-size: 1rem;
             color: #7f8c8d;
             line-height: 1.4;
-        }
-
-        /* Conversation cards specific styling */
-        .conversation-card .korean-text {
-            font-size: 1.8rem;
-            line-height: 1.4;
-        }
-
-        .conversation-card .char-info {
-            font-size: 0.9rem;
-            margin-top: 8px;
-        }
-
-        /* Adjust full-width cards to maintain proportions */
-        .full-width-card .card {
-            height: 480px;
-        }
-
-        .full-width-card .sketch {
-            height: 250px;
         }
 
         /* Status indicator */
@@ -356,29 +322,7 @@
             border: 1px solid #f5c6cb;
         }
 
-        @media (min-width: 992px) {
-            .cards {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            #basic-grid, #time-grid, #introduction-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            #conversation-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
         @media (max-width: 991px) {
-            .cards {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            }
-            
-            #basic-grid, #time-grid, #introduction-grid {
-                grid-template-columns: 1fr;
-            }
-            
             .card {
                 height: 450px;
             }
@@ -391,14 +335,6 @@
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2.2rem;
-            }
-
-            .cards {
-                grid-template-columns: 1fr;
-            }
-            
-            #basic-grid, #time-grid, #introduction-grid {
-                grid-template-columns: 1fr;
             }
             
             .card {
@@ -433,8 +369,8 @@
                 flex-direction: column;
             }
             
-            .korean-text {
-                font-size: 1.8rem;
+            .chinese-text {
+                font-size: 2rem;
             }
         }
 
@@ -459,8 +395,8 @@
                 height: 180px;
             }
             
-            .korean-text {
-                font-size: 1.6rem;
+            .chinese-text {
+                font-size: 1.8rem;
             }
         }
     </style>
@@ -468,229 +404,97 @@
 <body>
     <div class="main">
         <div class="header">
-            <h1><br>Korean Greetings & Self-Introduction</h1>
-            <p>Learn essential Korean greetings and self-introduction phrases</p>
+            <h1><br><br><br>Chinese "Who" Questions</h1>
             <p>Draw in the white canvas area to practice writing</p>
-            <p>Click on Korean text to hear pronunciation</p>
+            <p>Click on chinese text to hear pronunciation</p>
         </div>
         
         <div class="sticky-nav-container">
             <div class="nav-content">
                 <a href="../../index.html" class="back-button">← Back to Main</a>
                 <nav id="navbar">
-                    <a class="active" href="#basic">Basic Greetings</a>
-                    <a href="#time">Time-based Greetings</a>
-                    <a href="#introduction">Self-Introduction</a>
-                    <a href="#conversation">Conversation Practice</a>
+                    <a class="active" href="#basic-questions">Basic "Who"</a>
+                    <a href="#person-questions">People</a>
+                    <a href="#identity-questions">Identity</a>
+                    <a href="#relationship-questions">Relationships</a>
                 </nav>
             </div>
         </div>
         
-       
-        <div id="status" class="status">Ready to convert text to speech</div>
-        <p class="tts-info">Click on any Korean text to hear its pronunciation</p>
-        
-        <section id="basic">
-            <h2 class="section-title">Basic Greetings<br/>기본 인사</h2>
-            <ul class="cards" id="basic-grid"></ul>
-        </section>
+        <div class="tts-controls">
+    <button id="tts-button" class="tts-button">
+        <span>🔊</span> Play All
+    </button>
+    <select id="voice-selector" class="voice-selector">
+        <option value="">Default Voice</option>
+    </select>
+</div>
+<div id="status" class="status">Ready to convert text to speech</div>
+<p class="tts-info">Click on any chinese text to hear its pronunciation</p>
 
-        <section id="time">
-            <h2 class="section-title">Time-based Greetings<br/>시간별 인사</h2>
-            <ul class="cards" id="time-grid"></ul>
-        </section>
+<!-- Section 1: Basic Questions -->
+<section id="basic-questions">
+    <h2 class="section-title">Basic "Who" Questions<br/>基本 "谁" 问题</h2>
+    <ul class="cards" id="basic-questions-grid"></ul>
+</section>
 
-        <section id="introduction">
-            <h2 class="section-title">Self-Introduction<br/>자기소개</h2>
-            <ul class="cards" id="introduction-grid"></ul>
-        </section>
+<!-- Section 2: Person Questions -->
+<section id="person-questions">
+    <h2 class="section-title">Asking About People<br/>询问关于人</h2>
+    <ul class="cards" id="person-questions-grid"></ul>
+</section>
 
-        <section id="conversation">
-            <h2 class="section-title">Conversation Practice<br/>대화 연습</h2>
-            <ul class="cards" id="conversation-grid"></ul>
-        </section>
-    </div>
+<!-- Section 3: Identity Questions -->
+<section id="identity-questions">
+    <h2 class="section-title">Asking About Identity<br/>询问身份</h2>
+    <ul class="cards" id="identity-questions-grid"></ul>
+</section>
+
+<!-- Section 4: Relationship Questions -->
+<section id="relationship-questions">
+    <h2 class="section-title">Asking About Relationships<br/>询问关系</h2>
+    <ul class="cards" id="relationship-questions-grid"></ul>
+</section>
+</div>
 
     <script>
-        const koreanContent = {
-            basic: [
-                { 
-                    korean: '안녕하세요', 
-                    romanized: 'annyeonghaseyo', 
-                    meaning: 'Hello (formal)',
-                    usage: 'Most common greeting, used in formal situations',
-                    examples: 'When meeting someone for the first time'
-                },
-                { 
-                    korean: '안녕', 
-                    romanized: 'annyeong', 
-                    meaning: 'Hello (informal)',
-                    usage: 'Used with friends, family, or people younger than you',
-                    examples: 'When greeting close friends'
-                },
-                { 
-                    korean: '만나서 반갑습니다', 
-                    romanized: 'mannaseo bangapseumnida', 
-                    meaning: 'Nice to meet you (VERY formal)',
-                    usage: 'When meeting someone for the first time',
-                    examples: 'After introductions'
-                },
-                { 
-                    korean: '반갑습니다', 
-                    romanized: 'mannaseo bangapseumnida', 
-                    meaning: 'Nice to meet you (formal, more common)',
-                    usage: 'When meeting someone for the first time',
-                    examples: 'After introductions'
-                },
-                { 
-                    korean: '만나서 반가워', 
-                    romanized: 'mannaseo bangawo', 
-                    meaning: 'Nice to meet you (informal)',
-                    usage: 'With friends or people younger than you',
-                    examples: 'Casual first meeting'
-                },
-                { 
-                    korean: '안녕히 가세요', 
-                    romanized: 'annyeonghi gaseyo', 
-                    meaning: 'Goodbye (to someone leaving)',
-                    usage: 'Said to the person who is leaving',
-                    examples: 'When someone is going home'
-                },
-                { 
-                    korean: '안녕히 계세요', 
-                    romanized: 'annyeonghi gyeseyo', 
-                    meaning: 'Goodbye (to someone staying)',
-                    usage: 'Said when you are leaving',
-                    examples: 'When you are leaving someone\'s place'
-                }
-            ],
-            time: [
-                { 
-                    korean: '좋은 아침', 
-                    romanized: 'joheun achim', 
-                    meaning: 'Good morning (informal)',
-                    usage: 'Used with friends and family',
-                    examples: 'Morning greeting to close people'
-                },
-                { 
-                    korean: '안녕히 주무셨어요?', 
-                    romanized: 'annyeonghi jumusyeosseoyo?', 
-                    meaning: 'Did you sleep well? (formal)',
-                    usage: 'Polite morning greeting',
-                    examples: 'Greeting elders in the morning'
-                },
-                { 
-                    korean: '좋은 오후', 
-                    romanized: 'joheun ohu', 
-                    meaning: 'Good afternoon',
-                    usage: 'General afternoon greeting',
-                    examples: 'Used from noon to early evening'
-                },
-                { 
-                    korean: '좋은 저녁', 
-                    romanized: 'joheun jeonyeok', 
-                    meaning: 'Good evening',
-                    usage: 'Evening greeting',
-                    examples: 'Used in the evening'
-                },
-                { 
-                    korean: '잘 자', 
-                    romanized: 'jal ja', 
-                    meaning: 'Good night (informal)',
-                    usage: 'Said to friends or family before sleeping',
-                    examples: 'Bedtime greeting to close people'
-                },
-                { 
-                    korean: '안녕히 주무세요', 
-                    romanized: 'annyeonghi jumuseyo', 
-                    meaning: 'Good night (formal)',
-                    usage: 'Polite bedtime greeting',
-                    examples: 'Said to elders or in formal situations'
-                }
-            ],
-            introduction: [
-                { 
-                    korean: '제 이름은 [이름]입니다', 
-                    romanized: 'je ireumeun [ireum]imnida', 
-                    meaning: 'My name is [name] (formal)',
-                    usage: 'Formal self-introduction',
-                    examples: '제 이름은 민수입니다 (My name is Minsu)'
-                },
-                { 
-                    korean: '저는 [나라] 사람입니다', 
-                    romanized: 'jeoneun [nara] saraminida', 
-                    meaning: 'I am from [country] (formal)',
-                    usage: 'Telling your nationality',
-                    examples: '저는 미국 사람입니다 (I am American)'
-                },
-                { 
-                    korean: '저는 [나이] 살입니다', 
-                    romanized: 'jeoneun [nai] sarimnida', 
-                    meaning: 'I am [age] years old (formal)',
-                    usage: 'Telling your age formally',
-                    examples: '저는 스물다섯 살입니다 (I am 25 years old)'
-                },
-                { 
-                    korean: '저는 [직업]입니다', 
-                    romanized: 'jeoneun [jigeob]imnida', 
-                    meaning: 'I am a [job] (formal)',
-                    usage: 'Telling your occupation',
-                    examples: '저는 선생님입니다 (I am a teacher)'
-                },
-                { 
-                    korean: '취미는 [취미]입니다', 
-                    romanized: 'chwimineun [chwimi]imnida', 
-                    meaning: 'My hobby is [hobby] (formal)',
-                    usage: 'Talking about your interests',
-                    examples: '취미는 독서입니다 (My hobby is reading)'
-                },
-                { 
-                    korean: '한국어를 배우고 있습니다', 
-                    romanized: 'hangugeoreul baeugo itseumnida', 
-                    meaning: 'I am learning Korean (formal)',
-                    usage: 'Explaining your language studies',
-                    examples: 'Useful for language exchange'
-                }
-            ],
-            conversation: [
-                { 
-                    korean: 'A: 안녕하세요? B: 네, 안녕하세요!', 
-                    romanized: 'A: annyeonghaseyo? B: ne, annyeonghaseyo!', 
-                    meaning: 'A: Hello? B: Yes, hello!',
-                    context: 'Basic greeting exchange'
-                },
-                { 
-                    korean: 'A: 이름이 뭐예요? B: 제 이름은 수지예요.', 
-                    romanized: 'A: ireumi mwoyeyo? B: je ireumeun sujiyeyo.', 
-                    meaning: 'A: What is your name? B: My name is Suji.',
-                    context: 'Asking and telling names'
-                },
-                { 
-                    korean: 'A: 어디에서 왔어요? B: 미국에서 왔어요.', 
-                    romanized: 'A: eodieseo wasseoyo? B: migugeseo wasseoyo.', 
-                    meaning: 'A: Where are you from? B: I am from America.',
-                    context: 'Asking about origin'
-                },
-                { 
-                    korean: 'A: 무슨 일을 하세요? B: 저는 학생이에요.', 
-                    romanized: 'A: museun ireul haseyo? B: jeoneun haksaengieyo.', 
-                    meaning: 'A: What do you do? B: I am a student.',
-                    context: 'Asking about occupation'
-                },
-                { 
-                    korean: 'A: 한국어를 잘 하시네요! B: 아니요, 조금밖에 못 해요.', 
-                    romanized: 'A: hangugeoreul jal hasineyo! B: aniyo, jogeumbakke mot haeyo.', 
-                    meaning: 'A: You speak Korean well! B: No, I can only speak a little.',
-                    context: 'Complimenting language skills'
-                },
-                { 
-                    korean: 'A: 나중에 또 봐요! B: 네, 안녕히 가세요!', 
-                    romanized: 'A: najunge tto bwayo! B: ne, annyeonghi gaseyo!', 
-                    meaning: 'A: See you later! B: Yes, goodbye!',
-                    context: 'Ending a conversation'
-                }
-            ]
-        };
+        const chineseContent = {
+    basicQuestions: [
+        { chinese: '谁？', pinyin: 'shéi?', meaning: 'Who?' },
+        { chinese: '是谁？', pinyin: 'shì shéi?', meaning: 'Who is it?' },
+        { chinese: '谁来了？', pinyin: 'shéi lái le?', meaning: 'Who came?' },
+        { chinese: '谁做的？', pinyin: 'shéi zuò de?', meaning: 'Who did it?' },
+        { chinese: '你找谁？', pinyin: 'nǐ zhǎo shéi?', meaning: 'Who are you looking for?' },
+        { chinese: '你跟谁去？', pinyin: 'nǐ gēn shéi qù?', meaning: 'Who will you go with?' }
+    ],
+    personQuestions: [
+        { chinese: '这个人是谁？', pinyin: 'zhège rén shì shéi?', meaning: 'Who is this person?' },
+        { chinese: '那个人是谁？', pinyin: 'nàgè rén shì shéi?', meaning: 'Who is that person?' },
+        { chinese: '谁打电话了？', pinyin: 'shéi dǎ diànhuà le?', meaning: 'Who called?' },
+        { chinese: '你遇见谁了？', pinyin: 'nǐ yùjiàn shéi le?', meaning: 'Who did you meet?' },
+        { chinese: '谁帮你了？', pinyin: 'shéi bāng nǐ le?', meaning: 'Who helped you?' },
+        { chinese: '你跟谁说话了？', pinyin: 'nǐ gēn shéi shuōhuà le?', meaning: 'Who did you talk with?' },
+        { chinese: '谁说的？', pinyin: 'shéi shuō de?', meaning: 'Who said that?' },
+        { chinese: '你在等谁？', pinyin: 'nǐ zài děng shéi?', meaning: 'Who are you waiting for?' },
+        { chinese: '谁是老师？', pinyin: 'shéi shì lǎoshī?', meaning: 'Who is the teacher?' }
+    ],
+    identityQuestions: [
+        { chinese: '你知道是谁吗？', pinyin: 'nǐ zhīdào shì shéi ma?', meaning: 'Do you know who it is?' },
+        { chinese: '这位是谁？', pinyin: 'zhè wèi shì shéi?', meaning: 'Who is this person? (respectful)' },
+        { chinese: '你觉得是谁？', pinyin: 'nǐ juéde shì shéi?', meaning: 'Who do you think it is?' },
+        { chinese: '我不知道是谁', pinyin: 'wǒ bù zhīdào shì shéi', meaning: 'I don\'t know who it is' },
+        { chinese: '猜猜是谁', pinyin: 'cāi cāi shì shéi', meaning: 'Try to guess who it is' },
+        { chinese: '我像谁？', pinyin: 'wǒ xiàng shéi?', meaning: 'Who do I look like?' }
+    ],
+    relationshipQuestions: [
+        { chinese: '这是谁的朋友？', pinyin: 'zhè shì shéi de péngyǒu?', meaning: 'Whose friend is this?' },
+        { chinese: '这是谁的家人？', pinyin: 'zhè shì shéi de jiārén?', meaning: 'Whose family is this?' },
+        { chinese: '这是谁的弟弟/妹妹？', pinyin: 'zhè shì shéi de dìdi/mèimei?', meaning: 'Whose younger sibling is this?' },
+        { chinese: '这是谁的妻子？', pinyin: 'zhè shì shéi de qīzi?', meaning: 'Whose wife is she?' },
+        { chinese: '这是谁的儿子？', pinyin: 'zhè shì shéi de érzi?', meaning: 'Whose son is he?' },
+        { chinese: '这是谁的女儿？', pinyin: 'zhè shì shéi de nǚ\'ér?', meaning: 'Whose daughter is she?' }
+    ]
+};
 
         let currentAudio = null;
 
@@ -705,20 +509,17 @@
         }
 
         // Text-to-Speech functionality using OpenAI TTS
-        const speakKorean = async (text) => {
+        const speakchinese = async (text) => {
             // Stop any currently playing audio
             if (currentAudio) {
                 currentAudio.pause();
                 currentAudio = null;
             }
             
-            // Clean text for TTS
-            const cleanText = text.replace(/\[.*?\]/g, '').replace(/\//g, ' ');
-            
             updateStatus('Converting text to speech...', 'processing');
             
             try {
-                const audio = await puter.ai.txt2speech(cleanText, {
+                const audio = await puter.ai.txt2speech(text, {
                     provider: 'openai',
                     voice: 'fable',
                     model: 'gpt-4o-mini-tts',
@@ -747,7 +548,7 @@
                 console.error('TTS Error:', error);
                 
                 // Fallback to browser TTS if OpenAI fails
-                fallbackTTS(cleanText);
+                fallbackTTS(text);
             }
         };
 
@@ -763,9 +564,9 @@
                 utterance.volume = 1;
                 
                 const voices = speechSynthesis.getVoices();
-                const koreanVoice = voices.find(voice => voice.lang.includes('ko'));
-                if (koreanVoice) {
-                    utterance.voice = koreanVoice;
+                const chineseVoice = voices.find(voice => voice.lang.includes('ko'));
+                if (chineseVoice) {
+                    utterance.voice = chineseVoice;
                 }
                 
                 speechSynthesis.speak(utterance);
@@ -784,33 +585,17 @@
             }
         };
 
-        function createCard(koreanData, index, section) {
-            const isConversation = section === 'conversation';
-            const cardClass = isConversation ? 'card conversation-card' : 'card';
-            const fullWidthClass = koreanData.fullWidth ? 'full-width-card' : '';
-            
-            // Format the meaning with additional information
-            let formattedMeaning = koreanData.meaning;
-            if (koreanData.usage) {
-                formattedMeaning += `<br/><small>Usage: ${koreanData.usage}</small>`;
-            }
-            if (koreanData.examples) {
-                formattedMeaning += `<br/><small>Examples: ${koreanData.examples}</small>`;
-            }
-            if (koreanData.context) {
-                formattedMeaning += `<br/><small>Context: ${koreanData.context}</small>`;
-            }
-            
+        function createCard(chineseData, index) {
             return `
-                <li class="cards_item ${fullWidthClass}">
-                    <div class="${cardClass}">
+                <li class="cards_item">
+                    <div class="card">
                         <div class="sketch">
                             <canvas class="paint" width="300" height="200" data-index="${index}"></canvas>
                             <button class="erase-button" data-canvas-index="${index}">Erase</button>
                         </div>
                         <div class="card_content">
-                            <div class="korean-text" data-romanized="${koreanData.romanized}" data-korean="${koreanData.korean}">${koreanData.korean}</div>
-                            <div class="char-info">${koreanData.romanized}<br/>${formattedMeaning}</div>
+                            <div class="chinese-text" data-pinyin="${chineseData.pinyin}" data-chinese="${chineseData.chinese}">${chineseData.chinese}</div>
+                            <div class="char-info">${chineseData.pinyin}<br/>${chineseData.meaning}</div>
                         </div>
                     </div>
                 </li>
@@ -818,16 +603,16 @@
         }
 
         function generateCards() {
-            const basicGrid = document.getElementById('basic-grid');
-            const timeGrid = document.getElementById('time-grid');
-            const introductionGrid = document.getElementById('introduction-grid');
-            const conversationGrid = document.getElementById('conversation-grid');
+            const basicQuestionsGrid = document.getElementById('basic-questions-grid');
+            const personQuestionsGrid = document.getElementById('person-questions-grid');
+            const identityQuestionsGrid = document.getElementById('identity-questions-grid');
+            const relationshipQuestionsGrid = document.getElementById('relationship-questions-grid');
             
             let index = 0;
-            basicGrid.innerHTML = koreanContent.basic.map(item => createCard(item, index++, 'basic')).join('');
-            timeGrid.innerHTML = koreanContent.time.map(item => createCard(item, index++, 'time')).join('');
-            introductionGrid.innerHTML = koreanContent.introduction.map(item => createCard(item, index++, 'introduction')).join('');
-            conversationGrid.innerHTML = koreanContent.conversation.map(item => createCard(item, index++, 'conversation')).join('');
+            basicQuestionsGrid.innerHTML = chineseContent.basicQuestions.map(item => createCard(item, index++)).join('');
+            personQuestionsGrid.innerHTML = chineseContent.personQuestions.map(item => createCard(item, index++)).join('');
+            identityQuestionsGrid.innerHTML = chineseContent.identityQuestions.map(item => createCard(item, index++)).join('');
+            relationshipQuestionsGrid.innerHTML = chineseContent.relationshipQuestions.map(item => createCard(item, index++)).join('');
             
             addAudioEventListeners();
             addCanvasEventListeners();
@@ -835,31 +620,36 @@
         }
 
         function addAudioEventListeners() {
-            document.querySelectorAll('.korean-text').forEach(textElement => {
+            document.querySelectorAll('.chinese-text').forEach(textElement => {
                 textElement.addEventListener('click', function() {
-                    const korean = this.getAttribute('data-korean');
-                    speakKorean(korean);
+                    const chinese = this.getAttribute('data-chinese');
+                    speakchinese(chinese);
                 });
             });
         }
 
-        function playAllKorean() {
+        function playAllchinese() {
             const ttsButton = document.getElementById('tts-button');
             ttsButton.disabled = true;
             
-            const allItems = [...koreanContent.basic, ...koreanContent.time, ...koreanContent.introduction, ...koreanContent.conversation];
+            const allItems = [
+                ...chineseContent.basicQuestions, 
+                ...chineseContent.personQuestions, 
+                ...chineseContent.identityQuestions, 
+                ...chineseContent.relationshipQuestions
+            ];
             let index = 0;
             
             function speakNext() {
                 if (index < allItems.length) {
-                    const koreanData = allItems[index];
-                    speakKorean(koreanData.korean);
+                    const chineseData = allItems[index];
+                    speakchinese(chineseData.chinese);
                     
-                    const koreanElements = document.querySelectorAll('.korean-text');
-                    koreanElements.forEach(el => el.style.backgroundColor = '');
+                    const chineseElements = document.querySelectorAll('.chinese-text');
+                    chineseElements.forEach(el => el.style.backgroundColor = '');
                     
-                    const currentElement = Array.from(koreanElements).find(
-                        el => el.getAttribute('data-korean') === koreanData.korean
+                    const currentElement = Array.from(chineseElements).find(
+                        el => el.getAttribute('data-chinese') === chineseData.chinese
                     );
                     
                     if (currentElement) {
@@ -876,7 +666,7 @@
                     }, 100);
                 } else {
                     ttsButton.disabled = false;
-                    document.querySelectorAll('.korean-text').forEach(el => {
+                    document.querySelectorAll('.chinese-text').forEach(el => {
                         el.style.backgroundColor = '';
                     });
                 }
@@ -896,7 +686,6 @@
                 const ctx = canvas.getContext('2d');
                 canvasesContexts[index] = ctx;
                 
-                // Scale canvas to match display size
                 const rect = canvas.getBoundingClientRect();
                 canvas.width = rect.width;
                 canvas.height = rect.height;
@@ -1022,8 +811,9 @@
                 const targetId = this.getAttribute('href').substring(1);
                 const targetElement = document.getElementById(targetId);
                 if (targetElement) {
-                    const navbarHeight = document.getElementById('navbar').offsetHeight;
-                    const offsetTop = targetElement.offsetTop - navbarHeight;
+                    const navContainer = document.querySelector('.sticky-nav-container');
+                    const offsetTop = targetElement.offsetTop - navContainer.offsetHeight - 20;
+                    
                     window.scrollTo({
                         top: offsetTop,
                         behavior: 'smooth'
@@ -1038,10 +828,9 @@
             generateCards();
             initializeCanvasContexts();
             
-            document.getElementById('tts-button').addEventListener('click', playAllKorean);
+            document.getElementById('tts-button').addEventListener('click', playAllchinese);
         });
 
-        // Reinitialize canvas contexts on window resize
         window.addEventListener('resize', function() {
             setTimeout(initializeCanvasContexts, 100);
         });

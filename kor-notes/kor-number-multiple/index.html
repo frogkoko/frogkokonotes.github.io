@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Korean Numbers Practice - Multiple Choice Quiz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://js.puter.com/v2/"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a3a, #2a3a4a, #1a2a3a);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #ffffff;
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            color: #e0e0e0;
+        }
+
+        .quiz-type-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .quiz-type-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .quiz-type-btn.active {
+            background: linear-gradient(135deg, #4CAF50, #388E3C);
+        }
+
+        .quiz-container {
+            background: rgba(30, 40, 50, 0.8);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            max-height: 500px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .question-container {
+            text-align: center;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+            line-height: 1.5;
+        }
+
+        .fill-blank-text {
+            font-size: 1.4rem;
+            margin: 20px 0;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .blank {
+            display: inline-block;
+            min-width: 100px;
+            border-bottom: 2px solid #4CAF50;
+            margin: 0 5px;
+            text-align: center;
+            padding: 0 10px;
+        }
+
+        .fruits-display {
+            font-size: 3rem;
+            margin: 20px 0;
+            min-height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* Multiple Choice Styles */
+        .multiple-choice-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            max-width: 500px;
+            margin-top: 20px;
+        }
+
+        .choice-btn {
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            text-align: left;
+        }
+
+        .choice-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            border-color: rgba(76, 175, 80, 0.5);
+        }
+
+        .choice-btn.correct {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: #4CAF50;
+        }
+
+        .choice-btn.incorrect {
+            background: rgba(244, 67, 54, 0.3);
+            border-color: #F44336;
+        }
+
+        .choice-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .choice-btn:disabled:hover {
+            transform: none;
+        }
+
+        .result-container {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            display: none;
+        }
+
+        .result-container.correct {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4CAF50;
+            display: block;
+        }
+
+        .result-container.incorrect {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #F44336;
+            display: block;
+        }
+
+        .correct-answer {
+            font-size: 1.2rem;
+            color: #4CAF50;
+            margin-top: 10px;
+        }
+
+        .number-system-hint {
+            font-size: 0.9rem;
+            color: #FF9800;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #4CAF50, #388E3C);
+        }
+
+        .speak-btn {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+        }
+
+        .status-message {
+            text-align: center;
+            color: #2196F3;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            min-height: 20px;
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .instructions {
+            background: rgba(30, 40, 50, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .instructions h3 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+
+        .instructions p {
+            color: #e0e0e0;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .number-system-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .system {
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .system h4 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+
+        .system ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .system li {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .usage-guide {
+            grid-column: 1 / -1;
+            background: rgba(255, 152, 0, 0.1);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        .usage-guide h4 {
+            color: #FF9800;
+            margin-bottom: 10px;
+        }
+
+        .usage-category {
+            margin-bottom: 15px;
+        }
+
+        .usage-category h5 {
+            color: #8BC34A;
+            margin-bottom: 5px;
+        }
+
+        .usage-category ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+        .usage-category li {
+            margin-bottom: 3px;
+            font-size: 0.9rem;
+        }
+
+        .openai-info {
+            background: rgba(33, 150, 243, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9em;
+            text-align: center;
+            border-left: 4px solid #2196F3;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        @media (max-width: 768px) {
+            .number-system-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls {
+                gap: 10px;
+            }
+            
+            .control-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .fruits-display {
+                font-size: 2.5rem;
+            }
+            
+            .quiz-type-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .choice-btn {
+                padding: 12px 15px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../../index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1>Korean Numbers Practice</h1>
+            <p class="subtitle">Multiple Choice Quiz - Counting & Fill-in-the-Blank</p>
+        </header>
+
+        <div class="openai-info">
+            🔊 <strong>OpenAI TTS Integration:</strong> Using OpenAI's advanced text-to-speech for authentic Korean pronunciation
+        </div>
+
+        <div class="quiz-type-selector">
+            <button class="quiz-type-btn active" id="fruit-count-btn">
+                <i class="fas fa-apple-alt"></i> Fruit Counting
+            </button>
+            <button class="quiz-type-btn" id="fill-blank-btn">
+                <i class="fas fa-edit"></i> Fill in the Blank
+            </button>
+        </div>
+
+        <div class="score-display" id="score-display">
+            Score: <span id="score">0</span> / <span id="total">0</span>
+        </div>
+
+        <div class="quiz-container" id="quiz-container">
+            <div class="question-container">
+                <div class="question-text" id="question-text">
+                    How many grapes does Jisoo have?
+                </div>
+                <div class="fruits-display" id="fruits-display">
+                    <!-- Fruit emojis will be inserted here -->
+                </div>
+                <div class="fill-blank-text" id="fill-blank-text" style="display: none;">
+                    <!-- Fill-in-the-blank text will be inserted here -->
+                </div>
+                <div id="number-system-hint" class="number-system-hint"></div>
+            </div>
+
+            <!-- Multiple Choice Options -->
+            <div class="multiple-choice-container" id="multiple-choice-container">
+                <!-- Choice buttons will be inserted here -->
+            </div>
+
+            <div class="result-container" id="result-container">
+                <div id="result-message"></div>
+                <div class="correct-answer" id="correct-answer"></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn speak-btn" id="speak-btn">
+                <i class="fas fa-volume-up"></i> Speak Question
+            </button>
+            <button class="control-btn next-btn" id="next-btn" disabled>
+                <i class="fas fa-arrow-right"></i> Next Question
+            </button>
+            <button class="control-btn reset-btn" id="reset-btn">
+                <i class="fas fa-sync-alt"></i> Restart Quiz
+            </button>
+        </div>
+
+        <div class="status-message" id="status-message">
+            Choose the correct Korean number
+        </div>
+
+        <div class="instructions">
+            <h3>How to Practice</h3>
+            <p><strong>Fruit Counting:</strong> Count the displayed fruits and select the correct Korean number</p>
+            <p><strong>Fill in the Blank:</strong> Complete sentences by selecting the correct Korean number</p>
+            <p><strong>Number Systems:</strong> Use either Sino-Korean or Native Korean numbers based on context</p>
+            <p><strong>Multiple Choice:</strong> Four options will be shown - choose the correct one!</p>
+            <p><strong>Scoring:</strong> Earn points for correct answers</p>
+            <p><strong>Speak Question:</strong> Hear the Korean question spoken aloud</p>
+            
+            <div class="number-system-info">
+                <div class="system">
+                    <h4>Sino-Korean Numbers</h4>
+                    <ul>
+                        <li>1: 일 (il)</li>
+                        <li>2: 이 (i)</li>
+                        <li>3: 삼 (sam)</li>
+                        <li>4: 사 (sa)</li>
+                        <li>5: 오 (o)</li>
+                        <li>6: 육 (yuk)</li>
+                        <li>7: 칠 (chil)</li>
+                        <li>8: 팔 (pal)</li>
+                        <li>9: 구 (gu)</li>
+                        <li>10: 십 (sip)</li>
+                    </ul>
+                </div>
+                <div class="system">
+                    <h4>Native Korean Numbers</h4>
+                    <ul>
+                        <li>1: 하나 (hana)</li>
+                        <li>2: 둘 (dul)</li>
+                        <li>3: 셋 (set)</li>
+                        <li>4: 넷 (net)</li>
+                        <li>5: 다섯 (daseot)</li>
+                        <li>6: 여섯 (yeoseot)</li>
+                        <li>7: 일곱 (ilgop)</li>
+                        <li>8: 여덟 (yeodeol)</li>
+                        <li>9: 아홉 (ahop)</li>
+                        <li>10: 열 (yeol)</li>
+                    </ul>
+                </div>
+                
+                <div class="usage-guide">
+                    <h4>When to Use Each Number System</h4>
+                    
+                    <div class="usage-category">
+                        <h5>Use SINO-KOREAN Numbers For:</h5>
+                        <ul>
+                            <li>Money: 500원 (오백 원) - 500 won</li>
+                            <li>Dates: 3월 (삼월) - March</li>
+                            <li>Minutes: 5분 (오분) - 5 minutes</li>
+                            <li>Phone numbers</li>
+                            <li>Math calculations</li>
+                            <li>Measurements: 50kg (오십 킬로그램)</li>
+                            <li>Addresses</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="usage-category">
+                        <h5>Use NATIVE KOREAN Numbers For:</h5>
+                        <ul>
+                            <li>Counting objects: 3 apples (사과 세 개)</li>
+                            <li>Age: 20 years old (스무 살)</li>
+                            <li>Hours: 3 o'clock (세 시)</li>
+                            <li>People: 4 people (네 사람)</li>
+                            <li>Floors: 3rd floor (삼층 - Sino) but 3 floors (세 층 - Native)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <script>
+        // Korean numbers data - EXPANDED with more numbers
+        const koreanNumbers = {
+            sino: [
+                { number: 1, korean: '일', romanized: 'il' },
+                { number: 2, korean: '이', romanized: 'i' },
+                { number: 3, korean: '삼', romanized: 'sam' },
+                { number: 4, korean: '사', romanized: 'sa' },
+                { number: 5, korean: '오', romanized: 'o' },
+                { number: 6, korean: '육', romanized: 'yuk' },
+                { number: 7, korean: '칠', romanized: 'chil' },
+                { number: 8, korean: '팔', romanized: 'pal' },
+                { number: 9, korean: '구', romanized: 'gu' },
+                { number: 10, korean: '십', romanized: 'sip' },
+                { number: 11, korean: '십일', romanized: 'sip-il' },
+                { number: 12, korean: '십이', romanized: 'sip-i' },
+                { number: 13, korean: '십삼', romanized: 'sip-sam' },
+                { number: 14, korean: '십사', romanized: 'sip-sa' },
+                { number: 15, korean: '십오', romanized: 'sip-o' },
+                { number: 16, korean: '십육', romanized: 'sip-yuk' },
+                { number: 17, korean: '십칠', romanized: 'sip-chil' },
+                { number: 18, korean: '십팔', romanized: 'sip-pal' },
+                { number: 19, korean: '십구', romanized: 'sip-gu' },
+                { number: 20, korean: '이십', romanized: 'i-sip' },
+                { number: 21, korean: '이십일', romanized: 'i-sip-il' },
+                { number: 22, korean: '이십이', romanized: 'i-sip-i' },
+                { number: 23, korean: '이십삼', romanized: 'i-sip-sam' },
+                { number: 24, korean: '이십사', romanized: 'i-sip-sa' },
+                { number: 25, korean: '이십오', romanized: 'i-sip-o' },
+                { number: 26, korean: '이십육', romanized: 'i-sip-yuk' },
+                { number: 27, korean: '이십칠', romanized: 'i-sip-chil' },
+                { number: 28, korean: '이십팔', romanized: 'i-sip-pal' },
+                { number: 29, korean: '이십구', romanized: 'i-sip-gu' },
+                { number: 30, korean: '삼십', romanized: 'sam-sip' },
+                { number: 31, korean: '삼십일', romanized: 'sam-sip-il' },
+                { number: 32, korean: '삼십이', romanized: 'sam-sip-i' },
+                { number: 33, korean: '삼십삼', romanized: 'sam-sip-sam' },
+                { number: 34, korean: '삼십사', romanized: 'sam-sip-sa' },
+                { number: 35, korean: '삼십오', romanized: 'sam-sip-o' },
+                { number: 36, korean: '삼십육', romanized: 'sam-sip-yuk' },
+                { number: 37, korean: '삼십칠', romanized: 'sam-sip-chil' },
+                { number: 38, korean: '삼십팔', romanized: 'sam-sip-pal' },
+                { number: 39, korean: '삼십구', romanized: 'sam-sip-gu' },
+                { number: 40, korean: '사십', romanized: 'sa-sip' },
+                { number: 41, korean: '사십일', romanized: 'sa-sip-il' },
+                { number: 42, korean: '사십이', romanized: 'sa-sip-i' },
+                { number: 43, korean: '사십삼', romanized: 'sa-sip-sam' },
+                { number: 44, korean: '사십사', romanized: 'sa-sip-sa' },
+                { number: 45, korean: '사십오', romanized: 'sa-sip-o' },
+                { number: 46, korean: '사십육', romanized: 'sa-sip-yuk' },
+                { number: 47, korean: '사십칠', romanized: 'sa-sip-chil' },
+                { number: 48, korean: '사십팔', romanized: 'sa-sip-pal' },
+                { number: 49, korean: '사십구', romanized: 'sa-sip-gu' },
+                { number: 50, korean: '오십', romanized: 'o-sip' },
+                { number: 51, korean: '오십일', romanized: 'o-sip-il' },
+                { number: 52, korean: '오십이', romanized: 'o-sip-i' },
+                { number: 53, korean: '오십삼', romanized: 'o-sip-sam' },
+                { number: 54, korean: '오십사', romanized: 'o-sip-sa' },
+                { number: 55, korean: '오십오', romanized: 'o-sip-o' },
+                { number: 56, korean: '오십육', romanized: 'o-sip-yuk' },
+                { number: 57, korean: '오십칠', romanized: 'o-sip-chil' },
+                { number: 58, korean: '오십팔', romanized: 'o-sip-pal' },
+                { number: 59, korean: '오십구', romanized: 'o-sip-gu' },
+                { number: 60, korean: '육십', romanized: 'yuk-sip' },
+                { number: 70, korean: '칠십', romanized: 'chil-sip' },
+                { number: 80, korean: '팔십', romanized: 'pal-sip' },
+                { number: 90, korean: '구십', romanized: 'gu-sip' },
+                { number: 100, korean: '백', romanized: 'baek' },
+                { number: 200, korean: '이백', romanized: 'i-baek' },
+                { number: 500, korean: '오백', romanized: 'o-baek' },
+                { number: 1000, korean: '천', romanized: 'cheon' },
+                { number: 5000, korean: '오천', romanized: 'o-cheon' }
+            ],
+            native: [
+                { number: 1, korean: '하나', romanized: 'hana' },
+                { number: 2, korean: '둘', romanized: 'dul' },
+                { number: 3, korean: '셋', romanized: 'set' },
+                { number: 4, korean: '넷', romanized: 'net' },
+                { number: 5, korean: '다섯', romanized: 'daseot' },
+                { number: 6, korean: '여섯', romanized: 'yeoseot' },
+                { number: 7, korean: '일곱', romanized: 'ilgop' },
+                { number: 8, korean: '여덟', romanized: 'yeodeol' },
+                { number: 9, korean: '아홉', romanized: 'ahop' },
+                { number: 10, korean: '열', romanized: 'yeol' },
+                { number: 11, korean: '열하나', romanized: 'yeol-hana' },
+                { number: 12, korean: '열둘', romanized: 'yeol-dul' },
+                { number: 13, korean: '열셋', romanized: 'yeol-set' },
+                { number: 14, korean: '열넷', romanized: 'yeol-net' },
+                { number: 15, korean: '열다섯', romanized: 'yeol-daseot' },
+                { number: 16, korean: '열여섯', romanized: 'yeol-yeoseot' },
+                { number: 17, korean: '열일곱', romanized: 'yeol-ilgop' },
+                { number: 18, korean: '열여덟', romanized: 'yeol-yeodeol' },
+                { number: 19, korean: '열아홉', romanized: 'yeol-ahop' },
+                { number: 20, korean: '스물', romanized: 'seumul' },
+                { number: 21, korean: '스물하나', romanized: 'seumul-hana' },
+                { number: 22, korean: '스물둘', romanized: 'seumul-dul' },
+                { number: 23, korean: '스물셋', romanized: 'seumul-set' },
+                { number: 24, korean: '스물넷', romanized: 'seumul-net' },
+                { number: 25, korean: '스물다섯', romanized: 'seumul-daseot' },
+                { number: 26, korean: '스물여섯', romanized: 'seumul-yeoseot' },
+                { number: 27, korean: '스물일곱', romanized: 'seumul-ilgop' },
+                { number: 28, korean: '스물여덟', romanized: 'seumul-yeodeol' },
+                { number: 29, korean: '스물아홉', romanized: 'seumul-ahop' },
+                { number: 30, korean: '서른', romanized: 'seoreun' },
+                { number: 31, korean: '서른하나', romanized: 'seoreun-hana' },
+                { number: 32, korean: '서른둘', romanized: 'seoreun-dul' },
+                { number: 33, korean: '서른셋', romanized: 'seoreun-set' },
+                { number: 34, korean: '서른넷', romanized: 'seoreun-net' },
+                { number: 35, korean: '서른다섯', romanized: 'seoreun-daseot' },
+                { number: 36, korean: '서른여섯', romanized: 'seoreun-yeoseot' },
+                { number: 37, korean: '서른일곱', romanized: 'seoreun-ilgop' },
+                { number: 38, korean: '서른여덟', romanized: 'seoreun-yeodeol' },
+                { number: 39, korean: '서른아홉', romanized: 'seoreun-ahop' },
+                { number: 40, korean: '마흔', romanized: 'maheun' },
+                { number: 41, korean: '마흔하나', romanized: 'maheun-hana' },
+                { number: 42, korean: '마흔둘', romanized: 'maheun-dul' },
+                { number: 43, korean: '마흔셋', romanized: 'maheun-set' },
+                { number: 44, korean: '마흔넷', romanized: 'maheun-net' },
+                { number: 45, korean: '마흔다섯', romanized: 'maheun-daseot' },
+                { number: 46, korean: '마흔여섯', romanized: 'maheun-yeoseot' },
+                { number: 47, korean: '마흔일곱', romanized: 'maheun-ilgop' },
+                { number: 48, korean: '마흔여덟', romanized: 'maheun-yeodeol' },
+                { number: 49, korean: '마흔아홉', romanized: 'maheun-ahop' },
+                { number: 50, korean: '쉰', romanized: 'swin' },
+                { number: 60, korean: '예순', romanized: 'yesun' },
+                { number: 70, korean: '일흔', romanized: 'ilheun' },
+                { number: 80, korean: '여든', romanized: 'yeodeun' },
+                { number: 90, korean: '아흔', romanized: 'aheun' }
+            ]
+        };
+
+        // Fruit emojis and names
+        const fruits = [
+            { emoji: '🍇', name: 'grapes' },
+            { emoji: '🍎', name: 'apples' },
+            { emoji: '🍌', name: 'bananas' },
+            { emoji: '🍓', name: 'strawberries' },
+            { emoji: '🍊', name: 'oranges' },
+            { emoji: '🍐', name: 'pears' },
+            { emoji: '🍑', name: 'peaches' },
+            { emoji: '🍒', name: 'cherries' },
+            { emoji: '🥭', name: 'mangoes' },
+            { emoji: '🍍', name: 'pineapples' }
+        ];
+
+        // Korean names for practice
+        const koreanNames = [
+            '지수', '민준', '서연', '도윤', '서현', '예준', '하은', '시우', '지우', '유준'
+        ];
+
+        // UPDATED: Fill-in-the-blank question templates with random number generation
+        const fillBlankQuestionTemplates = [
+            // Native Korean questions (age, hours, counting objects)
+            {
+                english: (num) => `I am (${num}) years old`,
+                korean: (num) => "______ 살이에요",
+                numberSystem: 'native',
+                hint: "Use Native Korean for age (with 살)",
+                numberRange: { min: 1, max: 90 } // Age range
+            },
+            {
+                english: (num) => `It's (${num}) o'clock`,
+                korean: (num) => "______ 시예요",
+                numberSystem: 'native', 
+                hint: "Use Native Korean for hours",
+                numberRange: { min: 1, max: 12 } // Hours range
+            },
+            {
+                english: (num) => `I bought (${num}) apples`,
+                korean: (num) => "______ 개의 사과를 샀어요",
+                numberSystem: 'native',
+                hint: "Use Native Korean for counting objects (with 개)",
+                numberRange: { min: 1, max: 20 } // Small object count
+            },
+            {
+                english: (num) => `There are (${num}) people`,
+                korean: (num) => "______ 명의 사람이 있어요",
+                numberSystem: 'native',
+                hint: "Use Native Korean for counting people (with 명)",
+                numberRange: { min: 1, max: 10 } // Small group
+            },
+            {
+                english: (num) => `I have (${num}) cats`,
+                korean: (num) => "______ 마리의 고양이가 있어요",
+                numberSystem: 'native',
+                hint: "Use Native Korean for counting animals (with 마리)",
+                numberRange: { min: 1, max: 5 } // Few pets
+            },
+            // Sino-Korean questions (money, minutes, dates, measurements)
+            {
+                english: (num) => `It's (${num.toLocaleString()}) won`,
+                korean: (num) => "______ 원이에요",
+                numberSystem: 'sino',
+                hint: "Use Sino-Korean for money",
+                numberRange: { min: 1000, max: 10000, step: 1000 } // Money amounts
+            },
+            {
+                english: (num) => `I'll be there in (${num}) minutes`,
+                korean: (num) => "______ 분 후에 도착할게요",
+                numberSystem: 'sino',
+                hint: "Use Sino-Korean for minutes",
+                numberRange: { min: 5, max: 60, step: 5 } // Minute increments
+            },
+            {
+                english: (num) => `It's March (${num})`,
+                korean: (num) => "삼월 ______ 일이에요",
+                numberSystem: 'sino',
+                hint: "Use Sino-Korean for dates",
+                numberRange: { min: 1, max: 31 } // Days of month
+            },
+            {
+                english: (num) => `It weighs (${num}) kilograms`,
+                korean: (num) => "______ 킬로그램이에요",
+                numberSystem: 'sino',
+                hint: "Use Sino-Korean for measurements",
+                numberRange: { min: 10, max: 100, step: 10 } // Weight measurements
+            },
+            {
+                english: (num) => `It's on floor number (${num})`,
+                korean: (num) => "______ 층에 있어요",
+                numberSystem: 'sino',
+                hint: "Use Sino-Korean for floors/addresses",
+                numberRange: { min: 1, max: 10 } // Building floors
+            }
+        ];
+
+        // Current quiz state
+        let currentQuestion = null;
+        let score = 0;
+        let totalAnswered = 0;
+        let currentAudio = null;
+        let answerSubmitted = false;
+        let currentQuizType = 'fruit';
+        let currentChoices = [];
+
+        // DOM elements
+        const questionText = document.getElementById('question-text');
+        const fruitsDisplay = document.getElementById('fruits-display');
+        const fillBlankText = document.getElementById('fill-blank-text');
+        const multipleChoiceContainer = document.getElementById('multiple-choice-container');
+        const resultContainer = document.getElementById('result-container');
+        const resultMessage = document.getElementById('result-message');
+        const correctAnswer = document.getElementById('correct-answer');
+        const nextBtn = document.getElementById('next-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const speakBtn = document.getElementById('speak-btn');
+        const statusMessage = document.getElementById('status-message');
+        const scoreElement = document.getElementById('score');
+        const totalElement = document.getElementById('total');
+        const fruitCountBtn = document.getElementById('fruit-count-btn');
+        const fillBlankBtn = document.getElementById('fill-blank-btn');
+        const numberSystemHint = document.getElementById('number-system-hint');
+
+        // Helper function to get a random number within range
+        function getRandomNumber(range) {
+            if (range.step) {
+                const steps = Math.floor((range.max - range.min) / range.step);
+                return range.min + (Math.floor(Math.random() * (steps + 1)) * range.step);
+            }
+            return Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
+        }
+
+        // Helper function to get available numbers for a system within range
+        function getAvailableNumbers(numberSystem, range) {
+            return koreanNumbers[numberSystem].filter(num => 
+                num.number >= range.min && num.number <= range.max
+            );
+        }
+
+        // NEW: Function to generate nearby numbers for multiple choice options
+        function generateNearbyNumbers(correctNumber, numberSystem) {
+            const correctNum = correctNumber.number;
+            const nearbyNumbers = [];
+            
+            // Define range based on the correct number
+            let lowerBound, upperBound;
+            
+            if (correctNum <= 10) {
+                // For small numbers (1-10), use a smaller range
+                lowerBound = Math.max(1, correctNum - 3);
+                upperBound = Math.min(10, correctNum + 3);
+            } else if (correctNum <= 30) {
+                // For medium numbers (11-30), use medium range
+                lowerBound = Math.max(1, correctNum - 5);
+                upperBound = Math.min(50, correctNum + 5);
+            } else {
+                // For larger numbers, use percentage-based range
+                const range = Math.max(5, Math.floor(correctNum * 0.2));
+                lowerBound = Math.max(1, correctNum - range);
+                upperBound = correctNum + range;
+            }
+            
+            // Get all numbers in the same system within the range
+            const availableNumbers = koreanNumbers[numberSystem].filter(num => 
+                num.number >= lowerBound && 
+                num.number <= upperBound && 
+                num.number !== correctNum
+            );
+            
+            // If we don't have enough numbers in the range, expand the range
+            if (availableNumbers.length < 3) {
+                const expandedLower = Math.max(1, correctNum - 10);
+                const expandedUpper = correctNum + 10;
+                const expandedNumbers = koreanNumbers[numberSystem].filter(num => 
+                    num.number >= expandedLower && 
+                    num.number <= expandedUpper && 
+                    num.number !== correctNum &&
+                    !availableNumbers.some(n => n.number === num.number)
+                );
+                availableNumbers.push(...expandedNumbers);
+            }
+            
+            // Sort by proximity to correct number
+            availableNumbers.sort((a, b) => {
+                const diffA = Math.abs(a.number - correctNum);
+                const diffB = Math.abs(b.number - correctNum);
+                return diffA - diffB;
+            });
+            
+            // Take the 3 closest numbers
+            return availableNumbers.slice(0, 3);
+        }
+
+        // Initialize the quiz
+        function init() {
+            generateQuestion();
+            updateScoreDisplay();
+            setupEventListeners();
+        }
+
+        // Switch quiz type
+        function switchQuizType(type) {
+            currentQuizType = type;
+            fruitCountBtn.classList.toggle('active', type === 'fruit');
+            fillBlankBtn.classList.toggle('active', type === 'fillBlank');
+            generateQuestion();
+        }
+
+        // Generate a new question
+        function generateQuestion() {
+            answerSubmitted = false;
+            nextBtn.disabled = true;
+            resultContainer.className = 'result-container';
+            resultContainer.style.display = 'none';
+            numberSystemHint.textContent = '';
+            multipleChoiceContainer.innerHTML = '';
+
+            if (currentQuizType === 'fruit') {
+                generateFruitQuestion();
+            } else {
+                generateFillBlankQuestion();
+            }
+
+            generateMultipleChoiceOptions();
+            updateStatus('Choose the correct Korean number');
+        }
+
+        function generateFruitQuestion() {
+            fruitsDisplay.style.display = 'flex';
+            fillBlankText.style.display = 'none';
+            questionText.style.display = 'block';
+            
+            // Get available native numbers for fruit counting (1-20)
+            const availableNumbers = getAvailableNumbers('native', { min: 1, max: 20 });
+            const randomIndex = Math.floor(Math.random() * availableNumbers.length);
+            const correctNumber = availableNumbers[randomIndex];
+            const number = correctNumber.number;
+            
+            const fruit = fruits[Math.floor(Math.random() * fruits.length)];
+            const name = koreanNames[Math.floor(Math.random() * koreanNames.length)];
+            
+            currentQuestion = {
+                type: 'fruit',
+                number,
+                fruit,
+                name,
+                numberSystem: 'native',
+                correctAnswer: correctNumber,
+                questionText: `How many ${fruit.name} does ${name} have?`,
+                koreanQuestion: `${name}는 ${fruit.name}가 몇 개 있어요?`
+            };
+            
+            questionText.textContent = currentQuestion.questionText;
+            fruitsDisplay.innerHTML = '';
+            for (let i = 0; i < number; i++) {
+                const fruitEmoji = document.createElement('span');
+                fruitEmoji.textContent = fruit.emoji;
+                fruitsDisplay.appendChild(fruitEmoji);
+            }
+            
+            numberSystemHint.textContent = `Hint: Use Native Korean numbers for counting objects`;
+        }
+
+        function generateFillBlankQuestion() {
+            fruitsDisplay.style.display = 'none';
+            fillBlankText.style.display = 'block';
+            questionText.style.display = 'none';
+            
+            // Select a random question template
+            const template = fillBlankQuestionTemplates[Math.floor(Math.random() * fillBlankQuestionTemplates.length)];
+            
+            // Get available numbers for this template's system and range
+            const availableNumbers = getAvailableNumbers(template.numberSystem, template.numberRange);
+            
+            if (availableNumbers.length === 0) {
+                // Fallback if no numbers available in range
+                console.warn('No numbers available in range, using default');
+                const allNumbers = koreanNumbers[template.numberSystem];
+                const correctNumber = allNumbers[Math.floor(Math.random() * allNumbers.length)];
+                const number = correctNumber.number;
+                
+                currentQuestion = {
+                    type: 'fillBlank',
+                    english: template.english(number),
+                    korean: template.korean(number),
+                    number,
+                    numberSystem: template.numberSystem,
+                    correctAnswer: correctNumber,
+                    hint: template.hint,
+                    koreanQuestion: template.korean(number).replace('______', correctNumber.korean)
+                };
+            } else {
+                const randomIndex = Math.floor(Math.random() * availableNumbers.length);
+                const correctNumber = availableNumbers[randomIndex];
+                const number = correctNumber.number;
+                
+                currentQuestion = {
+                    type: 'fillBlank',
+                    english: template.english(number),
+                    korean: template.korean(number),
+                    number,
+                    numberSystem: template.numberSystem,
+                    correctAnswer: correctNumber,
+                    hint: template.hint,
+                    koreanQuestion: template.korean(number).replace('______', correctNumber.korean)
+                };
+            }
+            
+            const blankText = currentQuestion.korean.replace('______', '<span class="blank">______</span>');
+            fillBlankText.innerHTML = `
+                <div>${currentQuestion.english}</div>
+                <div style="margin-top: 10px;">${blankText}</div>
+            `;
+            
+            numberSystemHint.textContent = currentQuestion.hint;
+        }
+
+        // UPDATED: Generate multiple choice options with nearby numbers
+        function generateMultipleChoiceOptions() {
+            const correctAnswer = currentQuestion.correctAnswer;
+            currentChoices = [correctAnswer];
+            
+            // Generate nearby wrong answers
+            const wrongAnswers = generateNearbyNumbers(correctAnswer, currentQuestion.numberSystem);
+            
+            // If we don't have enough nearby numbers, supplement with random ones
+            if (wrongAnswers.length < 3) {
+                const allNumbers = koreanNumbers[currentQuestion.numberSystem]
+                    .filter(num => num.number !== correctAnswer.number && 
+                                  !wrongAnswers.some(w => w.number === num.number))
+                    .sort(() => Math.random() - 0.5)
+                    .slice(0, 3 - wrongAnswers.length);
+                wrongAnswers.push(...allNumbers);
+            }
+            
+            currentChoices.push(...wrongAnswers.slice(0, 3));
+            
+            // Shuffle the choices
+            currentChoices.sort(() => Math.random() - 0.5);
+            
+            // Create choice buttons
+            currentChoices.forEach((choice, index) => {
+                const choiceBtn = document.createElement('button');
+                choiceBtn.className = 'choice-btn';
+                choiceBtn.innerHTML = `
+                    <strong>${choice.korean}</strong> 
+                    <span style="opacity: 0.7; font-size: 0.9em;">(${choice.romanized})</span>
+                `;
+                choiceBtn.addEventListener('click', () => checkAnswer(choice));
+                multipleChoiceContainer.appendChild(choiceBtn);
+            });
+        }
+
+        // Check the selected answer
+        function checkAnswer(selectedChoice) {
+            if (answerSubmitted) return;
+            
+            answerSubmitted = true;
+            totalAnswered++;
+            
+            const isCorrect = selectedChoice.number === currentQuestion.correctAnswer.number;
+            const choiceButtons = document.querySelectorAll('.choice-btn');
+            
+            // Disable all buttons and show correct/incorrect states
+            choiceButtons.forEach(btn => {
+                btn.disabled = true;
+                const btnChoice = currentChoices.find(choice => 
+                    btn.textContent.includes(choice.korean)
+                );
+                if (btnChoice.number === currentQuestion.correctAnswer.number) {
+                    btn.classList.add('correct');
+                } else if (btnChoice.number === selectedChoice.number && !isCorrect) {
+                    btn.classList.add('incorrect');
+                }
+            });
+            
+            // Display result
+            resultContainer.className = `result-container ${isCorrect ? 'correct' : 'incorrect'}`;
+            resultContainer.style.display = 'block';
+            
+            if (isCorrect) {
+                score++;
+                resultMessage.textContent = 'Correct! Great job!';
+                resultMessage.style.color = '#4CAF50';
+            } else {
+                resultMessage.textContent = 'Not quite. The correct answer is:';
+                resultMessage.style.color = '#F44336';
+            }
+            
+            correctAnswer.textContent = `${currentQuestion.correctAnswer.korean} (${currentQuestion.correctAnswer.romanized})`;
+            
+            updateScoreDisplay();
+            nextBtn.disabled = false;
+            updateStatus(isCorrect ? 'Correct! Click next for another question' : 'Incorrect. Try the next question!');
+        }
+
+        // Speak the question in Korean
+        async function speakQuestion() {
+            try {
+                speechSynthesis.cancel();
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio = null;
+                }
+
+                updateStatus('Converting with OpenAI...', 'processing');
+                
+                try {
+                    const audio = await puter.ai.txt2speech(currentQuestion.koreanQuestion, {
+                        provider: 'openai',
+                        voice: 'nova',
+                        model: 'gpt-4o-mini-tts',
+                        response_format: 'mp3',
+                        instructions: 'Speak in Korean with clear, natural pronunciation'
+                    });
+                    
+                    currentAudio = audio;
+                    await audio.play();
+                    
+                    audio.addEventListener('ended', () => {
+                        updateStatus('Playback complete');
+                        currentAudio = null;
+                    });
+                    
+                    audio.addEventListener('error', (e) => {
+                        console.error('OpenAI TTS error:', e);
+                        updateStatus('Error playing audio', 'error');
+                        currentAudio = null;
+                    });
+                    
+                } catch (error) {
+                    console.error('OpenAI TTS failed:', error);
+                    updateStatus('TTS service unavailable', 'error');
+                }
+            } catch (error) {
+                console.error('Error with TTS:', error);
+            }
+        }
+
+        // Reset the quiz
+        function resetQuiz() {
+            score = 0;
+            totalAnswered = 0;
+            generateQuestion();
+            updateScoreDisplay();
+            updateStatus('Choose the correct Korean number');
+        }
+
+        // Update the status message
+        function updateStatus(message) {
+            statusMessage.textContent = message;
+        }
+
+        // Update the score display
+        function updateScoreDisplay() {
+            scoreElement.textContent = score;
+            totalElement.textContent = totalAnswered;
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            nextBtn.addEventListener('click', generateQuestion);
+            resetBtn.addEventListener('click', resetQuiz);
+            speakBtn.addEventListener('click', speakQuestion);
+            fruitCountBtn.addEventListener('click', () => switchQuizType('fruit'));
+            fillBlankBtn.addEventListener('click', () => switchQuizType('fillBlank'));
+        }
+
+        // Initialize the quiz when the page loads
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

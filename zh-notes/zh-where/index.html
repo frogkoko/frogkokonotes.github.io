@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese "where" Questions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .header {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #3498db;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+        }
+
+        .header-nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .back-button {
+            background: #3498db;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .back-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .sticky-nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 15px 20px;
+        }
+
+        #navbar {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin: 0;
+            max-width: none;
+        }
+
+        #navbar a {
+            background: white;
+            color: #3498db;
+            padding: 5px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+        }
+
+        #navbar a:hover, #navbar a.active {
+            background: #3498db;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .tts-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .tts-button {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tts-button:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+        }
+
+        .tts-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .voice-selector {
+            padding: 10px 15px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .tts-info {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .section-title {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin: 60px 0 30px 0;
+            font-family: 'Noto Serif SC', serif;
+        }
+
+        .cards {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #f0f0f0;
+            height: 480px;
+            width: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .sketch {
+            position: relative;
+            padding: 20px;
+            background: #f8f9fa;
+            height: 250px;
+            flex-shrink: 0;
+        }
+
+        .paint {
+            width: 100%;
+            height: 100%;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            cursor: crosshair;
+            background: white;
+            touch-action: none;
+        }
+
+        .erase-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            z-index: 10;
+            transition: background 0.2s ease;
+        }
+
+        .erase-button:hover {
+            background: #c0392b;
+        }
+
+        .card_content {
+            padding: 20px;
+            text-align: center;
+            background: white;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 180px;
+        }
+
+        .chinese-text {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #3498db;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            margin-bottom: 10px;
+            font-family: 'Noto Serif SC', serif;
+            line-height: 1.2;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        .chinese-text:hover {
+            color: #e74c3c;
+            transform: scale(1.05);
+        }
+
+        .char-info {
+            font-size: 1rem;
+            color: #7f8c8d;
+            line-height: 1.4;
+        }
+
+        .status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            background: rgba(39, 39, 62, 0.5);
+            text-align: center;
+            font-weight: 500;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        .status.playing {
+            background: rgba(16, 185, 129, 0.2);
+            color: #a7f3d0;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .status.processing {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fde68a;
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .status.error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fecaca;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .phrase-card .chinese-text {
+            font-size: 1.8rem;
+            line-height: 1.4;
+        }
+
+        .phrase-card .char-info {
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 991px) {
+            .card {
+                height: 450px;
+            }
+            
+            .sketch {
+                height: 230px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .card {
+                height: 420px;
+            }
+            
+            .sketch {
+                height: 200px;
+            }
+
+            .header-nav-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .back-button {
+                align-self: flex-start;
+                margin-bottom: 10px;
+            }
+            
+            #navbar {
+                width: 100%;
+                justify-content: center;
+            }
+
+            #navbar a {
+                padding: 10px 18px;
+                font-size: 0.9rem;
+            }
+
+            .tts-controls {
+                flex-direction: column;
+            }
+            
+            .chinese-text {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main {
+                padding: 10px;
+            }
+
+            #navbar {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                height: 400px;
+            }
+            
+            .sketch {
+                height: 180px;
+            }
+            
+            .chinese-text {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="header">
+            
+            <h1><br><br>Chinese "Where" Questions</h1>
+            <p>Draw in the white canvas area to practice writing</p>
+            <p>Click on Chinese text to hear pronunciation</p>
+        </div>
+        
+        <div class="sticky-nav-container">
+            <div class="nav-content">
+                <a href="../../index.html" class="back-button">← Back to Main</a>
+                <nav id="navbar">
+                    <a class="active" href="#basic-questions">Basic "where"</a>
+                    <a href="#location-questions">Locations</a>
+                    <a href="#direction-questions">Directions</a>
+                    <a href="#place-questions">Places</a>
+                </nav>
+            </div>
+        </div>
+        
+       <div class="tts-controls">
+    <button id="tts-button" class="tts-button">
+        <span>🔊</span> Play All
+    </button>
+    <select id="voice-selector" class="voice-selector">
+        <option value="fable">OpenAI Fable (Chinese)</option>
+        <option value="alloy">OpenAI Alloy</option>
+        <option value="echo">OpenAI Echo</option>
+        <option value="onyx">OpenAI Onyx</option>
+        <option value="nova">OpenAI Nova</option>
+        <option value="shimmer">OpenAI Shimmer</option>
+    </select>
+</div>
+
+<div id="status" class="status">Ready to convert text to speech</div>
+<p class="tts-info">Click on any Chinese text to hear its pronunciation</p>
+
+<section id="basic-questions">
+    <h2 class="section-title">Basic "Where" Questions<br/>基本 "在哪里" 问题</h2>
+    <ul class="cards" id="basic-questions-grid"></ul>
+</section>
+
+<section id="location-questions">
+    <h2 class="section-title">Asking About Locations<br/>询问具体位置</h2>
+    <ul class="cards" id="location-questions-grid"></ul>
+</section>
+
+<section id="direction-questions">
+    <h2 class="section-title">Asking About Directions<br/>询问方向目的地</h2>
+    <ul class="cards" id="direction-questions-grid"></ul>
+</section>
+
+<section id="place-questions">
+    <h2 class="section-title">Asking About Places<br/>询问地点场所</h2>
+    <ul class="cards" id="place-questions-grid"></ul>
+</section>
+</div>
+
+    <script src="https://js.puter.com/v2/"></script>
+    <script>
+       const chineseContent = {
+    basicQuestions: [
+        { chinese: '在哪里？', pinyin: 'zài nǎlǐ?', meaning: 'Where?', fullWidth: true },
+        { chinese: '在哪儿？', pinyin: 'zài nǎr?', meaning: 'Where? (colloquial)', fullWidth: true },
+        { chinese: '什么地方？', pinyin: 'shénme dìfāng?', meaning: 'What place?', fullWidth: true },
+        { chinese: '你在哪里？', pinyin: 'nǐ zài nǎlǐ?', meaning: 'Where are you?' },
+        { chinese: '你要去哪里？', pinyin: 'nǐ yào qù nǎlǐ?', meaning: 'Where are you going?' },
+        { chinese: '我们在哪里见面？', pinyin: 'wǒmen zài nǎlǐ jiànmiàn?', meaning: 'Where shall we meet?' }
+    ],
+    locationQuestions: [
+        { chinese: '这是哪里？', pinyin: 'zhè shì nǎlǐ?', meaning: 'Where is this place?' },
+        { chinese: '厕所在哪里？', pinyin: 'cèsuǒ zài nǎlǐ?', meaning: 'Where is the bathroom?' },
+        { chinese: '电梯在哪里？', pinyin: 'diàntī zài nǎlǐ?', meaning: 'Where is the elevator?' },
+        { chinese: '出口在哪里？', pinyin: 'chūkǒu zài nǎlǐ?', meaning: 'Where is the exit?' },
+        { chinese: '地铁站在哪里？', pinyin: 'dìtiě zhàn zài nǎlǐ?', meaning: 'Where is the subway station?' },
+        { chinese: '公交站在哪里？', pinyin: 'gōngjiāo zhàn zài nǎlǐ?', meaning: 'Where is the bus stop?' },
+        { chinese: '你住在哪里？', pinyin: 'nǐ zhù zài nǎlǐ?', meaning: 'Where do you live?' },
+        { chinese: '你在哪里工作？', pinyin: 'nǐ zài nǎlǐ gōngzuò?', meaning: 'Where do you work?' }
+    ],
+    directionQuestions: [
+        { chinese: '去哪里吃饭？', pinyin: 'qù nǎlǐ chīfàn?', meaning: 'Where shall we go to eat?', fullWidth: true },
+        { chinese: '去哪里购物？', pinyin: 'qù nǎlǐ gòuwù?', meaning: 'Where shall we go shopping?', fullWidth: true },
+        { chinese: '去哪里玩？', pinyin: 'qù nǎlǐ wán?', meaning: 'Where shall we go have fun?', fullWidth: true },
+        { chinese: '你在哪里上学？', pinyin: 'nǐ zài nǎlǐ shàngxué?', meaning: 'Where do you go to school?', fullWidth: true },
+        { chinese: '你在哪里学习？', pinyin: 'nǐ zài nǎlǐ xuéxí?', meaning: 'Where do you study?', fullWidth: true },
+        { chinese: '你在哪里买的？', pinyin: 'nǐ zài nǎlǐ mǎi de?', meaning: 'Where did you buy it?', fullWidth: true }
+    ],
+    placeQuestions: [
+        { chinese: '酒店在哪里？', pinyin: 'jiǔdiàn zài nǎlǐ?', meaning: 'Where is the hotel?', fullWidth: true },
+        { chinese: '餐厅在哪里？', pinyin: 'cāntīng zài nǎlǐ?', meaning: 'Where is the restaurant?', fullWidth: true },
+        { chinese: '银行在哪里？', pinyin: 'yínháng zài nǎlǐ?', meaning: 'Where is the bank?', fullWidth: true },
+        { chinese: '医院在哪里？', pinyin: 'yīyuàn zài nǎlǐ?', meaning: 'Where is the hospital?', fullWidth: true },
+        { chinese: '超市在哪里？', pinyin: 'chāoshì zài nǎlǐ?', meaning: 'Where is the supermarket?', fullWidth: true },
+        { chinese: '公园在哪里？', pinyin: 'gōngyuán zài nǎlǐ?', meaning: 'Where is the park?', fullWidth: true },
+        { chinese: '电影院在哪里？', pinyin: 'diànyǐngyuàn zài nǎlǐ?', meaning: 'Where is the cinema?', fullWidth: true },
+        { chinese: '图书馆在哪里？', pinyin: 'túshūguǎn zài nǎlǐ?', meaning: 'Where is the library?', fullWidth: true }
+    ]
+};
+
+        // TTS variables
+        let currentAudio = null;
+        let isSpeaking = false;
+        let audioCooldown = false;
+
+        // DOM elements
+        const voiceSelector = document.getElementById('voice-selector');
+        const statusDiv = document.getElementById('status');
+
+        // Enhanced Text-to-Speech functionality using Puter OpenAI TTS
+        const speakChinese = async (text) => {
+            try {
+                // Stop any currently playing audio
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio = null;
+                }
+
+                updateStatus('Converting text to speech...', 'processing');
+                
+                const voice = voiceSelector.value;
+                
+                const audio = await puter.ai.txt2speech(text, {
+                    provider: 'openai',
+                    voice: voice,
+                    model: 'gpt-4o-mini-tts',
+                    response_format: 'mp3',
+                    instructions: 'Speak in Chinese with clear pronunciation'
+                });
+                
+                updateStatus(`Playing audio with OpenAI ${voice}`, 'playing');
+                
+                currentAudio = audio;
+                await audio.play();
+                
+                // Reset status where audio finishes
+                audio.addEventListener('ended', () => {
+                    updateStatus('Ready to convert text to speech', '');
+                    currentAudio = null;
+                    isSpeaking = false;
+                    audioCooldown = false;
+                });
+                
+                audio.addEventListener('error', (e) => {
+                    updateStatus('Error playing audio', 'error');
+                    console.error('Audio playback error:', e);
+                    currentAudio = null;
+                    isSpeaking = false;
+                    audioCooldown = false;
+                });
+                
+            } catch (error) {
+                updateStatus(`Error: ${error.message}`, 'error');
+                console.error('TTS Error:', error);
+                isSpeaking = false;
+                audioCooldown = false;
+            }
+        };
+
+        /**
+         * Plays the audio for the given Chinese phrase.
+         * @param {string} pinyin - The pinyin text to speak.
+         * @param {string} character - The Chinese phrase.
+         */
+        function playAudio(pinyin, character) {
+            if (!pinyin || isSpeaking || audioCooldown) return;
+
+            isSpeaking = true;
+            audioCooldown = true;
+            
+            // Speak both the phrase and its pinyin for better learning
+            speakChinese(`${character}，${pinyin}`);
+        }
+
+        function updateStatus(message, type) {
+            statusDiv.textContent = message;
+            statusDiv.className = 'status';
+            if (type) {
+                statusDiv.classList.add(type);
+            }
+        }
+
+        function createCard(chineseData, index, isPhrase = false) {
+            const cardClass = isPhrase ? 'card phrase-card' : 'card';
+            
+            return `
+                <li class="cards_item">
+                    <div class="${cardClass}">
+                        <div class="sketch">
+                            <canvas class="paint" width="300" height="200" data-index="${index}"></canvas>
+                            <button class="erase-button" data-canvas-index="${index}">Erase</button>
+                        </div>
+                        <div class="card_content">
+                            <div class="chinese-text" data-pinyin="${chineseData.pinyin}" data-chinese="${chineseData.chinese}">${chineseData.chinese}</div>
+                            <div class="char-info">${chineseData.pinyin}<br/>${chineseData.meaning}</div>
+                        </div>
+                    </div>
+                </li>
+            `;
+        }
+
+        function generateCards() {
+            const basicQuestionsGrid = document.getElementById('basic-questions-grid');
+            const locationQuestionsGrid = document.getElementById('location-questions-grid');
+            const directionQuestionsGrid = document.getElementById('direction-questions-grid');
+            const placeQuestionsGrid = document.getElementById('place-questions-grid');
+            
+            let index = 0;
+            basicQuestionsGrid.innerHTML = chineseContent.basicQuestions.map(item => createCard(item, index++)).join('');
+            locationQuestionsGrid.innerHTML = chineseContent.locationQuestions.map(item => createCard(item, index++)).join('');
+            directionQuestionsGrid.innerHTML = chineseContent.directionQuestions.map(item => createCard(item, index++)).join('');
+            placeQuestionsGrid.innerHTML = chineseContent.placeQuestions.map(item => createCard(item, index++, true)).join('');
+            
+            addAudioEventListeners();
+            addCanvasEventListeners();
+            addEraseButtonListeners();
+        }
+
+        function addAudioEventListeners() {
+            document.querySelectorAll('.chinese-text').forEach(charElement => {
+                let hoverTimeout = null;
+                
+                charElement.addEventListener('mouseover', function() {
+                    hoverTimeout = setTimeout(() => {
+                        const pinyin = this.dataset.pinyin;
+                        const character = this.dataset.chinese;
+                        playAudio(pinyin, character);
+                    }, 500);
+                });
+
+                charElement.addEventListener('mouseout', function() {
+                    if (hoverTimeout) {
+                        clearTimeout(hoverTimeout);
+                        hoverTimeout = null;
+                    }
+                });
+
+                // Play on click (immediate)
+                charElement.addEventListener('click', function() {
+                    if (hoverTimeout) {
+                        clearTimeout(hoverTimeout);
+                        hoverTimeout = null;
+                    }
+                    
+                    const pinyin = this.dataset.pinyin;
+                    const character = this.dataset.chinese;
+                    playAudio(pinyin, character);
+                });
+            });
+        }
+
+        function playAllChinese() {
+            const ttsButton = document.getElementById('tts-button');
+            ttsButton.disabled = true;
+            
+            const allItems = [
+                ...chineseContent.basicQuestions, 
+                ...chineseContent.locationQuestions, 
+                ...chineseContent.directionQuestions, 
+                ...chineseContent.placeQuestions
+            ];
+            let index = 0;
+            
+            function speakNext() {
+                if (index < allItems.length) {
+                    const chineseData = allItems[index];
+                    
+                    // Highlight current phrase
+                    const chineseElements = document.querySelectorAll('.chinese-text');
+                    chineseElements.forEach(el => el.style.backgroundColor = '');
+                    
+                    const currentElement = Array.from(chineseElements).find(
+                        el => el.getAttribute('data-chinese') === chineseData.chinese
+                    );
+                    
+                    if (currentElement) {
+                        currentElement.style.backgroundColor = '#e8f5e9';
+                    }
+                    
+                    // Speak the phrase
+                    speakChinese(`${chineseData.chinese}，${chineseData.pinyin}`);
+                    
+                    // Wait for audio to finish before playing next
+                    if (currentAudio) {
+                        currentAudio.addEventListener('ended', () => {
+                            index++;
+                            setTimeout(speakNext, 500);
+                        });
+                    } else {
+                        index++;
+                        setTimeout(speakNext, 1000);
+                    }
+                } else {
+                    ttsButton.disabled = false;
+                    document.querySelectorAll('.chinese-text').forEach(el => {
+                        el.style.backgroundColor = '';
+                    });
+                }
+            }
+            
+            speakNext();
+        }
+
+        // Canvas drawing functionality
+        let isDrawing = false;
+        let canvasesContexts = [];
+        let lastX = 0;
+        let lastY = 0;
+
+        function initializeCanvasContexts() {
+            const canvasElements = document.querySelectorAll('.paint');
+            canvasElements.forEach((canvas, index) => {
+                const ctx = canvas.getContext('2d');
+                canvasesContexts[index] = ctx;
+                
+                // Scale canvas to match display size
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+                
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 3;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+            });
+        }
+
+        function addCanvasEventListeners() {
+            document.querySelectorAll('.paint').forEach(canvas => {
+                canvas.addEventListener('mousedown', startDrawing);
+                canvas.addEventListener('mousemove', draw);
+                canvas.addEventListener('mouseup', stopDrawing);
+                canvas.addEventListener('mouseout', stopDrawing);
+                canvas.addEventListener('touchstart', handleTouch);
+                canvas.addEventListener('touchmove', handleTouch);
+                canvas.addEventListener('touchend', stopDrawing);
+                canvas.addEventListener('touchcancel', stopDrawing);
+            });
+        }
+
+        function getCanvasCoordinates(canvas, clientX, clientY) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            
+            return {
+                x: (clientX - rect.left) * scaleX,
+                y: (clientY - rect.top) * scaleY
+            };
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const canvas = e.target;
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            
+            if (clientX && clientY) {
+                const coords = getCanvasCoordinates(canvas, clientX, clientY);
+                lastX = coords.x;
+                lastY = coords.y;
+                
+                const ctx = canvasesContexts[parseInt(canvas.dataset.index)];
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+            }
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            e.preventDefault();
+            
+            const canvas = e.target;
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            
+            if (clientX && clientY) {
+                const coords = getCanvasCoordinates(canvas, clientX, clientY);
+                const currentX = coords.x;
+                const currentY = coords.y;
+                
+                const ctx = canvasesContexts[parseInt(canvas.dataset.index)];
+                ctx.lineTo(currentX, currentY);
+                ctx.stroke();
+                
+                lastX = currentX;
+                lastY = currentY;
+            }
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function handleTouch(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const target = e.target;
+            
+            if (e.type === 'touchstart') {
+                const mouseDownEvent = new MouseEvent('mousedown', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY,
+                    bubbles: true,
+                    cancelable: true
+                });
+                target.dispatchEvent(mouseDownEvent);
+            } else if (e.type === 'touchmove') {
+                const mouseMoveEvent = new MouseEvent('mousemove', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY,
+                    bubbles: true,
+                    cancelable: true
+                });
+                target.dispatchEvent(mouseMoveEvent);
+            }
+        }
+
+        function clearCanvas(index) {
+            const canvas = document.querySelector(`canvas[data-index="${index}"]`);
+            if (canvas) {
+                const ctx = canvasesContexts[index];
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        function addEraseButtonListeners() {
+            document.querySelectorAll('.erase-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const canvasIndex = parseInt(this.dataset.canvasIndex);
+                    clearCanvas(canvasIndex);
+                });
+            });
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('#navbar a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    const navbarHeight = document.getElementById('navbar').offsetHeight;
+                    const offsetTop = targetElement.offsetTop - navbarHeight;
+
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update active nav item
+                    document.querySelectorAll('#navbar a').forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Initialize the app where the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            generateCards();
+            initializeCanvasContexts();
+            
+            document.getElementById('tts-button').addEventListener('click', playAllChinese);
+        });
+
+        // Reinitialize canvas contexts on window resize
+        window.addEventListener('resize', function() {
+            setTimeout(initializeCanvasContexts, 100);
+        });
+    </script>
+</body>
+</html>

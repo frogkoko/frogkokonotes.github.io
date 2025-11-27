@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Chinese Dates & Calendar</title>
+    <style>
+        :root {
+            --background-color: #0a0a0a;
+            --text-color: #ffffff;
+            --primary-color: #d4373f;
+            --secondary-color: #cccccc;
+            --tertiary-color: #888;
+            --border-color: #333;
+            --card-background: rgba(26, 26, 26, 0.8);
+            --nav-background: rgba(10, 10, 10, 0.9);
+            --header-background: rgba(10, 10, 10, 0.9);
+        }
+
+        .light-mode {
+            --background-color: #f5f5f5;
+            --text-color: #000000;
+            --primary-color: #377bd4;
+            --secondary-color: #333333;
+            --tertiary-color: #666666;
+            --border-color: #dddddd;
+            --card-background: #ffffff;
+            --nav-background: rgba(255, 255, 255, 0.9);
+            --header-background: rgba(255, 255, 255, 0.9);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--header-background);
+            color: var(--text-color);
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .back-button {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-button:hover {
+            opacity: 0.9;
+            transform: translateX(-2px);
+        }
+
+        .header-title {
+            flex: 1;
+            text-align: center;
+        }
+
+        .mode-toggle {
+            cursor: pointer;
+        }
+
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 20px auto;
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            background-color: var(--card-background);
+            padding: 25px;
+            margin: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .date-learner,
+        .date-drawer,
+        .date-table {
+            border: 1px solid var(--border-color);
+        }
+
+        .date-table {
+            flex-basis: 100%;
+            max-width: 100%;
+        }
+
+        h1,
+        h2 {
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-section,
+        .output-section {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        select {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            width: calc(100% - 120px);
+            max-width: 200px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            background-color: var(--card-background);
+            color: var(--text-color);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:disabled {
+            background-color: var(--tertiary-color);
+            cursor: not-allowed;
+        }
+
+        .next-button {
+            background-color: #4CAF50;
+        }
+
+        .next-button:hover {
+            background-color: #45a049;
+        }
+
+        .prev-button {
+            background-color: #f44336;
+        }
+
+        .prev-button:hover {
+            background-color: #da190b;
+        }
+
+        #chineseOutput {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        #chineseOutput:hover {
+            background-color: rgba(240, 248, 240, 0.5);
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        #chineseOutput::after {
+            content: '🔊';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.5em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #chineseOutput:hover::after {
+            opacity: 1;
+        }
+
+        #pronunciationOutput {
+            font-size: 1.2em;
+            color: var(--tertiary-color);
+            font-style: italic;
+        }
+
+        .system-note {
+            font-size: 0.9em;
+            color: var(--tertiary-color);
+            margin-top: 10px;
+        }
+
+        .date-drawer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin: 0 0 30px 0;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: var(--card-background);
+            border: 1px solid var(--border-color);
+        }
+
+        #drawingCanvas {
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            background-color: white;
+            cursor: crosshair;
+            margin-top: 15px;
+            width: 95%;
+            height: 400px;
+            display: block;
+        }
+
+        .canvas-controls {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .canvas-controls label {
+            margin-bottom: 0;
+            display: inline-block;
+        }
+
+        .canvas-controls input[type="color"],
+        .canvas-controls input[type="range"] {
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        .dates-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .dates-table th,
+        .dates-table td {
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: center;
+        }
+
+        .dates-table th {
+            background-color: var(--nav-background);
+            font-weight: bold;
+        }
+
+        .dates-table tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .dates-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+
+        .chinese-text {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 5px;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .chinese-text:hover {
+            background-color: rgba(240, 248, 240, 0.5);
+            transform: scale(1.1);
+            box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
+        }
+
+        .chinese-text::after {
+            content: '🔊';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 0.7em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .chinese-text:hover::after {
+            opacity: 1;
+        }
+
+        .table-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            background-color: var(--nav-background);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            border-radius: 4px 4px 0 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab-button.active {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border-bottom: 1px solid var(--primary-color);
+        }
+
+        .tab-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-button.active:hover {
+            background-color: var(--primary-color);
+        }
+
+        .tts-info {
+            background-color: rgba(232, 245, 232, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            text-align: center;
+            color: #2e7d32;
+        }
+
+        .status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            background: rgba(39, 39, 62, 0.5);
+            text-align: center;
+            font-weight: 500;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            background-color: var(--header-background);
+            color: var(--text-color);
+            font-size: 0.9em;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .back-button {
+                align-self: flex-start;
+            }
+            
+            main {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            section {
+                margin: 10px 0;
+            }
+
+            select {
+                width: calc(100% - 100px);
+            }
+
+            .navigation-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .dates-table {
+                font-size: 0.9em;
+            }
+
+            .table-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            #drawingCanvas {
+                height: 300px;
+            }
+        }
+
+        .date-inputs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .date-input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .date-input-group label {
+            margin-bottom: 5px;
+        }
+
+        .date-input-group select {
+            width: 120px;
+            margin: 0;
+        }
+        
+        .content-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <button class="back-button" onclick="goBack()">
+                ← Back
+            </button>
+            <div class="header-title">
+                <h1>Learn Chinese Dates & Calendar</h1>
+            </div>
+            <div class="mode-toggle" onclick="toggleMode()">
+                <span>🌙</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="content-wrapper">
+        <section class="date-drawer">
+            <h2>Practice Writing Chinese Characters</h2>
+            <div class="tts-info">
+                💡 Practice writing the full date in Chinese characters. Use the converter below to see the correct format.
+            </div>
+            <canvas id="drawingCanvas" width="1200" height="400"></canvas>
+            <div class="canvas-controls">
+                <button id="clearCanvas">Clear Canvas</button>
+                <label for="brushColor">Brush Color:</label>
+                <input type="color" id="brushColor" value="#000000">
+                <label for="brushSize">Brush Size:</label>
+                <input type="range" id="brushSize" min="1" max="20" value="5">
+            </div>
+        </section>
+
+        <main>
+            <section class="date-learner">
+                <h2>Chinese Date Converter</h2>
+                <div class="tts-info">
+                    💡 Click on Chinese text to hear pronunciation using OpenAI TTS with Fable voice!
+                </div>
+                <div class="date-inputs">
+                    <div class="date-input-group">
+                        <label for="monthSelect">Month:</label>
+                        <select id="monthSelect">
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                    <div class="date-input-group">
+                        <label for="daySelect">Day:</label>
+                        <select id="daySelect">
+                            <!-- Days will be populated by JavaScript -->
+                        </select>
+                    </div>
+                    <div class="date-input-group">
+                        <label for="weekdaySelect">Weekday:</label>
+                        <select id="weekdaySelect">
+                            <option value="0">Sunday</option>
+                            <option value="1">Monday</option>
+                            <option value="2">Tuesday</option>
+                            <option value="3">Wednesday</option>
+                            <option value="4">Thursday</option>
+                            <option value="5">Friday</option>
+                            <option value="6">Saturday</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="navigation-buttons">
+                    <button id="prevButton" class="prev-button">← Previous</button>
+                    <button id="nextButton" class="next-button">Next →</button>
+                </div>
+                <div class="output-section">
+                    <h3>Chinese: <span id="chineseOutput" title="Click to hear pronunciation">三月九日 (sān yuè jiǔ rì)</span></h3>
+                    <p>Pronunciation: <span id="pronunciationOutput">sān yuè jiǔ rì</span></p>
+                    <p class="system-note" id="systemNote"></p>
+                </div>
+                <div id="status" class="status">Ready to convert text to speech</div>
+            </section>
+
+            <section class="date-table">
+                <h2>Chinese Calendar Reference</h2>
+                <div class="tts-info">
+                    🎵 Click on Chinese characters in the table to hear their pronunciation!
+                </div>
+                <div class="table-tabs">
+                    <button class="tab-button active" id="monthsTab">Months</button>
+                    <button class="tab-button" id="daysTab">Days of Week</button>
+                    <button class="tab-button" id="ordinalsTab">Ordinal Numbers</button>
+                    <button class="tab-button" id="questionsTab">Questions</button>
+                </div>
+                <div class="table-container">
+                    <table class="dates-table" id="datesTable">
+                        <!-- Table content will be populated by JavaScript -->
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://js.puter.com/v2/"></script>
+    <script>
+        // Back button functionality
+        function goBack() {
+            window.location.href = "../../index.html";
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const monthSelect = document.getElementById('monthSelect');
+            const daySelect = document.getElementById('daySelect');
+            const weekdaySelect = document.getElementById('weekdaySelect');
+            const prevButton = document.getElementById('prevButton');
+            const nextButton = document.getElementById('nextButton');
+            const chineseOutput = document.getElementById('chineseOutput');
+            const pronunciationOutput = document.getElementById('pronunciationOutput');
+            const systemNote = document.getElementById('systemNote');
+            const monthsTab = document.getElementById('monthsTab');
+            const daysTab = document.getElementById('daysTab');
+            const ordinalsTab = document.getElementById('ordinalsTab');
+            const questionsTab = document.getElementById('questionsTab');
+            const datesTable = document.getElementById('datesTable');
+            const statusDiv = document.getElementById('status');
+
+            const canvas = document.getElementById('drawingCanvas');
+            const ctx = canvas.getContext('2d');
+            const clearCanvasBtn = document.getElementById('clearCanvas');
+            const brushColorPicker = document.getElementById('brushColor');
+            const brushSizeSlider = document.getElementById('brushSize');
+
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+            let currentAudio = null;
+
+            // Initialize canvas with white background
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#000000';
+
+            // Text-to-Speech functionality using OpenAI TTS
+            const speakChinese = async (text) => {
+                // Stop any currently playing audio
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio = null;
+                }
+                
+                updateStatus('Converting text to speech...', 'processing');
+                
+                try {
+                    const audio = await puter.ai.txt2speech(text, {
+                        provider: 'openai',
+                        voice: 'fable',
+                        model: 'gpt-4o-mini-tts',
+                        response_format: 'mp3'
+                    });
+                    
+                    updateStatus(`Playing audio with OpenAI TTS`, 'playing');
+                    
+                    currentAudio = audio;
+                    await audio.play();
+                    
+                    // Reset status when audio finishes
+                    audio.addEventListener('ended', () => {
+                        updateStatus('Ready to convert text to speech', '');
+                        currentAudio = null;
+                    });
+                    
+                    audio.addEventListener('error', (e) => {
+                        updateStatus('Error playing audio', 'error');
+                        console.error('Audio playback error:', e);
+                        currentAudio = null;
+                    });
+                    
+                } catch (error) {
+                    updateStatus(`Error: ${error.message}`, 'error');
+                    console.error('TTS Error:', error);
+                }
+            };
+
+            // Update status display
+            function updateStatus(message, type) {
+                statusDiv.textContent = message;
+                statusDiv.className = 'status';
+                if (type) {
+                    statusDiv.classList.add(type);
+                }
+            }
+
+            // Chinese months (一月 to 十二月)
+            const chineseMonths = {
+                1: { han: "一月", pron: "yī yuè", meaning: "January" },
+                2: { han: "二月", pron: "èr yuè", meaning: "February" },
+                3: { han: "三月", pron: "sān yuè", meaning: "March" },
+                4: { han: "四月", pron: "sì yuè", meaning: "April" },
+                5: { han: "五月", pron: "wǔ yuè", meaning: "May" },
+                6: { han: "六月", pron: "liù yuè", meaning: "June" },
+                7: { han: "七月", pron: "qī yuè", meaning: "July" },
+                8: { han: "八月", pron: "bā yuè", meaning: "August" },
+                9: { han: "九月", pron: "jiǔ yuè", meaning: "September" },
+                10: { han: "十月", pron: "shí yuè", meaning: "October" },
+                11: { han: "十一月", pron: "shí yī yuè", meaning: "November" },
+                12: { han: "十二月", pron: "shí èr yuè", meaning: "December" }
+            };
+
+            // Chinese days of the week
+            const chineseDaysOfWeek = {
+                0: { han: "星期日", pron: "xīng qī rì", meaning: "Sunday" },
+                1: { han: "星期一", pron: "xīng qī yī", meaning: "Monday" },
+                2: { han: "星期二", pron: "xīng qī èr", meaning: "Tuesday" },
+                3: { han: "星期三", pron: "xīng qī sān", meaning: "Wednesday" },
+                4: { han: "星期四", pron: "xīng qī sì", meaning: "Thursday" },
+                5: { han: "星期五", pron: "xīng qī wǔ", meaning: "Friday" },
+                6: { han: "星期六", pron: "xīng qī liù", meaning: "Saturday" }
+            };
+
+            // Chinese ordinal numbers (1st to 31st)
+            const chineseOrdinals = {
+                1: { han: "一日", pron: "yī rì", meaning: "1st" },
+                2: { han: "二日", pron: "èr rì", meaning: "2nd" },
+                3: { han: "三日", pron: "sān rì", meaning: "3rd" },
+                4: { han: "四日", pron: "sì rì", meaning: "4th" },
+                5: { han: "五日", pron: "wǔ rì", meaning: "5th" },
+                6: { han: "六日", pron: "liù rì", meaning: "6th" },
+                7: { han: "七日", pron: "qī rì", meaning: "7th" },
+                8: { han: "八日", pron: "bā rì", meaning: "8th" },
+                9: { han: "九日", pron: "jiǔ rì", meaning: "9th" },
+                10: { han: "十日", pron: "shí rì", meaning: "10th" },
+                11: { han: "十一日", pron: "shí yī rì", meaning: "11th" },
+                12: { han: "十二日", pron: "shí èr rì", meaning: "12th" },
+                13: { han: "十三日", pron: "shí sān rì", meaning: "13th" },
+                14: { han: "十四日", pron: "shí sì rì", meaning: "14th" },
+                15: { han: "十五日", pron: "shí wǔ rì", meaning: "15th" },
+                16: { han: "十六日", pron: "shí liù rì", meaning: "16th" },
+                17: { han: "十七日", pron: "shí qī rì", meaning: "17th" },
+                18: { han: "十八日", pron: "shí bā rì", meaning: "18th" },
+                19: { han: "十九日", pron: "shí jiǔ rì", meaning: "19th" },
+                20: { han: "二十日", pron: "èr shí rì", meaning: "20th" },
+                21: { han: "二十一日", pron: "èr shí yī rì", meaning: "21st" },
+                22: { han: "二十二日", pron: "èr shí èr rì", meaning: "22nd" },
+                23: { han: "二十三日", pron: "èr shí sān rì", meaning: "23rd" },
+                24: { han: "二十四日", pron: "èr shí sì rì", meaning: "24th" },
+                25: { han: "二十五日", pron: "èr shí wǔ rì", meaning: "25th" },
+                26: { han: "二十六日", pron: "èr shí liù rì", meaning: "26th" },
+                27: { han: "二十七日", pron: "èr shí qī rì", meaning: "27th" },
+                28: { han: "二十八日", pron: "èr shí bā rì", meaning: "28th" },
+                29: { han: "二十九日", pron: "èr shí jiǔ rì", meaning: "29th" },
+                30: { han: "三十日", pron: "sān shí rì", meaning: "30th" },
+                31: { han: "三十一日", pron: "sān shí yī rì", meaning: "31st" }
+            };
+
+            // Chinese questions
+            const chineseQuestions = {
+                date: { han: "今天是几月几号？", pron: "jīn tiān shì jǐ yuè jǐ hào?", meaning: "What is the date today?" },
+                dayOfWeek: { han: "今天是星期几？", pron: "jīn tiān shì xīng qī jǐ?", meaning: "What day of the week is it?" },
+                dayOfMonth: { han: "今天是几号？", pron: "jīn tiān shì jǐ hào?", meaning: "What day of the month is it?" }
+            };
+
+            // Populate day select
+            function populateDaySelect() {
+                daySelect.innerHTML = '';
+                for (let i = 1; i <= 31; i++) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = i;
+                    daySelect.appendChild(option);
+                }
+                // Set current date as default
+                const today = new Date();
+                monthSelect.value = today.getMonth() + 1;
+                daySelect.value = today.getDate();
+                weekdaySelect.value = today.getDay();
+            }
+
+            const convertDate = () => {
+                const month = parseInt(monthSelect.value, 10);
+                const day = parseInt(daySelect.value, 10);
+                const weekday = parseInt(weekdaySelect.value, 10);
+
+                const monthChinese = chineseMonths[month];
+                const dayChinese = chineseOrdinals[day];
+                const weekdayChinese = chineseDaysOfWeek[weekday];
+
+                if (monthChinese && dayChinese && weekdayChinese) {
+                    const fullDate = `${monthChinese.han} ${dayChinese.han} ${weekdayChinese.han}`;
+                    const fullPron = `${monthChinese.pron} ${dayChinese.pron} ${weekdayChinese.pron}`;
+                    
+                    chineseOutput.textContent = fullDate;
+                    pronunciationOutput.textContent = fullPron;
+                    
+                    // Store the chinese data for TTS
+                    chineseOutput.dataset.chinese = fullDate;
+                    chineseOutput.dataset.pronunciation = fullPron;
+                    
+                    systemNote.textContent = `Example: ${monthChinese.meaning} ${day}${getOrdinalSuffix(day)}, ${getWeekdayName(weekday)}`;
+                } else {
+                    chineseOutput.textContent = "Invalid Date";
+                    pronunciationOutput.textContent = "Please select valid date components.";
+                    systemNote.textContent = "";
+                }
+                
+                updateNavigationButtons();
+            };
+
+            const getOrdinalSuffix = (day) => {
+                if (day > 3 && day < 21) return 'th';
+                switch (day % 10) {
+                    case 1: return 'st';
+                    case 2: return 'nd';
+                    case 3: return 'rd';
+                    default: return 'th';
+                }
+            };
+
+            const getWeekdayName = (weekday) => {
+                const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                return weekdays[weekday];
+            };
+
+            const updateNavigationButtons = () => {
+                const currentDay = parseInt(daySelect.value, 10);
+                prevButton.disabled = currentDay <= 1;
+                nextButton.disabled = currentDay >= 31;
+            };
+
+            const navigateDay = (direction) => {
+                const currentDay = parseInt(daySelect.value, 10);
+                let newDay = currentDay + direction;
+                
+                if (newDay < 1) newDay = 1;
+                if (newDay > 31) newDay = 31;
+                
+                daySelect.value = newDay;
+                convertDate();
+            };
+
+            const populateTable = (category) => {
+                let tableHTML = `
+                    <thead>
+                        <tr>
+                            <th>English</th>
+                            <th>Chinese</th>
+                            <th>Pronunciation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+                
+                if (category === 'months') {
+                    for (let i = 1; i <= 12; i++) {
+                        const item = chineseMonths[i];
+                        tableHTML += `
+                            <tr onclick="selectMonthFromTable(${i})" data-month="${i}">
+                                <td>${item.meaning}</td>
+                                <td class="chinese-text"
+                                    onclick="event.stopPropagation(); speakChineseText('${item.han}')"
+                                    title="Click to hear pronunciation"
+                                    data-chinese="${item.han}">
+                                    ${item.han}
+                                </td>
+                                <td>${item.pron}</td>
+                            </tr>
+                        `;
+                    }
+                } else if (category === 'days') {
+                    for (let i = 0; i <= 6; i++) {
+                        const item = chineseDaysOfWeek[i];
+                        tableHTML += `
+                            <tr onclick="selectWeekdayFromTable(${i})" data-weekday="${i}">
+                                <td>${item.meaning}</td>
+                                <td class="chinese-text"
+                                    onclick="event.stopPropagation(); speakChineseText('${item.han}')"
+                                    title="Click to hear pronunciation"
+                                    data-chinese="${item.han}">
+                                    ${item.han}
+                                </td>
+                                <td>${item.pron}</td>
+                            </tr>
+                        `;
+                    }
+                } else if (category === 'ordinals') {
+                    // Show selected ordinals (1st-10th, 20th, 21st, 30th, 31st)
+                    const selectedOrdinals = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 21, 30, 31];
+                    selectedOrdinals.forEach(day => {
+                        const item = chineseOrdinals[day];
+                        tableHTML += `
+                            <tr onclick="selectDayFromTable(${day})" data-day="${day}">
+                                <td>${item.meaning}</td>
+                                <td class="chinese-text"
+                                    onclick="event.stopPropagation(); speakChineseText('${item.han}')"
+                                    title="Click to hear pronunciation"
+                                    data-chinese="${item.han}">
+                                    ${item.han}
+                                </td>
+                                <td>${item.pron}</td>
+                            </tr>
+                        `;
+                    });
+                } else if (category === 'questions') {
+                    Object.values(chineseQuestions).forEach(item => {
+                        tableHTML += `
+                            <tr>
+                                <td>${item.meaning}</td>
+                                <td class="chinese-text"
+                                    onclick="speakChineseText('${item.han}')"
+                                    title="Click to hear pronunciation"
+                                    data-chinese="${item.han}">
+                                    ${item.han}
+                                </td>
+                                <td>${item.pron}</td>
+                            </tr>
+                        `;
+                    });
+                }
+                
+                tableHTML += '</tbody>';
+                datesTable.innerHTML = tableHTML;
+            };
+
+            const switchTab = (category) => {
+                // Remove active class from all tabs
+                monthsTab.classList.remove('active');
+                daysTab.classList.remove('active');
+                ordinalsTab.classList.remove('active');
+                questionsTab.classList.remove('active');
+                
+                // Add active class to selected tab
+                if (category === 'months') {
+                    monthsTab.classList.add('active');
+                } else if (category === 'days') {
+                    daysTab.classList.add('active');
+                } else if (category === 'ordinals') {
+                    ordinalsTab.classList.add('active');
+                } else if (category === 'questions') {
+                    questionsTab.classList.add('active');
+                }
+                
+                populateTable(category);
+            };
+
+            // Make functions globally available
+            window.selectMonthFromTable = (month) => {
+                monthSelect.value = month;
+                convertDate();
+                
+                // Scroll back to converter section on mobile
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.date-learner').scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            window.selectDayFromTable = (day) => {
+                daySelect.value = day;
+                convertDate();
+                
+                // Scroll back to converter section on mobile
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.date-learner').scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            window.selectWeekdayFromTable = (weekday) => {
+                weekdaySelect.value = weekday;
+                convertDate();
+                
+                // Scroll back to converter section on mobile
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.date-learner').scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            window.speakChineseText = (chinese) => {
+                speakChinese(chinese);
+            };
+
+            // Event listeners
+            monthSelect.addEventListener('change', convertDate);
+            daySelect.addEventListener('change', convertDate);
+            weekdaySelect.addEventListener('change', convertDate);
+            nextButton.addEventListener('click', () => navigateDay(1));
+            prevButton.addEventListener('click', () => navigateDay(-1));
+            
+            // Add TTS functionality to Chinese output - CLICK ONLY, no hover
+            chineseOutput.addEventListener('click', () => {
+                const chinese = chineseOutput.dataset.chinese;
+                if (chinese) {
+                    speakChinese(chinese);
+                }
+            });
+
+            monthsTab.addEventListener('click', () => switchTab('months'));
+            daysTab.addEventListener('click', () => switchTab('days'));
+            ordinalsTab.addEventListener('click', () => switchTab('ordinals'));
+            questionsTab.addEventListener('click', () => switchTab('questions'));
+
+            // Initial setup
+            populateDaySelect();
+            convertDate();
+            populateTable('months');
+
+            // Canvas Drawing Logic - FIXED
+            ctx.lineWidth = brushSizeSlider.value;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = brushColorPicker.value;
+
+            function getEventPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+                
+                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+                
+                return {
+                    x: (clientX - rect.left) * scaleX,
+                    y: (clientY - rect.top) * scaleY
+                };
+            }
+
+            function draw(e) {
+                if (!isDrawing) return;
+                const pos = getEventPos(e);
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+                [lastX, lastY] = [pos.x, pos.y];
+            }
+
+            function startDrawing(e) {
+                e.preventDefault(); // Prevent scrolling on mobile
+                isDrawing = true;
+                const pos = getEventPos(e);
+                [lastX, lastY] = [pos.x, pos.y];
+            }
+
+            function stopDrawing(e) {
+                if (e) e.preventDefault(); // Prevent scrolling on mobile
+                isDrawing = false;
+            }
+
+            // Mouse events
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+
+            // Touch events for mobile
+            canvas.addEventListener('touchstart', startDrawing, { passive: false });
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault(); // Prevent scrolling while drawing
+                draw(e);
+            }, { passive: false });
+            canvas.addEventListener('touchend', stopDrawing, { passive: false });
+            canvas.addEventListener('touchcancel', stopDrawing, { passive: false });
+
+            clearCanvasBtn.addEventListener('click', () => {
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#000000';
+                ctx.strokeStyle = brushColorPicker.value;
+            });
+
+            brushColorPicker.addEventListener('change', (e) => {
+                ctx.strokeStyle = e.target.value;
+            });
+
+            brushSizeSlider.addEventListener('input', (e) => {
+                ctx.lineWidth = e.target.value;
+            });
+        });
+
+        function toggleMode() {
+            const body = document.body;
+            body.classList.toggle('light-mode');
+            const modeToggle = document.querySelector('.mode-toggle span');
+
+            if (body.classList.contains('light-mode')) {
+                modeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'light');
+            } else {
+                modeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Function to apply the saved theme
+        function applySavedTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            const modeToggle = document.querySelector('.mode-toggle span');
+
+            if (savedTheme === 'light') {
+                body.classList.add('light-mode');
+                modeToggle.textContent = '☀️';
+            } else {
+                body.classList.remove('light-mode');
+                modeToggle.textContent = '🌙';
+            }
+        }
+
+        // Apply the saved theme when the page loads
+        document.addEventListener('DOMContentLoaded', applySavedTheme);
+    </script>
+</body>
+</html>

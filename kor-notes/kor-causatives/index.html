@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Korean Greetings & Self-Introduction</title>
+    <title>Korean Passive/Causative Forms & Indirect Speech</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://js.puter.com/v2/"></script>
     <style>
@@ -136,18 +136,6 @@
             gap: 20px;
         }
 
-        .tts-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
         .tts-button {
             background: #2ecc71;
             color: white;
@@ -211,11 +199,11 @@
             grid-column: 1 / -1;
         }
 
-        #basic-grid, #time-grid, #introduction-grid {
+        #passive-grid, #causative-grid, #indirect-grid {
             grid-template-columns: repeat(2, 1fr);
         }
 
-        #conversation-grid {
+        #sentences-grid {
             grid-template-columns: 1fr;
         }
 
@@ -309,13 +297,39 @@
             line-height: 1.4;
         }
 
-        /* Conversation cards specific styling */
-        .conversation-card .korean-text {
+        .grammar-marker {
+            display: inline-block;
+            background-color: #e8f4fd;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: bold;
+            color: #2980b9;
+            margin: 0 2px;
+        }
+
+        /* Grammar-specific styling */
+        .passive-card .grammar-marker {
+            background-color: #e8f6f3;
+            color: #27ae60;
+        }
+
+        .causative-card .grammar-marker {
+            background-color: #fdedec;
+            color: #c0392b;
+        }
+
+        .indirect-card .grammar-marker {
+            background-color: #f4ecf7;
+            color: #8e44ad;
+        }
+
+        /* Sentence cards specific styling */
+        .sentence-card .korean-text {
             font-size: 1.8rem;
             line-height: 1.4;
         }
 
-        .conversation-card .char-info {
+        .sentence-card .char-info {
             font-size: 0.9rem;
             margin-top: 8px;
         }
@@ -361,11 +375,11 @@
                 grid-template-columns: repeat(3, 1fr);
             }
             
-            #basic-grid, #time-grid, #introduction-grid {
+            #passive-grid, #causative-grid, #indirect-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
             
-            #conversation-grid {
+            #sentences-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -375,7 +389,7 @@
                 grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             }
             
-            #basic-grid, #time-grid, #introduction-grid {
+            #passive-grid, #causative-grid, #indirect-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -397,7 +411,7 @@
                 grid-template-columns: 1fr;
             }
             
-            #basic-grid, #time-grid, #introduction-grid {
+            #passive-grid, #causative-grid, #indirect-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -429,10 +443,6 @@
                 font-size: 0.9rem;
             }
 
-            .tts-controls {
-                flex-direction: column;
-            }
-            
             .korean-text {
                 font-size: 1.8rem;
             }
@@ -468,8 +478,9 @@
 <body>
     <div class="main">
         <div class="header">
-            <h1><br>Korean Greetings & Self-Introduction</h1>
-            <p>Learn essential Korean greetings and self-introduction phrases</p>
+            <br>
+            <h1><br>Korean Passive/Causative Forms & Indirect Speech</h1>
+            <p>Learn passive voice, causative forms, and indirect speech patterns in Korean</p>
             <p>Draw in the white canvas area to practice writing</p>
             <p>Click on Korean text to hear pronunciation</p>
         </div>
@@ -478,221 +489,199 @@
             <div class="nav-content">
                 <a href="../../index.html" class="back-button">← Back to Main</a>
                 <nav id="navbar">
-                    <a class="active" href="#basic">Basic Greetings</a>
-                    <a href="#time">Time-based Greetings</a>
-                    <a href="#introduction">Self-Introduction</a>
-                    <a href="#conversation">Conversation Practice</a>
+                    <a class="active" href="#passive">Passive Forms</a>
+                    <a href="#causative">Causative Forms</a>
+                    <a href="#indirect">Indirect Speech</a>
+                    <a href="#sentences">Example Sentences</a>
                 </nav>
             </div>
         </div>
         
-       
+        
         <div id="status" class="status">Ready to convert text to speech</div>
         <p class="tts-info">Click on any Korean text to hear its pronunciation</p>
         
-        <section id="basic">
-            <h2 class="section-title">Basic Greetings<br/>기본 인사</h2>
-            <ul class="cards" id="basic-grid"></ul>
+        <section id="passive">
+            <h2 class="section-title">Passive Forms<br/>피동 표현 <br/>(Passive voice indicates the subject receives the action)</h2>
+            <ul class="cards" id="passive-grid"></ul>
         </section>
 
-        <section id="time">
-            <h2 class="section-title">Time-based Greetings<br/>시간별 인사</h2>
-            <ul class="cards" id="time-grid"></ul>
+        <section id="causative">
+            <h2 class="section-title">Causative Forms<br/>사동 표현<br> (Causative forms indicate the subject causes someone else to perform an action)</h2>
+            <ul class="cards" id="causative-grid"></ul>
         </section>
 
-        <section id="introduction">
-            <h2 class="section-title">Self-Introduction<br/>자기소개</h2>
-            <ul class="cards" id="introduction-grid"></ul>
+        <section id="indirect">
+            <h2 class="section-title">Indirect Speech<br/>간접 화법 (Used to report what someone else said, asked, or suggested)</h2>
+            <ul class="cards" id="indirect-grid"></ul>
         </section>
 
-        <section id="conversation">
-            <h2 class="section-title">Conversation Practice<br/>대화 연습</h2>
-            <ul class="cards" id="conversation-grid"></ul>
+        <section id="sentences">
+            <h2 class="section-title">Example Sentences<br/>예문</h2>
+            <ul class="cards" id="sentences-grid"></ul>
         </section>
     </div>
 
     <script>
         const koreanContent = {
-            basic: [
+            passive: [
                 { 
-                    korean: '안녕하세요', 
-                    romanized: 'annyeonghaseyo', 
-                    meaning: 'Hello (formal)',
-                    usage: 'Most common greeting, used in formal situations',
-                    examples: 'When meeting someone for the first time'
+                    korean: '이/히/리/기', 
+                    romanized: 'i/hi/ri/gi', 
+                    meaning: 'Passive verb endings',
+                    usage: 'Changes active verbs to passive voice',
+                    examples: '먹다 → 먹히다 (to be eaten), 보다 → 보이다 (to be seen)'
                 },
                 { 
-                    korean: '안녕', 
-                    romanized: 'annyeong', 
-                    meaning: 'Hello (informal)',
-                    usage: 'Used with friends, family, or people younger than you',
-                    examples: 'When greeting close friends'
+                    korean: '아/어지다', 
+                    romanized: 'a/eojida', 
+                    meaning: 'Passive form with -지다',
+                    usage: 'Used with adjectives to create passive meaning',
+                    examples: '크다 → 커지다 (to become big), 작다 → 작아지다 (to become small)'
                 },
                 { 
-                    korean: '만나서 반갑습니다', 
-                    romanized: 'mannaseo bangapseumnida', 
-                    meaning: 'Nice to meet you (VERY formal)',
-                    usage: 'When meeting someone for the first time',
-                    examples: 'After introductions'
+                    korean: '게 되다', 
+                    romanized: 'ge doeda', 
+                    meaning: 'Passive construction',
+                    usage: 'Indicates something happens or becomes',
+                    examples: '읽게 되다 (to come to be read), 쓰게 되다 (to come to be written)'
                 },
                 { 
-                    korean: '반갑습니다', 
-                    romanized: 'mannaseo bangapseumnida', 
-                    meaning: 'Nice to meet you (formal, more common)',
-                    usage: 'When meeting someone for the first time',
-                    examples: 'After introductions'
-                },
-                { 
-                    korean: '만나서 반가워', 
-                    romanized: 'mannaseo bangawo', 
-                    meaning: 'Nice to meet you (informal)',
-                    usage: 'With friends or people younger than you',
-                    examples: 'Casual first meeting'
-                },
-                { 
-                    korean: '안녕히 가세요', 
-                    romanized: 'annyeonghi gaseyo', 
-                    meaning: 'Goodbye (to someone leaving)',
-                    usage: 'Said to the person who is leaving',
-                    examples: 'When someone is going home'
-                },
-                { 
-                    korean: '안녕히 계세요', 
-                    romanized: 'annyeonghi gyeseyo', 
-                    meaning: 'Goodbye (to someone staying)',
-                    usage: 'Said when you are leaving',
-                    examples: 'When you are leaving someone\'s place'
+                    korean: '받다', 
+                    romanized: 'batda', 
+                    meaning: 'To receive (passive meaning)',
+                    usage: 'Used with nouns to indicate receiving action',
+                    examples: '사랑을 받다 (to be loved), 도움을 받다 (to be helped)'
                 }
             ],
-            time: [
+            causative: [
                 { 
-                    korean: '좋은 아침', 
-                    romanized: 'joheun achim', 
-                    meaning: 'Good morning (informal)',
-                    usage: 'Used with friends and family',
-                    examples: 'Morning greeting to close people'
+                    korean: '이/히/리/기/우/추', 
+                    romanized: 'i/hi/ri/gi/u/chu', 
+                    meaning: 'Causative verb endings',
+                    usage: 'Changes verbs to causative form',
+                    examples: '먹다 → 먹이다 (to make someone eat), 보다 → 보이다 (to show)'
                 },
                 { 
-                    korean: '안녕히 주무셨어요?', 
-                    romanized: 'annyeonghi jumusyeosseoyo?', 
-                    meaning: 'Did you sleep well? (formal)',
-                    usage: 'Polite morning greeting',
-                    examples: 'Greeting elders in the morning'
+                    korean: '게 하다', 
+                    romanized: 'ge hada', 
+                    meaning: 'Causative construction',
+                    usage: 'Used to indicate making someone do something',
+                    examples: '읽게 하다 (to make someone read), 쓰게 하다 (to make someone write)'
                 },
                 { 
-                    korean: '좋은 오후', 
-                    romanized: 'joheun ohu', 
-                    meaning: 'Good afternoon',
-                    usage: 'General afternoon greeting',
-                    examples: 'Used from noon to early evening'
+                    korean: '도록 하다', 
+                    romanized: 'dorok hada', 
+                    meaning: 'Causative/instructional form',
+                    usage: 'Used to indicate causing or instructing',
+                    examples: '공부하도록 하다 (to make someone study), 일하도록 하다 (to make someone work)'
                 },
                 { 
-                    korean: '좋은 저녁', 
-                    romanized: 'joheun jeonyeok', 
-                    meaning: 'Good evening',
-                    usage: 'Evening greeting',
-                    examples: 'Used in the evening'
-                },
-                { 
-                    korean: '잘 자', 
-                    romanized: 'jal ja', 
-                    meaning: 'Good night (informal)',
-                    usage: 'Said to friends or family before sleeping',
-                    examples: 'Bedtime greeting to close people'
-                },
-                { 
-                    korean: '안녕히 주무세요', 
-                    romanized: 'annyeonghi jumuseyo', 
-                    meaning: 'Good night (formal)',
-                    usage: 'Polite bedtime greeting',
-                    examples: 'Said to elders or in formal situations'
+                    korean: '시키다', 
+                    romanized: 'sikida', 
+                    meaning: 'To make/order someone to do',
+                    usage: 'Causative verb meaning to order or make someone do',
+                    examples: '공부시키다 (to make someone study), 일시키다 (to make someone work)'
                 }
             ],
-            introduction: [
+            indirect: [
                 { 
-                    korean: '제 이름은 [이름]입니다', 
-                    romanized: 'je ireumeun [ireum]imnida', 
-                    meaning: 'My name is [name] (formal)',
-                    usage: 'Formal self-introduction',
-                    examples: '제 이름은 민수입니다 (My name is Minsu)'
+                    korean: '다고 하다', 
+                    romanized: 'dago hada', 
+                    meaning: 'Indirect statement (declarative)',
+                    usage: 'Used to report statements',
+                    examples: '간다고 하다 (to say that one is going)'
                 },
                 { 
-                    korean: '저는 [나라] 사람입니다', 
-                    romanized: 'jeoneun [nara] saraminida', 
-                    meaning: 'I am from [country] (formal)',
-                    usage: 'Telling your nationality',
-                    examples: '저는 미국 사람입니다 (I am American)'
+                    korean: '라고 하다', 
+                    romanized: 'rago hada', 
+                    meaning: 'Indirect quotation (direct quotes)',
+                    usage: 'Used for direct quotations and with nouns',
+                    examples: '"안녕"이라고 하다 (to say "hello")'
                 },
                 { 
-                    korean: '저는 [나이] 살입니다', 
-                    romanized: 'jeoneun [nai] sarimnida', 
-                    meaning: 'I am [age] years old (formal)',
-                    usage: 'Telling your age formally',
-                    examples: '저는 스물다섯 살입니다 (I am 25 years old)'
+                    korean: '냐고 하다', 
+                    romanized: 'nyago hada', 
+                    meaning: 'Indirect question (informal)',
+                    usage: 'Used to report informal questions',
+                    examples: '뭐 하냐고 하다 (to ask what someone is doing)'
                 },
                 { 
-                    korean: '저는 [직업]입니다', 
-                    romanized: 'jeoneun [jigeob]imnida', 
-                    meaning: 'I am a [job] (formal)',
-                    usage: 'Telling your occupation',
-                    examples: '저는 선생님입니다 (I am a teacher)'
+                    korean: '느냐고 하다', 
+                    romanized: 'neunyago hada', 
+                    meaning: 'Indirect question (formal)',
+                    usage: 'Used to report formal questions',
+                    examples: '어디에 가느냐고 하다 (to ask where someone is going)'
                 },
                 { 
-                    korean: '취미는 [취미]입니다', 
-                    romanized: 'chwimineun [chwimi]imnida', 
-                    meaning: 'My hobby is [hobby] (formal)',
-                    usage: 'Talking about your interests',
-                    examples: '취미는 독서입니다 (My hobby is reading)'
-                },
-                { 
-                    korean: '한국어를 배우고 있습니다', 
-                    romanized: 'hangugeoreul baeugo itseumnida', 
-                    meaning: 'I am learning Korean (formal)',
-                    usage: 'Explaining your language studies',
-                    examples: 'Useful for language exchange'
+                    korean: '자고 하다', 
+                    romanized: 'jago hada', 
+                    meaning: 'Indirect suggestion',
+                    usage: 'Used to report suggestions',
+                    examples: '같이 가자고 하다 (to suggest going together)'
                 }
             ],
-            conversation: [
+            sentences: [
                 { 
-                    korean: 'A: 안녕하세요? B: 네, 안녕하세요!', 
-                    romanized: 'A: annyeonghaseyo? B: ne, annyeonghaseyo!', 
-                    meaning: 'A: Hello? B: Yes, hello!',
-                    context: 'Basic greeting exchange'
+                    korean: '책이 학생들에게 읽혀요', 
+                    romanized: 'chaegi haksaengdeurege ilkyeoyo', 
+                    meaning: 'The book is read by students (passive)',
+                    grammar: 'passive'
                 },
                 { 
-                    korean: 'A: 이름이 뭐예요? B: 제 이름은 수지예요.', 
-                    romanized: 'A: ireumi mwoyeyo? B: je ireumeun sujiyeyo.', 
-                    meaning: 'A: What is your name? B: My name is Suji.',
-                    context: 'Asking and telling names'
+                    korean: '선생님이 학생들에게 숙제를 시켰어요', 
+                    romanized: 'seonsaengnimi haksaengdeurege sukjeleul sikyeosseoyo', 
+                    meaning: 'The teacher made the students do homework (causative)',
+                    grammar: 'causative'
                 },
                 { 
-                    korean: 'A: 어디에서 왔어요? B: 미국에서 왔어요.', 
-                    romanized: 'A: eodieseo wasseoyo? B: migugeseo wasseoyo.', 
-                    meaning: 'A: Where are you from? B: I am from America.',
-                    context: 'Asking about origin'
+                    korean: '친구가 내일 올 거라고 했어요', 
+                    romanized: 'chinguga naeil ol georago haesseoyo', 
+                    meaning: 'My friend said they will come tomorrow (indirect speech)',
+                    grammar: 'indirect'
                 },
                 { 
-                    korean: 'A: 무슨 일을 하세요? B: 저는 학생이에요.', 
-                    romanized: 'A: museun ireul haseyo? B: jeoneun haksaengieyo.', 
-                    meaning: 'A: What do you do? B: I am a student.',
-                    context: 'Asking about occupation'
+                    korean: '문이 열렸어요', 
+                    romanized: 'muni yeollyeosseoyo', 
+                    meaning: 'The door was opened (passive)',
+                    grammar: 'passive'
                 },
                 { 
-                    korean: 'A: 한국어를 잘 하시네요! B: 아니요, 조금밖에 못 해요.', 
-                    romanized: 'A: hangugeoreul jal hasineyo! B: aniyo, jogeumbakke mot haeyo.', 
-                    meaning: 'A: You speak Korean well! B: No, I can only speak a little.',
-                    context: 'Complimenting language skills'
+                    korean: '엄마가 아이에게 밥을 먹였어요', 
+                    romanized: 'eommaga aiege babeul meogyeosseoyo', 
+                    meaning: 'The mother fed the child (causative)',
+                    grammar: 'causative'
                 },
                 { 
-                    korean: 'A: 나중에 또 봐요! B: 네, 안녕히 가세요!', 
-                    romanized: 'A: najunge tto bwayo! B: ne, annyeonghi gaseyo!', 
-                    meaning: 'A: See you later! B: Yes, goodbye!',
-                    context: 'Ending a conversation'
+                    korean: '그가 어제 무엇을 했냐고 물었어요', 
+                    romanized: 'geuga eoje mueoseul haennyago mureosseoyo', 
+                    meaning: 'I asked what he did yesterday (indirect question)',
+                    grammar: 'indirect'
+                },
+                { 
+                    korean: '집이 지어졌어요', 
+                    romanized: 'jibi jieojyeosseoyo', 
+                    meaning: 'The house was built (passive)',
+                    grammar: 'passive'
+                },
+                { 
+                    korean: '교사가 학생들에게 공부하게 했어요', 
+                    romanized: 'gyosaga haksaengdeurege gongbuhage haesseoyo', 
+                    meaning: 'The teacher made the students study (causative)',
+                    grammar: 'causative'
+                },
+                { 
+                    korean: '그녀가 같이 영화 보자고 했어요', 
+                    romanized: 'geunyeoga gachi yeonghwa bojago haesseoyo', 
+                    meaning: 'She suggested watching a movie together (indirect suggestion)',
+                    grammar: 'indirect'
                 }
             ]
         };
 
         let currentAudio = null;
+        let voices = [];
+        let selectedVoice = null;
 
         // Update status display
         function updateStatus(message, type) {
@@ -712,8 +701,8 @@
                 currentAudio = null;
             }
             
-            // Clean text for TTS
-            const cleanText = text.replace(/\[.*?\]/g, '').replace(/\//g, ' ');
+            // Remove "/" characters to prevent them from being read aloud
+            const cleanText = text.replace(/\//g, ' ');
             
             updateStatus('Converting text to speech...', 'processing');
             
@@ -784,12 +773,46 @@
             }
         };
 
-        function createCard(koreanData, index, section) {
-            const isConversation = section === 'conversation';
-            const cardClass = isConversation ? 'card conversation-card' : 'card';
-            const fullWidthClass = koreanData.fullWidth ? 'full-width-card' : '';
+        function loadVoices() {
+            voices = speechSynthesis.getVoices();
+            const voiceSelector = document.getElementById('voice-selector');
+            voiceSelector.innerHTML = '<option value="">Default Voice</option>';
             
-            // Format the meaning with additional information
+            // Filter for Korean voices
+            const koreanVoices = voices.filter(voice => 
+                voice.lang.startsWith('ko') || voice.lang.includes('Korean')
+            );
+            
+            koreanVoices.forEach(voice => {
+                const option = document.createElement('option');
+                option.value = voice.name;
+                option.textContent = `${voice.name} (${voice.lang})`;
+                voiceSelector.appendChild(option);
+                
+                // Prefer Korean voices
+                if (voice.lang.startsWith('ko')) {
+                    selectedVoice = voice;
+                    option.selected = true;
+                }
+            });
+            
+            // If no Korean voice found, use any available voice
+            if (!selectedVoice && voices.length > 0) {
+                selectedVoice = voices[0];
+            }
+        }
+
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+
+        function createCard(koreanData, index, section) {
+            const isSentence = section === 'sentences';
+            const cardClass = isSentence ? 'card sentence-card' : 'card';
+            const fullWidthClass = koreanData.fullWidth ? 'full-width-card' : '';
+            const grammarClass = koreanData.grammar ? `${koreanData.grammar}-card` : '';
+            
+            // Format the meaning with grammar markers highlighted
             let formattedMeaning = koreanData.meaning;
             if (koreanData.usage) {
                 formattedMeaning += `<br/><small>Usage: ${koreanData.usage}</small>`;
@@ -797,13 +820,10 @@
             if (koreanData.examples) {
                 formattedMeaning += `<br/><small>Examples: ${koreanData.examples}</small>`;
             }
-            if (koreanData.context) {
-                formattedMeaning += `<br/><small>Context: ${koreanData.context}</small>`;
-            }
             
             return `
                 <li class="cards_item ${fullWidthClass}">
-                    <div class="${cardClass}">
+                    <div class="${cardClass} ${grammarClass}">
                         <div class="sketch">
                             <canvas class="paint" width="300" height="200" data-index="${index}"></canvas>
                             <button class="erase-button" data-canvas-index="${index}">Erase</button>
@@ -818,16 +838,16 @@
         }
 
         function generateCards() {
-            const basicGrid = document.getElementById('basic-grid');
-            const timeGrid = document.getElementById('time-grid');
-            const introductionGrid = document.getElementById('introduction-grid');
-            const conversationGrid = document.getElementById('conversation-grid');
+            const passiveGrid = document.getElementById('passive-grid');
+            const causativeGrid = document.getElementById('causative-grid');
+            const indirectGrid = document.getElementById('indirect-grid');
+            const sentencesGrid = document.getElementById('sentences-grid');
             
             let index = 0;
-            basicGrid.innerHTML = koreanContent.basic.map(item => createCard(item, index++, 'basic')).join('');
-            timeGrid.innerHTML = koreanContent.time.map(item => createCard(item, index++, 'time')).join('');
-            introductionGrid.innerHTML = koreanContent.introduction.map(item => createCard(item, index++, 'introduction')).join('');
-            conversationGrid.innerHTML = koreanContent.conversation.map(item => createCard(item, index++, 'conversation')).join('');
+            passiveGrid.innerHTML = koreanContent.passive.map(item => createCard(item, index++, 'passive')).join('');
+            causativeGrid.innerHTML = koreanContent.causative.map(item => createCard(item, index++, 'causative')).join('');
+            indirectGrid.innerHTML = koreanContent.indirect.map(item => createCard(item, index++, 'indirect')).join('');
+            sentencesGrid.innerHTML = koreanContent.sentences.map(item => createCard(item, index++, 'sentences')).join('');
             
             addAudioEventListeners();
             addCanvasEventListeners();
@@ -847,7 +867,7 @@
             const ttsButton = document.getElementById('tts-button');
             ttsButton.disabled = true;
             
-            const allItems = [...koreanContent.basic, ...koreanContent.time, ...koreanContent.introduction, ...koreanContent.conversation];
+            const allItems = [...koreanContent.passive, ...koreanContent.causative, ...koreanContent.indirect, ...koreanContent.sentences];
             let index = 0;
             
             function speakNext() {
@@ -1037,8 +1057,18 @@
         document.addEventListener('DOMContentLoaded', function() {
             generateCards();
             initializeCanvasContexts();
+            loadVoices();
             
             document.getElementById('tts-button').addEventListener('click', playAllKorean);
+            
+            document.getElementById('voice-selector').addEventListener('change', function() {
+                const voiceName = this.value;
+                if (voiceName) {
+                    selectedVoice = voices.find(voice => voice.name === voiceName);
+                } else {
+                    selectedVoice = null;
+                }
+            });
         });
 
         // Reinitialize canvas contexts on window resize

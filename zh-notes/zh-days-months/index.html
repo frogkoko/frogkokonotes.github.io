@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Days & Dates</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            color: #000000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #e6f0ff;
+            color: #0066cc;
+            border: 1px solid #b3d1ff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-button:hover {
+            background: #cce0ff;
+            transform: translateX(-2px);
+        }
+
+        /* Main Container */
+        .main {
+            max-width: 1200px;
+            margin: 0 auto; 
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        /* Header Styles */
+        .header {
+            text-align: center;
+            color: #000000;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #0066cc, #004d99);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            color: #333333;
+        }
+
+        /* Navigation Bar */
+        #navbar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            position: sticky; 
+            top: 0; 
+            background: #f0f7ff; 
+            padding: 15px 20px; 
+            z-index: 1000; 
+            box-shadow: 0 2px 10px rgba(0, 102, 204, 0.1);
+            width: 100%; 
+            box-sizing: border-box; 
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        #navbar a {
+            background: #e6f0ff;
+            color: #0066cc;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid #b3d1ff;
+        }
+
+        #navbar a:hover, #navbar a.active {
+            background: #0066cc;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 102, 204, 0.3);
+        }
+
+        /* Section Titles */
+        .section-title {
+            text-align: center;
+            color: #000000;
+            font-size: 1.8rem;
+            margin: 60px 0 30px 0;
+            font-weight: 300;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #0066cc, #004d99);
+            border-radius: 3px;
+        }
+
+        /* Cards Container - MODIFIED */
+        .cards {
+            display: flex;
+            flex-direction: column;
+            gap: 30px; /* Increased gap between cards */
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        /* Individual Card - MODIFIED */
+        .card {
+            background: #f8fbff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 102, 204, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #d9e7ff;
+            width: 100%; /* Ensure full width */
+            min-height: 500px; /* Increased minimum height */
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 102, 204, 0.15);
+        }
+
+        /* Sketch Area (Canvas) - MODIFIED */
+        .sketch {
+            position: relative;
+            padding: 25px; /* Increased padding */
+            background: #f0f7ff;
+            border-bottom: 1px solid #d9e7ff;
+            order: 1; /* Ensure canvas is first in flex order */
+            flex: 1; /* Allow sketch area to grow */
+        }
+
+        .paint-container {
+            position: relative;
+            width: 100%;
+            height: 250px; /* Increased height */
+            border-radius: 10px;
+            overflow: hidden;
+            background: #ffffff;
+            border: 1px solid #d9e7ff;
+        }
+
+        .paint {
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+            background: transparent;
+            touch-action: none;
+            display: block;
+        }
+
+        .canvas-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px; /* Increased margin */
+        }
+
+        .erase-button {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .erase-button:hover {
+            background: #ff3838;
+            transform: translateY(-2px);
+        }
+
+        .brush-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .brush-size {
+            width: 80px;
+        }
+
+        /* Card Content - MODIFIED */
+        .card_content {
+            padding: 25px; /* Increased padding */
+            text-align: center;
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            order: 2; /* Ensure text content is after canvas in flex order */
+        }
+
+        .chinese-char {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #0066cc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            margin-bottom: 15px; /* Increased margin */
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+
+        .chinese-char:hover {
+            color: #004d99;
+            transform: scale(1.1);
+        }
+
+        .char-info {
+            font-size: 1.1rem; /* Slightly larger font */
+            color: #333333;
+            font-weight: 500;
+            margin-bottom: 8px; /* Increased margin */
+            line-height: 1.4; /* Better line spacing */
+        }
+
+        .pinyin {
+            font-size: 1.3rem; /* Slightly larger font */
+            color: #ff6b6b;
+            font-weight: 500;
+            margin-bottom: 8px; /* Increased margin */
+        }
+
+        /* TTS Controls */
+        .tts-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .tts-control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tts-control-group label {
+            font-size: 0.9em;
+            margin-bottom: 0;
+            color: rgba(0, 0, 0, 0.8);
+        }
+
+        .tts-rate-control, .tts-pitch-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tts-rate-control input, .tts-pitch-control input {
+            width: 100px;
+        }
+
+        .voice-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 107, 107, 0.1);
+            color: #333;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .voice-btn:hover {
+            background: rgba(255, 107, 107, 0.15);
+        }
+
+        .voice-btn.active {
+            background: rgba(255, 107, 107, 0.2);
+            box-shadow: 0 3px 10px rgba(255, 107, 107, 0.2);
+        }
+
+        .status-message {
+            text-align: center;
+            color: #1e90ff;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            min-height: 20px;
+        }
+
+        /* Responsive Design - MODIFIED */
+        @media (min-width: 1200px) {
+            .main {
+                max-width: 1400px; /* Wider container on large screens */
+            }
+            .card {
+                min-height: 520px; /* Slightly taller on large screens */
+            }
+            .paint-container {
+                height: 270px; /* Taller canvas on large screens */
+            }
+        }
+
+        @media (min-width: 992px) {
+            .main {
+                max-width: 1300px; /* Wider container on medium-large screens */
+            }
+            .cards {
+                /* Keep one card per row on all screen sizes */
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .main {
+                max-width: 100%; /* Full width on smaller screens */
+                padding: 15px;
+            }
+            .cards {
+                /* Keep one card per row on all screen sizes */
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .cards {
+                /* Keep one card per row on all screen sizes */
+                grid-template-columns: 1fr;
+            }
+            
+            #navbar {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .back-button {
+                top: 10px;
+                left: 10px;
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .card {
+                min-height: 480px; /* Slightly reduced height on mobile */
+            }
+            
+            .paint-container {
+                height: 220px; /* Slightly reduced canvas height on mobile */
+            }
+            
+            .chinese-char {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main {
+                padding: 10px;
+            }
+            #navbar {
+                padding: 10px 15px;
+            }
+            #navbar a {
+                padding: 10px 20px; 
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .chinese-char {
+                font-size: 2.8rem;
+            }
+            
+            .card {
+                min-height: 450px; /* Further reduced height on very small screens */
+            }
+            
+            .paint-container {
+                height: 200px; /* Further reduced canvas height on very small screens */
+            }
+            
+            .sketch, .card_content {
+                padding: 15px; /* Reduced padding on very small screens */
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Back Button -->
+    <button class="back-button" onclick="goBack()">
+        ← Back
+    </button>
+
+    <div class="main">
+        <div class="header">
+            <h1>中文日期与时间<br>Chinese Days & Dates</h1>
+            <p>Hover over/click phrases to hear pronunciation • Practice writing in the canvas area</p>
+        </div>
+        
+        <nav id="navbar">
+            <a class="active" href="#days">Days of the Week</a>
+            <a href="#months">Months of the Year</a>
+            <a href="#dates">Dates & Time</a>
+        </nav>
+
+        <!-- TTS Controls -->
+        <div class="tts-controls">
+            <div class="tts-control-group">
+                <label for="voiceSelector">TTS Provider:</label>
+                <select id="voiceSelector" class="voice-btn">
+                    <option value="openai-fable">OpenAI Fable (Chinese)</option>
+                    <option value="browser">Browser TTS</option>
+                </select>
+            </div>
+            <div class="tts-control-group">
+                <label for="ttsRate">Speech Rate:</label>
+                <div class="tts-rate-control">
+                    <input type="range" id="ttsRate" min="0.5" max="2" step="0.1" value="0.8">
+                    <span id="ttsRateValue">0.8</span>
+                </div>
+            </div>
+            <div class="tts-control-group">
+                <label for="ttsPitch">Speech Pitch:</label>
+                <div class="tts-pitch-control">
+                    <input type="range" id="ttsPitch" min="0.5" max="2" step="0.1" value="1">
+                    <span id="ttsPitchValue">1.0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-message" id="status-message"></div>
+
+        <section id="days">
+            <h2 class="section-title">Days of the Week<br/>星期一 星期二 星期三 星期四</h2>
+            <ul class="cards" id="days-grid"></ul>
+        </section>
+
+        <section id="months">
+            <h2 class="section-title">Months of the Year<br/>一月 二月 三月 四月</h2>
+            <ul class="cards" id="months-grid"></ul>
+        </section>
+
+        <section id="dates">
+            <h2 class="section-title">Dates & Time<br/>今天 明天 昨天 几点</h2>
+            <ul class="cards" id="dates-grid"></ul>
+        </section>
+    </div>
+
+    <script src="https://js.puter.com/v2/"></script>
+    <script>
+      // Back button functionality
+function goBack() {
+    window.location.href = "../../index.html";
+}
+
+const phrases = {
+    "days": [
+        { char: '星期一', pinyin: 'xīng qī yī', meaning: 'Monday', example: '星期一我要去上班。 (I go to work on Monday.)' },
+        { char: '星期二', pinyin: 'xīng qī èr', meaning: 'Tuesday', example: '星期二我们有会议。 (We have a meeting on Tuesday.)' },
+        { char: '星期三', pinyin: 'xīng qī sān', meaning: 'Wednesday', example: '星期三我去健身房。 (I go to the gym on Wednesday.)' },
+        { char: '星期四', pinyin: 'xīng qī sì', meaning: 'Thursday', example: '星期四我学习中文。 (I study Chinese on Thursday.)' },
+        { char: '星期五', pinyin: 'xīng qī wǔ', meaning: 'Friday', example: '星期五晚上我们去看电影。 (We go to see a movie on Friday evening.)' },
+        { char: '星期六', pinyin: 'xīng qī liù', meaning: 'Saturday', example: '星期六我休息。 (I rest on Saturday.)' },
+        { char: '星期日', pinyin: 'xīng qī rì', meaning: 'Sunday', example: '星期日我和家人吃饭。 (I eat with my family on Sunday.)' },
+        { char: '周末', pinyin: 'zhōu mò', meaning: 'Weekend', example: '周末我喜欢旅行。 (I like traveling on weekends.)' },
+        { char: '工作日', pinyin: 'gōng zuò rì', meaning: 'Weekday', example: '工作日我很忙。 (I am very busy on weekdays.)' },
+        { char: '今天', pinyin: 'jīn tiān', meaning: 'Today', example: '今天天气很好。 (The weather is good today.)' }
+    ],
+    "months": [
+        { char: '一月', pinyin: 'yī yuè', meaning: 'January', example: '一月很冷。 (January is very cold.)' },
+        { char: '二月', pinyin: 'èr yuè', meaning: 'February', example: '二月有春节。 (February has Spring Festival.)' },
+        { char: '三月', pinyin: 'sān yuè', meaning: 'March', example: '三月春天来了。 (Spring comes in March.)' },
+        { char: '四月', pinyin: 'sì yuè', meaning: 'April', example: '四月花开了。 (Flowers bloom in April.)' },
+        { char: '五月', pinyin: 'wǔ yuè', meaning: 'May', example: '五月天气暖和。 (The weather is warm in May.)' },
+        { char: '六月', pinyin: 'liù yuè', meaning: 'June', example: '六月是夏天。 (June is summer.)' },
+        { char: '七月', pinyin: 'qī yuè', meaning: 'July', example: '七月很热。 (July is very hot.)' },
+        { char: '八月', pinyin: 'bā yuè', meaning: 'August', example: '八月我去海边。 (I go to the beach in August.)' },
+        { char: '九月', pinyin: 'jiǔ yuè', meaning: 'September', example: '九月开学了。 (School starts in September.)' },
+        { char: '十月', pinyin: 'shí yuè', meaning: 'October', example: '十月有国庆节。 (October has National Day.)' }
+    ],
+   "dates": [
+{ char: '今天', pinyin: 'jīn tiān', meaning: 'Today', example: '今天是八月十号。 (Today is August 10th.)' },
+{ char: '明天', pinyin: 'míng tiān', meaning: 'Tomorrow', example: '明天是八月十一号。 (Tomorrow is August 11th.)' },
+{ char: '昨天', pinyin: 'zuó tiān', meaning: 'Yesterday', example: '昨天是八月九号。 (Yesterday was August 9th.)' },
+{ char: '现在', pinyin: 'xiàn zài', meaning: 'Now', example: '现在是八月十号下午三点。 (It is now 3 PM on August 10th.)' },
+{ char: '几点', pinyin: 'jǐ diǎn', meaning: 'What time', example: '八月十号你几点起床？ (What time did you wake up on August 10th?)' },
+{ char: '早上', pinyin: 'zǎo shang', meaning: 'Morning', example: '八月十号早上我有一个会议。 (I have a meeting on the morning of August 10th.)' },
+{ char: '下午', pinyin: 'xià wǔ', meaning: 'Afternoon', example: '我们八月十一号下午去公园吧。 (Let us go to the park on the afternoon of August 11th.)' },
+{ char: '晚上', pinyin: 'wǎn shang', meaning: 'Evening', example: '八月九号晚上我看了电影。 (I watched a movie on the evening of August 9th.)' },
+{ char: '星期几', pinyin: 'xīng qī jǐ', meaning: 'What day of the week', example: '八月十号是星期几？ (What day of the week is August 10th?)' },
+{ char: '几月几号', pinyin: 'jǐ yuè jǐ hào', meaning: 'What date', example: '会议是几月几号？ (What date is the meeting?)' },
+{ char: '八月十号', pinyin: 'bā yuè shí hào', meaning: 'August 10th', example: '' },
+ { char: '一月五号', pinyin: 'yī yuè wǔ hào', meaning: 'January 5th', example: '我一月五号开始新工作。 (I start my new job on January 5th.)' },
+    { char: '二月十四号', pinyin: 'èr yuè shí sì hào', meaning: 'February 14th', example: '二月十四号是情人节。 (February 14th is Valentine\'s Day.)' },
+    { char: '三月八号', pinyin: 'sān yuè bā hào', meaning: 'March 8th', example: '三月八号是国际妇女节。 (March 8th is International Women\'s Day.)' },
+    { char: '四月一号', pinyin: 'sì yuè yī hào', meaning: 'April 1st', example: '四月一号不要相信别人说的话！ (Don\'t believe what people say on April 1st!)' },
+    { char: '五月一号', pinyin: 'wǔ yuè yī hào', meaning: 'May 1st', example: '五月一号是劳动节。 (May 1st is Labor Day.)' },
+    { char: '六月十五号', pinyin: 'liù yuè shí wǔ hào', meaning: 'June 15th', example: '学校六月十五号放假。 (School breaks for holiday on June 15th.)' },
+    { char: '七月四号', pinyin: 'qī yuè sì hào', meaning: 'July 4th', example: '七月四号是美国独立日。 (July 4th is American Independence Day.)' },
+    { char: '八月十号', pinyin: 'bā yuè shí hào', meaning: 'August 10th', example: '我的航班是八月十号。 (My flight is on August 10th.)' },
+    { char: '九月一号', pinyin: 'jiǔ yuè yī hào', meaning: 'September 1st', example: '九月一号是新学期开始。 (September 1st is the start of the new semester.)' },
+    { char: '十月一号', pinyin: 'shí yuè yī hào', meaning: 'October 1st', example: '十月一号是中国的国庆节。 (October 1st is China\'s National Day.)' },
+    { char: '十一月十一号', pinyin: 'shí yī yuè shí yī hào', meaning: 'November 11th', example: '十一月十一号是光棍节。 (November 11th is Singles\' Day.)' },
+    { char: '十二月二十五号', pinyin: 'shí èr yuè èr shí wǔ hào', meaning: 'December 25th', example: '十二月二十五号是圣诞节。 (December 25th is Christmas.)' }
+]
+};
+
+// TTS variables
+let currentAudio = null;
+let isSpeaking = false;
+let useOpenAI = true;
+let ttsRate = 0.8;
+let ttsPitch = 1;
+let audioCooldown = false; // NEW: Prevent rapid audio triggers
+
+// DOM elements
+const voiceSelector = document.getElementById('voiceSelector');
+const ttsRateSlider = document.getElementById('ttsRate');
+const ttsPitchSlider = document.getElementById('ttsPitch');
+const ttsRateValue = document.getElementById('ttsRateValue');
+const ttsPitchValue = document.getElementById('ttsPitchValue');
+const statusMessage = document.getElementById('status-message');
+
+/**
+ * Creates the HTML string for a phrase card.
+ * @param {Object} phraseData - The phrase data (char, pinyin, meaning, example).
+ * @param {number} index - The index for canvas identification.
+ * @returns {string} The HTML string for the card.
+ */
+function createCard(phraseData, index) {
+    return `
+        <li class="cards_item">
+            <div class="card">
+                <div class="sketch">
+                    <div class="paint-container">
+                        <canvas class="paint" width="300" height="200" data-index="${index}"></canvas>
+                    </div>
+                    <div class="canvas-controls">
+                        <button class="erase-button" data-canvas-index="${index}">Erase</button>
+                        <div class="brush-controls">
+                            <input type="range" class="brush-size" min="1" max="10" value="3" data-canvas-index="${index}">
+                        </div>
+                    </div>
+                </div>
+                <div class="card_content">
+                    <div class="chinese-char" data-pinyin="${phraseData.pinyin}" data-char="${phraseData.char}">${phraseData.char}</div>
+                    <div class="pinyin">${phraseData.pinyin}</div>
+                    <div class="char-info">Meaning: ${phraseData.meaning}</div>
+                    <div class="char-info">Example: ${phraseData.example}</div>
+                </div>
+            </div>
+        </li>
+    `;
+}
+
+function generateCards() {
+    const daysGrid = document.getElementById('days-grid');
+    const monthsGrid = document.getElementById('months-grid');
+    const datesGrid = document.getElementById('dates-grid');
+
+    let index = 0; // Universal index for canvases
+
+    // Generate days phrases
+    daysGrid.innerHTML = phrases.days.map(phrase => createCard(phrase, index++)).join('');
+
+    // Generate months phrases
+    monthsGrid.innerHTML = phrases.months.map(phrase => createCard(phrase, index++)).join('');
+
+    // Generate dates phrases
+    datesGrid.innerHTML = phrases.dates.map(phrase => createCard(phrase, index++)).join('');
+
+    addAudioEventListeners(); 
+    addCanvasEventListeners(); 
+    addEraseButtonListeners(); 
+    addBrushSizeListeners();
+}
+
+// Enhanced Text-to-Speech functionality with OpenAI integration
+const speakChinese = async (text) => {
+    try {
+        // Cancel any ongoing speech
+        speechSynthesis.cancel();
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio = null;
+        }
+
+        // Use OpenAI TTS if selected
+        if (useOpenAI) {
+            updateStatus('Converting with OpenAI...', 'processing');
+            
+            try {
+                const audio = await puter.ai.txt2speech(text, {
+                    provider: 'openai',
+                    voice: 'fable',
+                    model: 'gpt-4o-mini-tts',
+                    response_format: 'mp3',
+                    instructions: 'Speak in Chinese with clear pronunciation'
+                });
+                
+                currentAudio = audio;
+                await audio.play();
+                
+                // Add event listeners for better UX
+                audio.addEventListener('ended', () => {
+                    updateStatus('Playback complete', '');
+                    currentAudio = null;
+                    isSpeaking = false;
+                    audioCooldown = false; // NEW: Reset cooldown when audio ends
+                });
+                
+                audio.addEventListener('error', (e) => {
+                    console.error('OpenAI TTS error:', e);
+                    updateStatus('Error playing audio', 'error');
+                    currentAudio = null;
+                    isSpeaking = false;
+                    audioCooldown = false; // NEW: Reset cooldown on error
+                });
+                
+            } catch (error) {
+                console.error('OpenAI TTS failed, falling back to browser TTS:', error);
+                // Fall back to browser TTS
+                useBrowserTTS(text);
+            }
+        } else {
+            // Use browser TTS
+            useBrowserTTS(text);
+        }
+    } catch (error) {
+        console.error('Error with TTS:', error);
+        isSpeaking = false;
+        audioCooldown = false; // NEW: Reset cooldown on error
+    }
+};
+
+// Browser TTS fallback
+const useBrowserTTS = (text) => {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'zh-CN'; // Chinese language code
+        utterance.rate = ttsRate;
+        utterance.pitch = ttsPitch;
+        utterance.volume = 1;
+        
+        // Add event listeners for better UX
+        utterance.onstart = () => {
+            updateStatus('Playing audio...', '');
+        };
+        
+        utterance.onend = () => {
+            updateStatus('Playback complete', '');
+            isSpeaking = false;
+            audioCooldown = false; // NEW: Reset cooldown when audio ends
+        };
+        
+        utterance.onerror = (event) => {
+            console.error('Speech synthesis error:', event);
+            updateStatus('Error playing audio', 'error');
+            isSpeaking = false;
+            audioCooldown = false; // NEW: Reset cooldown on error
+        };
+        
+        speechSynthesis.speak(utterance);
+    } else {
+        console.log('Speech synthesis not supported');
+        updateStatus('Speech synthesis not supported', 'error');
+        isSpeaking = false;
+        audioCooldown = false; // NEW: Reset cooldown on error
+    }
+};
+
+/**
+ * Plays the audio for the given Chinese phrase.
+ * @param {string} pinyin - The pinyin text to speak.
+ * @param {string} character - The Chinese phrase.
+ */
+function playAudio(pinyin, character) {
+    // NEW: Prevent audio from playing if already speaking or in cooldown
+    if (!pinyin || isSpeaking || audioCooldown) return;
+
+    isSpeaking = true;
+    audioCooldown = true; // NEW: Set cooldown to prevent multiple triggers
+    
+    // Speak both the phrase and its pinyin for better learning
+    speakChinese(`${character}，${pinyin}`);
+}
+
+function updateStatus(message, type) {
+    statusMessage.textContent = message;
+    statusMessage.className = 'status-message';
+    if (type) {
+        statusMessage.classList.add(type);
+    }
+}
+
+/**
+ * Adds mouseover event listeners to all Chinese phrase elements for audio playback.
+ */
+function addAudioEventListeners() {
+    document.querySelectorAll('.chinese-char').forEach(charElement => {
+        let hoverTimeout = null; // NEW: Track hover timeout
+        
+        charElement.addEventListener('mouseover', function() {
+            // NEW: Use timeout to prevent immediate trigger on hover
+            hoverTimeout = setTimeout(() => {
+                const pinyin = this.dataset.pinyin;
+                const character = this.dataset.char;
+                playAudio(pinyin, character);
+            }, 500); // 500ms delay before playing on hover
+        });
+
+        charElement.addEventListener('mouseout', function() {
+            // NEW: Clear timeout if mouse leaves before audio plays
+            if (hoverTimeout) {
+                clearTimeout(hoverTimeout);
+                hoverTimeout = null;
+            }
+        });
+
+        // Play on click (immediate)
+        charElement.addEventListener('click', function() {
+            // NEW: Clear any pending hover timeout
+            if (hoverTimeout) {
+                clearTimeout(hoverTimeout);
+                hoverTimeout = null;
+            }
+            
+            const pinyin = this.dataset.pinyin;
+            const character = this.dataset.char;
+            playAudio(pinyin, character);
+        });
+    });
+}
+
+// Canvas drawing functionality
+let isDrawing = false;
+let canvasesContexts = []; // Stores 2D contexts for each canvas
+let lastX = 0;
+let lastY = 0;
+
+/**
+ * Initializes and stores contexts for all canvas elements.
+ */
+function initializeCanvasContexts() {
+    const canvasElements = document.querySelectorAll('.paint');
+    canvasElements.forEach((canvas, index) => {
+        const ctx = canvas.getContext('2d');
+        canvasesContexts[index] = ctx;
+        
+        // Set canvas size to match container
+        const container = canvas.parentElement;
+        canvas.width = container.clientWidth;
+        canvas.height = container.clientHeight;
+        
+        ctx.strokeStyle = '#0066cc';
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+    });
+}
+
+/**
+ * Adds event listeners for drawing on canvases.
+ */
+function addCanvasEventListeners() {
+    document.querySelectorAll('.paint').forEach(canvas => {
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+
+        // Touch events for mobile
+        canvas.addEventListener('touchstart', handleTouch, { passive: false });
+        canvas.addEventListener('touchmove', handleTouch, { passive: false });
+        canvas.addEventListener('touchend', stopDrawing);
+        canvas.addEventListener('touchcancel', stopDrawing);
+    });
+}
+
+/**
+ * Starts the drawing process.
+ * @param {MouseEvent|TouchEvent} e - The event object.
+ */
+function startDrawing(e) {
+    e.preventDefault();
+    isDrawing = true;
+    const canvas = e.target;
+    const rect = canvas.getBoundingClientRect();
+    
+    // Get coordinates relative to canvas
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    
+    const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+    const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+    
+    lastX = (clientX - rect.left) * scaleX;
+    lastY = (clientY - rect.top) * scaleY;
+
+    const ctx = canvasesContexts[parseInt(canvas.dataset.index)];
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+}
+
+/**
+ * Draws on the canvas as the mouse/finger moves.
+ * @param {MouseEvent|TouchEvent} e - The event object.
+ */
+function draw(e) {
+    if (!isDrawing) return;
+    e.preventDefault();
+    
+    const canvas = e.target;
+    const rect = canvas.getBoundingClientRect();
+    
+    // Get coordinates relative to canvas
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    
+    const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+    const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+    const currentX = (clientX - rect.left) * scaleX;
+    const currentY = (clientY - rect.top) * scaleY;
+    
+    const ctx = canvasesContexts[parseInt(canvas.dataset.index)];
+    ctx.lineTo(currentX, currentY);
+    ctx.stroke();
+    
+    lastX = currentX;
+    lastY = currentY;
+}
+
+/**
+ * Stops the drawing process.
+ */
+function stopDrawing() {
+    isDrawing = false;
+}
+
+/**
+ * Handles touch events by converting them to mouse events.
+ * @param {TouchEvent} e - The touch event object.
+ */
+function handleTouch(e) {
+    // Prevent scrolling and zooming
+    e.preventDefault(); 
+    const touch = e.touches[0];
+    const target = e.target;
+
+    // Create a synthetic mouse event from touch event
+    const mouseEvent = new MouseEvent(
+        e.type === 'touchstart' ? 'mousedown' : 'mousemove', 
+        {
+            clientX: touch.clientX,
+            clientY: touch.clientY,
+            bubbles: true,
+            cancelable: true
+        }
+    );
+    target.dispatchEvent(mouseEvent);
+}
+
+/**
+ * Clears the specified canvas.
+ * @param {number} index - The index of the canvas to clear.
+ */
+function clearCanvas(index) {
+    const canvas = document.querySelector(`canvas[data-index="${index}"]`);
+    if (canvas) {
+        const ctx = canvasesContexts[index];
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+}
+
+/**
+ * Adds click listeners to all erase buttons.
+ */
+function addEraseButtonListeners() {
+    document.querySelectorAll('.erase-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const canvasIndex = parseInt(this.dataset.canvasIndex);
+            clearCanvas(canvasIndex);
+        });
+    });
+}
+
+/**
+ * Adds change listeners to brush size controls.
+ */
+function addBrushSizeListeners() {
+    document.querySelectorAll('.brush-size').forEach(slider => {
+        slider.addEventListener('input', function() {
+            const canvasIndex = parseInt(this.dataset.canvasIndex);
+            const ctx = canvasesContexts[canvasIndex];
+            ctx.lineWidth = this.value;
+        });
+    });
+}
+
+// TTS Control Event Listeners
+voiceSelector.addEventListener('change', function() {
+    useOpenAI = this.value === 'openai-fable';
+    updateStatus(useOpenAI ? 
+        "Using OpenAI Fable voice for Chinese pronunciation" : 
+        "Using browser TTS for Chinese pronunciation", 'info');
+    setTimeout(() => {
+        updateStatus('', '');
+    }, 3000);
+});
+
+ttsRateSlider.addEventListener('input', function() {
+    ttsRate = parseFloat(this.value);
+    ttsRateValue.textContent = ttsRate.toFixed(1);
+});
+
+ttsPitchSlider.addEventListener('input', function() {
+    ttsPitch = parseFloat(this.value);
+    ttsPitchValue.textContent = ttsPitch.toFixed(1);
+});
+
+// Smooth scrolling for navigation
+document.querySelectorAll('#navbar a').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        
+        if (targetElement) {
+            // Adjust scroll position to account for sticky navbar height
+            const navbarHeight = document.getElementById('navbar').offsetHeight;
+            const offsetTop = targetElement.offsetTop - navbarHeight;
+
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
+            
+            // Update active nav item
+            document.querySelectorAll('#navbar a').forEach(a => a.classList.remove('active'));
+            this.classList.add('active');
+        }
+    });
+});
+
+// Initialize the app when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    generateCards();
+    initializeCanvasContexts(); // Initialize contexts after cards are generated
+    
+    // Reinitialize contexts on window resize
+    window.addEventListener('resize', function() {
+        initializeCanvasContexts();
+    });
+});
+    </script>
+</body>
+</html>
