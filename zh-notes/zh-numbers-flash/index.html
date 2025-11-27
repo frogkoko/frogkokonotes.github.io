@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Numbers Study</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a2a, #1a1a4a, #0a0a2a);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #ffffff;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            color: #e0e0e0;
+        }
+
+        .card-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flashcard {
+            position: relative;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-face {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            transition: all 0.75s linear;
+            transform-style: preserve-3d;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #1a1a2e, #0f3460);
+            color: white;
+            opacity: 1;
+            transform: rotateX(0deg);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .flashcard.turned .card-front {
+            opacity: 0;
+            transform: rotateX(180deg);
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #0f3460, #1a1a2e);
+            color: white;
+            opacity: 0;
+            transform: rotateX(180deg);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .flashcard.turned .card-back {
+            opacity: 1;
+            transform: rotateX(0deg);
+        }
+
+        .chinese {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #ff6b6b;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+
+        .english {
+            font-size: 1.8rem;
+            text-align: center;
+            opacity: 0.9;
+            color: #e0e0e0;
+        }
+
+        .pinyin {
+            font-size: 1.5rem;
+            text-align: center;
+            color: #8e8eff;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .category {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 107, 107, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #ff8e8e;
+        }
+
+        .flip-hint {
+            position: absolute;
+            bottom: 20px;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.8rem;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .control-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+
+        .control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .know-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ff4757);
+        }
+
+        .dont-know-btn {
+            background: linear-gradient(135deg, #3742fa, #2f3542);
+        }
+
+        .flip-btn {
+            background: linear-gradient(135deg, #1e90ff, #3742fa);
+        }
+
+        .speak-btn {
+            background: linear-gradient(135deg, #ffa502, #ff7f50);
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #2ed573, #1e90ff);
+        }
+
+        .shuffle-btn {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
+        .progress {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #1e90ff);
+            border-radius: 5px;
+            transition: width 0.5s;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            color: white;
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+
+        .instructions {
+            background: rgba(30, 30, 46, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .instructions h3 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+
+        .instructions p {
+            color: #e0e0e0;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .status-message {
+            text-align: center;
+            color: #1e90ff;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            min-height: 20px;
+        }
+
+        .practice-section {
+            background: rgba(30, 30, 46, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            width: 100%;
+        }
+
+        .practice-section h2 {
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .practice-question {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .practice-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .practice-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #1e90ff, #3742fa);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .practice-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(30, 144, 255, 0.4);
+        }
+
+        .practice-answer {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .chinese {
+                font-size: 3rem;
+            }
+
+            .english {
+                font-size: 1.5rem;
+            }
+
+            .controls {
+                gap: 15px;
+            }
+
+            .control-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .card-container {
+                height: 350px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../../index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1>Chinese Numbers Study</h1>
+            <p class="subtitle">Master Chinese Numbers with Flashcards and Practice Phrases</p>
+        </header>
+
+        <div class="progress">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <div class="stats">
+            <span>Cards Left: <span id="cards-left">0</span></span>
+            <span>Known: <span id="known-count">0</span></span>
+        </div>
+
+        <div class="card-container">
+            <div class="flashcard" id="flashcard">
+                <div class="card-face card-front">
+                    <div class="category">Numbers</div>
+                    <div class="chinese" id="front-chinese">一</div>
+                    <div class="flip-hint">Click to reveal details</div>
+                </div>
+                <div class="card-face card-back">
+                    <div class="category">Numbers</div>
+                    <div class="chinese" id="back-chinese">一</div>
+                    <div class="pinyin" id="back-pinyin">yī</div>
+                    <div class="english" id="back-english">One</div>
+                    <div class="flip-hint">Click to see front</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn dont-know-btn" id="dont-know-btn" title="Don't know">
+                <i class="fas fa-times"></i>
+            </button>
+            <button class="control-btn flip-btn" id="flip-btn" title="Flip">
+                <i class="fas fa-redo"></i>
+            </button>
+            <button class="control-btn speak-btn" id="speak-btn" title="Speak">
+                <i class="fas fa-volume-up"></i>
+            </button>
+            <button class="control-btn reset-btn" id="reset-btn" title="Reset">
+                <i class="fas fa-sync-alt"></i>
+            </button>
+            <button class="control-btn shuffle-btn" id="shuffle-btn" title="Shuffle">
+                <i class="fas fa-random"></i>
+            </button>
+            <button class="control-btn know-btn" id="know-btn" title="Know it">
+                <i class="fas fa-check"></i>
+            </button>
+        </div>
+
+        <div class="status-message" id="status-message"></div>
+
+        <div class="practice-section">
+            <h2>Practice with Phrases</h2>
+            <div class="practice-question" id="practice-question">
+                Click "New Question" to start practicing!
+            </div>
+            <div class="practice-answer hidden" id="practice-answer">
+                <!-- Answer will appear here -->
+            </div>
+            <div class="practice-controls">
+                <button class="practice-btn" id="new-question-btn">New Question</button>
+                <button class="practice-btn" id="show-answer-btn">Show Answer</button>
+                <button class="practice-btn" id="speak-question-btn">Speak</button>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>How to Use</h3>
+            <p><strong>Flashcards:</strong> Study Chinese numbers with pinyin and English translations</p>
+            <p><strong>Flip:</strong> Click the blue button or tap the card to see pronunciation and meaning</p>
+            <p><strong>Speak:</strong> Click the orange button to hear Chinese pronunciation</p>
+            <p><strong>Know it:</strong> Click the red button if you know the number</p>
+            <p><strong>Don't know:</strong> Click the dark blue button to review the card again later</p>
+            <p><strong>Reset:</strong> Click the green button to restart the deck</p>
+            <p><strong>Shuffle:</strong> Click the purple button to randomize the card order</p>
+            <p><strong>Practice:</strong> Use the practice section to test your knowledge with phrases</p>
+        </div>
+    </div>
+
+    <script>
+        const chineseNumbers = [
+            { chinese: "一", pinyin: "yī", english: "One" },
+            { chinese: "二", pinyin: "èr", english: "Two" },
+            { chinese: "三", pinyin: "sān", english: "Three" },
+            { chinese: "四", pinyin: "sì", english: "Four" },
+            { chinese: "五", pinyin: "wǔ", english: "Five" },
+            { chinese: "六", pinyin: "liù", english: "Six" },
+            { chinese: "七", pinyin: "qī", english: "Seven" },
+            { chinese: "八", pinyin: "bā", english: "Eight" },
+            { chinese: "九", pinyin: "jiǔ", english: "Nine" },
+            { chinese: "十", pinyin: "shí", english: "Ten" },
+            { chinese: "十一", pinyin: "shí yī", english: "Eleven" },
+            { chinese: "十二", pinyin: "shí èr", english: "Twelve" },
+            { chinese: "十三", pinyin: "shí sān", english: "Thirteen" },
+            { chinese: "十四", pinyin: "shí sì", english: "Fourteen" },
+            { chinese: "十五", pinyin: "shí wǔ", english: "Fifteen" },
+            { chinese: "十六", pinyin: "shí liù", english: "Sixteen" },
+            { chinese: "十七", pinyin: "shí qī", english: "Seventeen" },
+            { chinese: "十八", pinyin: "shí bā", english: "Eighteen" },
+            { chinese: "十九", pinyin: "shí jiǔ", english: "Nineteen" },
+            { chinese: "二十", pinyin: "èr shí", english: "Twenty" },
+            { chinese: "三十", pinyin: "sān shí", english: "Thirty" },
+            { chinese: "四十", pinyin: "sì shí", english: "Forty" },
+            { chinese: "五十", pinyin: "wǔ shí", english: "Fifty" },
+            { chinese: "六十", pinyin: "liù shí", english: "Sixty" },
+            { chinese: "七十", pinyin: "qī shí", english: "Seventy" },
+            { chinese: "八十", pinyin: "bā shí", english: "Eighty" },
+            { chinese: "九十", pinyin: "jiǔ shí", english: "Ninety" },
+            { chinese: "一百", pinyin: "yī bǎi", english: "One Hundred" }
+        ];
+
+        const practicePhrases = [
+            { english: "It is {number} yuan", chinese: "是{number}元", pinyin: "shì {number} yuán" },
+            { english: "There are {number} people", chinese: "有{number}个人", pinyin: "yǒu {number} gè rén" },
+            { english: "I have {number} books", chinese: "我有{number}本书", pinyin: "wǒ yǒu {number} běn shū" },
+            { english: "She is {number} years old", chinese: "她{number}岁", pinyin: "tā {number} suì" },
+            { english: "We need {number} chairs", chinese: "我们需要{number}把椅子", pinyin: "wǒmen xūyào {number} bǎ yǐzi" },
+            { english: "He bought {number} apples", chinese: "他买了{number}个苹果", pinyin: "tā mǎi le {number} gè píngguǒ" },
+            { english: "The room has {number} windows", chinese: "房间有{number}个窗户", pinyin: "fángjiān yǒu {number} gè chuānghu" },
+            { english: "I waited for {number} minutes", chinese: "我等了{number}分钟", pinyin: "wǒ děng le {number} fēnzhōng" },
+            { english: "There are {number} students in the class", chinese: "班上有{number}个学生", pinyin: "bān shàng yǒu {number} gè xuéshēng" },
+            { english: "The price is {number} dollars", chinese: "价格是{number}美元", pinyin: "jiàgé shì {number} měiyuán" }
+        ];
+
+        let cards = [];
+        let currentCardIndex = 0;
+        let knownCards = 0;
+        let dontKnowCards = [];
+        let turned = false;
+        let isSpeaking = false;
+
+        const flashcard = document.getElementById('flashcard');
+        const frontChinese = document.getElementById('front-chinese');
+        const backChinese = document.getElementById('back-chinese');
+        const backPinyin = document.getElementById('back-pinyin');
+        const backEnglish = document.getElementById('back-english');
+        const progressBar = document.getElementById('progress-bar');
+        const cardsLeftElement = document.getElementById('cards-left');
+        const knownCountElement = document.getElementById('known-count');
+        const statusMessage = document.getElementById('status-message');
+        const flipBtn = document.getElementById('flip-btn');
+        const knowBtn = document.getElementById('know-btn');
+        const dontKnowBtn = document.getElementById('dont-know-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const speakBtn = document.getElementById('speak-btn');
+        const shuffleBtn = document.getElementById('shuffle-btn');
+        const newQuestionBtn = document.getElementById('new-question-btn');
+        const showAnswerBtn = document.getElementById('show-answer-btn');
+        const speakQuestionBtn = document.getElementById('speak-question-btn');
+        const practiceQuestion = document.getElementById('practice-question');
+        const practiceAnswer = document.getElementById('practice-answer');
+
+        function init() {
+            loadCards();
+            updateProgress();
+            setupEventListeners();
+        }
+
+        function loadCards() {
+            cards = [...chineseNumbers];
+            dontKnowCards = [];
+            currentCardIndex = 0;
+            knownCards = 0;
+            turned = false;
+            flashcard.classList.remove('turned');
+            updateCard();
+            updateProgress();
+        }
+
+        function shuffleCards() {
+            if (cards.length === 0) return;
+            
+            // Fisher-Yates shuffle algorithm
+            for (let i = cards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cards[i], cards[j]] = [cards[j], cards[i]];
+            }
+            
+            currentCardIndex = 0;
+            turned = false;
+            flashcard.classList.remove('turned');
+            updateCard();
+            updateStatus('Cards shuffled!', 'info');
+            
+            shuffleBtn.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                shuffleBtn.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function updateCard() {
+            if (cards.length === 0) {
+                frontChinese.textContent = "恭喜!";
+                backChinese.textContent = "恭喜!";
+                backPinyin.textContent = "gōngxǐ!";
+                backEnglish.textContent = "Congratulations! You've completed all cards!";
+                return;
+            }
+
+            const card = cards[currentCardIndex];
+            frontChinese.textContent = card.chinese;
+            backChinese.textContent = card.chinese;
+            backPinyin.textContent = card.pinyin;
+            backEnglish.textContent = card.english;
+            
+            turned = false;
+            flashcard.classList.remove('turned');
+        }
+
+        function flipCard() {
+            turned = !turned;
+            if (turned) {
+                flashcard.classList.add('turned');
+            } else {
+                flashcard.classList.remove('turned');
+            }
+        }
+
+        function speakCard() {
+            if (cards.length === 0 || isSpeaking) return;
+
+            const currentCard = cards[currentCardIndex];
+            const textToSpeak = currentCard.chinese;
+            
+            isSpeaking = true;
+            speakBtn.disabled = true;
+            
+            speakBtn.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                speakBtn.style.transform = 'scale(1)';
+            }, 200);
+
+            speakChinese(textToSpeak);
+        }
+
+        // Chinese Text-to-Speech
+        const speakChinese = (text) => {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'zh-CN'; // Chinese language code
+                utterance.rate = 0.8;
+                utterance.pitch = 1;
+                utterance.volume = 1;
+                
+                // Add event listeners for better UX
+                utterance.onstart = () => {
+                    updateStatus('Playing audio...', '');
+                };
+                
+                utterance.onend = () => {
+                    updateStatus('Playback complete', '');
+                    isSpeaking = false;
+                    speakBtn.disabled = false;
+                };
+                
+                utterance.onerror = (event) => {
+                    console.error('Speech synthesis error:', event);
+                    updateStatus('Error playing audio', 'error');
+                    isSpeaking = false;
+                    speakBtn.disabled = false;
+                };
+                
+                speechSynthesis.speak(utterance);
+            } else {
+                console.log('Speech synthesis not supported');
+                updateStatus('Speech synthesis not supported', 'error');
+                isSpeaking = false;
+                speakBtn.disabled = false;
+            }
+        };
+
+        function updateStatus(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = 'status-message';
+            if (type) {
+                statusMessage.classList.add(type);
+            }
+        }
+
+        function knowCard() {
+            if (cards.length === 0) return;
+
+            knownCards++;
+            cards.splice(currentCardIndex, 1);
+
+            if (currentCardIndex >= cards.length) {
+                currentCardIndex = 0;
+            }
+
+            updateCard();
+            updateProgress();
+
+            knowBtn.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                knowBtn.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function dontKnowCard() {
+            if (cards.length === 0) return;
+
+            const card = cards.splice(currentCardIndex, 1)[0];
+            dontKnowCards.push(card);
+
+            if (currentCardIndex >= cards.length) {
+                currentCardIndex = 0;
+            }
+
+            updateCard();
+            updateProgress();
+
+            dontKnowBtn.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                dontKnowBtn.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function resetCards() {
+            cards = [...chineseNumbers];
+            dontKnowCards = [];
+            currentCardIndex = 0;
+            knownCards = 0;
+            turned = false;
+            flashcard.classList.remove('turned');
+            updateCard();
+            updateProgress();
+            
+            resetBtn.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                resetBtn.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function updateProgress() {
+            const totalCards = chineseNumbers.length;
+            const remainingCards = cards.length;
+            const progress = ((totalCards - remainingCards) / totalCards) * 100;
+
+            progressBar.style.width = `${progress}%`;
+            cardsLeftElement.textContent = remainingCards;
+            knownCountElement.textContent = knownCards;
+        }
+
+        // Practice section functions
+        function generatePracticeQuestion() {
+            const randomPhrase = practicePhrases[Math.floor(Math.random() * practicePhrases.length)];
+            const randomNumber = chineseNumbers[Math.floor(Math.random() * chineseNumbers.length)];
+            
+            const englishQuestion = randomPhrase.english.replace('{number}', randomNumber.english);
+            const chineseQuestion = randomPhrase.chinese.replace('{number}', randomNumber.chinese);
+            const pinyinQuestion = randomPhrase.pinyin.replace('{number}', randomNumber.pinyin);
+            
+            return {
+                english: englishQuestion,
+                chinese: chineseQuestion,
+                pinyin: pinyinQuestion
+            };
+        }
+
+        let currentPracticeQuestion = null;
+
+        function newPracticeQuestion() {
+            currentPracticeQuestion = generatePracticeQuestion();
+            practiceQuestion.innerHTML = `
+                <div>
+                    <div style="margin-bottom: 10px;">${currentPracticeQuestion.english}</div>
+                    <div style="font-size: 1.2rem; color: #8e8eff;">How would you say this in Chinese?</div>
+                </div>
+            `;
+            practiceAnswer.classList.add('hidden');
+            practiceAnswer.textContent = '';
+            
+            newQuestionBtn.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                newQuestionBtn.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function showPracticeAnswer() {
+            if (!currentPracticeQuestion) return;
+            
+            practiceAnswer.classList.remove('hidden');
+            practiceAnswer.innerHTML = `
+                <div>
+                    <div style="font-size: 1.5rem; margin-bottom: 5px; color: #ff6b6b;">${currentPracticeQuestion.chinese}</div>
+                    <div style="font-size: 1.1rem; color: #8e8eff;">${currentPracticeQuestion.pinyin}</div>
+                </div>
+            `;
+            
+            showAnswerBtn.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                showAnswerBtn.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function speakPracticeQuestion() {
+            if (!currentPracticeQuestion) return;
+            
+            speakChinese(currentPracticeQuestion.chinese);
+            
+            speakQuestionBtn.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                speakQuestionBtn.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function setupEventListeners() {
+            flipBtn.addEventListener('click', flipCard);
+            knowBtn.addEventListener('click', knowCard);
+            dontKnowBtn.addEventListener('click', dontKnowCard);
+            resetBtn.addEventListener('click', resetCards);
+            speakBtn.addEventListener('click', speakCard);
+            shuffleBtn.addEventListener('click', shuffleCards);
+
+            flashcard.addEventListener('click', flipCard);
+
+            // Practice section event listeners
+            newQuestionBtn.addEventListener('click', newPracticeQuestion);
+            showAnswerBtn.addEventListener('click', showPracticeAnswer);
+            speakQuestionBtn.addEventListener('click', speakPracticeQuestion);
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
