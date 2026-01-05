@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Flashcards with TTS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #d32f2f;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        .back-button {
+            background: #d32f2f;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .back-button:hover {
+            background: #b71c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Status indicator */
+        .status {
+            text-align: center;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: 500;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .status.processing {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .status.playing {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .tts-info {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            font-style: italic;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        /* Flashcard Section Styles */
+        .flashcard-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f0f0f0;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .flashcard-container {
+            width: 100%;
+        }
+
+        .flashcard {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 40px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid #d32f2f;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flashcard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .flashcard.flipped {
+            border-color: #388e3c;
+        }
+
+        .flashcard-front, .flashcard-back {
+            display: none;
+            text-align: center;
+            width: 100%;
+        }
+
+        .flashcard-front.active, .flashcard-back.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .flashcard-chinese {
+            font-size: 3.5rem;
+            font-family: 'Noto Sans SC', sans-serif;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .flashcard-chinese:hover {
+            color: #d32f2f;
+            transform: scale(1.05);
+        }
+
+        .flashcard-pinyin {
+            font-size: 1.8rem;
+            color: #d32f2f;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .flashcard-english {
+            font-size: 2rem;
+            color: #1976d2;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .flashcard-details {
+            font-size: 1rem;
+            color: #5d6d7e;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+
+        .flashcard-instruction {
+            text-align: center;
+            color: #7f8c8d;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        .flashcard-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .flashcard-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .flashcard-button {
+            background: #d32f2f;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .flashcard-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
+        }
+
+        .flashcard-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .flashcard-button.speech {
+            background: #7b1fa2;
+        }
+
+        .flashcard-button.speech:hover {
+            background: #6a1b9a;
+        }
+
+        .flashcard-button.flip {
+            background: #388e3c;
+        }
+
+        .flashcard-button.flip:hover {
+            background: #2e7d32;
+        }
+
+        .flashcard-button.prev {
+            background: #f57c00;
+        }
+
+        .flashcard-button.prev:hover {
+            background: #ef6c00;
+        }
+
+        .flashcard-button.next {
+            background: #1976d2;
+        }
+
+        .flashcard-button.next:hover {
+            background: #1565c0;
+        }
+
+        .flashcard-button.settings {
+            background: #455a64;
+        }
+
+        .flashcard-button.settings:hover {
+            background: #37474f;
+        }
+
+        .flashcard-counter {
+            text-align: center;
+            color: #7f8c8d;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .flashcard-mode-toggle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            flex-wrap: wrap;
+        }
+
+        .mode-option {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #7f8c8d;
+        }
+
+        .mode-option.active {
+            background: #d32f2f;
+            color: white;
+            border-color: #d32f2f;
+        }
+
+        .mode-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .flashcard-settings {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .flashcard-settings.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .setting-label {
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 150px;
+        }
+
+        .setting-control {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            background: white;
+            font-family: 'Poppins', sans-serif;
+            min-width: 200px;
+        }
+
+        /* Category Tags */
+        .category-tags {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .category-tag {
+            background: white;
+            border: 2px solid #d32f2f;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #d32f2f;
+        }
+
+        .category-tag:hover {
+            background: #d32f2f;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .category-tag.active {
+            background: #d32f2f;
+            color: white;
+        }
+
+        /* TTS Settings */
+        .tts-settings {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .voice-selector {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+            min-width: 200px;
+        }
+
+        .tts-test-button {
+            background: #7b1fa2;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tts-test-button:hover {
+            background: #6a1b9a;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .flashcard {
+                padding: 20px;
+                min-height: 250px;
+            }
+
+            .flashcard-chinese {
+                font-size: 2.8rem;
+            }
+
+            .flashcard-english {
+                font-size: 1.8rem;
+            }
+
+            .flashcard-pinyin {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-controls {
+                flex-direction: column;
+            }
+
+            .flashcard-button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .flashcard-nav {
+                width: 100%;
+            }
+
+            .setting-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .setting-control {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .flashcard-chinese {
+                font-size: 2.2rem;
+            }
+
+            .flashcard-english {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-pinyin {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header">
+            <a href="../../index.html" class="back-button">← Back to Main</a>
+            <h1>Chinese Flashcards with TTS</h1>
+            <p>Learn essential Chinese phrases, words, and numbers with text-to-speech pronunciation</p>
+            <p>Click on Chinese text to hear pronunciation</p>
+        </div>
+
+        <div id="status" class="status success">Ready for text-to-speech</div>
+        <p class="tts-info">Click on any Chinese text to hear its pronunciation</p>
+
+        <div class="tts-settings" id="tts-settings">
+            <span class="setting-label">TTS Voice:</span>
+            <select class="voice-selector" id="voice-selector">
+                <option value="">Loading voices...</option>
+            </select>
+            <button class="tts-test-button" id="test-tts-button">
+                🔊 Test TTS
+            </button>
+        </div>
+
+        <div class="category-tags" id="category-tags">
+            <div class="category-tag active" data-category="all">All Cards</div>
+            <div class="category-tag" data-category="greetings">Greetings</div>
+            <div class="category-tag" data-category="polite">Polite Phrases</div>
+            <div class="category-tag" data-category="introduction">Introduction</div>
+            <div class="category-tag" data-category="basic">Basic Words</div>
+            <div class="category-tag" data-category="numbers">Numbers</div>
+            <div class="category-tag" data-category="time">Time & Dates</div>
+        </div>
+
+        <div class="flashcard-section">
+            <div class="flashcard-mode-toggle">
+                <div class="mode-option active" data-mode="english-first">English First</div>
+                <div class="mode-option" data-mode="chinese-first">Chinese First</div>
+                <div class="mode-option" data-mode="pinyin-first">Pinyin First</div>
+            </div>
+            
+            <div class="flashcard-container">
+                <div class="flashcard" id="current-flashcard">
+                    <div class="flashcard-front active">
+                        <div class="flashcard-english" id="flashcard-english">Hello (formal)</div>
+                        <div class="flashcard-instruction">Click to reveal Chinese</div>
+                    </div>
+                    <div class="flashcard-back">
+                        <div class="flashcard-chinese" id="flashcard-chinese">你好</div>
+                        <div class="flashcard-pinyin" id="flashcard-pinyin">nǐ hǎo</div>
+                        <div class="flashcard-details" id="flashcard-details">Most common formal greeting</div>
+                        <div class="flashcard-instruction">Click to go back</div>
+                    </div>
+                </div>
+                
+                <div class="flashcard-counter" id="flashcard-counter">Card 1 of 50</div>
+                
+                <div class="flashcard-controls">
+                    <button class="flashcard-button speech" id="speak-button">
+                        🔊 Speak Chinese
+                    </button>
+                    <button class="flashcard-button flip" id="flip-button">
+                        🔄 Flip Card
+                    </button>
+                    <button class="flashcard-button settings" id="settings-button">
+                        ⚙️ Settings
+                    </button>
+                </div>
+                
+                <div class="flashcard-nav">
+                    <button class="flashcard-button prev" id="prev-button">
+                        ← Previous
+                    </button>
+                    <button class="flashcard-button next" id="next-button">
+                        Next →
+                    </button>
+                </div>
+            </div>
+            
+            <div class="flashcard-settings" id="flashcard-settings">
+                <div class="setting-row">
+                    <span class="setting-label">Flashcard Set:</span>
+                    <select class="setting-control" id="flashcard-set-selector">
+                        <option value="all">All Cards (50 cards)</option>
+                        <option value="greetings">Greetings (8 cards)</option>
+                        <option value="polite">Polite Phrases (10 cards)</option>
+                        <option value="introduction">Introduction (6 cards)</option>
+                        <option value="basic">Basic Words (8 cards)</option>
+                        <option value="numbers">Numbers 1-100 (18 cards)</option>
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Auto-play Speech:</span>
+                    <select class="setting-control" id="auto-speak-selector">
+                        <option value="on-flip">On Flip</option>
+                        <option value="on-both">Always</option>
+                        <option value="off">Off</option>
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Shuffle Cards:</span>
+                    <button class="flashcard-button" id="shuffle-button" style="background: #7b1fa2; padding: 8px 15px;">
+                        🔀 Shuffle Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chinese flashcards data
+        const chineseFlashcards = {
+            greetings: [
+                { 
+                    chinese: '你好', 
+                    pinyin: 'nǐ hǎo', 
+                    english: 'Hello (formal)',
+                    details: 'Most common formal greeting'
+                },
+                { 
+                    chinese: '嗨', 
+                    pinyin: 'hāi', 
+                    english: 'Hi (informal)',
+                    details: 'Casual greeting for friends'
+                },
+                { 
+                    chinese: '再见', 
+                    pinyin: 'zài jiàn', 
+                    english: 'Goodbye',
+                    details: 'Standard farewell'
+                },
+                { 
+                    chinese: '早上好', 
+                    pinyin: 'zǎo shàng hǎo', 
+                    english: 'Good morning',
+                    details: 'Morning greeting'
+                },
+                { 
+                    chinese: '下午好', 
+                    pinyin: 'xià wǔ hǎo', 
+                    english: 'Good afternoon',
+                    details: 'Afternoon greeting'
+                },
+                { 
+                    chinese: '晚上好', 
+                    pinyin: 'wǎn shàng hǎo', 
+                    english: 'Good evening',
+                    details: 'Evening greeting'
+                },
+                { 
+                    chinese: '晚安', 
+                    pinyin: 'wǎn ān', 
+                    english: 'Good night',
+                    details: 'Bedtime greeting'
+                },
+                { 
+                    chinese: '很高兴认识你', 
+                    pinyin: 'hěn gāo xìng rèn shí nǐ', 
+                    english: 'Nice to meet you',
+                    details: 'Used when meeting someone for the first time'
+                }
+            ],
+            polite: [
+                { 
+                    chinese: '谢谢', 
+                    pinyin: 'xiè xiè', 
+                    english: 'Thank you',
+                    details: 'Most common way to say thank you'
+                },
+                { 
+                    chinese: '非常感谢', 
+                    pinyin: 'fēi cháng gǎn xiè', 
+                    english: 'Thank you very much',
+                    details: 'Emphatic thank you'
+                },
+                { 
+                    chinese: '不客气', 
+                    pinyin: 'bú kè qì', 
+                    english: 'You\'re welcome',
+                    details: 'Standard response to thank you'
+                },
+                { 
+                    chinese: '对不起', 
+                    pinyin: 'duì bu qǐ', 
+                    english: 'I\'m sorry',
+                    details: 'Formal apology'
+                },
+                { 
+                    chinese: '抱歉', 
+                    pinyin: 'bào qiàn', 
+                    english: 'Sorry',
+                    details: 'Less formal apology'
+                },
+                { 
+                    chinese: '没关系', 
+                    pinyin: 'méi guān xi', 
+                    english: 'It\'s okay / No problem',
+                    details: 'Versatile phrase meaning "it\'s okay"'
+                },
+                { 
+                    chinese: '请', 
+                    pinyin: 'qǐng', 
+                    english: 'Please',
+                    details: 'Used when making requests'
+                },
+                { 
+                    chinese: '请问', 
+                    pinyin: 'qǐng wèn', 
+                    english: 'Excuse me / May I ask',
+                    details: 'Polite way to ask a question'
+                },
+                { 
+                    chinese: '不好意思', 
+                    pinyin: 'bù hǎo yì si', 
+                    english: 'Excuse me / Sorry',
+                    details: 'Used when interrupting or making small mistakes'
+                },
+                { 
+                    chinese: '麻烦您', 
+                    pinyin: 'má fan nín', 
+                    english: 'Sorry to trouble you',
+                    details: 'Polite way to ask for help'
+                }
+            ],
+            introduction: [
+                { 
+                    chinese: '我叫[name]', 
+                    pinyin: 'wǒ jiào [name]', 
+                    english: 'My name is [name]',
+                    details: 'Standard self-introduction'
+                },
+                { 
+                    chinese: '我是[name]', 
+                    pinyin: 'wǒ shì [name]', 
+                    english: 'I am [name]',
+                    details: 'Another way to introduce yourself'
+                },
+                { 
+                    chinese: '你叫什么名字？', 
+                    pinyin: 'nǐ jiào shén me míng zì?', 
+                    english: 'What\'s your name?',
+                    details: 'Most common way to ask someone\'s name'
+                },
+                { 
+                    chinese: '我来自[country]', 
+                    pinyin: 'wǒ lái zì [country]', 
+                    english: 'I am from [country]',
+                    details: 'Telling where you are from'
+                },
+                { 
+                    chinese: '你是哪国人？', 
+                    pinyin: 'nǐ shì nǎ guó rén?', 
+                    english: 'What country are you from?',
+                    details: 'Asking someone\'s nationality'
+                },
+                { 
+                    chinese: '认识你很高兴', 
+                    pinyin: 'rèn shí nǐ hěn gāo xìng', 
+                    english: 'Pleased to meet you',
+                    details: 'Friendly response after introductions'
+                }
+            ],
+            basic: [
+                { 
+                    chinese: '是', 
+                    pinyin: 'shì', 
+                    english: 'Yes',
+                    details: 'Standard way to say yes'
+                },
+                { 
+                    chinese: '不是', 
+                    pinyin: 'bú shì', 
+                    english: 'No',
+                    details: 'Standard way to say no'
+                },
+                { 
+                    chinese: '好', 
+                    pinyin: 'hǎo', 
+                    english: 'Good / Okay',
+                    details: 'Expressing agreement or that something is good'
+                },
+                { 
+                    chinese: '不好', 
+                    pinyin: 'bù hǎo', 
+                    english: 'Not good / Bad',
+                    details: 'Expressing dislike or that something is bad'
+                },
+                { 
+                    chinese: '可以', 
+                    pinyin: 'kě yǐ', 
+                    english: 'Can / May',
+                    details: 'Asking for permission or expressing ability'
+                },
+                { 
+                    chinese: '不可以', 
+                    pinyin: 'bù kě yǐ', 
+                    english: 'Cannot / May not',
+                    details: 'Denying permission'
+                },
+                { 
+                    chinese: '明白', 
+                    pinyin: 'míng bái', 
+                    english: 'I understand',
+                    details: 'Indicating comprehension'
+                },
+                { 
+                    chinese: '不明白', 
+                    pinyin: 'bù míng bái', 
+                    english: 'I don\'t understand',
+                    details: 'Indicating lack of comprehension'
+                }
+            ],
+            numbers: [
+                { 
+                    chinese: '一', 
+                    pinyin: 'yī', 
+                    english: 'One',
+                    details: 'Number 1'
+                },
+                { 
+                    chinese: '二', 
+                    pinyin: 'èr', 
+                    english: 'Two',
+                    details: 'Number 2'
+                },
+                { 
+                    chinese: '三', 
+                    pinyin: 'sān', 
+                    english: 'Three',
+                    details: 'Number 3'
+                },
+                { 
+                    chinese: '四', 
+                    pinyin: 'sì', 
+                    english: 'Four',
+                    details: 'Number 4'
+                },
+                { 
+                    chinese: '五', 
+                    pinyin: 'wǔ', 
+                    english: 'Five',
+                    details: 'Number 5'
+                },
+                { 
+                    chinese: '六', 
+                    pinyin: 'liù', 
+                    english: 'Six',
+                    details: 'Number 6'
+                },
+                { 
+                    chinese: '七', 
+                    pinyin: 'qī', 
+                    english: 'Seven',
+                    details: 'Number 7'
+                },
+                { 
+                    chinese: '八', 
+                    pinyin: 'bā', 
+                    english: 'Eight',
+                    details: 'Number 8'
+                },
+                { 
+                    chinese: '九', 
+                    pinyin: 'jiǔ', 
+                    english: 'Nine',
+                    details: 'Number 9'
+                },
+                { 
+                    chinese: '十', 
+                    pinyin: 'shí', 
+                    english: 'Ten',
+                    details: 'Number 10'
+                },
+                { 
+                    chinese: '十一', 
+                    pinyin: 'shí yī', 
+                    english: 'Eleven',
+                    details: '11 (ten-one)'
+                },
+                { 
+                    chinese: '二十', 
+                    pinyin: 'èr shí', 
+                    english: 'Twenty',
+                    details: '20 (two-ten)'
+                },
+                { 
+                    chinese: '三十', 
+                    pinyin: 'sān shí', 
+                    english: 'Thirty',
+                    details: '30 (three-ten)'
+                },
+                { 
+                    chinese: '四十', 
+                    pinyin: 'sì shí', 
+                    english: 'Forty',
+                    details: '40 (four-ten)'
+                },
+                { 
+                    chinese: '五十', 
+                    pinyin: 'wǔ shí', 
+                    english: 'Fifty',
+                    details: '50 (five-ten)'
+                },
+                { 
+                    chinese: '一百', 
+                    pinyin: 'yī bǎi', 
+                    english: 'One hundred',
+                    details: '100'
+                },
+                { 
+                    chinese: '一千', 
+                    pinyin: 'yī qiān', 
+                    english: 'One thousand',
+                    details: '1,000'
+                },
+                { 
+                    chinese: '一万', 
+                    pinyin: 'yī wàn', 
+                    english: 'Ten thousand',
+                    details: '10,000'
+                }
+            ],
+            time: [
+                { 
+                    chinese: '今天', 
+                    pinyin: 'jīn tiān', 
+                    english: 'Today',
+                    details: 'Current day'
+                },
+                { 
+                    chinese: '明天', 
+                    pinyin: 'míng tiān', 
+                    english: 'Tomorrow',
+                    details: 'Next day'
+                },
+                { 
+                    chinese: '昨天', 
+                    pinyin: 'zuó tiān', 
+                    english: 'Yesterday',
+                    details: 'Previous day'
+                },
+                { 
+                    chinese: '现在', 
+                    pinyin: 'xiàn zài', 
+                    english: 'Now',
+                    details: 'Present time'
+                },
+                { 
+                    chinese: '几点？', 
+                    pinyin: 'jǐ diǎn?', 
+                    english: 'What time?',
+                    details: 'Asking for the time'
+                },
+                { 
+                    chinese: '现在九点', 
+                    pinyin: 'xiàn zài jiǔ diǎn', 
+                    english: 'It\'s nine o\'clock now',
+                    details: 'Telling time example'
+                },
+                { 
+                    chinese: '星期几？', 
+                    pinyin: 'xīng qī jǐ?', 
+                    english: 'What day of the week?',
+                    details: 'Asking for the day'
+                },
+                { 
+                    chinese: '今天星期一', 
+                    pinyin: 'jīn tiān xīng qī yī', 
+                    english: 'Today is Monday',
+                    details: 'Telling the day example'
+                },
+                { 
+                    chinese: '几月几号？', 
+                    pinyin: 'jǐ yuè jǐ hào?', 
+                    english: 'What\'s the date?',
+                    details: 'Asking for the date'
+                },
+                { 
+                    chinese: '今天十月一号', 
+                    pinyin: 'jīn tiān shí yuè yī hào', 
+                    english: 'Today is October 1st',
+                    details: 'Telling the date example'
+                }
+            ]
+        };
+
+        // Text-to-Speech System
+        class TTSSystem {
+            constructor() {
+                this.speechSynthesis = window.speechSynthesis;
+                this.voices = [];
+                this.selectedVoice = null;
+                this.isSpeaking = false;
+                this.isPaused = false;
+                
+                this.initializeVoices();
+                this.bindEvents();
+            }
+            
+            initializeVoices() {
+                // Load available voices
+                this.loadVoices();
+                
+                // Some browsers load voices asynchronously
+                if (this.speechSynthesis.onvoiceschanged !== undefined) {
+                    this.speechSynthesis.onvoiceschanged = () => this.loadVoices();
+                }
+            }
+            
+            loadVoices() {
+                this.voices = this.speechSynthesis.getVoices();
+                this.populateVoiceSelector();
+            }
+            
+            populateVoiceSelector() {
+                const voiceSelector = document.getElementById('voice-selector');
+                voiceSelector.innerHTML = '<option value="">Select a voice...</option>';
+                
+                // Filter for Chinese voices first
+                const chineseVoices = this.voices.filter(voice => 
+                    voice.lang.includes('zh') || voice.lang.includes('cmn') || voice.lang.includes('yue')
+                );
+                const otherVoices = this.voices.filter(voice => 
+                    !voice.lang.includes('zh') && !voice.lang.includes('cmn') && !voice.lang.includes('yue')
+                );
+                
+                if (chineseVoices.length > 0) {
+                    const group = document.createElement('optgroup');
+                    group.label = 'Chinese Voices';
+                    chineseVoices.forEach(voice => {
+                        const option = document.createElement('option');
+                        option.value = voice.name;
+                        option.textContent = `${voice.name} (${voice.lang})`;
+                        group.appendChild(option);
+                    });
+                    voiceSelector.appendChild(group);
+                }
+                
+                if (otherVoices.length > 0) {
+                    const group = document.createElement('optgroup');
+                    group.label = 'Other Voices';
+                    otherVoices.forEach(voice => {
+                        const option = document.createElement('option');
+                        option.value = voice.name;
+                        option.textContent = `${voice.name} (${voice.lang})`;
+                        group.appendChild(option);
+                    });
+                    voiceSelector.appendChild(group);
+                }
+                
+                // Auto-select Chinese voice if available
+                if (chineseVoices.length > 0) {
+                    voiceSelector.value = chineseVoices[0].name;
+                    this.selectedVoice = chineseVoices[0];
+                }
+            }
+            
+            bindEvents() {
+                const voiceSelector = document.getElementById('voice-selector');
+                const testButton = document.getElementById('test-tts-button');
+                
+                voiceSelector.addEventListener('change', (e) => {
+                    const voiceName = e.target.value;
+                    this.selectedVoice = this.voices.find(voice => voice.name === voiceName);
+                });
+                
+                testButton.addEventListener('click', () => {
+                    this.speakText('你好');
+                });
+            }
+            
+            async speakText(text) {
+                return new Promise((resolve, reject) => {
+                    // Stop any current speech
+                    this.stopSpeaking();
+                    
+                    if (!this.speechSynthesis) {
+                        updateStatus('Speech synthesis not supported', 'error');
+                        reject(new Error('Speech synthesis not supported'));
+                        return;
+                    }
+                    
+                    if (!text || text.trim() === '') {
+                        updateStatus('No text to speak', 'error');
+                        reject(new Error('No text to speak'));
+                        return;
+                    }
+                    
+                    // Clean the text - remove bracketed content
+                    const cleanText = text.replace(/\[.*?\]/g, '').trim();
+                    
+                    updateStatus('Preparing to speak...', 'processing');
+                    
+                    const utterance = new SpeechSynthesisUtterance(cleanText);
+                    
+                    // Set language to Chinese
+                    utterance.lang = 'zh-CN';
+                    
+                    // Set voice if selected
+                    if (this.selectedVoice) {
+                        utterance.voice = this.selectedVoice;
+                    } else {
+                        // Try to find a Chinese voice
+                        const chineseVoice = this.voices.find(voice => 
+                            voice.lang.includes('zh') || voice.lang.includes('cmn')
+                        );
+                        if (chineseVoice) {
+                            utterance.voice = chineseVoice;
+                        }
+                    }
+                    
+                    // Set speech parameters
+                    utterance.rate = 0.8; // Slightly slower for language learning
+                    utterance.pitch = 1;
+                    utterance.volume = 1;
+                    
+                    // Event handlers
+                    utterance.onstart = () => {
+                        this.isSpeaking = true;
+                        updateStatus('Speaking Chinese...', 'playing');
+                    };
+                    
+                    utterance.onend = () => {
+                        this.isSpeaking = false;
+                        updateStatus('Ready for text-to-speech', 'success');
+                        resolve();
+                    };
+                    
+                    utterance.onerror = (event) => {
+                        this.isSpeaking = false;
+                        updateStatus('Error speaking text', 'error');
+                        console.error('Speech error:', event);
+                        reject(event.error);
+                    };
+                    
+                    // Speak the text
+                    this.speechSynthesis.speak(utterance);
+                });
+            }
+            
+            stopSpeaking() {
+                if (this.speechSynthesis && this.isSpeaking) {
+                    this.speechSynthesis.cancel();
+                    this.isSpeaking = false;
+                    updateStatus('Speech stopped', '');
+                }
+            }
+            
+            pauseSpeaking() {
+                if (this.speechSynthesis && this.isSpeaking && !this.isPaused) {
+                    this.speechSynthesis.pause();
+                    this.isPaused = true;
+                    updateStatus('Speech paused', '');
+                }
+            }
+            
+            resumeSpeaking() {
+                if (this.speechSynthesis && this.isPaused) {
+                    this.speechSynthesis.resume();
+                    this.isPaused = false;
+                    updateStatus('Resuming speech...', 'playing');
+                }
+            }
+        }
+
+        // Flashcard System
+        class FlashcardSystem {
+            constructor(ttsSystem) {
+                this.currentIndex = 0;
+                this.isFlipped = false;
+                this.mode = 'english-first';
+                this.currentSet = 'all';
+                this.currentCategory = 'all';
+                this.cards = this.getAllCards();
+                this.isShuffled = false;
+                this.autoSpeak = 'on-flip';
+                this.ttsSystem = ttsSystem;
+                
+                this.initializeElements();
+                this.bindEvents();
+                this.displayCurrentCard();
+            }
+            
+            getAllCards() {
+                const allCards = [];
+                
+                Object.keys(chineseFlashcards).forEach(section => {
+                    chineseFlashcards[section].forEach(card => {
+                        allCards.push({
+                            ...card,
+                            category: section
+                        });
+                    });
+                });
+                
+                return allCards;
+            }
+            
+            getFilteredCards() {
+                let filtered = [];
+                
+                if (this.currentCategory === 'all') {
+                    if (this.currentSet === 'all') {
+                        filtered = this.cards;
+                    } else {
+                        filtered = this.cards.filter(card => card.category === this.currentSet);
+                    }
+                } else {
+                    filtered = this.cards.filter(card => card.category === this.currentCategory);
+                }
+                
+                return this.isShuffled ? this.shuffleArray([...filtered]) : [...filtered];
+            }
+            
+            shuffleArray(array) {
+                const shuffled = [...array];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                return shuffled;
+            }
+            
+            initializeElements() {
+                this.flashcardElement = document.getElementById('current-flashcard');
+                this.englishElement = document.getElementById('flashcard-english');
+                this.chineseElement = document.getElementById('flashcard-chinese');
+                this.pinyinElement = document.getElementById('flashcard-pinyin');
+                this.detailsElement = document.getElementById('flashcard-details');
+                this.counterElement = document.getElementById('flashcard-counter');
+                this.settingsElement = document.getElementById('flashcard-settings');
+                
+                this.speakButton = document.getElementById('speak-button');
+                this.flipButton = document.getElementById('flip-button');
+                this.prevButton = document.getElementById('prev-button');
+                this.nextButton = document.getElementById('next-button');
+                this.settingsButton = document.getElementById('settings-button');
+                this.shuffleButton = document.getElementById('shuffle-button');
+                
+                this.setSelector = document.getElementById('flashcard-set-selector');
+                this.autoSpeakSelector = document.getElementById('auto-speak-selector');
+                this.modeOptions = document.querySelectorAll('.mode-option');
+                this.categoryTags = document.querySelectorAll('.category-tag');
+            }
+            
+            bindEvents() {
+                // Flashcard click to flip
+                this.flashcardElement.addEventListener('click', () => this.flipCard());
+                
+                // Chinese text click for TTS
+                this.chineseElement.addEventListener('click', () => this.speakCurrentCard());
+                
+                // Button events
+                this.speakButton.addEventListener('click', () => this.speakCurrentCard());
+                this.flipButton.addEventListener('click', () => this.flipCard());
+                this.prevButton.addEventListener('click', () => this.previousCard());
+                this.nextButton.addEventListener('click', () => this.nextCard());
+                this.settingsButton.addEventListener('click', () => this.toggleSettings());
+                this.shuffleButton.addEventListener('click', () => this.shuffleCards());
+                
+                // Settings events
+                this.setSelector.addEventListener('change', (e) => this.changeSet(e.target.value));
+                this.autoSpeakSelector.addEventListener('change', (e) => this.changeAutoSpeak(e.target.value));
+                
+                // Mode toggle events
+                this.modeOptions.forEach(option => {
+                    option.addEventListener('click', (e) => this.changeMode(e.target.dataset.mode));
+                });
+                
+                // Category tag events
+                this.categoryTags.forEach(tag => {
+                    tag.addEventListener('click', (e) => this.changeCategory(e.target.dataset.category));
+                });
+            }
+            
+            changeMode(newMode) {
+                this.mode = newMode;
+                this.modeOptions.forEach(option => {
+                    option.classList.toggle('active', option.dataset.mode === newMode);
+                });
+                this.displayCurrentCard();
+            }
+            
+            changeCategory(category) {
+                this.currentCategory = category;
+                this.currentIndex = 0;
+                this.isFlipped = false;
+                
+                // Update active category tag
+                this.categoryTags.forEach(tag => {
+                    tag.classList.toggle('active', tag.dataset.category === category);
+                });
+                
+                // Update set selector if needed
+                if (category !== 'all') {
+                    this.setSelector.value = category;
+                    this.currentSet = category;
+                }
+                
+                this.displayCurrentCard();
+            }
+            
+            changeSet(setName) {
+                this.currentSet = setName;
+                this.currentIndex = 0;
+                this.isFlipped = false;
+                this.displayCurrentCard();
+            }
+            
+            changeAutoSpeak(setting) {
+                this.autoSpeak = setting;
+            }
+            
+            shuffleCards() {
+                this.isShuffled = true;
+                this.currentIndex = 0;
+                this.isFlipped = false;
+                this.displayCurrentCard();
+                
+                // Visual feedback for shuffle
+                this.shuffleButton.textContent = '✓ Shuffled!';
+                setTimeout(() => {
+                    this.shuffleButton.textContent = '🔀 Shuffle Now';
+                }, 1000);
+            }
+            
+            toggleSettings() {
+                this.settingsElement.classList.toggle('active');
+            }
+            
+            getCurrentCard() {
+                const filteredCards = this.getFilteredCards();
+                return filteredCards[this.currentIndex];
+            }
+            
+            displayCurrentCard() {
+                const card = this.getCurrentCard();
+                if (!card) return;
+                
+                const filteredCards = this.getFilteredCards();
+                const total = filteredCards.length;
+                
+                // Update counter
+                this.counterElement.textContent = `Card ${this.currentIndex + 1} of ${total}`;
+                
+                // Reset flip state
+                this.isFlipped = false;
+                this.flashcardElement.classList.remove('flipped');
+                
+                // Set content based on mode
+                if (this.mode === 'english-first') {
+                    this.englishElement.textContent = card.english;
+                    this.chineseElement.textContent = card.chinese;
+                    this.pinyinElement.textContent = card.pinyin;
+                    this.detailsElement.textContent = card.details;
+                    
+                    document.querySelector('.flashcard-front').classList.add('active');
+                    document.querySelector('.flashcard-back').classList.remove('active');
+                } else if (this.mode === 'chinese-first') {
+                    this.englishElement.textContent = card.english;
+                    this.chineseElement.textContent = card.chinese;
+                    this.pinyinElement.textContent = card.pinyin;
+                    this.detailsElement.textContent = card.details;
+                    
+                    // Show Chinese first
+                    document.querySelector('.flashcard-front').classList.remove('active');
+                    document.querySelector('.flashcard-back').classList.add('active');
+                    this.flashcardElement.classList.add('flipped');
+                    this.isFlipped = true;
+                } else if (this.mode === 'pinyin-first') {
+                    this.englishElement.textContent = card.pinyin;
+                    this.chineseElement.textContent = card.chinese;
+                    this.pinyinElement.textContent = card.english;
+                    this.detailsElement.textContent = card.details;
+                    
+                    document.querySelector('.flashcard-front').classList.add('active');
+                    document.querySelector('.flashcard-back').classList.remove('active');
+                }
+                
+                // Auto-speak if enabled
+                if (this.autoSpeak === 'on-both' || 
+                    (this.autoSpeak === 'on-flip' && this.isFlipped)) {
+                    setTimeout(() => this.speakCurrentCard(), 300);
+                }
+            }
+            
+            flipCard() {
+                this.isFlipped = !this.isFlipped;
+                this.flashcardElement.classList.toggle('flipped');
+                
+                document.querySelector('.flashcard-front').classList.toggle('active');
+                document.querySelector('.flashcard-back').classList.toggle('active');
+                
+                // Auto-speak if enabled
+                if (this.autoSpeak === 'on-flip') {
+                    setTimeout(() => this.speakCurrentCard(), 300);
+                }
+            }
+            
+            async speakCurrentCard() {
+                const card = this.getCurrentCard();
+                if (card && this.ttsSystem) {
+                    await this.ttsSystem.speakText(card.chinese);
+                }
+            }
+            
+            nextCard() {
+                const filteredCards = this.getFilteredCards();
+                this.currentIndex = (this.currentIndex + 1) % filteredCards.length;
+                this.isFlipped = false;
+                this.displayCurrentCard();
+            }
+            
+            previousCard() {
+                const filteredCards = this.getFilteredCards();
+                this.currentIndex = (this.currentIndex - 1 + filteredCards.length) % filteredCards.length;
+                this.isFlipped = false;
+                this.displayCurrentCard();
+            }
+        }
+
+        let flashcardSystem;
+        let ttsSystem;
+
+        // Update status display
+        function updateStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = 'status';
+            if (type) {
+                statusDiv.classList.add(type);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check for speech synthesis support
+            if (!('speechSynthesis' in window)) {
+                updateStatus('Text-to-speech not supported in your browser. Please use Chrome, Edge, or Safari.', 'error');
+                document.getElementById('speak-button').disabled = true;
+                document.getElementById('test-tts-button').disabled = true;
+                document.querySelectorAll('.flashcard-chinese').forEach(el => {
+                    el.style.cursor = 'default';
+                    el.style.color = '#95a5a6';
+                    el.onclick = null;
+                });
+                return;
+            }
+            
+            // Initialize TTS system
+            ttsSystem = new TTSSystem();
+            
+            // Initialize flashcard system with TTS
+            flashcardSystem = new FlashcardSystem(ttsSystem);
+            
+            updateStatus('Text-to-speech ready! Click on Chinese text to hear pronunciation.', 'success');
+        });
+    </script>
+</body>
+</html>

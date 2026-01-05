@@ -7,14 +7,13 @@
   <title>Language & Programming Notes</title>
   <style>
     body {
-      background-color: #e5e5e5;
+      background-color: #f8f5f9;
       margin: 0px;
 
-      --accent1: #977399;
-      --accent2: #6575A6; 
-      --accent3: #A1ABCF;
+      --accent1: #b5c2d1; /* Soft blue-gray */
+      --accent2: #d4b9d9; /* Lavender */
+      --accent3: #c9e0e8; /* Powder blue */
       --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
-
       --korheadimg: url(img/korheadimg.jpg);
       --korheadimgicon: url(img/korflag.jpg);
 
@@ -29,6 +28,9 @@
       
       --spheadimg: url(img/spheader.png);
       --spheadimgicon: url(img/spicon.jpg);
+      
+      --ruheadimg: url(https://images.unsplash.com/photo-1546971587-02375cbb1e4f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80);
+      --ruheadimgicon: url(https://flagcdn.com/w320/ru.png);
       
       --cppheadimg: url(https://images.unsplash.com/photo-1610563166150-b34df4f3bcd6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1076&q=80);
       --cppheadimgicon: url(https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/1200px-ISO_C%2B%2B_Logo.svg.png);
@@ -47,9 +49,9 @@
 
     #bg-3,
     #bs-3 {
-      --accent1: #3C38A1;
+      --accent1: #a9a8d1;
       --accent2: #D56158;
-      --accent3: #F2B1A2;
+      --accent3: #e5c6bf;
       --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
     }
 
@@ -82,6 +84,14 @@
       --accent1: #A020F0;
       --accent2: #8A2BE2;
       --accent3: #9370DB;
+      --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
+    }
+
+    #bg-8,
+    #bs-8 {
+      --accent1: #1E3A8A;
+      --accent2: #3B82F6;
+      --accent3: #93C5FD;
       --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
     }
 
@@ -208,10 +218,14 @@
     }
 
     #sect-playlist-6 {
-      background-image: var(--cppheadimgicon);
+      background-image: var(--ruheadimgicon);
     }
 
     #sect-playlist-7 {
+      background-image: var(--cppheadimgicon);
+    }
+
+    #sect-playlist-8 {
       background-image: var(--pyheadimgicon);
     }
 
@@ -353,10 +367,14 @@
     }
 
     #bi-6 div {
-      background-image: var(--cppheadimg);
+      background-image: var(--ruheadimg);
     }
 
     #bi-7 div {
+      background-image: var(--cppheadimg);
+    }
+
+    #bi-8 div {
       background-image: var(--pyheadimg);
     }
 
@@ -637,7 +655,8 @@
     #bs-4 .sect-topics-1,
     #bs-5 .sect-topics-1,
     #bs-6 .sect-topics-1,
-    #bs-7 .sect-topics-1 {
+    #bs-7 .sect-topics-1,
+    #bs-8 .sect-topics-1 {
       background: linear-gradient(to right, var(--accent1), var(--accent2), #f3f3f3 65%);
       background-size: 300%;
       background-position: 100% 0px;
@@ -732,7 +751,7 @@
       border: solid 1px #dddddd;
       border-radius: 10px;
       padding: 25px 35px;
-      box-shadow: 0px 15px 15px -15px rgba(0, 0, 0, .065);
+      box-shadow: 0px 15px 15px -15px rgba(159, 21, 21, 0.065);
       font: 800 16px Open Sans;
       color: #333333;
       cursor: pointer;
@@ -744,7 +763,7 @@
 
     .dropdown-header:hover {
       background-position: -1px 0px !important;
-      color: #eeeeee;
+      color: #ced1f1;
       border-color: transparent;
     }
 
@@ -775,7 +794,8 @@
     #sect-tab-4:checked~.sect-tabs #sect-playlist-4,
     #sect-tab-5:checked~.sect-tabs #sect-playlist-5,
     #sect-tab-6:checked~.sect-tabs #sect-playlist-6,
-    #sect-tab-7:checked~.sect-tabs #sect-playlist-7 {
+    #sect-tab-7:checked~.sect-tabs #sect-playlist-7,
+    #sect-tab-8:checked~.sect-tabs #sect-playlist-8 {
       filter: grayscale(0%);
       transform: scale(1);
     }
@@ -786,7 +806,8 @@
     #sect-tab-4:checked~#bg-4,
     #sect-tab-5:checked~#bg-5,
     #sect-tab-6:checked~#bg-6,
-    #sect-tab-7:checked~#bg-7 {
+    #sect-tab-7:checked~#bg-7,
+    #sect-tab-8:checked~#bg-8 {
       opacity: 1;
     }
 
@@ -796,7 +817,8 @@
     #sect-tab-4:checked~#bi-4 div,
     #sect-tab-5:checked~#bi-5 div,
     #sect-tab-6:checked~#bi-6 div,
-    #sect-tab-7:checked~#bi-7 div {
+    #sect-tab-7:checked~#bi-7 div,
+    #sect-tab-8:checked~#bi-8 div {
       opacity: 1;
     }
 
@@ -871,7 +893,8 @@
     #sect-tab-4:checked~#bl-4,
     #sect-tab-5:checked~#bl-5,
     #sect-tab-6:checked~#bl-6,
-    #sect-tab-7:checked~#bl-7 {
+    #sect-tab-7:checked~#bl-7,
+    #sect-tab-8:checked~#bl-8 {
       margin-top: 250px;
       opacity: 1;
     }
@@ -883,7 +906,8 @@
       #sect-tab-4:checked~#bl-4,
       #sect-tab-5:checked~#bl-5,
       #sect-tab-6:checked~#bl-6,
-      #sect-tab-7:checked~#bl-7 {
+      #sect-tab-7:checked~#bl-7,
+      #sect-tab-8:checked~#bl-8 {
         margin-top: 200px;
       }
     }
@@ -895,7 +919,8 @@
       #sect-tab-4:checked~#bl-4,
       #sect-tab-5:checked~#bl-5,
       #sect-tab-6:checked~#bl-6,
-      #sect-tab-7:checked~#bl-7 {
+      #sect-tab-7:checked~#bl-7,
+      #sect-tab-8:checked~#bl-8 {
         margin-top: 150px;
       }
     }
@@ -907,7 +932,8 @@
       #sect-tab-4:checked~#bl-4,
       #sect-tab-5:checked~#bl-5,
       #sect-tab-6:checked~#bl-6,
-      #sect-tab-7:checked~#bl-7 {
+      #sect-tab-7:checked~#bl-7,
+      #sect-tab-8:checked~#bl-8 {
         margin-top: 120px;
       }
     }
@@ -918,7 +944,8 @@
     #sect-tab-4:checked~#bn-4,
     #sect-tab-5:checked~#bn-5,
     #sect-tab-6:checked~#bn-6,
-    #sect-tab-7:checked~#bn-7 {
+    #sect-tab-7:checked~#bn-7,
+    #sect-tab-8:checked~#bn-8 {
       padding-top: 215px;
       opacity: 1;
       pointer-events: auto !important;
@@ -931,7 +958,8 @@
       #sect-tab-4:checked~#bn-4,
       #sect-tab-5:checked~#bn-5,
       #sect-tab-6:checked~#bn-6,
-      #sect-tab-7:checked~#bn-7 {
+      #sect-tab-7:checked~#bn-7,
+      #sect-tab-8:checked~#bn-8 {
         padding-top: 175px;
       }
     }
@@ -943,7 +971,8 @@
       #sect-tab-4:checked~#bn-4,
       #sect-tab-5:checked~#bn-5,
       #sect-tab-6:checked~#bn-6,
-      #sect-tab-7:checked~#bn-7 {
+      #sect-tab-7:checked~#bn-7,
+      #sect-tab-8:checked~#bn-8 {
         padding-top: 145px;
       }
     }
@@ -955,7 +984,8 @@
       #sect-tab-4:checked~#bn-4,
       #sect-tab-5:checked~#bn-5,
       #sect-tab-6:checked~#bn-6,
-      #sect-tab-7:checked~#bn-7 {
+      #sect-tab-7:checked~#bn-7,
+      #sect-tab-8:checked~#bn-8 {
         padding-top: 125px;
       }
     }
@@ -966,7 +996,8 @@
     #sect-tab-4:checked~#bs-4,
     #sect-tab-5:checked~#bs-5,
     #sect-tab-6:checked~#bs-6,
-    #sect-tab-7:checked~#bs-7 {
+    #sect-tab-7:checked~#bs-7,
+    #sect-tab-8:checked~#bs-8 {
       transform: scale(1);
       opacity: 1;
       pointer-events: auto !important;
@@ -982,6 +1013,7 @@
     <input type="radio" id="sect-tab-5" name="sect-tabs">
     <input type="radio" id="sect-tab-6" name="sect-tabs">
     <input type="radio" id="sect-tab-7" name="sect-tabs">
+    <input type="radio" id="sect-tab-8" name="sect-tabs">
     <div class="sect-tabs">
       <label for="sect-tab-1" class="sect-tabs-1" id="sect-playlist-1">
         <div></div>
@@ -1002,6 +1034,9 @@
         <div></div>
       </label>
       <label for="sect-tab-7" class="sect-tabs-1" id="sect-playlist-7">
+        <div></div>
+      </label>
+      <label for="sect-tab-8" class="sect-tabs-1" id="sect-playlist-8">
         <div></div>
       </label>
     </div>
@@ -1028,6 +1063,9 @@
     <div class="sect-head-img" id="bg-7">
       <div></div>
     </div>
+    <div class="sect-head-img" id="bg-8">
+      <div></div>
+    </div>
     <div class="sect-fade"></div>
 
     <!--- Korean notes section --->
@@ -1042,6 +1080,32 @@
     
     <div class="sect-topics" id="bs-1">
       <div class="sect-topics-0">
+
+        <!-- 60 Days of Korean Dropdown -->
+        <div class="dropdown" data-section="korean" data-dropdown="60-days">
+          <div class="dropdown-header">
+            <span>60 Days of Korean</span>
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="dropdown-content">
+            <a class="sect-topics-1" href="kor-60/kor-day1/">
+              <span></span><span><b>Day 1</b>Basic greetings and introductions</span>
+              <span></span>
+            </a>
+          </div>
+           <div class="dropdown-content">
+            <a class="sect-topics-1" href="kor-60/kor-day1-7/">
+              <span></span><span><b>Day 1-7</b>Flashcards: introductions, greetings, numbers</span>
+              <span></span>
+            </a>
+          </div>
+          <div class="dropdown-content">
+            <a class="sect-topics-1" href="kor-60/kor-day2/">
+              <span></span><span><b>Day 2</b>My name is ...</span>
+              <span></span>
+            </a>
+          </div>
+        </div>
 
         <!-- Section 1: Alphabet, Numbers, Times, and Dates -->
         <div class="dropdown" data-section="korean" data-dropdown="alphabet-numbers">
@@ -1276,6 +1340,26 @@
     <div class="sect-topics" id="bs-2">
       <div class="sect-topics-0">
 
+        <!-- 60 Days of Indonesian Dropdown -->
+        <div class="dropdown" data-section="indonesian" data-dropdown="60-days">
+          <div class="dropdown-header">
+            <span>60 Days of Indonesian</span>
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="dropdown-content">
+            <a class="sect-topics-1" href="indo-60/indo-day1/">
+              <span></span><span><b>Day 1</b>Basic greetings and introductions</span>
+              <span></span>
+            </a>
+          </div>
+          <div class="dropdown-content">
+            <a class="sect-topics-1" href="indo-60/indo-day1-7/">
+              <span></span><span><b>Day 1-7</b>Flashcards: introductions, greetings, numbers</span>
+              <span></span>
+            </a>
+          </div>
+        </div>
+
         <a class="sect-topics-1" href="indo-notes/indo-numbers/index.html">
           <span></span><span><b>Indonesian Numbers</b>Writing + Listening</span>
           <span></span> </a>
@@ -1346,6 +1430,26 @@
     <div class="sect-topics" id="bs-3">
       <div class="sect-topics-0">
 
+        <!-- 60 Days of Chinese Dropdown -->
+        <div class="dropdown" data-section="chinese" data-dropdown="60-days">
+          <div class="dropdown-header">
+            <span>60 Days of Chinese</span>
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="dropdown-content">
+            <a class="sect-topics-1" href="zh-60/zh-day1/">
+              <span></span><span><b>Day 1</b>Basic greetings and introductions</span>
+              <span></span>
+            </a>
+          </div>
+          <div class="dropdown-content">
+            <a class="sect-topics-1" href="zh-60/zh-day1-7/">
+              <span></span><span><b>Day 1-7</b>Flashcards: greetings, thanks, numbers</span>
+              <span></span>
+            </a>
+          </div>
+        </div>
+
         <a class="sect-topics-1" href="zh-notes/zh-numbers/">
           <span></span><span><b>Chinese Numbers</b>Writing + Listening</span>
           <span></span> </a>
@@ -1411,19 +1515,49 @@
     <div class="sect-topics" id="bs-4">
       <div class="sect-topics-0">
 
+        <!-- 60 Days of Thai Dropdown -->
+        <div class="dropdown" data-section="thai" data-dropdown="60-days">
+          <div class="dropdown-header">
+            <span>60 Days of Thai</span>
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="dropdown-content">
+            <a class="sect-topics-1" href="thai-60/thai-day1/">
+              <span></span><span><b>Day 1</b>Basic greetings and introductions</span>
+              <span></span>
+            </a>
+          </div>
+          <div class="dropdown-content">
+            <a class="sect-topics-1" href="thai-60/thai-day1-7/">
+              <span></span><span><b>Day 1-7</b>Flash cards greetings, politness, numbers, and basics</span>
+              <span></span>
+            </a>
+          </div>
+        </div>
+
         <a class="sect-topics-1" href="th-notes/th-alphabet/">
           <span></span><span><b>Thai Alphabet</b>Writing + Listening</span>
           <span></span> </a>
+          <a class="sect-topics-1" href="th-notes/th-simple-words/">
+          <span></span><span><b>Thai Simple Words</b>Writing + Listening</span>
+          <span></span> </a>
+          <a class="sect-topics-1" href="th-notes/th-simple-words-flashcards/">
+          <span></span><span><b>Thai Simple Words Flashcards</b>Listening + Memorization</span>
+          <span></span> </a>
 
-        <a class="sect-topics-1" href="thai-notes/thai-numbers/">
+        <a class="sect-topics-1" href="th-notes/th-numbers/">
           <span></span><span><b>Thai Numbers</b>Writing + Listening</span>
           <span></span> </a>
 
-        <a class="sect-topics-1" href="thai-notes/thai-greetings/">
+        <a class="sect-topics-1" href="th-notes/th-greetings/">
+          <span></span><span><b>Basic Greetings</b> Listening</span>
+          <span></span> </a>
+
+        <a class="sect-topics-1" href="th-notes/th-greetings-AB/">
           <span></span><span><b>Basic Greetings</b>AB conversations + Listening</span>
           <span></span> </a>
 
-        <a class="sect-topics-1" href="thai-notes/thai-verbs/">
+        <a class="sect-topics-1" href="thai-notes/th-verbs/">
           <span></span><span><b>Common Verbs</b>Flashcards + Listening</span>
           <span></span> </a>
 
@@ -1460,6 +1594,26 @@
 <div class="sect-topics" id="bs-5">
   <div class="sect-topics-0">
 
+    <!-- 60 Days of Spanish Dropdown -->
+    <div class="dropdown" data-section="spanish" data-dropdown="60-days">
+      <div class="dropdown-header">
+        <span>60 Days of Spanish</span>
+        <span class="dropdown-arrow">▼</span>
+      </div>
+      <div class="dropdown-content">
+        <a class="sect-topics-1" href="sp-60/sp-day1/">
+          <span></span><span><b>Day 1</b>Basic greetings and introductions</span>
+          <span></span>
+        </a>
+      </div>
+      <div class="dropdown-content">
+        <a class="sect-topics-1" href="sp-60/sp-day1/">
+          <span></span><span><b>Day 1-7</b>Flash cards: Basic greetings and introductions</span>
+          <span></span>
+        </a>
+      </div>
+    </div>
+
     <!-- Section 1: Introduction to Spanish -->
     <div class="dropdown" data-section="spanish" data-dropdown="introduction">
       <div class="dropdown-header">
@@ -1479,8 +1633,46 @@
           <span></span><span><b>Spanish Numbers</b>Writing + Listening</span>
           <span></span>
         </a>
+        <a class="sect-topics-1" href="sp-notes/sp-fanboys/">
+          <span></span><span><b>FANBOYS</b>Writing + Listening + Preposition and Adverbs</span>
+          <span></span>
+        </a>
+        
+        <a class="sect-topics-1" href="sp-notes/fanboys-quiz/">
+          <span></span><span><b>FANBOYS Quiz</b>Listening + Preposition and Adverbs</span>
+          <span></span>
+        </a>
+        <a class="sect-topics-1" href="sp-notes/sp-numbers/">
+          <span></span><span><b>Adverbs</b>Writing + Listening + If, Then, Also, From, Of, With, To, In, On, Each</span>
+          <span></span>
+        </a>
         <a class="sect-topics-1" href="sp-notes/sp-common-phrases/">
-          <span></span><span><b>Common Phrases</b>Writing + Listening</span>
+          <span></span><span><b>Common Phrases and Pronouns</b>Writing + Listening</span>
+          <span></span>
+        </a>
+        <a class="sect-topics-1" href="sp-notes/sp-common-phrases/">
+          <span></span><span><b>Months, days, years</b>Writing + Listening</span>
+          <span></span>
+        </a>
+        <a class="sect-topics-1" href="sp-notes/sp-common-phrases/">
+          <span></span><span><b>Time words and times</b>Writing + Listening</span>
+          <span></span>
+        </a>
+        <a class="sect-topics-1" href="sp-notes/sp-common-phrases/">
+          <span></span><span><b>Number placement</b>Writing + Listening + 1st, 2nd, 3rd</span>
+          <span></span>
+        </a>
+         <a class="sect-topics-1" href="sp-notes/sp-common-phrases/">
+          <span></span><span><b>Spanish Definite and Indefinites</b>Writing + Listening</span>
+          <span></span>
+          </a>
+        <a class="sect-topics-1" href="sp-notes/sp-common-phrases/">
+          <span></span><span><b>Ser Flashcards</b>Listening + Rules of Ser</span>
+          <!-- name, nationality, birthplace, occupation, pyhisical traits, generatizations (it is important to work), when and where events are taking place, time and dates (it's one PM)-->
+          <span></span>
+        </a>
+        <a class="sect-topics-1" href="sp-notes/sp-common-phrases/">
+          <span></span><span><b>Estar Flashcards</b>Listening + I/He/You am/is/are [action] + Present Progressive + Locations (spatial relationship) + health, COnditions, and Emotions</span>
           <span></span>
         </a>
       </div>
@@ -1547,45 +1739,140 @@
           <span></span><span><b>¿Dónde? (Where)</b>Writing + Listening</span>
           <span></span>
         </a>
-        <a class="sect-topics-1" href="sp-notes/sp-como/">
-          <span></span><span><b>¿Cómo? (How)</b>Writing + Listening</span>
+        <a class="sect-topics-1" href="sp-notes/sp-donde/">
+          <span></span><span><b>¿cuál? (Which)</b>Writing + Listening</span>
           <span></span>
         </a>
+        <a class="sect-topics-1" href="sp-notes/sp-como/">
+          <span></span><span><b>¿Cómo? / cuanto(s)/a(s) (How)</b>Writing + Listening + How much/many</span>
+          <span></span>
+        </a>
+      </div>
+    </div>
+
+
+
+    <div class="dropdown" data-section="spanish" data-dropdown="AB-verb-sentences">
+      <div class="dropdown-header">
+        <span>AB conversation </span>
+        <span class="dropdown-arrow">▼</span>
+      </div>
+      <div class="dropdown-content">
+        <a class="sect-topics-1" href="sp-notes/sp-quien/">
+          <span></span><span><b>Verb Conjugation in Simple Conversation</b>Writing + Listening</span>
+          <span></span>
+        </a>
+        
       </div>
     </div>
 
   </div>
 </div>
 
+    <!--- Russian notes --->
+
+<div class="sect-img" id="bi-6">
+  <div></div>
+</div>
+<div class="sect-name" id="bn-6">
+  <h1>russian<br>notes 2025</h1>
+  <h2>Basics and intermediate level + reading + writing + listening</h2>
+</div>
+<div class="sect-subsect" id="bl-6">
+</div>
+<div class="sect-topics" id="bs-6">
+  <div class="sect-topics-0">
+
+    <!-- 60 Days of Russian Dropdown -->
+    <div class="dropdown" data-section="russian" data-dropdown="60-days">
+      <div class="dropdown-header">
+        <span>60 Days of Russian</span>
+        <span class="dropdown-arrow">▼</span>
+      </div>
+      <div class="dropdown-content">
+        <a class="sect-topics-1" href="ru-60/ru-day1/">
+          <span></span><span><b>Day 1</b>Basic greetings and introductions</span>
+          <span></span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Add Russian learning content here -->
+    <a class="sect-topics-1" href="ru-notes/ru-alphabet/">
+      <span></span><span><b>Russian Alphabet (Cyrillic)</b>Writing + Listening</span>
+      <span></span>
+    </a>
+    <a class="sect-topics-1" href="#">
+      <span></span><span><b>Russian Numbers</b>Writing + Listening</span>
+      <span></span>
+    </a>
+    <a class="sect-topics-1" href="#">
+      <span></span><span><b>Basic Greetings</b>Writing + Listening</span>
+      <span></span>
+    </a>
+    <a class="sect-topics-1" href="#">
+      <span></span><span><b>Russian Grammar Basics</b>Cases + Verb Conjugations</span>
+      <span></span>
+    </a>
+
+  </div>
+</div>
+
     <!--- C++ notes --->
 
-    <div class="sect-img" id="bi-6">
+    <div class="sect-img" id="bi-7">
       <div></div>
     </div>
-    <div class="sect-name" id="bn-6">
+    <div class="sect-name" id="bn-7">
       <h1>cpp notes<br>coming soon</h1>
     </div>
-    <div class="sect-subsect" id="bl-6">
+    <div class="sect-subsect" id="bl-7">
     </div>
-    <div class="sect-topics" id="bs-6">
+    <div class="sect-topics" id="bs-7">
       <div class="sect-topics-0">
+        <!-- 60 Days of C++ Dropdown -->
+        <div class="dropdown" data-section="cpp" data-dropdown="60-days">
+          <div class="dropdown-header">
+            <span>60 Days of C++</span>
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="dropdown-content">
+            <a class="sect-topics-1" href="#">
+              <span></span><span><b>Day 1</b>Introduction to C++ and Hello World</span>
+              <span></span>
+            </a>
+          </div>
+        </div>
         <!-- C++ topics will go here -->
       </div>
     </div>
 
     <!--- Python notes --->
 
-    <div class="sect-img" id="bi-7">
+    <div class="sect-img" id="bi-8">
       <div></div>
     </div>
-    <div class="sect-name" id="bn-7">
+    <div class="sect-name" id="bn-8">
       <h1>python<br>notes 2025</h1>
       <h2>coming soon</h2>
     </div>
-    <div class="sect-subsect" id="bl-7">
+    <div class="sect-subsect" id="bl-8">
     </div>
-    <div class="sect-topics" id="bs-7">
+    <div class="sect-topics" id="bs-8">
       <div class="sect-topics-0">
+        <!-- 60 Days of Python Dropdown -->
+        <div class="dropdown" data-section="python" data-dropdown="60-days">
+          <div class="dropdown-header">
+            <span>60 Days of Python</span>
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="dropdown-content">
+            <a class="sect-topics-1" href="#">
+              <span></span><span><b>Day 1</b>Introduction to Python and Hello World</span>
+              <span></span>
+            </a>
+          </div>
+        </div>
         <!-- Python topics will go here -->
       </div>
     </div>
@@ -1660,8 +1947,9 @@
               case '3': sectionName = 'chinese'; break;
               case '4': sectionName = 'thai'; break;
               case '5': sectionName = 'spanish'; break;
-              case '6': sectionName = 'cpp'; break;
-              case '7': sectionName = 'python'; break;
+              case '6': sectionName = 'russian'; break;
+              case '7': sectionName = 'cpp'; break;
+              case '8': sectionName = 'python'; break;
             }
             
             // Update stored state
@@ -1680,8 +1968,9 @@
           'chinese': 'sect-tab-3',
           'thai': 'sect-tab-4',
           'spanish': 'sect-tab-5',
-          'cpp': 'sect-tab-6',
-          'python': 'sect-tab-7'
+          'russian': 'sect-tab-6',
+          'cpp': 'sect-tab-7',
+          'python': 'sect-tab-8'
         };
         
         const tabId = sectionMap[storedState.lastActiveSection];

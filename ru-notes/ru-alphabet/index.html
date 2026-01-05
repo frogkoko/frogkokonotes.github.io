@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Русский Алфавит - Russian Alphabet Practice</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            color: #000000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #e6f0ff;
+            color: #0066cc;
+            border: 1px solid #b3d1ff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-button:hover {
+            background: #cce0ff;
+            transform: translateX(-2px);
+        }
+
+        /* Main Container */
+        .main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        /* Header Styles */
+        .header {
+            text-align: center;
+            color: #000000;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #8B0000, #CD5C5C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            color: #333333;
+        }
+
+        /* TTS Controls */
+        .tts-controls {
+            background: #f0f7ff;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(139, 0, 0, 0.1);
+            border: 1px solid #ffd1d1;
+        }
+
+        .tts-controls h3 {
+            color: #8B0000;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .tts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .tts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tts-input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tts-input-group label {
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333333;
+        }
+
+        .tts-input-group select,
+        .tts-input-group input {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #b3d1ff;
+            font-size: 14px;
+            background: white;
+        }
+
+        .tts-input-group select:focus,
+        .tts-input-group input:focus {
+            outline: none;
+            border-color: #8B0000;
+            box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.1);
+        }
+
+        .tts-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .tts-button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .tts-button.primary {
+            background: #8B0000;
+            color: white;
+        }
+
+        .tts-button.primary:hover {
+            background: #CD5C5C;
+            transform: translateY(-2px);
+        }
+
+        .tts-button.secondary {
+            background: #e6f0ff;
+            color: #0066cc;
+            border: 1px solid #b3d1ff;
+        }
+
+        .tts-button.secondary:hover {
+            background: #cce0ff;
+        }
+
+        .tts-status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+        }
+
+        .tts-status.playing {
+            background: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+
+        .tts-status.processing {
+            background: #fff3cd;
+            color: #856404;
+            border-color: #ffeaa7;
+        }
+
+        .tts-status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+
+        /* Navigation Bar */
+        #navbar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            background: #f0f7ff;
+            padding: 15px 20px;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(139, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        #navbar a {
+            background: #e6f0ff;
+            color: #8B0000;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid #d9b3b3;
+        }
+
+        #navbar a:hover, #navbar a.active {
+            background: #8B0000;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 0, 0, 0.3);
+        }
+
+        /* Section Titles */
+        .section-title {
+            text-align: center;
+            color: #000000;
+            font-size: 1.8rem;
+            margin: 60px 0 30px 0;
+            font-weight: 300;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #8B0000, #CD5C5C);
+            border-radius: 3px;
+        }
+
+        /* Cards Container */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        /* Individual Card */
+        .card {
+            background: #f8fbff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(139, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #ffd1d1;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(139, 0, 0, 0.15);
+        }
+
+        /* Sketch Area (Canvas) */
+        .sketch {
+            position: relative;
+            padding: 20px;
+            background: #f0f7ff;
+            border-bottom: 1px solid #ffd1d1;
+        }
+
+        .paint-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #ffffff;
+            border: 1px solid #ffd1d1;
+        }
+
+        .paint {
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+            background: transparent;
+            touch-action: none;
+            display: block;
+        }
+
+        .canvas-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .erase-button {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .erase-button:hover {
+            background: #ff3838;
+            transform: translateY(-2px);
+        }
+
+        .brush-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .brush-size {
+            width: 80px;
+        }
+
+        /* Card Content */
+        .card_content {
+            padding: 20px;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .russian-char {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #8B0000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            margin-bottom: 10px;
+        }
+
+        .russian-char:hover {
+            color: #CD5C5C;
+            transform: scale(1.1);
+        }
+
+        .char-info {
+            font-size: 1rem;
+            color: #333333;
+            font-weight: 500;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 992px) {
+            .cards {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 991px) {
+            .cards {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            #navbar {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .back-button {
+                top: 10px;
+                left: 10px;
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main {
+                padding: 10px;
+            }
+            #navbar {
+                padding: 10px 15px;
+            }
+            #navbar a {
+                padding: 10px 20px;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .russian-char {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <button class="back-button" onclick="goBack()">
+        ← Back
+    </button>
+
+    <div class="main">
+        <div class="header">
+            <h1>Русский Алфавит<br>Learn the Russian Alphabet</h1>
+            <p>Click letters to hear pronunciation • Draw in the canvas area • Uses OpenAI TTS with Russian voice</p>
+        </div>
+
+        <!-- TTS Controls -->
+        <div class="tts-controls">
+            <h3>Text-to-Speech Settings</h3>
+            <div class="tts-grid">
+                <div class="tts-input-group">
+                    <label for="tts-model">OpenAI Model:</label>
+                    <select id="tts-model">
+                        <option value="gpt-4o-mini-tts">gpt-4o-mini-tts</option>
+                        <option value="tts-1">tts-1</option>
+                        <option value="tts-1-hd">tts-1-hd</option>
+                    </select>
+                </div>
+                
+                <div class="tts-input-group">
+                    <label for="tts-response-format">Response Format:</label>
+                    <select id="tts-response-format">
+                        <option value="mp3">mp3</option>
+                        <option value="wav">wav</option>
+                        <option value="opus">opus</option>
+                        <option value="aac">aac</option>
+                        <option value="flac">flac</option>
+                        <option value="pcm">pcm</option>
+                    </select>
+                </div>
+                
+                <div class="tts-input-group">
+                    <label for="tts-instructions">Voice Instructions (Optional):</label>
+                    <input type="text" id="tts-instructions" placeholder="e.g., Speak clearly with Russian pronunciation">
+                </div>
+                
+                <div class="tts-input-group">
+                    <label for="tts-speed">Speed:</label>
+                    <input type="range" id="tts-speed" min="0.25" max="4.0" step="0.25" value="1.0">
+                    <span id="speed-value">1.0x</span>
+                </div>
+            </div>
+            
+            <div class="tts-actions">
+                <button id="tts-speak-button" class="tts-button primary">
+                    <span>🔊</span> Play Selected Letter
+                </button>
+                <button id="tts-stop-button" class="tts-button secondary">
+                    <span>⏹️</span> Stop
+                </button>
+                <button id="tts-play-all" class="tts-button secondary">
+                    <span>▶️</span> Play All Letters
+                </button>
+            </div>
+            
+            <div id="tts-status" class="tts-status">
+                Ready to play Russian alphabet sounds
+            </div>
+        </div>
+
+        <nav id="navbar">
+            <a class="active" href="#consonants">Consonants</a>
+            <a href="#vowels">Vowels</a>
+        </nav>
+
+        <section id="consonants">
+            <h2 class="section-title">Practice Consonants<br/>Б В Г Д Ж З Й К Л М Н П Р С Т Ф Х Ц Ч Ш Щ</h2>
+            <ul class="cards" id="consonants-grid"></ul>
+        </section>
+
+        <section id="vowels">
+            <h2 class="section-title">Practice Vowels<br/>А Е Ё И О У Ы Э Ю Я</h2>
+            <ul class="cards" id="vowels-grid"></ul>
+        </section>
+    </div>
+
+    <script src="https://js.puter.com/v2/"></script>
+    <script>
+        // Back button functionality
+        function goBack() {
+            window.location.href = "../../index.html";
+        }
+
+        const characters = {
+            consonants: [
+                { char: 'Б', sound: 'b', name: 'Бэ' },
+                { char: 'В', sound: 'v', name: 'Вэ' },
+                { char: 'Г', sound: 'g', name: 'Гэ' },
+                { char: 'Д', sound: 'd', name: 'Дэ' },
+                { char: 'Ж', sound: 'zh', name: 'Жэ' },
+                { char: 'З', sound: 'z', name: 'Зэ' },
+                { char: 'Й', sound: 'y', name: 'И краткое' },
+                { char: 'К', sound: 'k', name: 'Ка' },
+                { char: 'Л', sound: 'l', name: 'Эль' },
+                { char: 'М', sound: 'm', name: 'Эм' },
+                { char: 'Н', sound: 'n', name: 'Эн' },
+                { char: 'П', sound: 'p', name: 'Пэ' },
+                { char: 'Р', sound: 'r', name: 'Эр' },
+                { char: 'С', sound: 's', name: 'Эс' },
+                { char: 'Т', sound: 't', name: 'Тэ' },
+                { char: 'Ф', sound: 'f', name: 'Эф' },
+                { char: 'Х', sound: 'kh', name: 'Ха' },
+                { char: 'Ц', sound: 'ts', name: 'Цэ' },
+                { char: 'Ч', sound: 'ch', name: 'Че' },
+                { char: 'Ш', sound: 'sh', name: 'Ша' },
+                { char: 'Щ', sound: 'shch', name: 'Ща' }
+            ],
+            vowels: [
+                { char: 'А', sound: 'a', name: 'А' },
+                { char: 'Е', sound: 'ye', name: 'Е' },
+                { char: 'Ё', sound: 'yo', name: 'Ё' },
+                { char: 'И', sound: 'i', name: 'И' },
+                { char: 'О', sound: 'o', name: 'О' },
+                { char: 'У', sound: 'u', name: 'У' },
+                { char: 'Ы', sound: 'y', name: 'Ы' },
+                { char: 'Э', sound: 'e', name: 'Э' },
+                { char: 'Ю', sound: 'yu', name: 'Ю' },
+                { char: 'Я', sound: 'ya', name: 'Я' }
+            ]
+        };
+
+        // TTS Variables
+        let currentAudio = null;
+        let currentPlayingChar = null;
+        let playAllQueue = [];
+        let isPlayingAll = false;
+
+        // DOM Elements for TTS
+        const ttsModel = document.getElementById('tts-model');
+        const ttsResponseFormat = document.getElementById('tts-response-format');
+        const ttsInstructions = document.getElementById('tts-instructions');
+        const ttsSpeed = document.getElementById('tts-speed');
+        const speedValue = document.getElementById('speed-value');
+        const ttsSpeakButton = document.getElementById('tts-speak-button');
+        const ttsStopButton = document.getElementById('tts-stop-button');
+        const ttsPlayAllButton = document.getElementById('tts-play-all');
+        const ttsStatus = document.getElementById('tts-status');
+
+        // Speed control update
+        ttsSpeed.addEventListener('input', function() {
+            speedValue.textContent = `${this.value}x`;
+        });
+
+        /**
+         * Converts text to speech using OpenAI's Russian Onyx voice
+         * @param {string} text - The text to convert to speech
+         * @returns {Promise<Audio>} - The audio object
+         */
+        async function textToSpeech(text) {
+            try {
+                updateTtsStatus('Converting text to speech...', 'processing');
+                
+                const options = {
+                    provider: 'openai',
+                    voice: 'onyx', // Using Onyx voice for Russian
+                    model: ttsModel.value,
+                    response_format: ttsResponseFormat.value,
+                    speed: parseFloat(ttsSpeed.value)
+                };
+                
+                // Add instructions if provided
+                if (ttsInstructions.value.trim()) {
+                    options.instructions = ttsInstructions.value;
+                }
+                
+                const audio = await puter.ai.txt2speech(text, options);
+                updateTtsStatus('Ready to play', '');
+                return audio;
+                
+            } catch (error) {
+                updateTtsStatus(`Error: ${error.message}`, 'error');
+                console.error('TTS Error:', error);
+                throw error;
+            }
+        }
+
+        /**
+         * Plays the pronunciation for a Russian character
+         * @param {Object} charData - The character data
+         */
+        async function playCharacter(charData) {
+            // Stop any currently playing audio
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            
+            // Highlight the currently playing character
+            if (currentPlayingChar) {
+                currentPlayingChar.classList.remove('playing');
+            }
+            
+            // Find and highlight the clicked character
+            const allChars = document.querySelectorAll('.russian-char');
+            currentPlayingChar = Array.from(allChars).find(el => el.textContent === charData.char);
+            if (currentPlayingChar) {
+                currentPlayingChar.classList.add('playing');
+            }
+            
+            // Create the text to speak
+            const textToSpeak = `${charData.char}. ${charData.name}. Звук: ${charData.sound}`;
+            
+            try {
+                updateTtsStatus(`Playing: ${charData.char} (${charData.name})`, 'playing');
+                currentAudio = await textToSpeech(textToSpeak);
+                
+                // Play the audio
+                await currentAudio.play();
+                
+                // Reset when audio finishes
+                currentAudio.addEventListener('ended', () => {
+                    updateTtsStatus('Ready', '');
+                    if (currentPlayingChar) {
+                        currentPlayingChar.classList.remove('playing');
+                        currentPlayingChar = null;
+                    }
+                    currentAudio = null;
+                    
+                    // Play next in queue if playing all
+                    if (isPlayingAll && playAllQueue.length > 0) {
+                        setTimeout(() => {
+                            playNextInQueue();
+                        }, 1000); // Pause between letters
+                    } else if (isPlayingAll) {
+                        isPlayingAll = false;
+                        updateTtsStatus('Finished playing all letters', '');
+                    }
+                });
+                
+                currentAudio.addEventListener('error', (e) => {
+                    updateTtsStatus('Error playing audio', 'error');
+                    console.error('Audio playback error:', e);
+                    currentAudio = null;
+                    if (currentPlayingChar) {
+                        currentPlayingChar.classList.remove('playing');
+                        currentPlayingChar = null;
+                    }
+                });
+                
+            } catch (error) {
+                updateTtsStatus('Error generating speech', 'error');
+                console.error('Play error:', error);
+            }
+        }
+
+        /**
+         * Plays all letters in sequence
+         */
+        async function playAllLetters() {
+            if (isPlayingAll) return;
+            
+            // Stop any current playback
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            
+            // Build the queue
+            playAllQueue = [...characters.consonants, ...characters.vowels];
+            isPlayingAll = true;
+            
+            updateTtsStatus(`Playing ${playAllQueue.length} letters...`, 'processing');
+            
+            // Start playing
+            playNextInQueue();
+        }
+
+        /**
+         * Plays the next character in the queue
+         */
+        function playNextInQueue() {
+            if (!isPlayingAll || playAllQueue.length === 0) {
+                isPlayingAll = false;
+                return;
+            }
+            
+            const nextChar = playAllQueue.shift();
+            playCharacter(nextChar);
+        }
+
+        /**
+         * Stops all audio playback
+         */
+        function stopAllAudio() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                currentAudio = null;
+            }
+            
+            if (currentPlayingChar) {
+                currentPlayingChar.classList.remove('playing');
+                currentPlayingChar = null;
+            }
+            
+            isPlayingAll = false;
+            playAllQueue = [];
+            updateTtsStatus('Playback stopped', '');
+        }
+
+        /**
+         * Updates the TTS status display
+         * @param {string} message - Status message
+         * @param {string} type - Status type (empty, playing, processing, error)
+         */
+        function updateTtsStatus(message, type) {
+            ttsStatus.textContent = message;
+            ttsStatus.className = 'tts-status';
+            if (type) {
+                ttsStatus.classList.add(type);
+            }
+        }
+
+        // TTS Button Event Listeners
+        ttsSpeakButton.addEventListener('click', () => {
+            // Get the first character in the currently visible section
+            const activeSection = document.querySelector('#navbar a.active');
+            if (activeSection) {
+                const sectionId = activeSection.getAttribute('href').substring(1);
+                const firstChar = sectionId === 'consonants' ? characters.consonants[0] : characters.vowels[0];
+                if (firstChar) {
+                    playCharacter(firstChar);
+                }
+            }
+        });
+
+        ttsStopButton.addEventListener('click', stopAllAudio);
+        ttsPlayAllButton.addEventListener('click', playAllLetters);
+
+        /**
+         * Creates the HTML string for a character card.
+         * @param {Object} charData - The character data (char, sound, name).
+         * @param {number} index - The index for canvas identification.
+         * @returns {string} The HTML string for the card.
+         */
+        function createCard(charData, index) {
+            return `
+                <li class="cards_item">
+                    <div class="card">
+                        <div class="sketch">
+                            <div class="paint-container">
+                                <canvas class="paint" width="300" height="200" data-index="${index}"></canvas>
+                            </div>
+                            <div class="canvas-controls">
+                                <button class="erase-button" data-canvas-index="${index}">Erase</button>
+                                <div class="brush-controls">
+                                    <input type="range" class="brush-size" min="1" max="10" value="3" data-canvas-index="${index}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card_content">
+                            <div class="russian-char" data-char="${charData.char}">${charData.char}</div>
+                            <div class="char-info">${charData.name} - Sound: ${charData.sound}</div>
+                        </div>
+                    </div>
+                </li>
+            `;
+        }
+
+        function generateCards() {
+            const consonantsGrid = document.getElementById('consonants-grid');
+            const vowelsGrid = document.getElementById('vowels-grid');
+
+            let index = 0;
+
+            // Generate consonants
+            consonantsGrid.innerHTML = characters.consonants.map(char => createCard(char, index++)).join('');
+
+            // Generate vowels
+            vowelsGrid.innerHTML = characters.vowels.map(char => createCard(char, index++)).join('');
+
+            // Add click listeners to character cards
+            document.querySelectorAll('.russian-char').forEach(charElement => {
+                charElement.addEventListener('click', function() {
+                    const char = this.dataset.char;
+                    // Find the character data
+                    let charData = [...characters.consonants, ...characters.vowels].find(c => c.char === char);
+                    if (charData) {
+                        playCharacter(charData);
+                    }
+                });
+            });
+
+            addCanvasEventListeners();
+            addEraseButtonListeners();
+            addBrushSizeListeners();
+        }
+
+        // Canvas drawing functionality
+        let isDrawing = false;
+        let canvasesContexts = [];
+        let lastX = 0;
+        let lastY = 0;
+
+        /**
+         * Initializes and stores contexts for all canvas elements.
+         */
+        function initializeCanvasContexts() {
+            const canvasElements = document.querySelectorAll('.paint');
+            canvasElements.forEach((canvas, index) => {
+                const ctx = canvas.getContext('2d');
+                canvasesContexts[index] = ctx;
+
+                const container = canvas.parentElement;
+                canvas.width = container.clientWidth;
+                canvas.height = container.clientHeight;
+
+                ctx.strokeStyle = '#8B0000';
+                ctx.lineWidth = 3;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+            });
+        }
+
+        /**
+         * Adds event listeners for drawing on canvases.
+         */
+        function addCanvasEventListeners() {
+            document.querySelectorAll('.paint').forEach(canvas => {
+                canvas.addEventListener('mousedown', startDrawing);
+                canvas.addEventListener('mousemove', draw);
+                canvas.addEventListener('mouseup', stopDrawing);
+                canvas.addEventListener('mouseout', stopDrawing);
+
+                canvas.addEventListener('touchstart', handleTouch, { passive: false });
+                canvas.addEventListener('touchmove', handleTouch, { passive: false });
+                canvas.addEventListener('touchend', stopDrawing);
+                canvas.addEventListener('touchcancel', stopDrawing);
+            });
+        }
+
+        function startDrawing(e) {
+            e.preventDefault();
+            isDrawing = true;
+            const canvas = e.target;
+            const rect = canvas.getBoundingClientRect();
+
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+            lastX = (clientX - rect.left) * scaleX;
+            lastY = (clientY - rect.top) * scaleY;
+
+            const ctx = canvasesContexts[parseInt(canvas.dataset.index)];
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            e.preventDefault();
+
+            const canvas = e.target;
+            const rect = canvas.getBoundingClientRect();
+
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+            const currentX = (clientX - rect.left) * scaleX;
+            const currentY = (clientY - rect.top) * scaleY;
+
+            const ctx = canvasesContexts[parseInt(canvas.dataset.index)];
+            ctx.lineTo(currentX, currentY);
+            ctx.stroke();
+
+            lastX = currentX;
+            lastY = currentY;
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function handleTouch(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const target = e.target;
+
+            const mouseEvent = new MouseEvent(
+                e.type === 'touchstart' ? 'mousedown' : 'mousemove',
+                {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY,
+                    bubbles: true,
+                    cancelable: true
+                }
+            );
+            target.dispatchEvent(mouseEvent);
+        }
+
+        function clearCanvas(index) {
+            const canvas = document.querySelector(`canvas[data-index="${index}"]`);
+            if (canvas) {
+                const ctx = canvasesContexts[index];
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        function addEraseButtonListeners() {
+            document.querySelectorAll('.erase-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const canvasIndex = parseInt(this.dataset.canvasIndex);
+                    clearCanvas(canvasIndex);
+                });
+            });
+        }
+
+        function addBrushSizeListeners() {
+            document.querySelectorAll('.brush-size').forEach(slider => {
+                slider.addEventListener('input', function() {
+                    const canvasIndex = parseInt(this.dataset.canvasIndex);
+                    const ctx = canvasesContexts[canvasIndex];
+                    ctx.lineWidth = this.value;
+                });
+            });
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('#navbar a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+
+                if (targetElement) {
+                    const navbarHeight = document.getElementById('navbar').offsetHeight;
+                    const offsetTop = targetElement.offsetTop - navbarHeight;
+
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+
+                    document.querySelectorAll('#navbar a').forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            generateCards();
+            initializeCanvasContexts();
+
+            // Set default instructions for Russian pronunciation
+            ttsInstructions.value = "Speak clearly with proper Russian pronunciation, enunciate each letter distinctly";
+            
+            // Test TTS connection
+            updateTtsStatus('Connected to OpenAI TTS. Click any letter to hear its pronunciation.', '');
+
+            window.addEventListener('resize', function() {
+                initializeCanvasContexts();
+            });
+        });
+    </script>
+</body>
+</html>

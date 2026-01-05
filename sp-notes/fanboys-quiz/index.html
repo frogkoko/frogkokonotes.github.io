@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spanish Grammar Quiz</title>
+    <style>
+        /* (CSS remains the same) */
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            color: #000000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #e6f0ff;
+            color: #0066cc;
+            border: 1px solid #b3d1ff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-button:hover {
+            background: #cce0ff;
+            transform: translateX(-2px);
+        }
+
+        /* Main Container */
+        .main {
+            margin: auto; 
+            padding: 20px;
+            flex-grow: 1;
+            max-width: 1200px;
+        }
+
+        /* Header Styles */
+        .header {
+            text-align: center;
+            color: #000000;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #0066cc, #004d99);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            color: #333333;
+        }
+
+        /* Navigation Bar */
+        #navbar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            position: sticky; 
+            top: 0; 
+            background: #f0f7ff; 
+            padding: 15px 20px; 
+            z-index: 1000; 
+            box-shadow: 0 2px 10px rgba(0, 102, 204, 0.1);
+            width: 100%; 
+            box-sizing: border-box; 
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        #navbar a {
+            background: #e6f0ff;
+            color: #0066cc;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid #b3d1ff;
+        }
+
+        #navbar a:hover, #navbar a.active {
+            background: #0066cc;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 102, 204, 0.3);
+        }
+
+        /* Section Titles */
+        .section-title {
+            text-align: center;
+            color: #000000;
+            font-size: 1.8rem;
+            margin: 60px 0 30px 0;
+            font-weight: 300;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #0066cc, #004d99);
+            border-radius: 3px;
+        }
+
+        /* Quiz Container */
+        .quiz-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        /* Quiz Card */
+        .quiz-card {
+            background: #f8fbff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 102, 204, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #d9e7ff;
+            width: 100%;
+            min-height: 400px;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 102, 204, 0.15);
+        }
+
+        /* Question Area */
+        .question-area {
+            padding: 25px;
+            background: #f0f7ff;
+            border-bottom: 1px solid #d9e7ff;
+            flex: 1;
+        }
+
+        .question {
+            font-size: 1.3rem;
+            color: #0066cc;
+            margin-bottom: 20px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+       
+
+        /* Answer Area */
+        .answer-area {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Spanish Character Buttons */
+        .spanish-chars {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .char-btn {
+            background: #e6f0ff;
+            border: 1px solid #b3d1ff;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+            color: #0066cc;
+            font-weight: 500;
+        }
+
+        .char-btn:hover {
+            background: #cce0ff;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0, 102, 204, 0.2);
+        }
+
+        .char-btn:active {
+            transform: translateY(0);
+        }
+
+        .answer-input {
+            padding: 12px 15px;
+            border: 1px solid #b3d1ff;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .answer-input:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
+        }
+
+        .submit-button {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            align-self: flex-start;
+        }
+
+        .submit-button:hover {
+            background: #004d99;
+            transform: translateY(-2px);
+        }
+
+        .submit-button:disabled {
+            background: #b3d1ff;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Feedback Area */
+        .feedback {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .correct {
+            background: #e6ffe6;
+            color: #006600;
+            border: 1px solid #99cc99;
+        }
+
+        .incorrect {
+            background: #ffe6e6;
+            color: #cc0000;
+            border: 1px solid #ff9999;
+        }
+
+        /* Correct Answer Display */
+        .correct-answer {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: none;
+            font-weight: 500;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin: 30px 0;
+            background: #f0f7ff;
+            border-radius: 10px;
+            height: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #0066cc, #004d99);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 10px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Results Section */
+        .results {
+            text-align: center;
+            padding: 30px;
+            background: #f8fbff;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 102, 204, 0.1);
+            margin: 30px 0;
+            display: none;
+        }
+
+        .results h2 {
+            color: #0066cc;
+            margin-bottom: 20px;
+        }
+
+        .score {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #0066cc;
+            margin: 20px 0;
+        }
+
+        .restart-button {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .restart-button:hover {
+            background: #004d99;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 102, 204, 0.3);
+        }
+
+        /* TTS Controls */
+        .tts-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .tts-control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tts-control-group label {
+            font-size: 0.9em;
+            margin-bottom: 0;
+            color: rgba(0, 0, 0, 0.8);
+        }
+
+        .tts-rate-control, .tts-pitch-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tts-rate-control input, .tts-pitch-control input {
+            width: 100px;
+        }
+
+        .voice-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 107, 107, 0.1);
+            color: #333;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .voice-btn:hover {
+            background: rgba(255, 107, 107, 0.15);
+        }
+
+        .voice-btn.active {
+            background: rgba(255, 107, 107, 0.2);
+            box-shadow: 0 3px 10px rgba(255, 107, 107, 0.2);
+        }
+
+        .status-message {
+            text-align: center;
+            color: #1e90ff;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            min-height: 20px;
+        }
+
+        /* Explanation Section */
+        .explanation {
+            background: #f0f7ff;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0, 102, 204, 0.1);
+        }
+
+        .explanation h2 {
+            color: #0066cc;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .explanation p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 1200px) {
+            .main {
+                max-width: 1200px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            #navbar {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .back-button {
+                top: 10px;
+                left: 10px;
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .quiz-card {
+                min-height: 350px;
+            }
+            
+            .question {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main {
+                padding: 10px;
+            }
+            #navbar {
+                padding: 10px 15px;
+            }
+            #navbar a {
+                padding: 10px 20px; 
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .quiz-card {
+                min-height: 320px;
+            }
+            
+            .question-area, .answer-area {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <button class="back-button" onclick="goBack()">
+        ← Back
+    </button>
+
+    <div class="main">
+        <div class="header">
+            <h1>Spanish Grammar Quiz</h1>
+            <p>Test your knowledge of Spanish conjunctions, prepositions, and adverbs</p>
+        </div>
+        
+        <!-- Quiz Explanation -->
+        <div class="explanation">
+            <h2>How the Quiz Works</h2>
+            <p>This quiz will test your understanding of Spanish grammar concepts including FANBOYS conjunctions, prepositions, and adverbs. For each question, type your answer in the text box and click "Submit Answer". You'll receive immediate feedback and can use the TTS feature to hear the correct pronunciation.</p>
+            <p><strong>Note:</strong> If you answer a question incorrectly, it will be sent to the end of the quiz so you can try it again.</p>
+        </div>
+        
+
+        <!-- TTS Controls -->
+        <div class="tts-controls">
+            <div class="tts-control-group">
+                <label for="voiceSelector">TTS Provider:</label>
+                <select id="voiceSelector" class="voice-btn">
+                    <option value="openai-nova">OpenAI Nova (Spanish)</option>
+                    <option value="browser">Browser TTS</option>
+                </select>
+            </div>
+            <div class="tts-control-group">
+                <label for="ttsRate">Speech Rate:</label>
+                <div class="tts-rate-control">
+                    <input type="range" id="ttsRate" min="0.5" max="2" step="0.1" value="0.8">
+                    <span id="ttsRateValue">0.8</span>
+                </div>
+            </div>
+            <div class="tts-control-group">
+                <label for="ttsPitch">Speech Pitch:</label>
+                <div class="tts-pitch-control">
+                    <input type="range" id="ttsPitch" min="0.5" max="2" step="0.1" value="1">
+                    <span id="ttsPitchValue">1.0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-message" id="status-message"></div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+        </div>
+        <div class="progress-text" id="progress-text">Question 0 of 0</div>
+
+        <!-- Quiz Section -->
+        <section id="quiz">
+            <h2 class="section-title">Spanish Grammar Quiz</h2>
+            <div class="quiz-container" id="quiz-container"></div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results">
+            <div class="results" id="results-container">
+                <h2>Quiz Results</h2>
+                <p>You've completed the quiz!</p>
+                <div class="score" id="score">0/0</div>
+                <p id="results-message">Great job! Keep practicing to improve your Spanish grammar skills.</p>
+                <button class="restart-button" id="restart-button">Take Quiz Again</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://js.puter.com/v2/"></script>
+    <script>
+        // Back button functionality
+        function goBack() {
+            window.location.href = "../../index.html";
+        }
+
+        const quizData = {
+    "fanboys": [
+        {
+            question: "Translate the following to Spanish: 'for' (as in purpose/reason)",
+            answer: "para",
+            explanation: "Correct! 'Para' is used to indicate purpose or reason in Spanish.",
+            example: "Estudio español para viajar. (I study Spanish to travel.)"
+        },
+        {
+            question: "Fill in the blank: María ___ Juan estudian juntos. (Maria and Juan study together.)",
+            answer: "y",
+            explanation: "Correct! 'Y' is the Spanish conjunction for 'and'.",
+            example: "María y Juan estudian juntos. (Maria and Juan study together.)"
+        },
+        {
+            question: "Translate the following to Spanish: 'nor'",
+            answer: "ni",
+            explanation: "Correct! 'Ni' is used to connect negative alternatives in Spanish.",
+            example: "No como carne ni pescado. (I eat neither meat nor fish.)"
+        },
+        {
+            question: "Fill in the blank: Quiero ir, ___ no puedo. (I want to go, but I cannot.)",
+            answer: "pero",
+            explanation: "Correct! 'Pero' is used to show contrast in Spanish.",
+            example: "Quiero ir, pero no puedo. (I want to go, but I cannot.)"
+        },
+        {
+            question: "Translate the following to Spanish: 'or'",
+            answer: "o",
+            explanation: "Correct! 'O' is the Spanish conjunction for 'or'.",
+            example: "¿Prefieres café o té? (Do you prefer coffee or tea?)"
+        },
+        {
+            question: "Fill in the blank: Estudié mucho, ___ saqué una buena nota. (I studied a lot, so I got a good grade.)",
+            answer: "así que",
+            explanation: "Correct! 'Así que' is used to express a consequence or result.",
+            example: "Estudié mucho, así que saqué una buena nota. (I studied a lot, so I got a good grade.)"
+        },
+         {
+            question: "Fill in the blank: ¿___ ____ cuándo se publicará el articulo? (So when's the article coming out?)",
+            answer: "así que",
+            explanation: "Correct! 'Así que' is used to express a consequence or result.",
+            example: "Fill in the blank: ¿___ ____ cuándo se publicará el articulo? (So when's the article coming out?)"
+        },
+        {
+            question: "Translate the following to Spanish: 'because'",
+            answer: "porque",
+            explanation: "Correct! 'Porque' is used to give a reason or cause.",
+            example: "No fui porque estaba lloviendo. (I didn't go because it was raining.)"
+        },
+        {
+            question: "Fill in the blank: No tengo dinero, ___ voy a ir de compras. (I don't have money, yet I'm going shopping.)",
+            answer: "sin embargo",
+            explanation: "Correct! 'Sin embargo' is a conjunctive phrase meaning 'however' or 'nevertheless'.",
+            example: "No tengo dinero, sin embargo voy a ir de compras. (I don't have money, yet I'm going shopping.)"
+        },
+        {
+            question: "Fill in the blank: Un poco demasiado picante para mi paladar, ___ ____ es bueno. (A bit too spicy for my palate, however it is good.)",
+            answer: "sin embargo",
+            explanation: "Correct! 'Sin embargo' is a conjunctive phrase meaning 'however' or 'nevertheless'.",
+            example: "Un poco demasiado picante para mi paladar, ___ ____ es bueno. (A bit too spicy for my palate, however it is good.)"
+        },
+        {
+            question: "Translate the following to Spanish: 'therefore' or 'thus'",
+            answer: "por lo tanto",
+            explanation: "Correct! 'Por lo tanto' is a formal way to express a logical conclusion.",
+            example: "Es tarde, por lo tanto me voy a casa. (It's late, therefore I am going home.)"
+        },
+        {
+            question: "Fill in the blank: Puedes elegir el rojo ___ el azul. (You can choose the red one or the blue one.)",
+            answer: "o",
+            explanation: "Correct! 'O' is used to present alternatives. Remember it becomes 'u' before words starting with 'o-' or 'ho-'.",
+            example: "Puedes elegir el rojo o el azul. (You can choose the red one or the blue one.)"
+        }
+    ],
+    "prepositions": [
+        {
+            question: "Fill in the blank: Voy ___ la escuela. (I go to school.)",
+            answer: "a",
+            explanation: "Correct! 'A' is used to indicate direction or location in Spanish.",
+            example: "Voy a la escuela. (I go to school.)"
+        },
+        {
+            question: "Translate the following to Spanish: 'of' or 'from'",
+            answer: "de",
+            explanation: "Correct! 'De' indicates possession or origin in Spanish.",
+            example: "El libro de María. (Maria's book.)"
+        },
+        {
+            question: "Fill in the blank: Vivo ___ España. (I live in Spain.)",
+            answer: "en",
+            explanation: "Correct! 'En' is used to indicate location in Spanish.",
+            example: "Vivo en España. (I live in Spain.)"
+        },
+        {
+            question: "Translate the following to Spanish: 'with'",
+            answer: "con",
+            explanation: "Correct! 'Con' means 'with' in Spanish.",
+            example: "Voy con mis amigos. (I go with my friends.)"
+        },
+        {
+            question: "Fill in the blank: Café ___ azúcar. (Coffee without sugar.)",
+            answer: "sin",
+            explanation: "Correct! 'Sin' means 'without' in Spanish.",
+            example: "Café sin azúcar. (Coffee without sugar.)"
+        },
+        {
+            question: "Fill in the blank: El regalo es ___ mi madre. (The gift is for my mother.)",
+            answer: "para",
+            explanation: "Correct! 'Para' is used to indicate destination or recipient.",
+            example: "El regalo es para mi madre. (The gift is for my mother.)"
+        },
+        {
+            question: "Fill in the blank: Caminamos ___ el parque. (We walked through the park.)",
+            answer: "por",
+            explanation: "Correct! 'Por' is often used to indicate movement through a place or a general location.",
+            example: "Caminamos por el parque. (We walked through the park.)"
+        },
+        {
+            question: "Fill in the blank: La reunión es ___ las tres. (The meeting is at three.)",
+            answer: "a",
+            explanation: "Correct! 'A' is used to indicate a specific time.",
+            example: "La reunión es a las tres. (The meeting is at three.)"
+        }
+    ],
+    "adverbs": [
+        {
+            question: "Translate the following to Spanish: 'always'",
+            answer: "siempre",
+            explanation: "Correct! 'Siempre' means 'always' in Spanish.",
+            example: "Siempre llego temprano. (I always arrive early.)"
+        },
+        {
+            question: "Fill in the blank: ___ he estado en México. (I have never been to Mexico.)",
+            answer: "nunca",
+            explanation: "Correct! 'Nunca' means 'never' in Spanish.",
+            example: "Nunca he estado en México. (I have never been to Mexico.)"
+        },
+        {
+            question: "Translate the following to Spanish: 'sometimes'",
+            answer: "a veces",
+            explanation: "Correct! 'A veces' means 'sometimes' in Spanish.",
+            example: "A veces voy al cine. (Sometimes I go to the movies.)"
+        },
+        {
+            question: "Fill in the blank: I am fine (Estoy ___)",
+            answer: "bien",
+            explanation: "Correct! 'Bien' means 'well' in Spanish.",
+            example: "Estoy bien. (I am well.)"
+        },
+        {
+            question: "Translate the following to Spanish: 'now'",
+            answer: "ahora",
+            explanation: "Correct! 'Ahora' means 'now' in Spanish.",
+            example: "Tengo que irme ahora. (I have to go now.)"
+        },
+        // *** NEW ADVERBS QUESTIONS ***
+        {
+            question: "Fill in the blank: Ella canta ___ . (She sings well.)",
+            answer: "bien",
+            explanation: "Correct! 'Bien' is the adverb for 'well', used to describe how an action is performed.",
+            example: "Ella canta bien. (She sings well.)"
+        },
+        {
+            question: "Translate the following to Spanish: 'very'",
+            answer: "muy",
+            explanation: "Correct! 'Muy' is used to intensify an adjective or another adverb.",
+            example: "Es muy inteligente. (He is very intelligent.) / Corre muy rápido. (He runs very fast.)"
+        },
+        {
+            question: "Fill in the blank: ¿ ___ está la biblioteca? (Where is the library?)",
+            answer: "dónde",
+            explanation: "Correct! 'Dónde' is the adverb of place meaning 'where'.",
+            example: "¿Dónde está la biblioteca? (Where is the library?)"
+        },
+        {
+            question: "Translate the following to Spanish: 'here'",
+            answer: "aquí",
+            explanation: "Correct! 'Aquí' means 'here'.",
+            example: "Ven aquí, por favor. (Come here, please.)"
+        }
+    ]
+};
+
+        // TTS variables
+        let currentAudio = null;
+        let isSpeaking = false;
+        let useOpenAI = true;
+        let ttsRate = 0.8;
+        let ttsPitch = 1;
+        let audioCooldown = false;
+
+        // Quiz state variables
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let totalQuestions = 0;
+        let answeredQuestions = 0;
+
+        // DOM elements
+        const voiceSelector = document.getElementById('voiceSelector');
+        const ttsRateSlider = document.getElementById('ttsRate');
+        const ttsPitchSlider = document.getElementById('ttsPitch');
+        const ttsRateValue = document.getElementById('ttsRateValue');
+        const ttsPitchValue = document.getElementById('ttsPitchValue');
+        const statusMessage = document.getElementById('status-message');
+        const quizContainer = document.getElementById('quiz-container');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const resultsContainer = document.getElementById('results-container');
+        const scoreElement = document.getElementById('score');
+        const resultsMessage = document.getElementById('results-message');
+        const restartButton = document.getElementById('restart-button');
+
+        /**
+         * Creates the HTML string for a quiz card.
+         * @param {Object} questionData - The question data.
+         * @param {number} index - The question index.
+         * @returns {string} The HTML string for the quiz card.
+         */
+        function createQuizCard(questionData, index) {
+            return `
+                <div class="quiz-card" id="question-${index}" ${index !== 0 ? 'style="display: none;"' : ''}>
+                    <div class="question-area">
+                        <div class="question">${questionData.question}</div>
+                    </div>
+                    <div class="answer-area">
+                        <!-- Spanish Character Buttons -->
+                        <div class="spanish-chars">
+                            <button class="char-btn" onclick="insertChar('á')">á</button>
+                            <button class="char-btn" onclick="insertChar('é')">é</button>
+                            <button class="char-btn" onclick="insertChar('í')">í</button>
+                            <button class="char-btn" onclick="insertChar('ó')">ó</button>
+                            <button class="char-btn" onclick="insertChar('ú')">ú</button>
+                            <button class="char-btn" onclick="insertChar('ü')">ü</button>
+                            <button class="char-btn" onclick="insertChar('ñ')">ñ</button>
+                            <button class="char-btn" onclick="insertChar('¿')">¿</button>
+                            <button class="char-btn" onclick="insertChar('¡')">¡</button>
+                        </div>
+                        <input type="text" class="answer-input" id="answer-${index}" placeholder="Type your answer here...">
+                        <button class="submit-button" onclick="checkAnswer(${index})">Submit Answer</button>
+                        <div class="feedback" id="feedback-${index}"></div>
+                        <div class="correct-answer" id="correct-answer-${index}"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        /**
+         * Inserts a Spanish character into the current answer input field
+         * @param {string} char - The character to insert
+         */
+        function insertChar(char) {
+            const currentInput = document.getElementById(`answer-${currentQuestionIndex}`);
+            if (currentInput) {
+                const start = currentInput.selectionStart;
+                const end = currentInput.selectionEnd;
+                const value = currentInput.value;
+                
+                // Insert the character at cursor position
+                currentInput.value = value.substring(0, start) + char + value.substring(end);
+                
+                // Move cursor to after the inserted character
+                currentInput.selectionStart = currentInput.selectionEnd = start + char.length;
+                
+                // Focus back on the input
+                currentInput.focus();
+            }
+        }
+
+        /**
+         * Initializes the quiz with questions from all categories.
+         */
+        function initializeQuiz() {
+            // Combine questions from all categories
+            currentQuestions = [
+                ...quizData.fanboys,
+                ...quizData.prepositions,
+                ...quizData.adverbs
+            ];
+            
+            // Shuffle the questions
+            shuffleArray(currentQuestions);
+            
+            // Limit to 25 questions for a comprehensive quiz
+            currentQuestions = currentQuestions.slice(0, 25);
+            currentQuestionIndex = 0;
+            score = 0;
+            answeredQuestions = 0;
+            totalQuestions = currentQuestions.length;
+            
+            // Generate quiz cards
+            renderQuizCards();
+            
+            // Update progress
+            updateProgress();
+            
+            // Hide results
+            resultsContainer.style.display = 'none';
+            
+            // Show first question
+            showQuestion(0);
+        }
+
+        /**
+         * Renders all quiz cards based on currentQuestions array
+         */
+        function renderQuizCards() {
+            quizContainer.innerHTML = currentQuestions.map((question, index) => 
+                createQuizCard(question, index)
+            ).join('');
+        }
+
+        /**
+         * Shuffles an array using the Fisher-Yates algorithm.
+         * @param {Array} array - The array to shuffle.
+         */
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        /**
+         * Shows a specific question and hides all others
+         * @param {number} index - The question index to show
+         */
+        function showQuestion(index) {
+            // Hide all questions
+            document.querySelectorAll('.quiz-card').forEach(card => {
+                card.style.display = 'none';
+            });
+            
+            // Show the specified question
+            const questionElement = document.getElementById(`question-${index}`);
+            if (questionElement) {
+                questionElement.style.display = 'flex';
+                
+                // Focus on the input field and clear it
+                const inputElement = document.getElementById(`answer-${index}`);
+                if (inputElement) {
+                    inputElement.value = '';
+                    inputElement.focus();
+                }
+                
+                // Reset feedback and correct answer display
+                const feedbackElement = document.getElementById(`feedback-${index}`);
+                if (feedbackElement) {
+                    feedbackElement.style.display = 'none';
+                    feedbackElement.textContent = '';
+                }
+                
+                const correctAnswerElement = document.getElementById(`correct-answer-${index}`);
+                if (correctAnswerElement) {
+                    correctAnswerElement.style.display = 'none';
+                    correctAnswerElement.textContent = '';
+                }
+                
+                const submitButton = questionElement.querySelector('.submit-button');
+                if (submitButton) {
+                    submitButton.disabled = false;
+                }
+            }
+            
+            currentQuestionIndex = index;
+            updateProgress();
+        }
+
+/**
+ * Checks the user's answer for a specific question.
+ * @param {number} index - The question index.
+ */
+function checkAnswer(index) {
+    const userAnswer = document.getElementById(`answer-${index}`).value.trim().toLowerCase();
+    const correctAnswer = currentQuestions[index].answer.toLowerCase();
+    const feedbackElement = document.getElementById(`feedback-${index}`);
+    const correctAnswerElement = document.getElementById(`correct-answer-${index}`);
+    const submitButton = document.querySelector(`#question-${index} .submit-button`);
+    
+    // Disable the submit button to prevent multiple submissions
+    submitButton.disabled = true;
+    
+    if (userAnswer === correctAnswer) {
+        // Correct answer
+        feedbackElement.textContent = `✓ ${currentQuestions[index].explanation}`;
+        feedbackElement.className = 'feedback correct';
+        feedbackElement.style.display = 'block';
+        score++;
+        answeredQuestions++;
+        
+        // Speak the correct answer
+        speakSpanish(correctAnswer);
+        
+        // Show next question after a delay
+        setTimeout(() => {
+            moveToNextQuestion();
+        }, 2000);
+    } else {
+        // Incorrect answer - SHOW FEEDBACK BEFORE MOVING THE QUESTION
+        feedbackElement.textContent = `✗ Incorrect. ${currentQuestions[index].explanation}`;
+        feedbackElement.className = 'feedback incorrect';
+        feedbackElement.style.display = 'block';
+        
+        // Show the correct answer prominently
+        correctAnswerElement.innerHTML = `Correct answer: <strong>"${currentQuestions[index].answer}"</strong>`;
+        correctAnswerElement.style.display = 'block';
+        
+        // Speak the correct answer
+        speakSpanish(correctAnswer);
+        
+        // Wait for user to read feedback, THEN move question and re-render
+        setTimeout(() => {
+            // Remove the current question and add it to the end
+            const incorrectQuestion = currentQuestions.splice(index, 1)[0];
+            currentQuestions.push(incorrectQuestion);
+            
+            // Re-render all quiz cards to sync HTML with updated array
+            renderQuizCards();
+            
+            // Show the same index (which now contains the next question)
+            if (index >= currentQuestions.length) {
+                showQuestion(currentQuestions.length - 1);
+            } else {
+                showQuestion(index);
+            }
+        }, 3000);
+    }
+    
+    // Update progress after answering
+    updateProgress();
+}  
+
+
+/**
+         * Moves to the next question or finishes the quiz
+         */
+        function moveToNextQuestion() {
+            if (currentQuestionIndex < currentQuestions.length - 1) {
+                // Show next question
+                showQuestion(currentQuestionIndex + 1);
+            } else {
+                // Quiz finished
+                showResults();
+            }
+        }
+
+        /**
+         * Updates the progress bar and text.
+         */
+        function updateProgress() {
+            const progressPercentage = (answeredQuestions / totalQuestions) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            progressText.textContent = `Answered ${answeredQuestions} of ${totalQuestions} questions (Current: ${currentQuestionIndex + 1}/${currentQuestions.length})`;
+        }
+
+        /**
+         * Shows the quiz results.
+         */
+        function showResults() {
+            scoreElement.textContent = `${score}/${totalQuestions}`;
+            
+            // Calculate percentage
+            const percentage = (score / totalQuestions) * 100;
+            
+            // Set results message based on score
+            if (percentage >= 90) {
+                resultsMessage.textContent = "Excellent! You have a strong understanding of Spanish grammar.";
+            } else if (percentage >= 80) {
+                resultsMessage.textContent = "Great job! You have a solid grasp of Spanish grammar.";
+            } else if (percentage >= 70) {
+                resultsMessage.textContent = "Good work! You understand the basics well.";
+            } else if (percentage >= 60) {
+                resultsMessage.textContent = "Not bad! Keep practicing to improve your Spanish grammar skills.";
+            } else {
+                resultsMessage.textContent = "Keep studying! Review the material and try again.";
+            }
+            
+            // Show results section
+            resultsContainer.style.display = 'block';
+            
+            // Scroll to results
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Enhanced Text-to-Speech functionality with OpenAI integration
+        const speakSpanish = async (text) => {
+            try {
+                // Cancel any ongoing speech
+                speechSynthesis.cancel();
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio = null;
+                }
+
+                // Use OpenAI TTS if selected
+                if (useOpenAI) {
+                    updateStatus('Converting with OpenAI...', 'processing');
+                    
+                    try {
+                        const audio = await puter.ai.txt2speech(text, {
+                            provider: 'openai',
+                            voice: 'nova',
+                            model: 'gpt-4o-mini-tts',
+                            response_format: 'mp3',
+                            instructions: 'Speak in Spanish with clear pronunciation'
+                        });
+                        
+                        currentAudio = audio;
+                        await audio.play();
+                        
+                        // Add event listeners for better UX
+                        audio.addEventListener('ended', () => {
+                            updateStatus('Playback complete', '');
+                            currentAudio = null;
+                            isSpeaking = false;
+                            audioCooldown = false;
+                        });
+                        
+                        audio.addEventListener('error', (e) => {
+                            console.error('OpenAI TTS error:', e);
+                            updateStatus('Error playing audio', 'error');
+                            currentAudio = null;
+                            isSpeaking = false;
+                            audioCooldown = false;
+                        });
+                        
+                    } catch (error) {
+                        console.error('OpenAI TTS failed, falling back to browser TTS:', error);
+                        // Fall back to browser TTS
+                        useBrowserTTS(text);
+                    }
+                } else {
+                    // Use browser TTS
+                    useBrowserTTS(text);
+                }
+            } catch (error) {
+                console.error('Error with TTS:', error);
+                isSpeaking = false;
+                audioCooldown = false;
+            }
+        };
+
+        // Browser TTS fallback
+        const useBrowserTTS = (text) => {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'es-ES'; // Spanish language code
+                utterance.rate = ttsRate;
+                utterance.pitch = ttsPitch;
+                utterance.volume = 1;
+                
+                // Add event listeners for better UX
+                utterance.onstart = () => {
+                    updateStatus('Playing audio...', '');
+                };
+                
+                utterance.onend = () => {
+                    updateStatus('Playback complete', '');
+                    isSpeaking = false;
+                    audioCooldown = false;
+                };
+                
+                utterance.onerror = (event) => {
+                    console.error('Speech synthesis error:', event);
+                    updateStatus('Error playing audio', 'error');
+                    isSpeaking = false;
+                    audioCooldown = false;
+                };
+                
+                speechSynthesis.speak(utterance);
+            } else {
+                console.log('Speech synthesis not supported');
+                updateStatus('Speech synthesis not supported', 'error');
+                isSpeaking = false;
+                audioCooldown = false;
+            }
+        };
+
+        function updateStatus(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = 'status-message';
+            if (type) {
+                statusMessage.classList.add(type);
+            }
+        }
+
+        // TTS Control Event Listeners
+        voiceSelector.addEventListener('change', function() {
+            useOpenAI = this.value === 'openai-nova';
+            updateStatus(useOpenAI ? 
+                "Using OpenAI Nova voice for Spanish pronunciation" : 
+                "Using browser TTS for Spanish pronunciation", 'info');
+            setTimeout(() => {
+                updateStatus('', '');
+            }, 3000);
+        });
+
+        ttsRateSlider.addEventListener('input', function() {
+            ttsRate = parseFloat(this.value);
+            ttsRateValue.textContent = ttsRate.toFixed(1);
+        });
+
+        ttsPitchSlider.addEventListener('input', function() {
+            ttsPitch = parseFloat(this.value);
+            ttsPitchValue.textContent = ttsPitch.toFixed(1);
+        });
+
+        // Allow pressing Enter to submit answers
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                const activeQuestion = document.querySelector('.quiz-card[style="display: flex;"]');
+                if (activeQuestion) {
+                    const index = parseInt(activeQuestion.id.split('-')[1]);
+                    const submitButton = activeQuestion.querySelector('.submit-button');
+                    if (!submitButton.disabled) {
+                        checkAnswer(index);
+                    }
+                }
+            }
+        });
+
+        // Restart quiz button
+        restartButton.addEventListener('click', function() {
+            initializeQuiz();
+            document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('#navbar a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    // Adjust scroll position to account for sticky navbar height
+                    const navbarHeight = document.getElementById('navbar').offsetHeight;
+                    const offsetTop = targetElement.offsetTop - navbarHeight;
+
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update active nav item
+                    document.querySelectorAll('#navbar a').forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Initialize the quiz when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeQuiz();
+        });
+    </script>
+</body>
+</html>

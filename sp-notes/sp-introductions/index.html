@@ -356,7 +356,8 @@
         
         <div class="instructions">
             <h3>How to Use</h3>
-            <p><strong>Click on a message</strong> to hear it spoken in Spanish using the OpenAI Nova voice.</p>
+            <p><strong>Click on Speaker A's message</strong> to hear the Spanish translation.</p>
+            <p><strong>Click on Speaker B's message</strong> to hear it spoken in Spanish using the OpenAI Nova voice.</p>
             <p><strong>Speaker A</strong> speaks English, <strong>Speaker B</strong> responds in Spanish.</p>
             <p><strong>Next/Previous:</strong> Navigate through the conversation.</p>
             <p><strong>Take Test:</strong> Test your understanding of the current conversation.</p>
@@ -367,459 +368,406 @@
     <script src="https://js.puter.com/v2/"></script>
     <script>
         const conversations = [
-            // Basic Greetings
+            // Conversation 1: Basic Introduction
             [
-                { speaker: 'a', text: "Hello", translation: "" },
-                { speaker: 'b', text: "¡Hola! ¿Cómo estás?" },
-                { speaker: 'a', text: "I'm doing well", translation: "" }
+                { speaker: 'a', text: "Hello, my name is Carlos. Nice to meet you.", translation: "Hola, me llamo Carlos. Mucho gusto." },
+                { speaker: 'b', text: "Mucho gusto, Carlos. Soy Elena. ¿A qué te dedicas?" },
+                { speaker: 'a', text: "I'm a teacher, what about you?", translation: "Soy profesor, ¿y tú?" },
+                { speaker: 'b', text: "Igual, también soy profesor. Enseño matemáticas en una escuela secundaria." }
             ],
+            // Conversation 2: Work and Location
             [
-                { speaker: 'a', text: "How are you doing?", translation: "" },
-                { speaker: 'b', text: "Muy bien, gracias. ¿Y tú?" }
+                { speaker: 'a', text: "Good morning! I'm David. I work as an engineer in a tech company.", translation: "¡Buenos días! Soy David. Trabajo como ingeniero en una empresa de tecnología." },
+                { speaker: 'b', text: "Encantada, David. Soy Sofía. Soy profesora de historia en la universidad." },
+                { speaker: 'a', text: "That's interesting! Where do you live?", translation: "¡Qué interesante! ¿Dónde vives?" },
+                { speaker: 'b', text: "Vivo cerca del centro, en un apartamento pequeño. ¿Y tú?" }
             ],
+            // Conversation 3: Family and Hobbies
             [
-                { speaker: 'a', text: "What is your name?", translation: "" },
-                { speaker: 'b', text: "Me llamo María. ¿Y tú?" }
+                { speaker: 'a', text: "Hi, I'm Ana. I'm a doctor at the city hospital. I have two sons and one daughter.", translation: "Hola, soy Ana. Soy doctora en el hospital de la ciudad. Tengo dos hijos y una hija." },
+                { speaker: 'b', text: "¡Qué bien! Soy Miguel. Trabajo en marketing. Tengo tres hijas y me encanta pasar tiempo con ellas." },
+                { speaker: 'a', text: "For fun, I like to read books and play soccer with my kids.", translation: "Para divertirme, me gusta leer libros y jugar fútbol con mis hijos." },
+                { speaker: 'b', text: "¡A mí también me encantan los deportes! Juego al tenis los fines de semana con mis hijas." }
             ],
+            // Conversation 4: Extended Family
             [
-                { speaker: 'a', text: "My name is John. Nice to meet you.", translation: "" },
-                { speaker: 'b', text: "Mucho gusto, John." }
+                { speaker: 'a', text: "I'm married and we have one son. He's five years old.", translation: "Estoy casado y tenemos un hijo. Tiene cinco años." },
+                { speaker: 'b', text: "Soy soltero y vivo con mi perro. Pero vengo de una familia grande - tengo tres hermanos y dos hermanas." },
+                { speaker: 'a', text: "Wow, that is a big family! I'm an only child.", translation: "¡Vaya, eso es una familia grande! Yo soy hijo único." },
+                { speaker: 'b', text: "Sí, siempre hay mucha actividad en mi casa cuando visito a mis padres." }
             ],
+            // Conversation 5: Hobbies and Travel
             [
-                { speaker: 'a', text: "Where are you from?", translation: "" },
-                { speaker: 'b', text: "Soy de España. ¿Y tú?" }
+                { speaker: 'a', text: "In my free time, I enjoy cooking and traveling. Last year I visited Italy.", translation: "En mi tiempo libre, disfruto cocinar y viajar. El año pasado visité Italia." },
+                { speaker: 'b', text: "¡Qué interesante! A mí también me encanta viajar. Visito nuevos países cada año. El próximo mes voy a Japón." },
+                { speaker: 'a', text: "That sounds amazing! I'd love to visit Japan someday.", translation: "¡Eso suena increíble! Me encantaría visitar Japón algún día." },
+                { speaker: 'b', text: "Te recomiendo que vayas. La comida y la cultura son fascinantes." }
             ],
-            // Time-based Greetings
+            // Conversation 6: Complete Introduction
             [
-                { speaker: 'a', text: "Good morning!", translation: "" },
-                { speaker: 'b', text: "¡Buenos días!"}
+                { speaker: 'a', text: "Let me introduce myself. I'm Laura, I'm a graphic designer, and I have two sons. For fun, I paint and go hiking.", translation: "Permíteme presentarme. Soy Laura, soy diseñadora gráfica y tengo dos hijos. Para divertirme, pinto y hago senderismo." },
+                { speaker: 'b', text: "¡Mucho gusto, Laura! Soy Roberto. Soy arquitecto, tengo una hija y me encanta la fotografía y el ciclismo." },
+                { speaker: 'a', text: "That's wonderful! How old is your daughter?", translation: "¡Eso es maravilloso! ¿Cuántos años tiene tu hija?" },
+                { speaker: 'b', text: "Tiene siete años y ya le encanta dibujar y pintar, como a ti." }
             ],
+            // Conversation 7: Age and Living Situation
             [
-                { speaker: 'a', text: "Good afternoon!", translation: "" },
-                { speaker: 'b', text: "¡Buenas tardes!" }
+                { speaker: 'a', text: "I'm 35 years old and I live in Madrid with my family.", translation: "Tengo 35 años y vivo en Madrid con mi familia." },
+                { speaker: 'b', text: "Tengo 32 años y vivo en Barcelona. Trabajo como desarrollador de software desde casa." },
+                { speaker: 'a', text: "Working from home must be convenient. Do you like Barcelona?", translation: "Trabajar desde casa debe ser conveniente. ¿Te gusta Barcelona?" },
+                { speaker: 'b', text: "Sí, me encanta. Es una ciudad vibrante con mucha cultura y buena comida." }
             ],
+            // Conversation 8: Weekend Activities
             [
-                { speaker: 'a', text: "Good evening!", translation: "" },
-                { speaker: 'b', text: "¡Buenas noches!" }
+                { speaker: 'a', text: "On weekends, I usually go to the park with my children or visit friends.", translation: "Los fines de semana, suelo ir al parque con mis hijos o visitar amigos." },
+                { speaker: 'b', text: "Eso suena divertido. Yo normalmente voy al gimnasio o salgo a cenar con mis amigos." },
+                { speaker: 'a', text: "Do you have any favorite restaurants in the city?", translation: "¿Tienes algún restaurante favorito en la ciudad?" },
+                { speaker: 'b', text: "Sí, hay un pequeño restaurante italiano cerca de mi casa que tiene la mejor pasta." }
             ],
-            // Farewells
+            // Conversation 9: Future Plans
             [
-                { speaker: 'a', text: "Goodbye!", translation: "" },
-                { speaker: 'b', text: "¡Adiós!"}
+                { speaker: 'a', text: "Next year, I plan to visit my family in the United States.", translation: "El próximo año, planeo visitar a mi familia en los Estados Unidos." },
+                { speaker: 'b', text: "¡Qué emocionante! Yo quiero aprender a tocar la guitarra. Es uno de mis objetivos para el próximo año." },
+                { speaker: 'a', text: "That's a great goal! I've always wanted to learn a musical instrument too.", translation: "¡Ese es un gran objetivo! Siempre he querido aprender a tocar un instrumento musical también." },
+                { speaker: 'b', text: "Tal vez podamos tomar clases juntos algún día. Sería divertido." }
             ],
+            // Conversation 10: Cultural Exchange
             [
-                { speaker: 'a', text: "See you later!", translation: "" },
-                { speaker: 'b', text: "¡Hasta luego!" }
-            ],
-            [
-                { speaker: 'a', text: "See you tomorrow!", translation: "" },
-                { speaker: 'b', text: "¡Hasta mañana!"}
-            ],
-            // Polite Expressions
-            [
-                { speaker: 'a', text: "Thank you very much!", translation: "" },
-                { speaker: 'b', text: "¡Muchas gracias!"}
-            ],
-            [
-                { speaker: 'a', text: "You're welcome.", translation: "" },
-                { speaker: 'b', text: "De nada." }
-            ],
-            [
-                { speaker: 'a', text: "Excuse me.", translation: "" },
-                { speaker: 'b', text: "Perdón." }
-            ],
-            [
-                { speaker: 'a', text: "I'm sorry.", translation: "" },
-                { speaker: 'b', text: "Lo siento." }
-            ],
-            // Asking about well-being
-            [
-                { speaker: 'a', text: "How have you been?", translation: "" },
-                { speaker: 'b', text: "¿Cómo has estado?" }
-            ],
-            [
-                { speaker: 'a', text: "Everything is fine, thanks.", translation: "" },
-                { speaker: 'b', text: "Todo bien, gracias." }
+                { speaker: 'a', text: "I'm trying to improve my Spanish. Do you have any tips?", translation: "Estoy intentando mejorar mi español. ¿Tienes algún consejo?" },
+                { speaker: 'b', text: "Te recomiendo ver películas españolas con subtítulos y practicar hablando con nativos, como ahora." },
+                { speaker: 'a', text: "Thank you for the advice! Your English is very good too.", translation: "¡Gracias por el consejo! Tu inglés también es muy bueno." },
+                { speaker: 'b', text: "Gracias. He estado estudiando inglés desde la escuela. La práctica constante es la clave." }
             ]
         ];
 
         // Test questions for each conversation
         const testQuestions = [
-            // Tests for basic greetings
+            // Tests for conversation 1
             [
                 {
-                    question: "What does '¿Cómo estás?' mean?",
+                    question: "How do you say 'My name is Carlos' in Spanish?",
                     options: [
-                        "How are you?",
+                        "Me llamo Carlos",
+                        "Soy Carlos",
+                        "Mi nombre Carlos",
+                        "Carlos me llama"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What does '¿A qué te dedicas?' mean?",
+                    options: [
+                        "What do you do for work?",
                         "What is your name?",
                         "Where are you from?",
-                        "Nice to meet you."
+                        "How old are you?"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    question: "How do you say 'Nice to meet you' in Spanish?",
+                    question: "How would you say 'I'm a teacher' in Spanish?",
                     options: [
-                        "Mucho gusto",
-                        "Hola",
-                        "Gracias",
-                        "Adiós"
+                        "Soy profesor/profesora",
+                        "Trabajo como maestro",
+                        "Enseño en escuela",
+                        "Me dedico a enseñar"
                     ],
                     correctAnswer: 0
                 }
             ],
+            // Tests for conversation 2
             [
                 {
-                    question: "What is the response to '¿Cómo estás?' when you're doing well?",
+                    question: "How do you say 'I work as an engineer' in Spanish?",
                     options: [
-                        "Muy bien, gracias",
-                        "Me llamo...",
-                        "Soy de...",
-                        "Hasta luego"
+                        "Trabajo como ingeniero",
+                        "Soy ingeniero trabajando",
+                        "Trabajo en ingeniero",
+                        "Ingeniero es mi trabajo"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    question: "What does '¿Y tú?' mean?",
+                    question: "What is the Spanish word for 'teacher' (female)?",
                     options: [
-                        "And you?",
-                        "How are you?",
-                        "What's your name?",
-                        "Thank you"
+                        "Profesora",
+                        "Maestra",
+                        "Enseñadora",
+                        "Doctora"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What does '¿Dónde vives?' mean?",
+                    options: [
+                        "Where do you live?",
+                        "Where are you from?",
+                        "Where do you work?",
+                        "Where are you going?"
                     ],
                     correctAnswer: 0
                 }
             ],
+            // Tests for conversation 3
             [
                 {
-                    question: "How do you ask 'What is your name?' in Spanish?",
+                    question: "How do you say 'I have two sons and one daughter' in Spanish?",
                     options: [
-                        "¿Cómo te llamas?",
-                        "¿Cómo estás?",
-                        "¿De dónde eres?",
-                        "Mucho gusto"
+                        "Tengo dos hijos y una hija",
+                        "Soy dos hijos y una hija",
+                        "Tengo dos niños y una niña",
+                        "Veo dos hijos y una hija"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    question: "What does 'Me llamo María' mean?",
+                    question: "What does 'me encanta pasar tiempo con ellas' mean?",
                     options: [
-                        "My name is Maria",
-                        "I am from Maria",
-                        "How are you Maria",
-                        "Nice to meet you Maria"
+                        "I love spending time with them (females)",
+                        "I need time with them",
+                        "I have time for them",
+                        "I want time with them"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "How would you say 'I like to read books' in Spanish?",
+                    options: [
+                        "Me gusta leer libros",
+                        "Me gusta libros",
+                        "Leo libros me gusta",
+                        "Libros me gustan leer"
                     ],
                     correctAnswer: 0
                 }
             ],
+            // Tests for conversation 4
             [
                 {
-                    question: "How do you respond to 'Mucho gusto'?",
+                    question: "How do you say 'I'm married' in Spanish?",
                     options: [
-                        "Mucho gusto también",
-                        "Hola",
-                        "Adiós",
-                        "Gracias"
+                        "Estoy casado/casada",
+                        "Soy casado",
+                        "Tengo esposo",
+                        "Me caso"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    question: "What is the Spanish equivalent of 'Nice to meet you'?",
+                    question: "What does 'Soy soltero' mean?",
                     options: [
-                        "Mucho gusto",
-                        "Hola",
-                        "Buenos días",
-                        "Hasta luego"
+                        "I'm single (male)",
+                        "I'm alone",
+                        "I'm married",
+                        "I'm sad"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "How would you say 'I'm an only child' in Spanish?",
+                    options: [
+                        "Soy hijo único/hija única",
+                        "Tengo un hermano",
+                        "No tengo hermanos",
+                        "Soy el único niño"
                     ],
                     correctAnswer: 0
                 }
             ],
+            // Tests for conversation 5
             [
                 {
-                    question: "How do you ask 'Where are you from?' in Spanish?",
+                    question: "How do you say 'In my free time' in Spanish?",
                     options: [
-                        "¿De dónde eres?",
-                        "¿Cómo estás?",
-                        "¿Cómo te llamas?",
-                        "¿Qué tal?"
+                        "En mi tiempo libre",
+                        "En mi libre tiempo",
+                        "Cuando tengo tiempo",
+                        "Mi tiempo gratis"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    question: "What does 'Soy de España' mean?",
+                    question: "What does 'disfruto cocinar' mean?",
                     options: [
-                        "I'm from Spain",
-                        "I'm Spanish",
-                        "I like Spain",
-                        "I'm going to Spain"
+                        "I enjoy cooking",
+                        "I dislike cooking",
+                        "I need to cook",
+                        "I cook well"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What does 'Te recomiendo que vayas' mean?",
+                    options: [
+                        "I recommend that you go",
+                        "I want to go with you",
+                        "You should recommend me",
+                        "I will go with you"
                     ],
                     correctAnswer: 0
                 }
             ],
-            // Tests for time-based greetings
+            // Tests for conversation 6
             [
                 {
-                    question: "How do you say 'Good morning' in Spanish?",
+                    question: "How do you say 'Let me introduce myself' in Spanish?",
                     options: [
-                        "Buenos días",
-                        "Buenas tardes",
-                        "Buenas noches",
-                        "Hola"
+                        "Permíteme presentarme",
+                        "Déjame presentar",
+                        "Yo me presento",
+                        "Mi introducción"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    question: "When would you use 'Buenas tardes'?",
+                    question: "What does 'diseñadora gráfica' mean?",
                     options: [
-                        "In the afternoon",
-                        "In the morning",
-                        "In the evening",
-                        "At night"
+                        "Graphic designer (female)",
+                        "Design graphics",
+                        "Beautiful design",
+                        "Art designer"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "How would you ask 'How old is your daughter?' in Spanish?",
+                    options: [
+                        "¿Cuántos años tiene tu hija?",
+                        "¿Qué edad tiene tu hija?",
+                        "¿Cómo es tu hija?",
+                        "¿Dónde está tu hija?"
                     ],
                     correctAnswer: 0
                 }
             ],
+            // Tests for conversation 7
             [
                 {
-                    question: "What is the Spanish greeting for 'Good afternoon'?",
+                    question: "How do you say 'I'm 35 years old' in Spanish?",
                     options: [
-                        "Buenas tardes",
-                        "Buenos días",
-                        "Buenas noches",
-                        "Hola"
+                        "Tengo 35 años",
+                        "Soy 35 años",
+                        "Estoy 35 años",
+                        "Tengo 35 años viejo"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    question: "When would you use 'Buenas noches'?",
+                    question: "What does 'desarrollador de software' mean?",
                     options: [
-                        "In the evening/night",
-                        "In the morning",
-                        "In the afternoon",
-                        "At any time"
+                        "Software developer",
+                        "Software designer",
+                        "Computer programmer",
+                        "Technology expert"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What does 'desde casa' mean?",
+                    options: [
+                        "From home",
+                        "At home",
+                        "To home",
+                        "My home"
                     ],
                     correctAnswer: 0
                 }
             ],
+            // Tests for conversation 8
             [
                 {
-                    question: "What does 'Buenas noches' mean?",
+                    question: "How do you say 'On weekends' in Spanish?",
                     options: [
-                        "Good evening/night",
-                        "Good morning",
-                        "Good afternoon",
-                        "Good day"
+                        "Los fines de semana",
+                        "En los fines de semana",
+                        "Durante los fines",
+                        "Fin de semana"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    question: "Which greeting would you use when meeting someone at 8 PM?",
+                    question: "What does 'suelo ir al parque' mean?",
                     options: [
-                        "Buenas noches",
-                        "Buenos días",
-                        "Buenas tardes",
-                        "Hola"
+                        "I usually go to the park",
+                        "I want to go to the park",
+                        "I like the park",
+                        "I need to go to the park"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    question: "How would you say 'I go to the gym' in Spanish?",
+                    options: [
+                        "Voy al gimnasio",
+                        "Estoy en el gimnasio",
+                        "Tengo gimnasio",
+                        "Me gusta el gimnasio"
                     ],
                     correctAnswer: 0
                 }
             ],
-            // Tests for farewells
+            // Tests for conversation 9
             [
                 {
-                    question: "How do you say 'Goodbye' in Spanish?",
+                    question: "How do you say 'Next year' in Spanish?",
                     options: [
-                        "Adiós",
-                        "Hola",
-                        "Gracias",
-                        "Por favor"
+                        "El próximo año",
+                        "El año próximo",
+                        "El año que viene",
+                        "All of the above"
+                    ],
+                    correctAnswer: 3
+                },
+                {
+                    question: "What does 'aprender a tocar la guitarra' mean?",
+                    options: [
+                        "Learn to play the guitar",
+                        "Learn about guitars",
+                        "Play guitar music",
+                        "Buy a guitar"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    question: "What is a casual way to say 'See you later' in Spanish?",
+                    question: "What does 'Sería divertido' mean?",
                     options: [
-                        "Hasta luego",
-                        "Adiós",
-                        "Hasta mañana",
-                        "Buenas noches"
+                        "It would be fun",
+                        "It is fun",
+                        "It was fun",
+                        "It could be fun"
                     ],
                     correctAnswer: 0
                 }
             ],
+            // Tests for conversation 10
             [
                 {
-                    question: "What does 'Hasta luego' mean?",
+                    question: "How do you say 'I'm trying to improve my Spanish' in Spanish?",
                     options: [
-                        "See you later",
-                        "Goodbye",
-                        "See you tomorrow",
-                        "Hello"
+                        "Estoy intentando mejorar mi español",
+                        "Trato de mejorar mi español",
+                        "Quiero mejorar mi español",
+                        "Both A and B"
+                    ],
+                    correctAnswer: 3
+                },
+                {
+                    question: "What does 'Te recomiendo' mean?",
+                    options: [
+                        "I recommend you",
+                        "You recommend me",
+                        "I need recommendation",
+                        "You need recommendation"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    question: "How do you say 'See you tomorrow' in Spanish?",
+                    question: "What does 'La práctica constante es la clave' mean?",
                     options: [
-                        "Hasta mañana",
-                        "Hasta luego",
-                        "Adiós",
-                        "Buenos días"
-                    ],
-                    correctAnswer: 0
-                }
-            ],
-            [
-                {
-                    question: "What is the difference between 'Adiós' and 'Hasta luego'?",
-                    options: [
-                        "Adiós is more final, Hasta luego implies you'll see the person again",
-                        "Adiós is informal, Hasta luego is formal",
-                        "Adiós is for mornings, Hasta luego for afternoons",
-                        "There is no difference"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    question: "When would you use 'Hasta mañana'?",
-                    options: [
-                        "When you expect to see the person tomorrow",
-                        "When saying goodbye forever",
-                        "When greeting someone in the morning",
-                        "When thanking someone"
-                    ],
-                    correctAnswer: 0
-                }
-            ],
-            // Tests for polite expressions
-            [
-                {
-                    question: "How do you say 'Thank you very much' in Spanish?",
-                    options: [
-                        "Muchas gracias",
-                        "De nada",
-                        "Por favor",
-                        "Lo siento"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    question: "What is the appropriate response to 'Gracias'?",
-                    options: [
-                        "De nada",
-                        "Por favor",
-                        "Lo siento",
-                        "Hola"
-                    ],
-                    correctAnswer: 0
-                }
-            ],
-            [
-                {
-                    question: "What does 'De nada' mean?",
-                    options: [
-                        "You're welcome",
-                        "Thank you",
-                        "Excuse me",
-                        "I'm sorry"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    question: "How do you say 'Excuse me' in Spanish?",
-                    options: [
-                        "Perdón",
-                        "Gracias",
-                        "De nada",
-                        "Hola"
-                    ],
-                    correctAnswer: 0
-                }
-            ],
-            [
-                {
-                    question: "What does 'Lo siento' mean?",
-                    options: [
-                        "I'm sorry",
-                        "Excuse me",
-                        "Thank you",
-                        "You're welcome"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    question: "When would you use 'Perdón'?",
-                    options: [
-                        "To get someone's attention or apologize for a minor issue",
-                        "To thank someone",
-                        "To say goodbye",
-                        "To introduce yourself"
-                    ],
-                    correctAnswer: 0
-                }
-            ],
-            [
-                {
-                    question: "What is the difference between 'Perdón' and 'Lo siento'?",
-                    options: [
-                        "Perdón is for minor issues, Lo siento for more serious apologies",
-                        "Perdón is formal, Lo siento is informal",
-                        "Perdón is for thanking, Lo siento for apologizing",
-                        "There is no difference"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    question: "How would you respond to 'Lo siento'?",
-                    options: [
-                        "No hay problema",
-                        "Gracias",
-                        "De nada",
-                        "Hola"
-                    ],
-                    correctAnswer: 0
-                }
-            ],
-            // Tests for asking about well-being
-            [
-                {
-                    question: "How do you ask 'How have you been?' in Spanish?",
-                    options: [
-                        "¿Cómo has estado?",
-                        "¿Cómo estás?",
-                        "¿Qué tal?",
-                        "¿Cómo te llamas?"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    question: "What does 'Todo bien' mean?",
-                    options: [
-                        "Everything is fine",
-                        "How are you?",
-                        "Thank you",
-                        "Goodbye"
-                    ],
-                    correctAnswer: 0
-                }
-            ],
-            [
-                {
-                    question: "What is a common response to '¿Cómo has estado?'?",
-                    options: [
-                        "Todo bien, gracias",
-                        "Me llamo...",
-                        "Soy de...",
-                        "Hasta luego"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    question: "How is '¿Cómo has estado?' different from '¿Cómo estás?'?",
-                    options: [
-                        "¿Cómo has estado? asks about a period of time, ¿Cómo estás? asks about now",
-                        "¿Cómo has estado? is formal, ¿Cómo estás? is informal",
-                        "¿Cómo has estado? is for greetings, ¿Cómo estás? for farewells",
-                        "There is no difference"
+                        "Constant practice is the key",
+                        "Practice is important",
+                        "You need to practice",
+                        "Practice makes perfect"
                     ],
                     correctAnswer: 0
                 }
@@ -828,13 +776,17 @@
 
         // Spanish vocabulary to highlight
         const vocabWords = [
-            "Hola", "Buenos días", "Buenas tardes", "Buenas noches", "Adiós", 
-            "Hasta luego", "Hasta mañana", "Gracias", "Muchas gracias", "De nada", 
-            "Por favor", "Perdón", "Lo siento", "¿Cómo estás?", "Estoy bien", 
-            "Muy bien", "Mal", "Regular", "¿Y tú?", "Me llamo", 
-            "¿Cómo te llamas?", "Mucho gusto", "Encantado", "Encantada", "¿De dónde eres?", 
-            "Soy de", "España", "México", "Argentina", "Colombia", 
-            "Estados Unidos", "Inglaterra", "Francia", "Alemania", "Italia"
+            "Me llamo", "Soy", "Trabajo como", "Profesión", "Oficio",
+            "Ingeniero", "Doctor", "Profesor", "Profesora", "Diseñador",
+            "Arquitecto", "Desarrollador", "Marketing", "Medicina", "Educación",
+            "Tengo hijos", "Hijo", "Hija", "Hijos", "Casado",
+            "Casada", "Soltero", "Soltera", "Familia", "Hermano",
+            "Hermana", "Primos", "Tiempo libre", "Me gusta", "Disfruto",
+            "Leer", "Libros", "Deportes", "Fútbol", "Tenis",
+            "Cocinar", "Viajar", "Pintar", "Senderismo", "Fotografía",
+            "Ciclismo", "Años", "Vivo en", "Ciudad", "País",
+            "Mucho gusto", "Encantado", "Encantada", "Gracias", "Por favor",
+            "Permíteme", "Presentarme", "Recomiendo", "Práctica", "Clave"
         ];
 
         let currentConversationIndex = 0;
@@ -884,7 +836,7 @@
                 messageElement.innerHTML = `
                     ${displayText}
                     ${message.translation ? `<div class="translation">${message.translation}</div>` : ''}
-                    <button class="speak-btn" data-text="${message.speaker === 'b' ? message.text : ''}" data-speaker="${message.speaker}">
+                    <button class="speak-btn" data-text="${message.speaker === 'b' ? message.text : (message.translation || '')}" data-speaker="${message.speaker}">
                         <i class="fas fa-volume-up"></i>
                     </button>
                 `;
@@ -894,11 +846,10 @@
             // Add event listeners to speak buttons
             document.querySelectorAll('.speak-btn').forEach(button => {
                 button.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     const text = e.target.closest('.speak-btn').dataset.text;
                     const speaker = e.target.closest('.speak-btn').dataset.speaker;
-                    if (speaker === 'b') {
-                        speak(text);
-                    }
+                    speak(text);
                 });
             });
             
@@ -911,6 +862,12 @@
                             // Get the original text without HTML tags for speaking
                             const text = message.textContent.trim().split('\n')[0];
                             speak(text);
+                        } else if (speaker === 'a') {
+                            // For Speaker A, speak the translation if available
+                            const translationElement = message.querySelector('.translation');
+                            if (translationElement) {
+                                speak(translationElement.textContent);
+                            }
                         }
                     }
                 });
@@ -918,6 +875,8 @@
         }
 
         async function speak(text) {
+            if (!text) return;
+            
             updateStatus('Converting text to speech...', 'active');
             
             try {
@@ -1070,9 +1029,9 @@
             
             // Provide feedback based on score
             if (score >= 90) {
-                feedbackText.textContent = "¡Excelente! You have a great understanding of these Spanish greetings.";
+                feedbackText.textContent = "¡Excelente! You have a great understanding of these Spanish conversations.";
             } else if (score >= 70) {
-                feedbackText.textContent = "¡Muy bien! You understood most of the Spanish greetings.";
+                feedbackText.textContent = "¡Muy bien! You understood most of the Spanish conversations.";
             } else if (score >= 50) {
                 feedbackText.textContent = "Not bad! Review the conversation and try again.";
             } else {

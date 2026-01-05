@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indonesian Flashcards with TTS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://js.puter.com/v2/"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #3498db;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        .back-button {
+            background: #3498db;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .back-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Status indicator */
+        .status {
+            text-align: center;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: 500;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .status.processing {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .status.playing {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .tts-info {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            font-style: italic;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        /* Flashcard Section Styles */
+        .flashcard-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f0f0f0;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .flashcard-container {
+            width: 100%;
+        }
+
+        .flashcard {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 40px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid #3498db;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flashcard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .flashcard.flipped {
+            border-color: #2ecc71;
+        }
+
+        .flashcard-front, .flashcard-back {
+            display: none;
+            text-align: center;
+            width: 100%;
+        }
+
+        .flashcard-front.active, .flashcard-back.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .flashcard-indonesian {
+            font-size: 3rem;
+            font-family: 'Noto Serif', serif;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .flashcard-indonesian:hover {
+            color: #e74c3c;
+        }
+
+        .flashcard-english {
+            font-size: 2.5rem;
+            color: #3498db;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .flashcard-romanized {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .flashcard-details {
+            font-size: 1rem;
+            color: #5d6d7e;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+
+        .flashcard-instruction {
+            text-align: center;
+            color: #7f8c8d;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        .flashcard-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .flashcard-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .flashcard-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .flashcard-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .flashcard-button.speech {
+            background: #9b59b6;
+        }
+
+        .flashcard-button.speech:hover {
+            background: #8e44ad;
+        }
+
+        .flashcard-button.flip {
+            background: #2ecc71;
+        }
+
+        .flashcard-button.flip:hover {
+            background: #27ae60;
+        }
+
+        .flashcard-button.prev {
+            background: #f39c12;
+        }
+
+        .flashcard-button.prev:hover {
+            background: #d68910;
+        }
+
+        .flashcard-button.next {
+            background: #e74c3c;
+        }
+
+        .flashcard-button.next:hover {
+            background: #c0392b;
+        }
+
+        .flashcard-button.settings {
+            background: #7f8c8d;
+        }
+
+        .flashcard-button.settings:hover {
+            background: #5d6d7e;
+        }
+
+        .flashcard-counter {
+            text-align: center;
+            color: #7f8c8d;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .flashcard-mode-toggle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            flex-wrap: wrap;
+        }
+
+        .mode-option {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #7f8c8d;
+        }
+
+        .mode-option.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .mode-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .flashcard-settings {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .flashcard-settings.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .setting-label {
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 150px;
+        }
+
+        .setting-control {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            background: white;
+            font-family: 'Poppins', sans-serif;
+            min-width: 200px;
+        }
+
+        /* Category Tags */
+        .category-tags {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .category-tag {
+            background: white;
+            border: 2px solid #3498db;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #3498db;
+        }
+
+        .category-tag:hover {
+            background: #3498db;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .category-tag.active {
+            background: #3498db;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .flashcard {
+                padding: 20px;
+                min-height: 250px;
+            }
+
+            .flashcard-indonesian {
+                font-size: 2.2rem;
+            }
+
+            .flashcard-english {
+                font-size: 1.8rem;
+            }
+
+            .flashcard-controls {
+                flex-direction: column;
+            }
+
+            .flashcard-button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .flashcard-nav {
+                width: 100%;
+            }
+
+            .setting-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .setting-control {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .flashcard-indonesian {
+                font-size: 1.8rem;
+            }
+
+            .flashcard-english {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-romanized {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header">
+            <a href="../../index.html" class="back-button">← Back to Main</a>
+            <h1>Indonesian Flashcards with TTS</h1>
+            <p>Learn essential Indonesian phrases, words, and numbers with text-to-speech pronunciation</p>
+            <p>Click on Indonesian text to hear pronunciation</p>
+        </div>
+
+        <div id="status" class="status">Ready to convert text to speech</div>
+        <p class="tts-info">Click on any Indonesian text to hear its pronunciation</p>
+
+        <div class="category-tags" id="category-tags">
+            <div class="category-tag active" data-category="all">All Cards</div>
+            <div class="category-tag" data-category="greetings">Greetings</div>
+            <div class="category-tag" data-category="polite">Polite Phrases</div>
+            <div class="category-tag" data-category="introduction">Introduction</div>
+            <div class="category-tag" data-category="basic">Basic Words</div>
+            <div class="category-tag" data-category="numbers">Numbers</div>
+            <div class="category-tag" data-category="large-numbers">Large Numbers</div>
+        </div>
+
+        <div class="flashcard-section">
+            <div class="flashcard-mode-toggle">
+                <div class="mode-option active" data-mode="english-first">English First</div>
+                <div class="mode-option" data-mode="indonesian-first">Indonesian First</div>
+                <div class="mode-option" data-mode="romanized-first">Romanized First</div>
+            </div>
+
+            <div class="flashcard-container">
+                <div class="flashcard" id="current-flashcard">
+                    <div class="flashcard-front active">
+                        <div class="flashcard-english" id="flashcard-english">Hello (formal)</div>
+                        <div class="flashcard-instruction">Click to reveal Indonesian</div>
+                    </div>
+                    <div class="flashcard-back">
+                        <div class="flashcard-indonesian" id="flashcard-indonesian">Halo</div>
+                        <div class="flashcard-romanized" id="flashcard-romanized">Halo</div>
+                        <div class="flashcard-details" id="flashcard-details">Most common formal greeting</div>
+                        <div class="flashcard-instruction">Click to go back</div>
+                    </div>
+                </div>
+
+                <div class="flashcard-counter" id="flashcard-counter">Card 1 of 50</div>
+
+                <div class="flashcard-controls">
+                    <button class="flashcard-button speech" id="speak-button">
+                        🔊 Speak Indonesian
+                    </button>
+                    <button class="flashcard-button flip" id="flip-button">
+                        🔄 Flip Card
+                    </button>
+                    <button class="flashcard-button settings" id="settings-button">
+                        ⚙️ Settings
+                    </button>
+                </div>
+
+                <div class="flashcard-nav">
+                    <button class="flashcard-button prev" id="prev-button">
+                        ← Previous
+                    </button>
+                    <button class="flashcard-button next" id="next-button">
+                        Next →
+                    </button>
+                </div>
+            </div>
+
+            <div class="flashcard-settings" id="flashcard-settings">
+                <div class="setting-row">
+                    <span class="setting-label">Flashcard Set:</span>
+                    <select class="setting-control" id="flashcard-set-selector">
+                        <option value="all">All Cards (50 cards)</option>
+                        <option value="greetings">Greetings (8 cards)</option>
+                        <option value="polite">Polite Phrases (10 cards)</option>
+                        <option value="introduction">Introduction (6 cards)</option>
+                        <option value="basic">Basic Words (8 cards)</option>
+                        <option value="numbers">Numbers 1-100 (18 cards)</option>
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Auto-play Speech:</span>
+                    <select class="setting-control" id="auto-speak-selector">
+                        <option value="on-flip">On Flip</option>
+                        <option value="on-both">Always</option>
+                        <option value="off">Off</option>
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Shuffle Cards:</span>
+                    <button class="flashcard-button" id="shuffle-button" style="background: #9b59b6; padding: 8px 15px;">
+                        🔀 Shuffle Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Indonesian flashcards data
+        const indonesianFlashcards = {
+            greetings: [
+                {
+                    indonesian: 'Halo',
+                    romanized: 'Halo',
+                    english: 'Hello (formal)',
+                    details: 'Most common formal greeting'
+                },
+                {
+                    indonesian: 'Hai',
+                    romanized: 'Hai',
+                    english: 'Hello (informal)',
+                    details: 'Casual greeting for friends'
+                },
+                {
+                    indonesian: 'Selamat pagi',
+                    romanized: 'Selamat pagi',
+                    english: 'Good morning',
+                    details: 'Morning greeting'
+                },
+                {
+                    indonesian: 'Selamat siang',
+                    romanized: 'Selamat siang',
+                    english: 'Good afternoon',
+                    details: 'Afternoon greeting'
+                },
+                {
+                    indonesian: 'Selamat sore',
+                    romanized: 'Selamat sore',
+                    english: 'Good evening',
+                    details: 'Evening greeting'
+                },
+                {
+                    indonesian: 'Selamat malam',
+                    romanized: 'Selamat malam',
+                    english: 'Good night',
+                    details: 'Night greeting or bedtime'
+                },
+                {
+                    indonesian: 'Apa kabar?',
+                    romanized: 'Apa kabar?',
+                    english: 'How are you?',
+                    details: 'Common way to ask how someone is'
+                },
+                {
+                    indonesian: 'Baik',
+                    romanized: 'Baik',
+                    english: 'Fine / Good',
+                    details: 'Common response to "Apa kabar?"'
+                }
+            ],
+            polite: [
+                {
+                    indonesian: 'Terima kasih',
+                    romanized: 'Terima kasih',
+                    english: 'Thank you',
+                    details: 'Most common way to say thank you'
+                },
+                {
+                    indonesian: 'Sama-sama',
+                    romanized: 'Sama-sama',
+                    english: 'You\'re welcome',
+                    details: 'Direct response to thank you'
+                },
+                {
+                    indonesian: 'Maaf',
+                    romanized: 'Maaf',
+                    english: 'Sorry / Excuse me',
+                    details: 'Used for both apology and to get attention'
+                },
+                {
+                    indonesian: 'Permisi',
+                    romanized: 'Permisi',
+                    english: 'Excuse me',
+                    details: 'Used when passing through or interrupting'
+                },
+                {
+                    indonesian: 'Tolong',
+                    romanized: 'Tolong',
+                    english: 'Please / Help',
+                    details: 'Used to ask for help or politely request'
+                },
+                {
+                    indonesian: 'Silakan',
+                    romanized: 'Silakan',
+                    english: 'Please / Go ahead',
+                    details: 'Polite invitation or offering'
+                },
+                {
+                    indonesian: 'Minta maaf',
+                    romanized: 'Minta maaf',
+                    english: 'I apologize',
+                    details: 'Formal apology'
+                },
+                {
+                    indonesian: 'Boleh?',
+                    romanized: 'Boleh?',
+                    english: 'May I? / Can I?',
+                    details: 'Polite way to ask permission'
+                }
+            ],
+            introduction: [
+                {
+                    indonesian: 'Nama saya [nama]',
+                    romanized: 'Nama saya [nama]',
+                    english: 'My name is [name]',
+                    details: 'Formal self-introduction'
+                },
+                {
+                    indonesian: 'Saya [nama]',
+                    romanized: 'Saya [nama]',
+                    english: 'I am [name]',
+                    details: 'Polite way to introduce yourself'
+                },
+                {
+                    indonesian: 'Siapa nama Anda?',
+                    romanized: 'Siapa nama Anda?',
+                    english: 'What is your name? (formal)',
+                    details: 'Polite way to ask someone\'s name'
+                },
+                {
+                    indonesian: 'Siapa nama kamu?',
+                    romanized: 'Siapa nama kamu?',
+                    english: 'What is your name? (informal)',
+                    details: 'Casual way to ask someone\'s name'
+                },
+                {
+                    indonesian: 'Saya dari [negara]',
+                    romanized: 'Saya dari [negara]',
+                    english: 'I am from [country]',
+                    details: 'Introducing your origin'
+                },
+                {
+                    indonesian: 'Saya tinggal di [tempat]',
+                    romanized: 'Saya tinggal di [tempat]',
+                    english: 'I live in [place]',
+                    details: 'Sharing where you live'
+                }
+            ],
+            basic: [
+                {
+                    indonesian: 'Ya',
+                    romanized: 'Ya',
+                    english: 'Yes',
+                    details: 'Standard way to say yes'
+                },
+                {
+                    indonesian: 'Tidak',
+                    romanized: 'Tidak',
+                    english: 'No',
+                    details: 'Standard way to say no'
+                },
+                {
+                    indonesian: 'Iya',
+                    romanized: 'Iya',
+                    english: 'Yes (informal)',
+                    details: 'Casual way to say yes'
+                },
+                {
+                    indonesian: 'Bukan',
+                    romanized: 'Bukan',
+                    english: 'No / Not',
+                    details: 'Used to negate or say no'
+                },
+                {
+                    indonesian: 'Saya tidak tahu',
+                    romanized: 'Saya tidak tahu',
+                    english: 'I don\'t know',
+                    details: 'Polite way to say you don\'t know'
+                },
+                {
+                    indonesian: 'Saya mengerti',
+                    romanized: 'Saya mengerti',
+                    english: 'I understand',
+                    details: 'Formal way to say you understand'
+                },
+                {
+                    indonesian: 'Saya suka',
+                    romanized: 'Saya suka',
+                    english: 'I like',
+                    details: 'Expressing that you like something'
+                },
+                {
+                    indonesian: 'Saya tidak suka',
+                    romanized: 'Saya tidak suka',
+                    english: 'I don\'t like',
+                    details: 'Expressing that you don\'t like something'
+                }
+            ],
+            numbers: [
+                {
+                    indonesian: 'Satu',
+                    romanized: 'Satu',
+                    english: 'One',
+                    details: 'Basic number'
+                },
+                {
+                    indonesian: 'Dua',
+                    romanized: 'Dua',
+                    english: 'Two',
+                    details: 'Basic number'
+                },
+                {
+                    indonesian: 'Tiga',
+                    romanized: 'Tiga',
+                    english: 'Three',
+                    details: 'Basic number'
+                },
+                {
+                    indonesian: 'Empat',
+                    romanized: 'Empat',
+                    english: 'Four',
+                    details: 'Basic number'
+                },
+                {
+                    indonesian: 'Lima',
+                    romanized: 'Lima',
+                    english: 'Five',
+                    details: 'Basic number'
+                },
+                {
+                    indonesian: 'Enam',
+                    romanized: 'Enam',
+                    english: 'Six',
+                    details: 'Basic number'
+                },
+                {
+                    indonesian: 'Tujuh',
+                    romanized: 'Tujuh',
+                    english: 'Seven',
+                    details: 'Basic number'
+                },
+                {
+                    indonesian: 'Delapan',
+                    romanized: 'Delapan',
+                    english: 'Eight',
+                    details: 'Basic number'
+                },
+                {
+                    indonesian: 'Sembilan',
+                    romanized: 'Sembilan',
+                    english: 'Nine',
+                    details: 'Basic number'
+                },
+                {
+                    indonesian: 'Sepuluh',
+                    romanized: 'Sepuluh',
+                    english: 'Ten',
+                    details: 'Basic number'
+                },
+                {
+                    indonesian: 'Sebelas',
+                    romanized: 'Sebelas',
+                    english: 'Eleven',
+                    details: 'Basic number'
+                },
+                {
+                    indonesian: 'Dua belas',
+                    romanized: 'Dua belas',
+                    english: 'Twelve',
+                    details: 'Basic number'
+                },
+                {
+                    indonesian: 'Dua puluh',
+                    romanized: 'Dua puluh',
+                    english: 'Twenty',
+                    details: 'Basic number'
+                },
+                {
+                    indonesian: 'Tiga puluh',
+                    romanized: 'Tiga puluh',
+                    english: 'Thirty',
+                    details: 'Basic number'
+                },
+                {
+                    indonesian: 'Empat puluh',
+                    romanized: 'Empat puluh',
+                    english: 'Forty',
+                    details: 'Basic number'
+                },
+                {
+                    indonesian: 'Lima puluh',
+                    romanized: 'Lima puluh',
+                    english: 'Fifty',
+                    details: 'Basic number'
+                },
+                {
+                    indonesian: 'Seratus',
+                    romanized: 'Seratus',
+                    english: 'One hundred',
+                    details: 'Basic number'
+                }
+            ],
+            'large-numbers': [
+                {
+                    indonesian: 'Seribu',
+                    romanized: 'Seribu',
+                    english: 'One thousand',
+                    details: 'Large number'
+                },
+                {
+                    indonesian: 'Dua ribu',
+                    romanized: 'Dua ribu',
+                    english: 'Two thousand',
+                    details: 'Large number'
+                },
+                {
+                    indonesian: 'Sepuluh ribu',
+                    romanized: 'Sepuluh ribu',
+                    english: 'Ten thousand',
+                    details: 'Large number'
+                },
+                {
+                    indonesian: 'Seratus ribu',
+                    romanized: 'Seratus ribu',
+                    english: 'One hundred thousand',
+                    details: 'Large number'
+                },
+                {
+                    indonesian: 'Satu juta',
+                    romanized: 'Satu juta',
+                    english: 'One million',
+                    details: 'Large number'
+                },
+                {
+                    indonesian: 'Dua juta',
+                    romanized: 'Dua juta',
+                    english: 'Two million',
+                    details: 'Large number'
+                },
+                {
+                    indonesian: 'Sepuluh juta',
+                    romanized: 'Sepuluh juta',
+                    english: 'Ten million',
+                    details: 'Large number'
+                },
+                {
+                    indonesian: 'Seratus juta',
+                    romanized: 'Seratus juta',
+                    english: 'One hundred million',
+                    details: 'Large number'
+                },
+                {
+                    indonesian: 'Satu milyar',
+                    romanized: 'Satu milyar',
+                    english: 'One billion',
+                    details: 'Large number'
+                }
+            ]
+        };
+
+        // Flashcard System
+        class FlashcardSystem {
+            constructor() {
+                this.currentIndex = 0;
+                this.isFlipped = false;
+                this.mode = 'english-first';
+                this.currentSet = 'all';
+                this.currentCategory = 'all';
+                this.cards = this.getAllCards();
+                this.isShuffled = false;
+                this.autoSpeak = 'on-flip';
+
+                this.initializeElements();
+                this.bindEvents();
+                this.displayCurrentCard();
+            }
+
+            getAllCards() {
+                const allCards = [];
+
+                Object.keys(indonesianFlashcards).forEach(section => {
+                    indonesianFlashcards[section].forEach(card => {
+                        allCards.push({
+                            ...card,
+                            category: section
+                        });
+                    });
+                });
+
+                return allCards;
+            }
+
+            getFilteredCards() {
+                let filtered = [];
+
+                if (this.currentCategory === 'all') {
+                    if (this.currentSet === 'all') {
+                        filtered = this.cards;
+                    } else {
+                        filtered = this.cards.filter(card => card.category === this.currentSet);
+                    }
+                } else {
+                    filtered = this.cards.filter(card => card.category === this.currentCategory);
+                }
+
+                return this.isShuffled ? this.shuffleArray([...filtered]) : [...filtered];
+            }
+
+            shuffleArray(array) {
+                const shuffled = [...array];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                return shuffled;
+            }
+
+            initializeElements() {
+                this.flashcardElement = document.getElementById('current-flashcard');
+                this.englishElement = document.getElementById('flashcard-english');
+                this.indonesianElement = document.getElementById('flashcard-indonesian');
+                this.romanizedElement = document.getElementById('flashcard-romanized');
+                this.detailsElement = document.getElementById('flashcard-details');
+                this.counterElement = document.getElementById('flashcard-counter');
+                this.settingsElement = document.getElementById('flashcard-settings');
+
+                this.speakButton = document.getElementById('speak-button');
+                this.flipButton = document.getElementById('flip-button');
+                this.prevButton = document.getElementById('prev-button');
+                this.nextButton = document.getElementById('next-button');
+                this.settingsButton = document.getElementById('settings-button');
+                this.shuffleButton = document.getElementById('shuffle-button');
+
+                this.setSelector = document.getElementById('flashcard-set-selector');
+                this.autoSpeakSelector = document.getElementById('auto-speak-selector');
+                this.modeOptions = document.querySelectorAll('.mode-option');
+                this.categoryTags = document.querySelectorAll('.category-tag');
+            }
+
+            bindEvents() {
+                this.flashcardElement.addEventListener('click', () => this.flipCard());
+                this.indonesianElement.addEventListener('click', () => this.speakCurrentCard());
+
+                this.speakButton.addEventListener('click', () => this.speakCurrentCard());
+                this.flipButton.addEventListener('click', () => this.flipCard());
+                this.prevButton.addEventListener('click', () => this.previousCard());
+                this.nextButton.addEventListener('click', () => this.nextCard());
+                this.settingsButton.addEventListener('click', () => this.toggleSettings());
+                this.shuffleButton.addEventListener('click', () => this.shuffleCards());
+
+                this.setSelector.addEventListener('change', (e) => this.changeSet(e.target.value));
+                this.autoSpeakSelector.addEventListener('change', (e) => this.changeAutoSpeak(e.target.value));
+
+                this.modeOptions.forEach(option => {
+                    option.addEventListener('click', (e) => this.changeMode(e.target.dataset.mode));
+                });
+
+                this.categoryTags.forEach(tag => {
+                    tag.addEventListener('click', (e) => this.changeCategory(e.target.dataset.category));
+                });
+            }
+
+            changeMode(newMode) {
+                this.mode = newMode;
+                this.modeOptions.forEach(option => {
+                    option.classList.toggle('active', option.dataset.mode === newMode);
+                });
+                this.displayCurrentCard();
+            }
+
+            changeCategory(category) {
+                this.currentCategory = category;
+                this.currentIndex = 0;
+                this.isFlipped = false;
+
+                this.categoryTags.forEach(tag => {
+                    tag.classList.toggle('active', tag.dataset.category === category);
+                });
+
+                if (category !== 'all') {
+                    this.setSelector.value = category;
+                    this.currentSet = category;
+                }
+
+                this.displayCurrentCard();
+            }
+
+            changeSet(setName) {
+                this.currentSet = setName;
+                this.currentIndex = 0;
+                this.isFlipped = false;
+                this.displayCurrentCard();
+            }
+
+            changeAutoSpeak(setting) {
+                this.autoSpeak = setting;
+            }
+
+            shuffleCards() {
+                this.isShuffled = true;
+                this.currentIndex = 0;
+                this.isFlipped = false;
+                this.displayCurrentCard();
+
+                this.shuffleButton.textContent = '✓ Shuffled!';
+                setTimeout(() => {
+                    this.shuffleButton.textContent = '🔀 Shuffle Now';
+                }, 1000);
+            }
+
+            toggleSettings() {
+                this.settingsElement.classList.toggle('active');
+            }
+
+            getCurrentCard() {
+                const filteredCards = this.getFilteredCards();
+                return filteredCards[this.currentIndex];
+            }
+
+            displayCurrentCard() {
+                const card = this.getCurrentCard();
+                if (!card) return;
+
+                const filteredCards = this.getFilteredCards();
+                const total = filteredCards.length;
+
+                this.counterElement.textContent = `Card ${this.currentIndex + 1} of ${total}`;
+
+                this.isFlipped = false;
+                this.flashcardElement.classList.remove('flipped');
+
+                if (this.mode === 'english-first') {
+                    this.englishElement.textContent = card.english;
+                    this.indonesianElement.textContent = card.indonesian;
+                    this.romanizedElement.textContent = card.romanized;
+                    this.detailsElement.textContent = card.details;
+
+                    document.querySelector('.flashcard-front').classList.add('active');
+                    document.querySelector('.flashcard-back').classList.remove('active');
+                } else if (this.mode === 'indonesian-first') {
+                    this.englishElement.textContent = card.english;
+                    this.indonesianElement.textContent = card.indonesian;
+                    this.romanizedElement.textContent = card.romanized;
+                    this.detailsElement.textContent = card.details;
+
+                    document.querySelector('.flashcard-front').classList.remove('active');
+                    document.querySelector('.flashcard-back').classList.add('active');
+                    this.flashcardElement.classList.add('flipped');
+                    this.isFlipped = true;
+                } else if (this.mode === 'romanized-first') {
+                    this.englishElement.textContent = card.english;
+                    this.indonesianElement.textContent = card.indonesian;
+                    this.romanizedElement.textContent = card.romanized;
+                    this.detailsElement.textContent = card.details;
+
+                    this.englishElement.textContent = card.romanized;
+                    this.indonesianElement.textContent = card.indonesian;
+                    this.romanizedElement.textContent = card.english;
+                    this.detailsElement.textContent = card.details;
+
+                    document.querySelector('.flashcard-front').classList.add('active');
+                    document.querySelector('.flashcard-back').classList.remove('active');
+                }
+
+                if (this.autoSpeak === 'on-both' ||
+                    (this.autoSpeak === 'on-flip' && this.isFlipped)) {
+                    setTimeout(() => this.speakCurrentCard(), 300);
+                }
+            }
+
+            flipCard() {
+                this.isFlipped = !this.isFlipped;
+                this.flashcardElement.classList.toggle('flipped');
+
+                document.querySelector('.flashcard-front').classList.toggle('active');
+                document.querySelector('.flashcard-back').classList.toggle('active');
+
+                if (this.autoSpeak === 'on-flip') {
+                    setTimeout(() => this.speakCurrentCard(), 300);
+                }
+            }
+
+            async speakCurrentCard() {
+                const card = this.getCurrentCard();
+                if (card) {
+                    await speakIndonesian(card.indonesian);
+                }
+            }
+
+            nextCard() {
+                const filteredCards = this.getFilteredCards();
+                this.currentIndex = (this.currentIndex + 1) % filteredCards.length;
+                this.isFlipped = false;
+                this.displayCurrentCard();
+            }
+
+            previousCard() {
+                const filteredCards = this.getFilteredCards();
+                this.currentIndex = (this.currentIndex - 1 + filteredCards.length) % filteredCards.length;
+                this.isFlipped = false;
+                this.displayCurrentCard();
+            }
+        }
+
+        let currentAudio = null;
+        let flashcardSystem;
+
+        function updateStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = 'status';
+            if (type) {
+                statusDiv.classList.add(type);
+            }
+        }
+
+        const speakIndonesian = async (text) => {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+
+            const cleanText = text.replace(/\[.*?\]/g, '').replace(/\//g, ' ');
+
+            updateStatus('Converting text to speech...', 'processing');
+
+            try {
+                const audio = await puter.ai.txt2speech(cleanText, {
+                    provider: 'openai',
+                    voice: 'fable',
+                    model: 'gpt-4o-mini-tts',
+                    response_format: 'mp3'
+                });
+
+                updateStatus(`Playing audio with OpenAI TTS`, 'playing');
+
+                currentAudio = audio;
+                await audio.play();
+
+                audio.addEventListener('ended', () => {
+                    updateStatus('Ready to convert text to speech', '');
+                    currentAudio = null;
+                });
+
+                audio.addEventListener('error', (e) => {
+                    updateStatus('Error playing audio', 'error');
+                    console.error('Audio playback error:', e);
+                    currentAudio = null;
+                });
+
+            } catch (error) {
+                updateStatus(`Error: ${error.message}`, 'error');
+                console.error('TTS Error:', error);
+
+                fallbackTTS(cleanText);
+            }
+        };
+
+        const fallbackTTS = (text) => {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'id-ID';
+                utterance.rate = 0.8;
+                utterance.pitch = 1;
+                utterance.volume = 1;
+
+                const voices = speechSynthesis.getVoices();
+                const indonesianVoice = voices.find(voice => voice.lang.includes('id'));
+                if (indonesianVoice) {
+                    utterance.voice = indonesianVoice;
+                }
+
+                speechSynthesis.speak(utterance);
+                updateStatus('Playing with browser TTS (fallback)', 'playing');
+
+                utterance.onend = () => {
+                    updateStatus('Ready to convert text to speech', '');
+                };
+
+                utterance.onerror = () => {
+                    updateStatus('Error with browser TTS', 'error');
+                };
+            } else {
+                console.log('Speech synthesis not supported');
+                updateStatus('Speech synthesis not supported', 'error');
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            flashcardSystem = new FlashcardSystem();
+        });
+    </script>
+</body>
+</html>

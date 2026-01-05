@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thai Conversation Practice - Greetings & Polite Phrases</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://js.puter.com/v2/"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a2a0a, #1c1a4a, #0a2a0a);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #ffffff;
+            background: linear-gradient(45deg, #d6f7ec, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            color: #e0e0e0;
+        }
+
+        .conversation-container {
+            background: rgba(30, 46, 30, 0.8);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            border-radius: 15px;
+            max-width: 80%;
+            position: relative;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .speaker-a {
+            background: linear-gradient(135deg, #1a2e1a, #0f600f);
+            align-self: flex-start;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+
+        .speaker-b {
+            background: linear-gradient(135deg, #0f600f, #1a2e1a);
+            align-self: flex-end;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+
+        .speaker-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .speaker-a .speaker-label {
+            color: #10b981;
+        }
+
+        .speaker-b .speaker-label {
+            color: #3b82f6;
+        }
+
+        .message-content {
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        .thai {
+            font-family: 'Noto Serif Thai', serif;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            color: #fbbf24;
+        }
+
+        .romanized {
+            font-style: italic;
+            color: #8e8eff;
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+        }
+
+        .english {
+            color: #e0e0e0;
+            font-size: 1rem;
+            display: none;
+        }
+
+        .english.show {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .choices-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .choice-btn {
+            padding: 15px 20px;
+            border: none;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .choice-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .choice-btn.correct {
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            border-color: #10b981;
+        }
+
+        .choice-btn.incorrect {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border-color: #ef4444;
+        }
+
+        .choice-thai {
+            font-family: 'Noto Serif Thai', serif;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .choice-romanized {
+            font-style: italic;
+            color: #8e8eff;
+            font-size: 0.9rem;
+        }
+
+        .choice-english {
+            color: #e0e0e0;
+            font-size: 1rem;
+            display: none;
+        }
+
+        .choice-english.show {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .speak-btn {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .translate-btn {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .status-message {
+            text-align: center;
+            color: #3b82f6;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            min-height: 20px;
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .instructions {
+            background: rgba(30, 46, 30, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .instructions h3 {
+            color: #10b981;
+            margin-bottom: 10px;
+        }
+
+        .instructions p {
+            color: #e0e0e0;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .openai-info {
+            background: rgba(59, 130, 246, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9em;
+            text-align: center;
+            border-left: 4px solid #3b82f6;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .typing-indicator {
+            display: inline-block;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+        }
+
+        .typing-dots {
+            display: inline-block;
+        }
+
+        .typing-dots span {
+            animation: typing 1.4s infinite;
+            opacity: 0;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { opacity: 0; }
+            30% { opacity: 1; }
+        }
+
+        .context-note {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            text-align: center;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-style: italic;
+        }
+
+        @media (max-width: 600px) {
+            .choices-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+            
+            .controls {
+                gap: 10px;
+            }
+            
+            .control-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .thai {
+                font-size: 1.3rem;
+            }
+            
+            .choice-thai {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../../index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1>Thai Conversation Practice</h1>
+            <p class="subtitle">Practice Greetings & Polite Phrases - Choose the Best Response</p>
+        </header>
+
+        <div class="openai-info">
+            🔊 <strong>OpenAI TTS Integration:</strong> Using OpenAI's advanced text-to-speech for authentic Thai pronunciation
+        </div>
+
+        <div class="context-note">
+            <strong>Note:</strong> Remember that Thai speakers use different polite particles: "ครับ" (kráp) for men, "ค่ะ" (kâ) for women in statements, and "คะ" (ká) for women in questions.
+        </div>
+
+        <div class="score-display" id="score-display">
+            Score: <span id="score">0</span> / <span id="total">0</span>
+        </div>
+
+        <div class="conversation-container" id="conversation-container">
+            <div class="message speaker-a">
+                <div class="speaker-label">Speaker A (Foreigner)</div>
+                <div class="message-content">
+                    <div class="thai">สวัสดีครับ</div>
+                    <div class="romanized">sà-wàt-dee kráp</div>
+                    <div class="english">Hello (from a male speaker)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="choices-container" id="choices-container">
+            <!-- Multiple choice options will be inserted here -->
+        </div>
+
+        <div class="controls">
+            <button class="control-btn speak-btn" id="speak-btn">
+                <i class="fas fa-volume-up"></i> Speak Question
+            </button>
+            <button class="control-btn translate-btn" id="translate-btn">
+                <i class="fas fa-language"></i> Show Translation
+            </button>
+            <button class="control-btn next-btn" id="next-btn" disabled>
+                <i class="fas fa-arrow-right"></i> Next Question
+            </button>
+            <button class="control-btn reset-btn" id="reset-btn">
+                <i class="fas fa-sync-alt"></i> Restart Quiz
+            </button>
+        </div>
+
+        <div class="status-message" id="status-message">
+            Select the most appropriate response to continue the conversation
+        </div>
+
+        <div class="instructions">
+            <h3>How to Practice</h3>
+            <p><strong>Multiple Choice:</strong> Select the most culturally appropriate response to continue the conversation</p>
+            <p><strong>Hidden Translations:</strong> English translations are hidden by default - use the "Show Translation" button to reveal them</p>
+            <p><strong>Scoring:</strong> Earn points for correct answers</p>
+            <p><strong>Speak Question:</strong> Hear the Thai conversation spoken aloud with proper pronunciation</p>
+            <p><strong>Practice Topics:</strong> Greetings, polite phrases, introductions, and common social interactions</p>
+            <p><strong>Cultural Context:</strong> Pay attention to gender-specific polite particles and appropriate responses</p>
+        </div>
+    </div>
+
+    <script>
+        const conversationScenarios = [
+            {
+                question: {
+                    speaker: "A",
+                    thai: "สวัสดีครับ",
+                    romanized: "sà-wàt-dee kráp",
+                    english: "Hello (from a male speaker)"
+                },
+                choices: [
+                    {
+                        thai: "สวัสดีค่ะ",
+                        romanized: "sà-wàt-dee kâ",
+                        english: "Hello (from a female speaker)",
+                        correct: true
+                    },
+                    {
+                        thai: "ขอบคุณค่ะ",
+                        romanized: "kàawp-khun kâ",
+                        english: "Thank you (female)",
+                        correct: false
+                    },
+                    {
+                        thai: "ลาก่อนครับ",
+                        romanized: "laa-gòn kráp",
+                        english: "Goodbye (male)",
+                        correct: false
+                    },
+                    {
+                        thai: "สบายดีไหมครับ",
+                        romanized: "sà-baai dee mǎi kráp",
+                        english: "How are you? (male)",
+                        correct: false
+                    }
+                ]
+            },
+            {
+                question: {
+                    speaker: "A",
+                    thai: "สบายดีไหมคะ",
+                    romanized: "sà-baai dee mǎi ká",
+                    english: "How are you? (from a female speaker)"
+                },
+                choices: [
+                    {
+                        thai: "สบายดีครับ",
+                        romanized: "sà-baai dee kráp",
+                        english: "I'm fine (male response)",
+                        correct: true
+                    },
+                    {
+                        thai: "สวัสดีค่ะ",
+                        romanized: "sà-wàt-dee kâ",
+                        english: "Hello (female)",
+                        correct: false
+                    },
+                    {
+                        thai: "ไม่ค่อยดีครับ",
+                        romanized: "mâi kôi dee kráp",
+                        english: "Not so good (male)",
+                        correct: true
+                    },
+                    {
+                        thai: "คุณชื่ออะไรคะ",
+                        romanized: "kun chêu à-rai ká",
+                        english: "What's your name? (female)",
+                        correct: false
+                    }
+                ]
+            },
+            {
+                question: {
+                    speaker: "A",
+                    thai: "คุณชื่ออะไรครับ",
+                    romanized: "kun chêu à-rai kráp",
+                    english: "What is your name? (male asking)"
+                },
+                choices: [
+                    {
+                        thai: "ฉันชื่อมาร์กค่ะ",
+                        romanized: "chǎn chêu Mark kâ",
+                        english: "My name is Mark (female speaker)",
+                        correct: false
+                    },
+                    {
+                        thai: "ผมชื่อมาร์กครับ",
+                        romanized: "pǒm chêu Mark kráp",
+                        english: "My name is Mark (male speaker)",
+                        correct: true
+                    },
+                    {
+                        thai: "ยินดีที่ได้รู้จักครับ",
+                        romanized: "yin-dee tîi dâi rúu-jàk kráp",
+                        english: "Nice to meet you (male)",
+                        correct: false
+                    },
+                    {
+                        thai: "ขอบคุณครับ",
+                        romanized: "kàawp-khun kráp",
+                        english: "Thank you (male)",
+                        correct: false
+                    }
+                ]
+            },
+            {
+                question: {
+                    speaker: "A",
+                    thai: "ขอบคุณมากค่ะ",
+                    romanized: "kàawp-khun mâak kâ",
+                    english: "Thank you very much (female speaker)"
+                },
+                choices: [
+                    {
+                        thai: "ใช่ครับ",
+                        romanized: "châi kráp",
+                        english: "Yes (male)",
+                        correct: false
+                    },
+                    {
+                        thai: "ไม่เป็นไรค่ะ",
+                        romanized: "mâi bpen rai kâ",
+                        english: "You're welcome (female)",
+                        correct: true
+                    },
+                    {
+                        thai: "ไม่เป็นไรครับ",
+                        romanized: "mâi bpen rai kráp",
+                        english: "You're welcome (male)",
+                        correct: true
+                    },
+                    {
+                        thai: "ขอโทษค่ะ",
+                        romanized: "kǎaw-tôot kâ",
+                        english: "Sorry (female)",
+                        correct: false
+                    }
+                ]
+            },
+            {
+                question: {
+                    speaker: "A",
+                    thai: "ขอโทษครับ",
+                    romanized: "kǎaw-tôot kráp",
+                    english: "Sorry/Excuse me (male speaker)"
+                },
+                choices: [
+                    {
+                        thai: "ไม่เป็นไรครับ",
+                        romanized: "mâi bpen rai kráp",
+                        english: "It's okay (male)",
+                        correct: true
+                    },
+                    {
+                        thai: "ไม่เป็นไรค่ะ",
+                        romanized: "mâi bpen rai kâ",
+                        english: "It's okay (female)",
+                        correct: true
+                    },
+                    {
+                        thai: "ใช่ครับ",
+                        romanized: "châi kráp",
+                        english: "Yes (male)",
+                        correct: false
+                    },
+                    {
+                        thai: "ขอบคุณครับ",
+                        romanized: "kàawp-khun kráp",
+                        english: "Thank you (male)",
+                        correct: false
+                    }
+                ]
+            },
+            {
+                question: {
+                    speaker: "A",
+                    thai: "ยินดีที่ได้รู้จักครับ",
+                    romanized: "yin-dee tîi dâi rúu-jàk kráp",
+                    english: "Nice to meet you (male speaker)"
+                },
+                choices: [
+                    {
+                        thai: "ยินดีที่ได้รู้จักเช่นกันค่ะ",
+                        romanized: "yin-dee tîi dâi rúu-jàk chên-gan kâ",
+                        english: "Nice to meet you too (female)",
+                        correct: true
+                    },
+                    {
+                        thai: "ลาก่อนค่ะ",
+                        romanized: "laa-gòn kâ",
+                        english: "Goodbye (female)",
+                        correct: false
+                    },
+                    {
+                        thai: "พูดไทยได้ไหมคะ",
+                        romanized: "pûut tai dâi mǎi ká",
+                        english: "Can you speak Thai? (female asking)",
+                        correct: false
+                    },
+                    {
+                        thai: "ครับ",
+                        romanized: "kráp",
+                        english: "Polite particle (male)",
+                        correct: false
+                    }
+                ]
+            },
+            {
+                question: {
+                    speaker: "A",
+                    thai: "พูดไทยได้ไหมครับ",
+                    romanized: "pûut tai dâi mǎi kráp",
+                    english: "Can you speak Thai? (male asking)"
+                },
+                choices: [
+                    {
+                        thai: "พูดไทยได้นิดหน่อยค่ะ",
+                        romanized: "pûut tai dâi nít-nòi kâ",
+                        english: "I speak a little Thai (female)",
+                        correct: true
+                    },
+                    {
+                        thai: "ไม่เข้าใจครับ",
+                        romanized: "mâi kâo-jai kráp",
+                        english: "I don't understand (male)",
+                        correct: false
+                    },
+                    {
+                        thai: "ใช่ครับ",
+                        romanized: "châi kráp",
+                        english: "Yes (male)",
+                        correct: false
+                    },
+                    {
+                        thai: "ลาก่อนครับ",
+                        romanized: "laa-gòn kráp",
+                        english: "Goodbye (male)",
+                        correct: false
+                    }
+                ]
+            },
+            {
+                question: {
+                    speaker: "A",
+                    thai: "ลาก่อนค่ะ แล้วพบกันใหม่นะคะ",
+                    romanized: "laa-gòn kâ láew póp gan mài ná ká",
+                    english: "Goodbye, see you again (female)"
+                },
+                choices: [
+                    {
+                        thai: "ครับ",
+                        romanized: "kráp",
+                        english: "Polite acknowledgment (male)",
+                        correct: true
+                    },
+                    {
+                        thai: "ลาก่อนค่ะ",
+                        romanized: "laa-gòn kâ",
+                        english: "Goodbye (female)",
+                        correct: true
+                    },
+                    {
+                        thai: "แล้วพบกันใหม่ครับ",
+                        romanized: "láew póp gan mài kráp",
+                        english: "See you again (male)",
+                        correct: true
+                    },
+                    {
+                        thai: "สบายดีไหมคะ",
+                        romanized: "sà-baai dee mǎi ká",
+                        english: "How are you? (female)",
+                        correct: false
+                    }
+                ]
+            }
+        ];
+
+        let currentScenarioIndex = 0;
+        let score = 0;
+        let totalAnswered = 0;
+        let currentAudio = null;
+        let isSpeaking = false;
+        let answerSelected = false;
+        let translationsVisible = false;
+
+        const conversationContainer = document.getElementById('conversation-container');
+        const choicesContainer = document.getElementById('choices-container');
+        const nextBtn = document.getElementById('next-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const speakBtn = document.getElementById('speak-btn');
+        const translateBtn = document.getElementById('translate-btn');
+        const statusMessage = document.getElementById('status-message');
+        const scoreDisplay = document.getElementById('score-display');
+        const scoreElement = document.getElementById('score');
+        const totalElement = document.getElementById('total');
+
+        function init() {
+            loadScenario(currentScenarioIndex);
+            updateScoreDisplay();
+            setupEventListeners();
+        }
+
+        function loadScenario(index) {
+            if (index >= conversationScenarios.length) {
+                showCompletionMessage();
+                return;
+            }
+
+            const scenario = conversationScenarios[index];
+            conversationContainer.innerHTML = '';
+            addMessage(scenario.question);
+            
+            renderChoices(scenario.choices);
+            
+            answerSelected = false;
+            nextBtn.disabled = true;
+            updateStatus('Select the most culturally appropriate response');
+            
+            // Reset translation visibility when loading new scenario
+            translationsVisible = false;
+            updateTranslationButton();
+            hideAllTranslations();
+        }
+
+        function addMessage(messageData) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message speaker-${messageData.speaker.toLowerCase()}`;
+            
+            // Determine appropriate speaker label based on content
+            let speakerLabel = "Speaker A";
+            if (messageData.thai.includes("ครับ")) {
+                speakerLabel = "Male Speaker";
+            } else if (messageData.thai.includes("ค่ะ") || messageData.thai.includes("คะ")) {
+                speakerLabel = "Female Speaker";
+            }
+            
+            messageDiv.innerHTML = `
+                <div class="speaker-label">${speakerLabel}</div>
+                <div class="message-content">
+                    <div class="thai">${messageData.thai}</div>
+                    <div class="romanized">${messageData.romanized}</div>
+                    <div class="english">${messageData.english}</div>
+                </div>
+            `;
+            
+            conversationContainer.appendChild(messageDiv);
+            conversationContainer.scrollTop = conversationContainer.scrollHeight;
+        }
+
+        function renderChoices(choices) {
+            choicesContainer.innerHTML = '';
+            
+            choices.forEach((choice, index) => {
+                const choiceBtn = document.createElement('button');
+                choiceBtn.className = 'choice-btn';
+                
+                // Determine gender indication
+                let genderIndicator = "";
+                if (choice.thai.includes("ครับ")) {
+                    genderIndicator = " (male)";
+                } else if (choice.thai.includes("ค่ะ") || choice.thai.includes("คะ")) {
+                    genderIndicator = " (female)";
+                }
+                
+                choiceBtn.innerHTML = `
+                    <div class="choice-thai">${choice.thai}</div>
+                    <div class="choice-romanized">${choice.romanized}</div>
+                    <div class="choice-english">${choice.english}${genderIndicator}</div>
+                `;
+                
+                choiceBtn.addEventListener('click', () => handleChoiceSelection(choiceBtn, choice, index));
+                choicesContainer.appendChild(choiceBtn);
+            });
+        }
+
+        function handleChoiceSelection(button, choice, index) {
+            if (answerSelected) return;
+            
+            answerSelected = true;
+            totalAnswered++;
+            
+            // Check if this is a multiple correct answer scenario
+            const currentScenario = conversationScenarios[currentScenarioIndex];
+            const isMultipleCorrect = currentScenario.choices.filter(c => c.correct).length > 1;
+            
+            if (choice.correct) {
+                button.classList.add('correct');
+                score++;
+                
+                if (isMultipleCorrect) {
+                    updateStatus('Correct! There are other acceptable responses too.', 'correct');
+                } else {
+                    updateStatus('Correct! Good job!', 'correct');
+                }
+            } else {
+                button.classList.add('incorrect');
+                updateStatus('Not quite. Remember to match gender and context.', 'incorrect');
+                
+                // Highlight all correct answers
+                const buttons = choicesContainer.querySelectorAll('.choice-btn');
+                buttons.forEach((btn, i) => {
+                    const currentChoice = currentScenario.choices[i];
+                    if (currentChoice.correct) {
+                        btn.classList.add('correct');
+                    }
+                });
+            }
+            
+            updateScoreDisplay();
+            nextBtn.disabled = false;
+        }
+
+        function toggleTranslations() {
+            translationsVisible = !translationsVisible;
+            updateTranslationButton();
+            
+            if (translationsVisible) {
+                showAllTranslations();
+            } else {
+                hideAllTranslations();
+            }
+        }
+
+        function showAllTranslations() {
+            // Show translations in conversation
+            const englishElements = conversationContainer.querySelectorAll('.english');
+            englishElements.forEach(element => {
+                element.classList.add('show');
+            });
+            
+            // Show translations in choices
+            const choiceEnglishElements = choicesContainer.querySelectorAll('.choice-english');
+            choiceEnglishElements.forEach(element => {
+                element.classList.add('show');
+            });
+        }
+
+        function hideAllTranslations() {
+            // Hide translations in conversation
+            const englishElements = conversationContainer.querySelectorAll('.english');
+            englishElements.forEach(element => {
+                element.classList.remove('show');
+            });
+            
+            // Hide translations in choices
+            const choiceEnglishElements = choicesContainer.querySelectorAll('.choice-english');
+            choiceEnglishElements.forEach(element => {
+                element.classList.remove('show');
+            });
+        }
+
+        function updateTranslationButton() {
+            if (translationsVisible) {
+                translateBtn.innerHTML = '<i class="fas fa-language"></i> Hide Translation';
+                translateBtn.style.background = 'linear-gradient(135deg, #7c3aed, #8b5cf6)';
+            } else {
+                translateBtn.innerHTML = '<i class="fas fa-language"></i> Show Translation';
+                translateBtn.style.background = 'linear-gradient(135deg, #8b5cf6, #7c3aed)';
+            }
+        }
+
+        function nextScenario() {
+            currentScenarioIndex++;
+            if (currentScenarioIndex < conversationScenarios.length) {
+                loadScenario(currentScenarioIndex);
+            } else {
+                showCompletionMessage();
+            }
+        }
+
+        function showCompletionMessage() {
+            conversationContainer.innerHTML = '';
+            choicesContainer.innerHTML = '';
+            
+            const completionDiv = document.createElement('div');
+            completionDiv.className = 'message speaker-a';
+            
+            let message = '';
+            const percentage = totalAnswered > 0 ? (score / totalAnswered) * 100 : 0;
+            
+            if (percentage >= 80) {
+                message = 'ยอดเยี่ยมมาก!';
+            } else if (percentage >= 60) {
+                message = 'ดีมาก!';
+            } else {
+                message = 'พยายามต่อไป!';
+            }
+            
+            completionDiv.innerHTML = `
+                <div class="speaker-label">Practice Complete</div>
+                <div class="message-content">
+                    <div class="thai">${message} คุณได้ ${score} จาก ${totalAnswered} คะแนน</div>
+                    <div class="romanized">${message} kun dâi ${score} jàak ${totalAnswered} ká-naen</div>
+                    <div class="english">${message} You got ${score} out of ${totalAnswered} correct!</div>
+                </div>
+            `;
+            
+            conversationContainer.appendChild(completionDiv);
+            nextBtn.disabled = true;
+            updateStatus('Practice completed! Click restart to try again.');
+        }
+
+        async function speakText(text) {
+            try {
+                // Cancel any ongoing speech
+                speechSynthesis.cancel();
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio = null;
+                }
+
+                updateStatus('Converting with OpenAI...', 'processing');
+                
+                try {
+                    const audio = await puter.ai.txt2speech(text, {
+                        provider: 'openai',
+                        voice: 'nova',
+                        model: 'tts-1',
+                        response_format: 'mp3',
+                        instructions: 'Speak in Thai with clear, natural pronunciation and correct tones. Use appropriate polite particles.'
+                    });
+                    
+                    currentAudio = audio;
+                    await audio.play();
+                    
+                    audio.addEventListener('ended', () => {
+                        updateStatus('Playback complete');
+                        currentAudio = null;
+                        isSpeaking = false;
+                    });
+                    
+                    audio.addEventListener('error', (e) => {
+                        console.error('OpenAI TTS error:', e);
+                        updateStatus('Error playing audio', 'error');
+                        currentAudio = null;
+                        isSpeaking = false;
+                    });
+                    
+                } catch (error) {
+                    console.error('OpenAI TTS failed:', error);
+                    updateStatus('TTS service unavailable', 'error');
+                    isSpeaking = false;
+                }
+            } catch (error) {
+                console.error('Error with TTS:', error);
+                isSpeaking = false;
+            }
+        }
+
+        function speakQuestion() {
+            if (currentScenarioIndex >= conversationScenarios.length) return;
+            
+            const currentQuestion = conversationScenarios[currentScenarioIndex].question;
+            speakText(currentQuestion.thai);
+            
+            speakBtn.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                speakBtn.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function resetQuiz() {
+            currentScenarioIndex = 0;
+            score = 0;
+            totalAnswered = 0;
+            loadScenario(currentScenarioIndex);
+            updateScoreDisplay();
+            updateStatus('Select the most appropriate response to continue the conversation');
+        }
+
+        function updateStatus(message, type = '') {
+            statusMessage.textContent = message;
+            statusMessage.className = 'status-message';
+            if (type === 'correct') {
+                statusMessage.style.color = '#10b981';
+            } else if (type === 'incorrect') {
+                statusMessage.style.color = '#ef4444';
+            } else if (type === 'error') {
+                statusMessage.style.color = '#dc2626';
+            } else {
+                statusMessage.style.color = '#3b82f6';
+            }
+        }
+
+        function updateScoreDisplay() {
+            scoreElement.textContent = score;
+            totalElement.textContent = totalAnswered;
+        }
+
+        function setupEventListeners() {
+            nextBtn.addEventListener('click', nextScenario);
+            resetBtn.addEventListener('click', resetQuiz);
+            speakBtn.addEventListener('click', speakQuestion);
+            translateBtn.addEventListener('click', toggleTranslations);
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

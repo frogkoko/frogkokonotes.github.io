@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thai Flashcards with OpenAI TTS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #3498db;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        .back-button {
+            background: #3498db;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .back-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Status indicator */
+        .status {
+            text-align: center;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: 500;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .status.processing {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .status.playing {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .tts-info {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            font-style: italic;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        /* Flashcard Section Styles */
+        .flashcard-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f0f0f0;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .flashcard-container {
+            width: 100%;
+        }
+
+        .flashcard {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 40px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid #3498db;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flashcard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .flashcard.flipped {
+            border-color: #2ecc71;
+        }
+
+        .flashcard-front, .flashcard-back {
+            display: none;
+            text-align: center;
+            width: 100%;
+        }
+
+        .flashcard-front.active, .flashcard-back.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .flashcard-thai {
+            font-size: 3rem;
+            font-family: 'Noto Sans Thai', sans-serif;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .flashcard-thai:hover {
+            color: #e74c3c;
+            transform: scale(1.05);
+        }
+
+        .flashcard-english {
+            font-size: 2.5rem;
+            color: #3498db;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .flashcard-romanized {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .flashcard-details {
+            font-size: 1rem;
+            color: #5d6d7e;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+
+        .flashcard-instruction {
+            text-align: center;
+            color: #7f8c8d;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        .flashcard-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .flashcard-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .flashcard-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .flashcard-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .flashcard-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .flashcard-button.speech {
+            background: #9b59b6;
+        }
+
+        .flashcard-button.speech:hover {
+            background: #8e44ad;
+        }
+
+        .flashcard-button.flip {
+            background: #2ecc71;
+        }
+
+        .flashcard-button.flip:hover {
+            background: #27ae60;
+        }
+
+        .flashcard-button.prev {
+            background: #f39c12;
+        }
+
+        .flashcard-button.prev:hover {
+            background: #d68910;
+        }
+
+        .flashcard-button.next {
+            background: #e74c3c;
+        }
+
+        .flashcard-button.next:hover {
+            background: #c0392b;
+        }
+
+        .flashcard-button.settings {
+            background: #7f8c8d;
+        }
+
+        .flashcard-button.settings:hover {
+            background: #5d6d7e;
+        }
+
+        .flashcard-button.stop {
+            background: #e74c3c;
+        }
+
+        .flashcard-button.stop:hover {
+            background: #c0392b;
+        }
+
+        .flashcard-counter {
+            text-align: center;
+            color: #7f8c8d;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .flashcard-mode-toggle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            flex-wrap: wrap;
+        }
+
+        .mode-option {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #7f8c8d;
+        }
+
+        .mode-option.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .mode-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .flashcard-settings {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .flashcard-settings.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .setting-label {
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 150px;
+        }
+
+        .setting-control {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            background: white;
+            font-family: 'Poppins', sans-serif;
+            min-width: 200px;
+        }
+
+        /* Category Tags */
+        .category-tags {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .category-tag {
+            background: white;
+            border: 2px solid #3498db;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #3498db;
+        }
+
+        .category-tag:hover {
+            background: #3498db;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .category-tag.active {
+            background: #3498db;
+            color: white;
+        }
+
+        /* TTS Settings */
+        .tts-settings {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .voice-selector {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+            min-width: 200px;
+        }
+
+        .tts-test-button {
+            background: #9b59b6;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tts-test-button:hover {
+            background: #8e44ad;
+            transform: translateY(-2px);
+        }
+
+        .api-key-input {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+            min-width: 300px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .flashcard {
+                padding: 20px;
+                min-height: 250px;
+            }
+
+            .flashcard-thai {
+                font-size: 2.2rem;
+            }
+
+            .flashcard-english {
+                font-size: 1.8rem;
+            }
+
+            .flashcard-controls {
+                flex-direction: column;
+            }
+
+            .flashcard-button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .flashcard-nav {
+                width: 100%;
+            }
+
+            .setting-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .setting-control {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .flashcard-thai {
+                font-size: 1.8rem;
+            }
+
+            .flashcard-english {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-romanized {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header">
+            <a href="../../index.html" class="back-button">← Back to Main</a>
+            <h1>Thai Flashcards with OpenAI TTS</h1>
+            <p>Learn essential Thai phrases, words, and numbers with OpenAI's natural-sounding Thai voice</p>
+            <p>Click on Thai text to hear pronunciation using OpenAI's Onyx voice</p>
+        </div>
+
+        <div id="status" class="status success">Ready for text-to-speech</div>
+        <p class="tts-info">Click on any Thai text to hear its pronunciation using OpenAI TTS</p>
+
+        <div class="tts-settings" id="tts-settings">
+            <span class="setting-label">TTS Provider:</span>
+            <select class="voice-selector" id="tts-provider">
+                <option value="openai">OpenAI</option>
+            </select>
+            
+            <span class="setting-label">Voice:</span>
+            <select class="voice-selector" id="voice-selector">
+                <option value="onyx">Onyx (Best for Thai)</option>
+                <option value="alloy">Alloy</option>
+                <option value="echo">Echo</option>
+                <option value="fable">Fable</option>
+                <option value="nova">Nova</option>
+                <option value="shimmer">Shimmer</option>
+            </select>
+            
+            <span class="setting-label">Model:</span>
+            <select class="voice-selector" id="model-select">
+                <option value="gpt-4o-mini-tts">gpt-4o-mini-tts</option>
+                <option value="tts-1">tts-1</option>
+                <option value="tts-1-hd">tts-1-hd</option>
+            </select>
+            
+            <button class="tts-test-button" id="test-tts-button">
+                🔊 Test TTS
+            </button>
+        </div>
+
+        <div class="category-tags" id="category-tags">
+            <div class="category-tag active" data-category="all">All Cards</div>
+            <div class="category-tag" data-category="greetings">Greetings</div>
+            <div class="category-tag" data-category="polite">Polite Phrases</div>
+            <div class="category-tag" data-category="survival">Survival Phrases</div>
+            <div class="category-tag" data-category="basic">Basic Words</div>
+            <div class="category-tag" data-category="food">Food & Dining</div>
+            <div class="category-tag" data-category="numbers">Numbers</div>
+        </div>
+
+        <div class="flashcard-section">
+            <div class="flashcard-mode-toggle">
+                <div class="mode-option active" data-mode="english-first">English First</div>
+                <div class="mode-option" data-mode="thai-first">Thai First</div>
+                <div class="mode-option" data-mode="romanized-first">Romanized First</div>
+            </div>
+            
+            <div class="flashcard-container">
+                <div class="flashcard" id="current-flashcard">
+                    <div class="flashcard-front active">
+                        <div class="flashcard-english" id="flashcard-english">Hello (formal)</div>
+                        <div class="flashcard-instruction">Click to reveal Thai</div>
+                    </div>
+                    <div class="flashcard-back">
+                        <div class="flashcard-thai" id="flashcard-thai">สวัสดีครับ/ค่ะ</div>
+                        <div class="flashcard-romanized" id="flashcard-romanized">sà-wàt-dii khráp/kâ</div>
+                        <div class="flashcard-details" id="flashcard-details">Most common formal greeting. Use ครับ (khráp) if you're male, ค่ะ (kâ) if you're female.</div>
+                        <div class="flashcard-instruction">Click to go back</div>
+                    </div>
+                </div>
+                
+                <div class="flashcard-counter" id="flashcard-counter">Card 1 of 50</div>
+                
+                <div class="flashcard-controls">
+                    <button class="flashcard-button speech" id="speak-button">
+                        🔊 Speak Thai
+                    </button>
+                    <button class="flashcard-button flip" id="flip-button">
+                        🔄 Flip Card
+                    </button>
+                    <button class="flashcard-button stop" id="stop-button">
+                        ⏹️ Stop
+                    </button>
+                    <button class="flashcard-button settings" id="settings-button">
+                        ⚙️ Settings
+                    </button>
+                </div>
+                
+                <div class="flashcard-nav">
+                    <button class="flashcard-button prev" id="prev-button">
+                        ← Previous
+                    </button>
+                    <button class="flashcard-button next" id="next-button">
+                        Next →
+                    </button>
+                </div>
+            </div>
+            
+            <div class="flashcard-settings" id="flashcard-settings">
+                <div class="setting-row">
+                    <span class="setting-label">Flashcard Set:</span>
+                    <select class="setting-control" id="flashcard-set-selector">
+                        <option value="all">All Cards (50 cards)</option>
+                        <option value="greetings">Greetings (8 cards)</option>
+                        <option value="polite">Polite Phrases (10 cards)</option>
+                        <option value="survival">Survival Phrases (10 cards)</option>
+                        <option value="basic">Basic Words (8 cards)</option>
+                        <option value="food">Food & Dining (8 cards)</option>
+                        <option value="numbers">Numbers (6 cards)</option>
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Auto-play Speech:</span>
+                    <select class="setting-control" id="auto-speak-selector">
+                        <option value="on-flip">On Flip</option>
+                        <option value="on-both">Always</option>
+                        <option value="off">Off</option>
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Shuffle Cards:</span>
+                    <button class="flashcard-button" id="shuffle-button" style="background: #9b59b6; padding: 8px 15px;">
+                        🔀 Shuffle Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://js.puter.com/v2/"></script>
+    <script>
+        // Thai flashcards data
+        const thaiFlashcards = {
+            greetings: [
+                { 
+                    thai: 'สวัสดีครับ/ค่ะ', 
+                    romanized: 'sà-wàt-dii khráp/kâ', 
+                    english: 'Hello (formal)',
+                    details: 'Most common formal greeting. Use ครับ (khráp) if you\'re male, ค่ะ (kâ) if you\'re female.'
+                },
+                { 
+                    thai: 'สวัสดี', 
+                    romanized: 'sà-wàt-dii', 
+                    english: 'Hello (neutral)',
+                    details: 'Neutral greeting suitable for most situations'
+                },
+                { 
+                    thai: 'หวัดดี', 
+                    romanized: 'wàt-dii', 
+                    english: 'Hi (informal)',
+                    details: 'Casual greeting for friends'
+                },
+                { 
+                    thai: 'ลาก่อน', 
+                    romanized: 'laa gòn', 
+                    english: 'Goodbye',
+                    details: 'Standard way to say goodbye'
+                },
+                { 
+                    thai: 'ราตรีสวัสดิ์', 
+                    romanized: 'raa-dtrii sà-wàt', 
+                    english: 'Good night',
+                    details: 'Formal bedtime greeting'
+                },
+                { 
+                    thai: 'สบายดีไหม', 
+                    romanized: 'sà-baai dii mái', 
+                    english: 'How are you?',
+                    details: 'Literally "Are you comfortable/well?"'
+                },
+                { 
+                    thai: 'สบายดี', 
+                    romanized: 'sà-baai dii', 
+                    english: 'I\'m fine',
+                    details: 'Response to "How are you?"'
+                },
+                { 
+                    thai: 'พบกันใหม่', 
+                    romanized: 'póp gan mài', 
+                    english: 'See you again',
+                    details: 'Used when expecting to meet again'
+                }
+            ],
+            polite: [
+                { 
+                    thai: 'ขอบคุณครับ/ค่ะ', 
+                    romanized: 'khàawp-khun khráp/kâ', 
+                    english: 'Thank you (formal)',
+                    details: 'Most common way to say thank you'
+                },
+                { 
+                    thai: 'ขอบคุณ', 
+                    romanized: 'khàawp-khun', 
+                    english: 'Thank you (neutral)',
+                    details: 'Neutral way to say thank you'
+                },
+                { 
+                    thai: 'ขอบใจ', 
+                    romanized: 'khàawp jai', 
+                    english: 'Thanks (informal)',
+                    details: 'Casual thanks for friends'
+                },
+                { 
+                    thai: 'ไม่เป็นไร', 
+                    romanized: 'mâi pen rai', 
+                    english: 'You\'re welcome',
+                    details: 'Literally "It\'s nothing"'
+                },
+                { 
+                    thai: 'ขอโทษครับ/ค่ะ', 
+                    romanized: 'khǎaw-thôot khráp/kâ', 
+                    english: 'I\'m sorry (formal)',
+                    details: 'Formal apology'
+                },
+                { 
+                    thai: 'ขอโทษ', 
+                    romanized: 'khǎaw-thôot', 
+                    english: 'I\'m sorry',
+                    details: 'Standard apology'
+                },
+                { 
+                    thai: 'ได้ครับ/ค่ะ', 
+                    romanized: 'dâi khráp/kâ', 
+                    english: 'Yes (agreeing)',
+                    details: 'Used to agree to something'
+                },
+                { 
+                    thai: 'ไม่ได้ครับ/ค่ะ', 
+                    romanized: 'mâi dâi khráp/kâ', 
+                    english: 'No (can\'t do)',
+                    details: 'Used when you cannot do something'
+                },
+                { 
+                    thai: 'ครับ/ค่ะ', 
+                    romanized: 'khráp/kâ', 
+                    english: 'Particle for politeness',
+                    details: 'Added to sentences for politeness, like "yes"'
+                },
+                { 
+                    thai: 'ได้โปรด', 
+                    romanized: 'dâi bpròot', 
+                    english: 'Please',
+                    details: 'Used when making requests'
+                }
+            ],
+            survival: [
+                { 
+                    thai: 'ฉันไม่เข้าใจ', 
+                    romanized: 'chǎn mâi khâo jai', 
+                    english: 'I don\'t understand',
+                    details: 'Use when you don\'t understand something'
+                },
+                { 
+                    thai: 'พูดอีกทีได้ไหม', 
+                    romanized: 'phûut ìik thii dâi mái', 
+                    english: 'Can you repeat that?',
+                    details: 'Ask someone to repeat what they said'
+                },
+                { 
+                    thai: 'พูดช้าๆ ได้ไหม', 
+                    romanized: 'phûut cháa cháa dâi mái', 
+                    english: 'Can you speak slowly?',
+                    details: 'Ask someone to speak more slowly'
+                },
+                { 
+                    thai: 'ฉันพูดภาษาไทยไม่ได้', 
+                    romanized: 'chǎn phûut phaa-sǎa thai mâi dâi', 
+                    english: 'I don\'t speak Thai',
+                    details: 'Use when you need to communicate you don\'t speak Thai'
+                },
+                { 
+                    thai: 'ภาษาอังกฤษได้ไหม', 
+                    romanized: 'phaa-sǎa ang-grìt dâi mái', 
+                    english: 'Do you speak English?',
+                    details: 'Ask if someone speaks English'
+                },
+                { 
+                    thai: 'ช่วยด้วย', 
+                    romanized: 'chûai dûai', 
+                    english: 'Help me',
+                    details: 'Use when you need assistance'
+                },
+                { 
+                    thai: 'ห้องน้ำอยู่ที่ไหน', 
+                    romanized: 'hâwng-nám yùu thîi nǎi', 
+                    english: 'Where is the bathroom?',
+                    details: 'Essential phrase for finding restrooms'
+                },
+                { 
+                    thai: 'นี่ราคาเท่าไหร่', 
+                    romanized: 'nîi raa-khaa thâo-rài', 
+                    english: 'How much is this?',
+                    details: 'Use when shopping or buying items'
+                },
+                { 
+                    thai: 'แพงเกินไป', 
+                    romanized: 'phaaeng goen bpai', 
+                    english: 'Too expensive',
+                    details: 'Use when bargaining'
+                },
+                { 
+                    thai: 'ห้องพักอยู่ที่ไหน', 
+                    romanized: 'hâwng-phák yùu thîi nǎi', 
+                    english: 'Where is my room?',
+                    details: 'Useful at hotels or accommodations'
+                }
+            ],
+            basic: [
+                { 
+                    thai: 'ใช่', 
+                    romanized: 'châi', 
+                    english: 'Yes',
+                    details: 'To affirm something is correct'
+                },
+                { 
+                    thai: 'ไม่ใช่', 
+                    romanized: 'mâi châi', 
+                    english: 'No',
+                    details: 'To say something is not correct'
+                },
+                { 
+                    thai: 'ดี', 
+                    romanized: 'dii', 
+                    english: 'Good',
+                    details: 'Simple word for "good"'
+                },
+                { 
+                    thai: 'ไม่ดี', 
+                    romanized: 'mâi dii', 
+                    english: 'Not good',
+                    details: 'Simple word for "not good"'
+                },
+                { 
+                    thai: 'ร้อน', 
+                    romanized: 'ráawn', 
+                    english: 'Hot',
+                    details: 'For weather, food, or temperature'
+                },
+                { 
+                    thai: 'เย็น', 
+                    romanized: 'yen', 
+                    english: 'Cold',
+                    details: 'For weather, drinks, or temperature'
+                },
+                { 
+                    thai: 'ใหญ่', 
+                    romanized: 'yài', 
+                    english: 'Big',
+                    details: 'Describing size'
+                },
+                { 
+                    thai: 'เล็ก', 
+                    romanized: 'lék', 
+                    english: 'Small',
+                    details: 'Describing size'
+                }
+            ],
+            food: [
+                { 
+                    thai: 'หิว', 
+                    romanized: 'hǐu', 
+                    english: 'Hungry',
+                    details: 'To express hunger'
+                },
+                { 
+                    thai: 'อร่อย', 
+                    romanized: 'à-rɔ̀i', 
+                    english: 'Delicious',
+                    details: 'Compliment for food'
+                },
+                { 
+                    thai: 'เผ็ด', 
+                    romanized: 'phèt', 
+                    english: 'Spicy',
+                    details: 'Warning about spicy food'
+                },
+                { 
+                    thai: 'ไม่เผ็ด', 
+                    romanized: 'mâi phèt', 
+                    english: 'Not spicy',
+                    details: 'Request for non-spicy food'
+                },
+                { 
+                    thai: 'น้ำ', 
+                    romanized: 'náam', 
+                    english: 'Water',
+                    details: 'Ask for water'
+                },
+                { 
+                    thai: 'เมนู', 
+                    romanized: 'mee-nuu', 
+                    english: 'Menu',
+                    details: 'Ask for a menu'
+                },
+                { 
+                    thai: 'เช็คบิล', 
+                    romanized: 'chék bin', 
+                    english: 'Check/Bill',
+                    details: 'Ask for the bill'
+                },
+                { 
+                    thai: 'อาหารไทย', 
+                    romanized: 'aa-hǎan thai', 
+                    english: 'Thai food',
+                    details: 'Order Thai food'
+                }
+            ],
+            numbers: [
+                { 
+                    thai: 'หนึ่ง', 
+                    romanized: 'nùeng', 
+                    english: 'One',
+                    details: 'Number 1'
+                },
+                { 
+                    thai: 'สอง', 
+                    romanized: 'sǎawng', 
+                    english: 'Two',
+                    details: 'Number 2'
+                },
+                { 
+                    thai: 'สาม', 
+                    romanized: 'sǎam', 
+                    english: 'Three',
+                    details: 'Number 3'
+                },
+                { 
+                    thai: 'สี่', 
+                    romanized: 'sìi', 
+                    english: 'Four',
+                    details: 'Number 4'
+                },
+                { 
+                    thai: 'ห้า', 
+                    romanized: 'hâa', 
+                    english: 'Five',
+                    details: 'Number 5'
+                },
+                { 
+                    thai: 'หก', 
+                    romanized: 'hòk', 
+                    english: 'Six',
+                    details: 'Number 6'
+                },
+                { 
+                    thai: 'เจ็ด', 
+                    romanized: 'jèt', 
+                    english: 'Seven',
+                    details: 'Number 7'
+                },
+                { 
+                    thai: 'แปด', 
+                    romanized: 'bpàaet', 
+                    english: 'Eight',
+                    details: 'Number 8'
+                },
+                { 
+                    thai: 'เก้า', 
+                    romanized: 'gâo', 
+                    english: 'Nine',
+                    details: 'Number 9'
+                },
+                { 
+                    thai: 'สิบ', 
+                    romanized: 'sìp', 
+                    english: 'Ten',
+                    details: 'Number 10'
+                },
+                { 
+                    thai: 'ยี่สิบ', 
+                    romanized: 'yîi sìp', 
+                    english: 'Twenty',
+                    details: 'Number 20'
+                },
+                { 
+                    thai: 'สามสิบ', 
+                    romanized: 'sǎam sìp', 
+                    english: 'Thirty',
+                    details: 'Number 30'
+                },
+                { 
+                    thai: 'ร้อย', 
+                    romanized: 'ráawy', 
+                    english: 'One hundred',
+                    details: 'Number 100'
+                },
+                { 
+                    thai: 'พัน', 
+                    romanized: 'phan', 
+                    english: 'One thousand',
+                    details: 'Number 1,000'
+                },
+                { 
+                    thai: 'หมื่น', 
+                    romanized: 'mèun', 
+                    english: 'Ten thousand',
+                    details: 'Number 10,000'
+                }
+            ]
+        };
+
+        // TTS System using OpenAI via Puter.ai
+        class OpenAITTSSystem {
+            constructor() {
+                this.currentAudio = null;
+                this.isSpeaking = false;
+                
+                this.bindEvents();
+            }
+            
+            bindEvents() {
+                const testButton = document.getElementById('test-tts-button');
+                const stopButton = document.getElementById('stop-button');
+                
+                testButton.addEventListener('click', () => {
+                    this.speakText('สวัสดีครับ ยินดีต้อนรับสู่การเรียนภาษาไทย');
+                });
+                
+                stopButton.addEventListener('click', () => {
+                    this.stopSpeaking();
+                });
+            }
+            
+            async speakText(text) {
+                return new Promise(async (resolve, reject) => {
+                    // Stop any current speech
+                    this.stopSpeaking();
+                    
+                    if (!text || text.trim() === '') {
+                        updateStatus('No text to speak', 'error');
+                        reject(new Error('No text to speak'));
+                        return;
+                    }
+                    
+                    // Clean the text
+                    const cleanText = text.replace(/\[.*?\]/g, '').trim();
+                    
+                    updateStatus('Converting text to speech...', 'processing');
+                    
+                    try {
+                        // Get TTS settings
+                        const voice = document.getElementById('voice-selector').value;
+                        const model = document.getElementById('model-select').value;
+                        
+                        const options = {
+                            provider: 'openai',
+                            voice: voice,
+                            model: model,
+                            response_format: 'mp3',
+                            instructions: voice === 'onyx' ? "Speak in Thai with clear pronunciation" : ""
+                        };
+                        
+                        const audio = await puter.ai.txt2speech(cleanText, options);
+                        
+                        updateStatus(`Playing audio with OpenAI ${voice} voice`, 'playing');
+                        
+                        this.currentAudio = audio;
+                        this.isSpeaking = true;
+                        await audio.play();
+                        
+                        // Reset status when audio finishes
+                        audio.addEventListener('ended', () => {
+                            this.isSpeaking = false;
+                            this.currentAudio = null;
+                            updateStatus('Speech completed. Ready for next phrase.', 'success');
+                            resolve();
+                        });
+                        
+                        audio.addEventListener('error', (e) => {
+                            this.isSpeaking = false;
+                            this.currentAudio = null;
+                            updateStatus('Error playing audio', 'error');
+                            console.error('Audio playback error:', e);
+                            reject(e);
+                        });
+                        
+                    } catch (error) {
+                        this.isSpeaking = false;
+                        this.currentAudio = null;
+                        updateStatus(`Error: ${error.message}`, 'error');
+                        console.error('TTS Error:', error);
+                        reject(error);
+                    }
+                });
+            }
+            
+            stopSpeaking() {
+                if (this.currentAudio && this.isSpeaking) {
+                    this.currentAudio.pause();
+                    this.currentAudio.currentTime = 0;
+                    this.isSpeaking = false;
+                    this.currentAudio = null;
+                    updateStatus('Speech stopped', '');
+                }
+            }
+        }
+
+        // Flashcard System
+        class FlashcardSystem {
+            constructor(ttsSystem) {
+                this.currentIndex = 0;
+                this.isFlipped = false;
+                this.mode = 'english-first';
+                this.currentSet = 'all';
+                this.currentCategory = 'all';
+                this.cards = this.getAllCards();
+                this.isShuffled = false;
+                this.autoSpeak = 'on-flip';
+                this.ttsSystem = ttsSystem;
+                
+                this.initializeElements();
+                this.bindEvents();
+                this.displayCurrentCard();
+            }
+            
+            getAllCards() {
+                const allCards = [];
+                
+                Object.keys(thaiFlashcards).forEach(section => {
+                    thaiFlashcards[section].forEach(card => {
+                        allCards.push({
+                            ...card,
+                            category: section
+                        });
+                    });
+                });
+                
+                return allCards;
+            }
+            
+            getFilteredCards() {
+                let filtered = [];
+                
+                if (this.currentCategory === 'all') {
+                    if (this.currentSet === 'all') {
+                        filtered = this.cards;
+                    } else {
+                        filtered = this.cards.filter(card => card.category === this.currentSet);
+                    }
+                } else {
+                    filtered = this.cards.filter(card => card.category === this.currentCategory);
+                }
+                
+                return this.isShuffled ? this.shuffleArray([...filtered]) : [...filtered];
+            }
+            
+            shuffleArray(array) {
+                const shuffled = [...array];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                return shuffled;
+            }
+            
+            initializeElements() {
+                this.flashcardElement = document.getElementById('current-flashcard');
+                this.englishElement = document.getElementById('flashcard-english');
+                this.thaiElement = document.getElementById('flashcard-thai');
+                this.romanizedElement = document.getElementById('flashcard-romanized');
+                this.detailsElement = document.getElementById('flashcard-details');
+                this.counterElement = document.getElementById('flashcard-counter');
+                this.settingsElement = document.getElementById('flashcard-settings');
+                
+                this.speakButton = document.getElementById('speak-button');
+                this.flipButton = document.getElementById('flip-button');
+                this.prevButton = document.getElementById('prev-button');
+                this.nextButton = document.getElementById('next-button');
+                this.settingsButton = document.getElementById('settings-button');
+                this.shuffleButton = document.getElementById('shuffle-button');
+                
+                this.setSelector = document.getElementById('flashcard-set-selector');
+                this.autoSpeakSelector = document.getElementById('auto-speak-selector');
+                this.modeOptions = document.querySelectorAll('.mode-option');
+                this.categoryTags = document.querySelectorAll('.category-tag');
+            }
+            
+            bindEvents() {
+                // Flashcard click to flip
+                this.flashcardElement.addEventListener('click', () => this.flipCard());
+                
+                // Thai text click for TTS
+                this.thaiElement.addEventListener('click', () => this.speakCurrentCard());
+                
+                // Button events
+                this.speakButton.addEventListener('click', () => this.speakCurrentCard());
+                this.flipButton.addEventListener('click', () => this.flipCard());
+                this.prevButton.addEventListener('click', () => this.previousCard());
+                this.nextButton.addEventListener('click', () => this.nextCard());
+                this.settingsButton.addEventListener('click', () => this.toggleSettings());
+                this.shuffleButton.addEventListener('click', () => this.shuffleCards());
+                
+                // Settings events
+                this.setSelector.addEventListener('change', (e) => this.changeSet(e.target.value));
+                this.autoSpeakSelector.addEventListener('change', (e) => this.changeAutoSpeak(e.target.value));
+                
+                // Mode toggle events
+                this.modeOptions.forEach(option => {
+                    option.addEventListener('click', (e) => this.changeMode(e.target.dataset.mode));
+                });
+                
+                // Category tag events
+                this.categoryTags.forEach(tag => {
+                    tag.addEventListener('click', (e) => this.changeCategory(e.target.dataset.category));
+                });
+            }
+            
+            changeMode(newMode) {
+                this.mode = newMode;
+                this.modeOptions.forEach(option => {
+                    option.classList.toggle('active', option.dataset.mode === newMode);
+                });
+                this.displayCurrentCard();
+            }
+            
+            changeCategory(category) {
+                this.currentCategory = category;
+                this.currentIndex = 0;
+                this.isFlipped = false;
+                
+                // Update active category tag
+                this.categoryTags.forEach(tag => {
+                    tag.classList.toggle('active', tag.dataset.category === category);
+                });
+                
+                // Update set selector if needed
+                if (category !== 'all') {
+                    this.setSelector.value = category;
+                    this.currentSet = category;
+                }
+                
+                this.displayCurrentCard();
+            }
+            
+            changeSet(setName) {
+                this.currentSet = setName;
+                this.currentIndex = 0;
+                this.isFlipped = false;
+                this.displayCurrentCard();
+            }
+            
+            changeAutoSpeak(setting) {
+                this.autoSpeak = setting;
+            }
+            
+            shuffleCards() {
+                this.isShuffled = true;
+                this.currentIndex = 0;
+                this.isFlipped = false;
+                this.displayCurrentCard();
+                
+                // Visual feedback for shuffle
+                this.shuffleButton.textContent = '✓ Shuffled!';
+                setTimeout(() => {
+                    this.shuffleButton.textContent = '🔀 Shuffle Now';
+                }, 1000);
+            }
+            
+            toggleSettings() {
+                this.settingsElement.classList.toggle('active');
+            }
+            
+            getCurrentCard() {
+                const filteredCards = this.getFilteredCards();
+                return filteredCards[this.currentIndex];
+            }
+            
+            displayCurrentCard() {
+                const card = this.getCurrentCard();
+                if (!card) return;
+                
+                const filteredCards = this.getFilteredCards();
+                const total = filteredCards.length;
+                
+                // Update counter
+                this.counterElement.textContent = `Card ${this.currentIndex + 1} of ${total}`;
+                
+                // Reset flip state
+                this.isFlipped = false;
+                this.flashcardElement.classList.remove('flipped');
+                
+                // Set content based on mode
+                if (this.mode === 'english-first') {
+                    this.englishElement.textContent = card.english;
+                    this.thaiElement.textContent = card.thai;
+                    this.romanizedElement.textContent = card.romanized;
+                    this.detailsElement.textContent = card.details;
+                    
+                    document.querySelector('.flashcard-front').classList.add('active');
+                    document.querySelector('.flashcard-back').classList.remove('active');
+                } else if (this.mode === 'thai-first') {
+                    this.englishElement.textContent = card.english;
+                    this.thaiElement.textContent = card.thai;
+                    this.romanizedElement.textContent = card.romanized;
+                    this.detailsElement.textContent = card.details;
+                    
+                    // Show Thai first
+                    document.querySelector('.flashcard-front').classList.remove('active');
+                    document.querySelector('.flashcard-back').classList.add('active');
+                    this.flashcardElement.classList.add('flipped');
+                    this.isFlipped = true;
+                } else if (this.mode === 'romanized-first') {
+                    this.englishElement.textContent = card.romanized;
+                    this.thaiElement.textContent = card.thai;
+                    this.romanizedElement.textContent = card.english;
+                    this.detailsElement.textContent = card.details;
+                    
+                    document.querySelector('.flashcard-front').classList.add('active');
+                    document.querySelector('.flashcard-back').classList.remove('active');
+                }
+                
+                // Auto-speak if enabled
+                if (this.autoSpeak === 'on-both' || 
+                    (this.autoSpeak === 'on-flip' && this.isFlipped)) {
+                    setTimeout(() => this.speakCurrentCard(), 300);
+                }
+            }
+            
+            flipCard() {
+                this.isFlipped = !this.isFlipped;
+                this.flashcardElement.classList.toggle('flipped');
+                
+                document.querySelector('.flashcard-front').classList.toggle('active');
+                document.querySelector('.flashcard-back').classList.toggle('active');
+                
+                // Auto-speak if enabled
+                if (this.autoSpeak === 'on-flip') {
+                    setTimeout(() => this.speakCurrentCard(), 300);
+                }
+            }
+            
+            async speakCurrentCard() {
+                const card = this.getCurrentCard();
+                if (card && this.ttsSystem) {
+                    await this.ttsSystem.speakText(card.thai);
+                }
+            }
+            
+            nextCard() {
+                const filteredCards = this.getFilteredCards();
+                this.currentIndex = (this.currentIndex + 1) % filteredCards.length;
+                this.isFlipped = false;
+                this.displayCurrentCard();
+            }
+            
+            previousCard() {
+                const filteredCards = this.getFilteredCards();
+                this.currentIndex = (this.currentIndex - 1 + filteredCards.length) % filteredCards.length;
+                this.isFlipped = false;
+                this.displayCurrentCard();
+            }
+        }
+
+        let flashcardSystem;
+        let ttsSystem;
+
+        // Update status display
+        function updateStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = 'status';
+            if (type) {
+                statusDiv.classList.add(type);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check for Puter.ai availability
+            if (typeof puter === 'undefined' || !puter.ai || !puter.ai.txt2speech) {
+                updateStatus('Error: Puter.ai API is not available. Please make sure you have internet connection and the script is loaded.', 'error');
+                document.getElementById('speak-button').disabled = true;
+                document.getElementById('test-tts-button').disabled = true;
+                document.getElementById('stop-button').disabled = true;
+                document.querySelectorAll('.flashcard-thai').forEach(el => {
+                    el.style.cursor = 'default';
+                    el.style.color = '#95a5a6';
+                    el.onclick = null;
+                });
+                return;
+            }
+            
+            // Initialize TTS system with OpenAI via Puter.ai
+            ttsSystem = new OpenAITTSSystem();
+            
+            // Initialize flashcard system with TTS
+            flashcardSystem = new FlashcardSystem(ttsSystem);
+            
+            updateStatus('OpenAI TTS ready! Click on Thai text to hear pronunciation using the Onyx voice.', 'success');
+        });
+    </script>
+</body>
+</html>

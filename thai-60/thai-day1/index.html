@@ -1,0 +1,2081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thai Greetings & Self-Introduction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://js.puter.com/v2/"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .header {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #9b59b6;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+        }
+
+        .header-nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .back-button {
+            background: #9b59b6;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .back-button:hover {
+            background: #8e44ad;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
+        }
+
+        .sticky-nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 15px 20px;
+        }
+
+        #navbar {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin: 0;
+            max-width: none;
+        }
+
+        #navbar a {
+            background: white;
+            color: #9b59b6;
+            padding: 5px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+        }
+
+        #navbar a:hover, #navbar a.active {
+            background: #9b59b6;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .tts-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .tts-button {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tts-button:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+        }
+
+        .tts-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .voice-selector {
+            padding: 10px 15px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .tts-info {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .section-title {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin: 60px 0 30px 0;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        /* Practice Dialogue Section */
+        .practice-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f0f0f0;
+        }
+
+        .practice-title {
+            text-align: center;
+            color: #9b59b6;
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .dialogue-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .dialogue-line {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #9b59b6;
+        }
+
+        .dialogue-line.role-b {
+            border-left-color: #2ecc71;
+        }
+
+        .role-label {
+            font-weight: bold;
+            min-width: 50px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            text-align: center;
+            margin-right: 15px;
+            color: white;
+        }
+
+        .role-a {
+            background: #9b59b6;
+        }
+
+        .role-b {
+            background: #2ecc71;
+        }
+
+        .dialogue-content {
+            flex: 1;
+        }
+
+        .thai-dialogue {
+            font-size: 1.4rem;
+            font-family: 'Quicksand', sans-serif;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            font-weight: 600;
+        }
+
+        .thai-dialogue:hover {
+            color: #9b59b6;
+        }
+
+        .dialogue-translation {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            font-style: italic;
+        }
+
+        .play-dialogue-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 20px auto 0;
+            justify-content: center;
+        }
+
+        .play-dialogue-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        /* Special full-width cards */
+        .full-width-card {
+            grid-column: 1 / -1;
+        }
+
+        #basic-grid, #time-grid, #introduction-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        #conversation-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #f0f0f0;
+            height: 480px;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .sketch {
+            position: relative;
+            padding: 20px;
+            background: #f8f9fa;
+            height: 250px;
+            flex-shrink: 0;
+        }
+
+        .paint {
+            width: 100%;
+            height: 100%;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            cursor: crosshair;
+            background: white;
+            touch-action: none;
+        }
+
+        .erase-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #9b59b6;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            z-index: 10;
+            transition: background 0.2s ease;
+        }
+
+        .erase-button:hover {
+            background: #8e44ad;
+        }
+
+        .card_content {
+            padding: 20px;
+            text-align: center;
+            background: white;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 180px;
+        }
+
+        .thai-text {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #9b59b6;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            margin-bottom: 10px;
+            font-family: 'Quicksand', sans-serif;
+            line-height: 1.2;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        .thai-text:hover {
+            color: #3498db;
+            transform: scale(1.05);
+        }
+
+        .char-info {
+            font-size: 1rem;
+            color: #7f8c8d;
+            line-height: 1.4;
+        }
+
+        /* Conversation cards specific styling */
+        .conversation-card .thai-text {
+            font-size: 1.8rem;
+            line-height: 1.4;
+        }
+
+        .conversation-card .char-info {
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        /* Adjust full-width cards to maintain proportions */
+        .full-width-card .card {
+            height: 480px;
+        }
+
+        .full-width-card .sketch {
+            height: 250px;
+        }
+
+        /* Status indicator */
+        .status {
+            text-align: center;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+
+        .status.processing {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .status.playing {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Flashcard Section Styles */
+        .flashcard-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f0f0f0;
+        }
+
+        .flashcard-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .flashcard {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 40px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid #9b59b6;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flashcard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .flashcard.flipped {
+            border-color: #2ecc71;
+        }
+
+        .flashcard-front, .flashcard-back {
+            display: none;
+            text-align: center;
+            width: 100%;
+        }
+
+        .flashcard-front.active, .flashcard-back.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .flashcard-thai {
+            font-size: 3rem;
+            font-family: 'Quicksand', sans-serif;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .flashcard-english {
+            font-size: 2.5rem;
+            color: #9b59b6;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .flashcard-pronunciation {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .flashcard-instruction {
+            text-align: center;
+            color: #7f8c8d;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        .flashcard-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .flashcard-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .flashcard-button {
+            background: #9b59b6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .flashcard-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
+        }
+
+        .flashcard-button.speech {
+            background: #3498db;
+        }
+
+        .flashcard-button.speech:hover {
+            background: #2980b9;
+        }
+
+        .flashcard-button.flip {
+            background: #2ecc71;
+        }
+
+        .flashcard-button.flip:hover {
+            background: #27ae60;
+        }
+
+        .flashcard-button.prev {
+            background: #f39c12;
+        }
+
+        .flashcard-button.prev:hover {
+            background: #d68910;
+        }
+
+        .flashcard-button.next {
+            background: #e74c3c;
+        }
+
+        .flashcard-button.next:hover {
+            background: #c0392b;
+        }
+
+        .flashcard-button.settings {
+            background: #7f8c8d;
+        }
+
+        .flashcard-button.settings:hover {
+            background: #5d6d7e;
+        }
+
+        .flashcard-counter {
+            text-align: center;
+            color: #7f8c8d;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .flashcard-mode-toggle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .mode-option {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #7f8c8d;
+        }
+
+        .mode-option.active {
+            background: #9b59b6;
+            color: white;
+            border-color: #9b59b6;
+        }
+
+        .mode-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .flashcard-settings {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .flashcard-settings.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .setting-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .setting-control {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            background: white;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        @media (min-width: 992px) {
+            .cards {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            #basic-grid, #time-grid, #introduction-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            #conversation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .cards {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+
+            #basic-grid, #time-grid, #introduction-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                height: 450px;
+            }
+
+            .sketch {
+                height: 230px;
+            }
+
+            .practice-section {
+                padding: 20px;
+            }
+
+            .thai-dialogue {
+                font-size: 1.2rem;
+            }
+
+            .flashcard-thai {
+                font-size: 2.5rem;
+            }
+
+            .flashcard-english {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            #basic-grid, #time-grid, #introduction-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                height: 420px;
+            }
+
+            .sketch {
+                height: 200px;
+            }
+
+            .header-nav-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .back-button {
+                align-self: flex-start;
+                margin-bottom: 10px;
+            }
+
+            #navbar {
+                width: 100%;
+                justify-content: center;
+            }
+
+            #navbar a {
+                padding: 10px 18px;
+                font-size: 0.9rem;
+            }
+
+            .tts-controls {
+                flex-direction: column;
+            }
+
+            .thai-text {
+                font-size: 1.8rem;
+            }
+
+            .dialogue-line {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .role-label {
+                margin-right: 0;
+                align-self: flex-start;
+            }
+
+            .flashcard-controls {
+                flex-direction: column;
+            }
+
+            .flashcard-button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .flashcard-nav {
+                width: 100%;
+            }
+
+            .flashcard-thai {
+                font-size: 2.2rem;
+            }
+
+            .flashcard-english {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main {
+                padding: 10px;
+            }
+
+            #navbar {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .card {
+                height: 400px;
+            }
+
+            .sketch {
+                height: 180px;
+            }
+
+            .thai-text {
+                font-size: 1.6rem;
+            }
+
+            .practice-title {
+                font-size: 1.4rem;
+            }
+
+            .thai-dialogue {
+                font-size: 1.1rem;
+            }
+
+            .flashcard {
+                padding: 20px;
+                min-height: 250px;
+            }
+
+            .flashcard-thai {
+                font-size: 1.8rem;
+            }
+
+            .flashcard-english {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="header">
+            <h1><br>Thai Greetings & Self-Introduction</h1>
+            <p>Learn essential Thai greetings and self-introduction phrases</p>
+            <p>Draw in the white canvas area to practice writing</p>
+            <p>Click on Thai text to hear pronunciation</p>
+        </div>
+
+        <div class="sticky-nav-container">
+            <div class="nav-content">
+                <a href="../../index.html" class="back-button">← Back to Main</a>
+                <nav id="navbar">
+                    <a class="active" href="#basic">Basic Greetings</a>
+                    <a href="#time">Time-based Greetings</a>
+                    <a href="#introduction">Self-Introduction</a>
+                    <a href="#conversation">Conversation Practice</a>
+                    <a href="#flashcards">Flashcards</a>
+                </nav>
+            </div>
+        </div>
+
+        <div id="status" class="status">Ready to convert text to speech</div>
+        <p class="tts-info">Click on any Thai text to hear its pronunciation</p>
+
+        <section id="basic">
+            <h2 class="section-title">Basic Greetings<br/>ทักทายพื้นฐาน</h2>
+            <ul class="cards" id="basic-grid"></ul>
+
+            <!-- Practice Dialogue for Basic Greetings -->
+            <div class="practice-section">
+                <h3 class="practice-title">Practice Dialogue: Basic Greetings<br/>ฝึกบทสนทนา: ทักทายพื้นฐาน</h3>
+                <div class="dialogue-container">
+                    <div class="dialogue-line">
+                        <div class="role-label role-a">A:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="สวัสดี">สวัสดี</div>
+                            <div class="dialogue-translation">Hello! (neutral)</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line role-b">
+                        <div class="role-label role-b">B:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="สวัสดีค่ะ/ครับ ยินดีที่ได้รู้จัก">สวัสดีค่ะ/ครับ ยินดีที่ได้รู้จัก</div>
+                            <div class="dialogue-translation">Hello! Nice to meet you.</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line">
+                        <div class="role-label role-a">A:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="ฉันชื่อสมชาย คุณชื่ออะไรคะ/ครับ">ฉันชื่อสมชาย คุณชื่ออะไรคะ/ครับ</div>
+                            <div class="dialogue-translation">My name is Somchai. What's your name?</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line role-b">
+                        <div class="role-label role-b">B:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="ฉันชื่อสมศรี ยินดีที่ได้รู้จักค่ะ/ครับ">ฉันชื่อสมศรี ยินดีที่ได้รู้จักค่ะ/ครับ</div>
+                            <div class="dialogue-translation">My name is Somsri. Nice to meet you.</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line">
+                        <div class="role-label role-a">A:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="ลาก่อนค่ะ/ครับ">ลาก่อนค่ะ/ครับ</div>
+                            <div class="dialogue-translation">Goodbye!</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line role-b">
+                        <div class="role-label role-b">B:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="ลาก่อนค่ะ/ครับ">ลาก่อนค่ะ/ครับ</div>
+                            <div class="dialogue-translation">Goodbye!</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="play-dialogue-button" data-dialogue="basic">▶ Play Dialogue</button>
+            </div>
+        </section>
+
+        <section id="time">
+            <h2 class="section-title">Time-based Greetings<br/>ทักทายตามเวลา</h2>
+            <ul class="cards" id="time-grid"></ul>
+
+            <!-- Practice Dialogue for Time-based Greetings -->
+            <div class="practice-section">
+                <h3 class="practice-title">Practice Dialogue: Time-based Greetings<br/>ฝึกบทสนทนา: ทักทายตามเวลา</h3>
+                <div class="dialogue-container">
+                    <div class="dialogue-line">
+                        <div class="role-label role-a">A:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="อรุณสวัสดิ์ค่ะ/ครับ">อรุณสวัสดิ์ค่ะ/ครับ</div>
+                            <div class="dialogue-translation">Good morning!</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line role-b">
+                        <div class="role-label role-b">B:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="อรุณสวัสดิ์ค่ะ/ครับ สบายดีไหมคะ/ครับ">อรุณสวัสดิ์ค่ะ/ครับ สบายดีไหมคะ/ครับ</div>
+                            <div class="dialogue-translation">Good morning! How are you?</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line">
+                        <div class="role-label role-a">A:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="สบายดีค่ะ/ครับ ตอนบ่ายสวัสดิ์ค่ะ/ครับ">สบายดีค่ะ/ครับ ตอนบ่ายสวัสดิ์ค่ะ/ครับ</div>
+                            <div class="dialogue-translation">I'm fine. Good afternoon!</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line role-b">
+                        <div class="role-label role-b">B:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="ตอนเย็นสวัสดิ์ค่ะ/ครับ">ตอนเย็นสวัสดิ์ค่ะ/ครับ</div>
+                            <div class="dialogue-translation">Good evening!</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line">
+                        <div class="role-label role-a">A:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="ราตรีสวัสดิ์ พรุ่งนี้เจอกันค่ะ/ครับ">ราตรีสวัสดิ์ พรุ่งนี้เจอกันค่ะ/ครับ</div>
+                            <div class="dialogue-translation">Good night, see you tomorrow!</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line role-b">
+                        <div class="role-label role-b">B:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="นอนหลับฝันดีค่ะ/ครับ">นอนหลับฝันดีค่ะ/ครับ</div>
+                            <div class="dialogue-translation">Good night!</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="play-dialogue-button" data-dialogue="time">▶ Play Dialogue</button>
+            </div>
+        </section>
+
+        <section id="introduction">
+            <h2 class="section-title">Self-Introduction<br/>การแนะนำตัว</h2>
+            <ul class="cards" id="introduction-grid"></ul>
+
+            <!-- Practice Dialogue for Self-Introduction -->
+            <div class="practice-section">
+                <h3 class="practice-title">Practice Dialogue: Self-Introduction<br/>ฝึกบทสนทนา: การแนะนำตัว</h3>
+                <div class="dialogue-container">
+                    <div class="dialogue-line">
+                        <div class="role-label role-a">A:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="สวัสดีค่ะ/ครับ ฉันชื่อสมศักดิ์">สวัสดีค่ะ/ครับ ฉันชื่อสมศักดิ์</div>
+                            <div class="dialogue-translation">Hello, my name is Somsak.</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line role-b">
+                        <div class="role-label role-b">B:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="ยินดีที่ได้รู้จักค่ะ/ครับ ฉันชื่อสมหญิง">ยินดีที่ได้รู้จักค่ะ/ครับ ฉันชื่อสมหญิง</div>
+                            <div class="dialogue-translation">Nice to meet you. My name is Samying.</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line">
+                        <div class="role-label role-a">A:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="ฉันมาจากอเมริกาค่ะ/ครับ ฉันอายุยี่สิบห้าปี">ฉันมาจากอเมริกาค่ะ/ครับ ฉันอายุยี่สิบห้าปี</div>
+                            <div class="dialogue-translation">I'm from America. I'm 25 years old.</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line role-b">
+                        <div class="role-label role-b">B:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="ฉันเป็นคนไทยและเป็นครู งานอดิเรกของฉันคือฟังเพลง">ฉันเป็นคนไทยและเป็นครู งานอดิเรกของฉันคือฟังเพลง</div>
+                            <div class="dialogue-translation">I'm Thai and I'm a teacher. My hobby is listening to music.</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line">
+                        <div class="role-label role-a">A:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="ฉันเป็นพนักงานออฟฟิศและกำลังเรียนภาษาไทย">ฉันเป็นพนักงานออฟฟิศและกำลังเรียนภาษาไทย</div>
+                            <div class="dialogue-translation">I'm an office worker and I'm learning Thai.</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line role-b">
+                        <div class="role-label role-b">B:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="คุณพูดภาษาไทยได้ดีมากเลยค่ะ/ครับ">คุณพูดภาษาไทยได้ดีมากเลยค่ะ/ครับ</div>
+                            <div class="dialogue-translation">You speak Thai very well!</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="play-dialogue-button" data-dialogue="introduction">▶ Play Dialogue</button>
+            </div>
+        </section>
+
+        <section id="conversation">
+            <h2 class="section-title">Conversation Practice<br/>การฝึกสนทนา</h2>
+            <ul class="cards" id="conversation-grid"></ul>
+
+            <!-- Practice Dialogue for Conversation Practice -->
+            <div class="practice-section">
+                <h3 class="practice-title">Practice Dialogue: Full Conversation<br/>ฝึกบทสนทนา: การสนทนาเต็มรูปแบบ</h3>
+                <div class="dialogue-container">
+                    <div class="dialogue-line">
+                        <div class="role-label role-a">A:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="อรุณสวัสดิ์ค่ะ/ครับ วันนี้สบายดีไหมคะ/ครับ">อรุณสวัสดิ์ค่ะ/ครับ วันนี้สบายดีไหมคะ/ครับ</div>
+                            <div class="dialogue-translation">Good morning! How are you today?</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line role-b">
+                        <div class="role-label role-b">B:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="สวัสดีค่ะ/ครับ ฉันสบายดีค่ะ/ครับ คุณชื่ออะไรคะ/ครับ">สวัสดีค่ะ/ครับ ฉันสบายดีค่ะ/ครับ คุณชื่ออะไรคะ/ครับ</div>
+                            <div class="dialogue-translation">Hello! I'm fine. What's your name?</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line">
+                        <div class="role-label role-a">A:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="ฉันชื่อสมชาย คุณมาจากไหนคะ/ครับ">ฉันชื่อสมชาย คุณมาจากไหนคะ/ครับ</div>
+                            <div class="dialogue-translation">My name is Somchai. Where are you from?</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line role-b">
+                        <div class="role-label role-b">B:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="ฉันมาจากแคนาดาค่ะ/ครับ ฉันกำลังเรียนภาษาไทย">ฉันมาจากแคนาดาค่ะ/ครับ ฉันกำลังเรียนภาษาไทย</div>
+                            <div class="dialogue-translation">I'm from Canada. I'm learning Thai.</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line">
+                        <div class="role-label role-a">A:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="คุณพูดภาษาไทยได้ดีมากเลยค่ะ/ครับ คุณทำงานอะไรคะ/ครับ">คุณพูดภาษาไทยได้ดีมากเลยค่ะ/ครับ คุณทำงานอะไรคะ/ครับ</div>
+                            <div class="dialogue-translation">You speak Thai very well! What do you do?</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line role-b">
+                        <div class="role-label role-b">B:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="ฉันเป็นนักเรียน ฉันกำลังเรียนที่ประเทศไทย">ฉันเป็นนักเรียน ฉันกำลังเรียนที่ประเทศไทย</div>
+                            <div class="dialogue-translation">I'm a student. I'm studying in Thailand.</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line">
+                        <div class="role-label role-a">A:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="อ้อ เข้าใจแล้วค่ะ/ครับ ตอนบ่ายสวัสดิ์ค่ะ/ครับ">อ้อ เข้าใจแล้วค่ะ/ครับ ตอนบ่ายสวัสดิ์ค่ะ/ครับ</div>
+                            <div class="dialogue-translation">Oh, I see! Good afternoon!</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line role-b">
+                        <div class="role-label role-b">B:</div>
+                        <div class="dialogue-content">
+                            <div class="thai-dialogue" data-thai="ขอบคุณค่ะ/ครับ ลาก่อนค่ะ/ครับ">ขอบคุณค่ะ/ครับ ลาก่อนค่ะ/ครับ</div>
+                            <div class="dialogue-translation">Thank you! Goodbye!</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="play-dialogue-button" data-dialogue="full">▶ Play Dialogue</button>
+            </div>
+        </section>
+
+        <!-- Flashcard Section -->
+        <section id="flashcards">
+            <div class="flashcard-section">
+                <h2 class="section-title">Flashcards<br/>บัตรคำ</h2>
+
+                <div class="flashcard-mode-toggle">
+                    <div class="mode-option active" data-mode="english-first">English First</div>
+                    <div class="mode-option" data-mode="thai-first">Thai First</div>
+                </div>
+
+                <div class="flashcard-container">
+                    <div class="flashcard" id="current-flashcard">
+                        <div class="flashcard-front active">
+                            <div class="flashcard-english" id="flashcard-english">Hello (neutral)</div>
+                            <div class="flashcard-instruction">Click to reveal Thai</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="flashcard-thai" id="flashcard-thai">สวัสดี</div>
+                            <div class="flashcard-pronunciation" id="flashcard-pronunciation">sà-wàt-dii</div>
+                            <div class="flashcard-instruction">Click to go back</div>
+                        </div>
+                    </div>
+
+                    <div class="flashcard-counter" id="flashcard-counter">Card 1 of 25</div>
+
+                    <div class="flashcard-controls">
+                        <button class="flashcard-button speech" id="speak-button">
+                            🔊 Speak Thai
+                        </button>
+                        <button class="flashcard-button flip" id="flip-button">
+                            🔄 Flip Card
+                        </button>
+                        <button class="flashcard-button settings" id="settings-button">
+                            ⚙️ Settings
+                        </button>
+                    </div>
+
+                    <div class="flashcard-nav">
+                        <button class="flashcard-button prev" id="prev-button">
+                            ← Previous
+                        </button>
+                        <button class="flashcard-button next" id="next-button">
+                            Next →
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flashcard-settings" id="flashcard-settings">
+                    <div class="setting-row">
+                        <span class="setting-label">Flashcard Set:</span>
+                        <select class="setting-control" id="flashcard-set-selector">
+                            <option value="all">All Phrases (25 cards)</option>
+                            <option value="basic">Basic Greetings (7 cards)</option>
+                            <option value="time">Time-based Greetings (6 cards)</option>
+                            <option value="introduction">Self-Introduction (6 cards)</option>
+                            <option value="conversation">Conversation (6 cards)</option>
+                        </select>
+                    </div>
+                    <div class="setting-row">
+                        <span class="setting-label">Auto-play Speech:</span>
+                        <select class="setting-control" id="auto-speak-selector">
+                            <option value="on-flip">On Flip</option>
+                            <option value="on-both">Always</option>
+                            <option value="off">Off</option>
+                        </select>
+                    </div>
+                    <div class="setting-row">
+                        <span class="setting-label">Shuffle Cards:</span>
+                        <button class="flashcard-button" id="shuffle-button" style="background: #3498db; padding: 8px 15px;">
+                            🔀 Shuffle Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const thaiContent = {
+            basic: [
+                {
+                    thai: 'สวัสดี',
+                    pronunciation: 'sà-wàt-dii',
+                    meaning: 'Hello (neutral)',
+                    usage: 'Common greeting for all situations',
+                    examples: 'When meeting someone'
+                },
+                {
+                    thai: 'สบายดีไหม',
+                    pronunciation: 'sà-baai dii măi',
+                    meaning: 'How are you?',
+                    usage: 'Asking about someone\'s condition',
+                    examples: 'After greeting someone'
+                },
+                {
+                    thai: 'สบายดี',
+                    pronunciation: 'sà-baai dii',
+                    meaning: 'I\'m fine',
+                    usage: 'Responding to "สบายดีไหม"',
+                    examples: 'Standard response when doing well'
+                },
+                {
+                    thai: 'ยินดีที่ได้รู้จัก',
+                    pronunciation: 'yin-dii têe dâi róo jàk',
+                    meaning: 'Nice to meet you',
+                    usage: 'When meeting someone for the first time',
+                    examples: 'After introductions'
+                },
+                {
+                    thai: 'คุณชื่ออะไร',
+                    pronunciation: 'kun chûu à-rai',
+                    meaning: 'What is your name?',
+                    usage: 'Asking someone\'s name',
+                    examples: 'When meeting new people'
+                },
+                {
+                    thai: 'ลาก่อน',
+                    pronunciation: 'laa kɔ̂ɔn',
+                    meaning: 'Goodbye',
+                    usage: 'Said by either party when leaving',
+                    examples: 'When parting ways'
+                },
+                {
+                    thai: 'ขอบคุณ',
+                    pronunciation: 'kɔ̀ɔp kun',
+                    meaning: 'Thank you',
+                    usage: 'Expressing gratitude',
+                    examples: 'After receiving help or a gift'
+                }
+            ],
+            time: [
+                {
+                    thai: 'อรุณสวัสดิ์',
+                    pronunciation: 'a-run sà-wàt',
+                    meaning: 'Good morning',
+                    usage: 'Morning greeting (until 10 AM)',
+                    examples: 'Greeting in the morning'
+                },
+                {
+                    thai: 'ตอนบ่ายสวัสดิ์',
+                    pronunciation: 'tawn bâai sà-wàt',
+                    meaning: 'Good afternoon',
+                    usage: 'Midday greeting (10 AM - 3 PM)',
+                    examples: 'Greeting around noon'
+                },
+                {
+                    thai: 'ตอนเย็นสวัสดิ์',
+                    pronunciation: 'tawn yen sà-wàt',
+                    meaning: 'Good evening',
+                    usage: 'Late afternoon greeting (3 PM - 6 PM)',
+                    examples: 'Greeting in the late afternoon'
+                },
+                {
+                    thai: 'ราตรีสวัสดิ์',
+                    pronunciation: 'raa-dtrii sà-wàt',
+                    meaning: 'Good night',
+                    usage: 'Evening greeting (after 6 PM)',
+                    examples: 'Greeting in the evening'
+                },
+                {
+                    thai: 'นอนหลับฝันดี',
+                    pronunciation: 'nawn làp fǎn dii',
+                    meaning: 'Good night (sleep well)',
+                    usage: 'Said before someone goes to sleep',
+                    examples: 'Bedtime greeting'
+                },
+                {
+                    thai: 'พรุ่งนี้เจอกัน',
+                    pronunciation: 'prûng níi jəə kan',
+                    meaning: 'See you tomorrow',
+                    usage: 'Casual goodbye',
+                    examples: 'When parting ways'
+                }
+            ],
+            introduction: [
+                {
+                    thai: 'ฉันชื่อ[ชื่อ]',
+                    pronunciation: 'chǎn chûu [chûu]',
+                    meaning: 'My name is [name]',
+                    usage: 'Basic self-introduction',
+                    examples: 'ฉันชื่อสมชาย (My name is Somchai)'
+                },
+                {
+                    thai: 'ฉันมาจาก[ประเทศ]',
+                    pronunciation: 'chǎn maa jàak [bprà-têet]',
+                    meaning: 'I am from [country]',
+                    usage: 'Telling your nationality',
+                    examples: 'ฉันมาจากอเมริกา (I am from America)'
+                },
+                {
+                    thai: 'ฉันอายุ[อายุ]ปี',
+                    pronunciation: 'chǎn aa-yú [aa-yú] bpii',
+                    meaning: 'I am [age] years old',
+                    usage: 'Telling your age',
+                    examples: 'ฉันอายุยี่สิบห้าปี (I am 25 years old)'
+                },
+                {
+                    thai: 'ฉันเป็น[อาชีพ]',
+                    pronunciation: 'chǎn bpen [aa-chîip]',
+                    meaning: 'I am a [job]',
+                    usage: 'Telling your occupation',
+                    examples: 'ฉันเป็นครู (I am a teacher)'
+                },
+                {
+                    thai: 'งานอดิเรกของฉันคือ[งานอดิเรก]',
+                    pronunciation: 'ngaan à-dì-rèek kɔ̌ɔng chǎn kʉʉ [ngaan à-dì-rèek]',
+                    meaning: 'My hobby is [hobby]',
+                    usage: 'Talking about your interests',
+                    examples: 'งานอดิเรกของฉันคือฟังเพลง (My hobby is listening to music)'
+                },
+                {
+                    thai: 'ฉันกำลังเรียนภาษาไทย',
+                    pronunciation: 'chǎn gam-lang riian phaa-sǎa tai',
+                    meaning: 'I am learning Thai',
+                    usage: 'Explaining your language studies',
+                    examples: 'Useful for language exchange'
+                }
+            ],
+            conversation: [
+                {
+                    thai: 'A: สวัสดี B: สวัสดี',
+                    pronunciation: 'A: sà-wàt-dii B: sà-wàt-dii',
+                    meaning: 'A: Hello! B: Hello!',
+                    context: 'Basic greeting exchange'
+                },
+                {
+                    thai: 'A: คุณชื่ออะไร B: ฉันชื่อสมศรี',
+                    pronunciation: 'A: kun chûu à-rai B: chǎn chûu sǒm-sǐi',
+                    meaning: 'A: What is your name? B: My name is Somsri.',
+                    context: 'Asking and telling names'
+                },
+                {
+                    thai: 'A: คุณมาจากไหน B: ฉันมาจากอเมริกา',
+                    pronunciation: 'A: kun maa jàak nǎi B: chǎn maa jàak aa-mée-rí-gaa',
+                    meaning: 'A: Where are you from? B: I am from America.',
+                    context: 'Asking about origin'
+                },
+                {
+                    thai: 'A: คุณทำงานอะไร B: ฉันเป็นนักเรียน',
+                    pronunciation: 'A: kun tam ngaan à-rai B: chǎn bpen nák-riian',
+                    meaning: 'A: What do you do? B: I am a student.',
+                    context: 'Asking about occupation'
+                },
+                {
+                    thai: 'A: คุณพูดภาษาไทยได้ดีมาก B: ขอบคุณค่ะ/ครับ ฉันยังเรียนอยู่',
+                    pronunciation: 'A: kun phûut phaa-sǎa tai dâi dii mâak B: kɔ̀ɔp kun kâ/kráp chǎn yang riian yùu',
+                    meaning: 'A: You speak Thai very well! B: Thank you, I\'m still learning.',
+                    context: 'Complimenting language skills'
+                },
+                {
+                    thai: 'A: ลาก่อน B: ลาก่อน',
+                    pronunciation: 'A: laa kɔ̂ɔn B: laa kɔ̂ɔn',
+                    meaning: 'A: Goodbye! B: Goodbye!',
+                    context: 'Ending a conversation'
+                }
+            ]
+        };
+
+        // Practice dialogues data
+        const practiceDialogues = {
+            basic: [
+                { speaker: 'A', thai: 'สวัสดี', translation: 'Hello! (neutral)' },
+                { speaker: 'B', thai: 'สวัสดีค่ะ/ครับ ยินดีที่ได้รู้จัก', translation: 'Hello! Nice to meet you.' },
+                { speaker: 'A', thai: 'ฉันชื่อสมชาย คุณชื่ออะไรคะ/ครับ', translation: 'My name is Somchai. What\'s your name?' },
+                { speaker: 'B', thai: 'ฉันชื่อสมศรี ยินดีที่ได้รู้จักค่ะ/ครับ', translation: 'My name is Somsri. Nice to meet you.' },
+                { speaker: 'A', thai: 'ลาก่อนค่ะ/ครับ', translation: 'Goodbye!' },
+                { speaker: 'B', thai: 'ลาก่อนค่ะ/ครับ', translation: 'Goodbye!' }
+            ],
+            time: [
+                { speaker: 'A', thai: 'อรุณสวัสดิ์ค่ะ/ครับ', translation: 'Good morning!' },
+                { speaker: 'B', thai: 'อรุณสวัสดิ์ค่ะ/ครับ สบายดีไหมคะ/ครับ', translation: 'Good morning! How are you?' },
+                { speaker: 'A', thai: 'สบายดีค่ะ/ครับ ตอนบ่ายสวัสดิ์ค่ะ/ครับ', translation: 'I\'m fine. Good afternoon!' },
+                { speaker: 'B', thai: 'ตอนเย็นสวัสดิ์ค่ะ/ครับ', translation: 'Good evening!' },
+                { speaker: 'A', thai: 'ราตรีสวัสดิ์ พรุ่งนี้เจอกันค่ะ/ครับ', translation: 'Good night, see you tomorrow!' },
+                { speaker: 'B', thai: 'นอนหลับฝันดีค่ะ/ครับ', translation: 'Good night!' }
+            ],
+            introduction: [
+                { speaker: 'A', thai: 'สวัสดีค่ะ/ครับ ฉันชื่อสมศักดิ์', translation: 'Hello, my name is Somsak.' },
+                { speaker: 'B', thai: 'ยินดีที่ได้รู้จักค่ะ/ครับ ฉันชื่อสมหญิง', translation: 'Nice to meet you. My name is Samying.' },
+                { speaker: 'A', thai: 'ฉันมาจากอเมริกาค่ะ/ครับ ฉันอายุยี่สิบห้าปี', translation: 'I\'m from America. I\'m 25 years old.' },
+                { speaker: 'B', thai: 'ฉันเป็นคนไทยและเป็นครู งานอดิเรกของฉันคือฟังเพลง', translation: 'I\'m Thai and I\'m a teacher. My hobby is listening to music.' },
+                { speaker: 'A', thai: 'ฉันเป็นพนักงานออฟฟิศและกำลังเรียนภาษาไทย', translation: 'I\'m an office worker and I\'m learning Thai.' },
+                { speaker: 'B', thai: 'คุณพูดภาษาไทยได้ดีมากเลยค่ะ/ครับ', translation: 'You speak Thai very well!' }
+            ],
+            full: [
+                { speaker: 'A', thai: 'อรุณสวัสดิ์ค่ะ/ครับ วันนี้สบายดีไหมคะ/ครับ', translation: 'Good morning! How are you today?' },
+                { speaker: 'B', thai: 'สวัสดีค่ะ/ครับ ฉันสบายดีค่ะ/ครับ คุณชื่ออะไรคะ/ครับ', translation: 'Hello! I\'m fine. What\'s your name?' },
+                { speaker: 'A', thai: 'ฉันชื่อสมชาย คุณมาจากไหนคะ/ครับ', translation: 'My name is Somchai. Where are you from?' },
+                { speaker: 'B', thai: 'ฉันมาจากแคนาดาค่ะ/ครับ ฉันกำลังเรียนภาษาไทย', translation: 'I\'m from Canada. I\'m learning Thai.' },
+                { speaker: 'A', thai: 'คุณพูดภาษาไทยได้ดีมากเลยค่ะ/ครับ คุณทำงานอะไรคะ/ครับ', translation: 'You speak Thai very well! What do you do?' },
+                { speaker: 'B', thai: 'ฉันเป็นนักเรียน ฉันกำลังเรียนที่ประเทศไทย', translation: 'I\'m a student. I\'m studying in Thailand.' },
+                { speaker: 'A', thai: 'อ้อ เข้าใจแล้วค่ะ/ครับ ตอนบ่ายสวัสดิ์ค่ะ/ครับ', translation: 'Oh, I see! Good afternoon!' },
+                { speaker: 'B', thai: 'ขอบคุณค่ะ/ครับ ลาก่อนค่ะ/ครับ', translation: 'Thank you! Goodbye!' }
+            ]
+        };
+
+        // Flashcard System
+        class FlashcardSystem {
+            constructor() {
+                this.currentIndex = 0;
+                this.isFlipped = false;
+                this.mode = 'english-first'; // 'english-first' or 'thai-first'
+                this.currentSet = 'all';
+                this.cards = this.getAllCards();
+                this.isShuffled = false;
+                this.autoSpeak = 'on-flip';
+
+                this.initializeElements();
+                this.bindEvents();
+                this.displayCurrentCard();
+            }
+
+            getAllCards() {
+                const allCards = [];
+
+                Object.keys(thaiContent).forEach(section => {
+                    thaiContent[section].forEach(card => {
+                        allCards.push({
+                            ...card,
+                            section: section
+                        });
+                    });
+                });
+
+                return allCards;
+            }
+
+            getFilteredCards() {
+                if (this.currentSet === 'all') {
+                    return this.isShuffled ? this.shuffleArray([...this.cards]) : [...this.cards];
+                }
+
+                const filtered = this.cards.filter(card => card.section === this.currentSet);
+                return this.isShuffled ? this.shuffleArray([...filtered]) : [...filtered];
+            }
+
+            shuffleArray(array) {
+                const shuffled = [...array];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                return shuffled;
+            }
+
+            initializeElements() {
+                this.flashcardElement = document.getElementById('current-flashcard');
+                this.englishElement = document.getElementById('flashcard-english');
+                this.thaiElement = document.getElementById('flashcard-thai');
+                this.pronunciationElement = document.getElementById('flashcard-pronunciation');
+                this.counterElement = document.getElementById('flashcard-counter');
+                this.settingsElement = document.getElementById('flashcard-settings');
+
+                this.speakButton = document.getElementById('speak-button');
+                this.flipButton = document.getElementById('flip-button');
+                this.prevButton = document.getElementById('prev-button');
+                this.nextButton = document.getElementById('next-button');
+                this.settingsButton = document.getElementById('settings-button');
+                this.shuffleButton = document.getElementById('shuffle-button');
+
+                this.setSelector = document.getElementById('flashcard-set-selector');
+                this.autoSpeakSelector = document.getElementById('auto-speak-selector');
+                this.modeOptions = document.querySelectorAll('.mode-option');
+            }
+
+            bindEvents() {
+                // Flashcard click to flip
+                this.flashcardElement.addEventListener('click', () => this.flipCard());
+
+                // Button events
+                this.speakButton.addEventListener('click', () => this.speakCurrentCard());
+                this.flipButton.addEventListener('click', () => this.flipCard());
+                this.prevButton.addEventListener('click', () => this.previousCard());
+                this.nextButton.addEventListener('click', () => this.nextCard());
+                this.settingsButton.addEventListener('click', () => this.toggleSettings());
+                this.shuffleButton.addEventListener('click', () => this.shuffleCards());
+
+                // Settings events
+                this.setSelector.addEventListener('change', (e) => this.changeSet(e.target.value));
+                this.autoSpeakSelector.addEventListener('change', (e) => this.changeAutoSpeak(e.target.value));
+
+                // Mode toggle events
+                this.modeOptions.forEach(option => {
+                    option.addEventListener('click', (e) => this.changeMode(e.target.dataset.mode));
+                });
+            }
+
+            changeMode(newMode) {
+                this.mode = newMode;
+                this.modeOptions.forEach(option => {
+                    option.classList.toggle('active', option.dataset.mode === newMode);
+                });
+                this.displayCurrentCard();
+            }
+
+            changeSet(setName) {
+                this.currentSet = setName;
+                this.currentIndex = 0;
+                this.isFlipped = false;
+                this.displayCurrentCard();
+            }
+
+            changeAutoSpeak(setting) {
+                this.autoSpeak = setting;
+            }
+
+            shuffleCards() {
+                this.isShuffled = true;
+                this.currentIndex = 0;
+                this.isFlipped = false;
+                this.displayCurrentCard();
+
+                // Visual feedback for shuffle
+                this.shuffleButton.textContent = '✓ Shuffled!';
+                setTimeout(() => {
+                    this.shuffleButton.textContent = '🔀 Shuffle Now';
+                }, 1000);
+            }
+
+            toggleSettings() {
+                this.settingsElement.classList.toggle('active');
+            }
+
+            getCurrentCard() {
+                const filteredCards = this.getFilteredCards();
+                return filteredCards[this.currentIndex];
+            }
+
+            displayCurrentCard() {
+                const card = this.getCurrentCard();
+                if (!card) return;
+
+                const filteredCards = this.getFilteredCards();
+                const total = filteredCards.length;
+
+                // Update counter
+                this.counterElement.textContent = `Card ${this.currentIndex + 1} of ${total}`;
+
+                // Reset flip state
+                this.isFlipped = false;
+                this.flashcardElement.classList.remove('flipped');
+
+                // Set content based on mode
+                if (this.mode === 'english-first') {
+                    this.englishElement.textContent = card.meaning;
+                    this.thaiElement.textContent = card.thai;
+                    this.pronunciationElement.textContent = card.pronunciation;
+
+                    document.querySelector('.flashcard-front').classList.add('active');
+                    document.querySelector('.flashcard-back').classList.remove('active');
+                } else {
+                    // Thai-first mode
+                    this.englishElement.textContent = card.meaning;
+                    this.thaiElement.textContent = card.thai;
+                    this.pronunciationElement.textContent = card.pronunciation;
+
+                    // Show Thai first
+                    document.querySelector('.flashcard-front').classList.remove('active');
+                    document.querySelector('.flashcard-back').classList.add('active');
+                    this.flashcardElement.classList.add('flipped');
+                    this.isFlipped = true;
+                }
+
+                // Auto-speak if enabled
+                if (this.autoSpeak === 'on-both' ||
+                    (this.autoSpeak === 'on-flip' && this.isFlipped)) {
+                    setTimeout(() => this.speakCurrentCard(), 300);
+                }
+            }
+
+            flipCard() {
+                this.isFlipped = !this.isFlipped;
+                this.flashcardElement.classList.toggle('flipped');
+
+                document.querySelector('.flashcard-front').classList.toggle('active');
+                document.querySelector('.flashcard-back').classList.toggle('active');
+
+                // Auto-speak if enabled
+                if (this.autoSpeak === 'on-flip') {
+                    setTimeout(() => this.speakCurrentCard(), 300);
+                }
+            }
+
+            async speakCurrentCard() {
+                const card = this.getCurrentCard();
+                if (card) {
+                    await speakThai(card.thai);
+                }
+            }
+
+            nextCard() {
+                const filteredCards = this.getFilteredCards();
+                this.currentIndex = (this.currentIndex + 1) % filteredCards.length;
+                this.isFlipped = false;
+                this.displayCurrentCard();
+            }
+
+            previousCard() {
+                const filteredCards = this.getFilteredCards();
+                this.currentIndex = (this.currentIndex - 1 + filteredCards.length) % filteredCards.length;
+                this.isFlipped = false;
+                this.displayCurrentCard();
+            }
+        }
+
+        let currentAudio = null;
+        let isDialoguePlaying = false;
+        let currentDialogueIndex = 0;
+        let flashcardSystem;
+
+        // Update status display
+        function updateStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = 'status';
+            if (type) {
+                statusDiv.classList.add(type);
+            }
+        }
+
+        // Text-to-Speech functionality using OpenAI TTS
+        const speakThai = async (text) => {
+            // Stop any currently playing audio
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+
+            // Clean text for TTS
+            const cleanText = text.replace(/\[.*?\]/g, '').replace(/\//g, ' ');
+
+            updateStatus('Converting text to speech...', 'processing');
+
+            try {
+                const audio = await puter.ai.txt2speech(cleanText, {
+                    provider: 'openai',
+                    voice: 'fable',
+                    model: 'gpt-4o-mini-tts',
+                    response_format: 'mp3'
+                });
+
+                updateStatus(`Playing audio with OpenAI TTS`, 'playing');
+
+                currentAudio = audio;
+                await audio.play();
+
+                // Reset status when audio finishes
+                audio.addEventListener('ended', () => {
+                    updateStatus('Ready to convert text to speech', '');
+                    currentAudio = null;
+                });
+
+                audio.addEventListener('error', (e) => {
+                    updateStatus('Error playing audio', 'error');
+                    console.error('Audio playback error:', e);
+                    currentAudio = null;
+                });
+
+            } catch (error) {
+                updateStatus(`Error: ${error.message}`, 'error');
+                console.error('TTS Error:', error);
+
+                // Fallback to browser TTS if OpenAI fails
+                fallbackTTS(cleanText);
+            }
+        };
+
+        // Fallback to browser TTS if OpenAI fails
+        const fallbackTTS = (text) => {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'th-TH';
+                utterance.rate = 0.8;
+                utterance.pitch = 1;
+                utterance.volume = 1;
+
+                const voices = speechSynthesis.getVoices();
+                const thaiVoice = voices.find(voice => voice.lang.includes('th'));
+                if (thaiVoice) {
+                    utterance.voice = thaiVoice;
+                }
+
+                speechSynthesis.speak(utterance);
+                updateStatus('Playing with browser TTS (fallback)', 'playing');
+
+                utterance.onend = () => {
+                    updateStatus('Ready to convert text to speech', '');
+                };
+
+                utterance.onerror = () => {
+                    updateStatus('Error with browser TTS', 'error');
+                };
+            } else {
+                console.log('Speech synthesis not supported');
+                updateStatus('Speech synthesis not supported', 'error');
+            }
+        };
+
+        // Play a practice dialogue
+        async function playDialogue(dialogueType) {
+            if (isDialoguePlaying) return;
+
+            const dialogue = practiceDialogues[dialogueType];
+            if (!dialogue) return;
+
+            isDialoguePlaying = true;
+            currentDialogueIndex = 0;
+            const buttons = document.querySelectorAll('.play-dialogue-button');
+            buttons.forEach(btn => btn.disabled = true);
+
+            // Highlight all dialogue lines
+            const allDialogueLines = document.querySelectorAll('.thai-dialogue');
+            allDialogueLines.forEach(el => el.style.backgroundColor = '');
+
+            updateStatus('Playing dialogue...', 'processing');
+
+            // Play each line sequentially
+            async function playNextLine() {
+                if (currentDialogueIndex < dialogue.length) {
+                    const line = dialogue[currentDialogueIndex];
+
+                    // Highlight current line
+                    const currentElements = document.querySelectorAll(`.thai-dialogue[data-thai="${line.thai}"]`);
+                    currentElements.forEach(el => {
+                        el.style.backgroundColor = '#e8f5e9';
+                        el.style.transition = 'background-color 0.3s ease';
+                    });
+
+                    await speakThai(line.thai);
+
+                    // Wait a moment before next line
+                    await new Promise(resolve => setTimeout(resolve, 800));
+
+                    // Remove highlight
+                    currentElements.forEach(el => {
+                        el.style.backgroundColor = '';
+                    });
+
+                    currentDialogueIndex++;
+                    playNextLine();
+                } else {
+                    // Dialogue finished
+                    isDialoguePlaying = false;
+                    buttons.forEach(btn => btn.disabled = false);
+                    updateStatus('Dialogue finished', '');
+                }
+            }
+
+            playNextLine();
+        }
+
+        function createCard(thaiData, index, section) {
+            const isConversation = section === 'conversation';
+            const cardClass = isConversation ? 'card conversation-card' : 'card';
+            const fullWidthClass = thaiData.fullWidth ? 'full-width-card' : '';
+
+            // Format the meaning with additional information
+            let formattedMeaning = thaiData.meaning;
+            if (thaiData.usage) {
+                formattedMeaning += `<br/><small>Usage: ${thaiData.usage}</small>`;
+            }
+            if (thaiData.examples) {
+                formattedMeaning += `<br/><small>Examples: ${thaiData.examples}</small>`;
+            }
+            if (thaiData.context) {
+                formattedMeaning += `<br/><small>Context: ${thaiData.context}</small>`;
+            }
+
+            return `
+                <li class="cards_item ${fullWidthClass}">
+                    <div class="${cardClass}">
+                        <div class="sketch">
+                            <canvas class="paint" width="300" height="200" data-index="${index}"></canvas>
+                            <button class="erase-button" data-canvas-index="${index}">Erase</button>
+                        </div>
+                        <div class="card_content">
+                            <div class="thai-text" data-pronunciation="${thaiData.pronunciation}" data-thai="${thaiData.thai}">${thaiData.thai}</div>
+                            <div class="char-info">${thaiData.pronunciation}<br/>${formattedMeaning}</div>
+                        </div>
+                    </div>
+                </li>
+            `;
+        }
+
+        function generateCards() {
+            const basicGrid = document.getElementById('basic-grid');
+            const timeGrid = document.getElementById('time-grid');
+            const introductionGrid = document.getElementById('introduction-grid');
+            const conversationGrid = document.getElementById('conversation-grid');
+
+            let index = 0;
+            basicGrid.innerHTML = thaiContent.basic.map(item => createCard(item, index++, 'basic')).join('');
+            timeGrid.innerHTML = thaiContent.time.map(item => createCard(item, index++, 'time')).join('');
+            introductionGrid.innerHTML = thaiContent.introduction.map(item => createCard(item, index++, 'introduction')).join('');
+            conversationGrid.innerHTML = thaiContent.conversation.map(item => createCard(item, index++, 'conversation')).join('');
+
+            addAudioEventListeners();
+            addCanvasEventListeners();
+            addEraseButtonListeners();
+            addDialogueEventListeners();
+        }
+
+        function addAudioEventListeners() {
+            // Add to existing Thai text
+            document.querySelectorAll('.thai-text').forEach(textElement => {
+                textElement.addEventListener('click', function() {
+                    const thai = this.getAttribute('data-thai');
+                    speakThai(thai);
+                });
+            });
+
+            // Add to dialogue text
+            document.querySelectorAll('.thai-dialogue').forEach(textElement => {
+                textElement.addEventListener('click', function() {
+                    const thai = this.getAttribute('data-thai');
+                    speakThai(thai);
+                });
+            });
+        }
+
+        function addDialogueEventListeners() {
+            document.querySelectorAll('.play-dialogue-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const dialogueType = this.getAttribute('data-dialogue');
+                    playDialogue(dialogueType);
+                });
+            });
+        }
+
+        function playAllThai() {
+            const ttsButton = document.getElementById('tts-button');
+            ttsButton.disabled = true;
+
+            const allItems = [...thaiContent.basic, ...thaiContent.time, ...thaiContent.introduction, ...thaiContent.conversation];
+            let index = 0;
+
+            function speakNext() {
+                if (index < allItems.length) {
+                    const thaiData = allItems[index];
+                    speakThai(thaiData.thai);
+
+                    const thaiElements = document.querySelectorAll('.thai-text');
+                    thaiElements.forEach(el => el.style.backgroundColor = '');
+
+                    const currentElement = Array.from(thaiElements).find(
+                        el => el.getAttribute('data-thai') === thaiData.thai
+                    );
+
+                    if (currentElement) {
+                        currentElement.style.backgroundColor = '#e8f5e9';
+                    }
+
+                    // Wait for audio to finish before playing next
+                    const checkAudioEnded = setInterval(() => {
+                        if (!currentAudio) {
+                            clearInterval(checkAudioEnded);
+                            index++;
+                            setTimeout(speakNext, 500);
+                        }
+                    }, 100);
+                } else {
+                    ttsButton.disabled = false;
+                    document.querySelectorAll('.thai-text').forEach(el => {
+                        el.style.backgroundColor = '';
+                    });
+                }
+            }
+
+            speakNext();
+        }
+
+        let isDrawing = false;
+        let canvasesContexts = [];
+        let lastX = 0;
+        let lastY = 0;
+
+        function initializeCanvasContexts() {
+            const canvasElements = document.querySelectorAll('.paint');
+            canvasElements.forEach((canvas, index) => {
+                const ctx = canvas.getContext('2d');
+                canvasesContexts[index] = ctx;
+
+                // Scale canvas to match display size
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 3;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+            });
+        }
+
+        function addCanvasEventListeners() {
+            document.querySelectorAll('.paint').forEach(canvas => {
+                canvas.addEventListener('mousedown', startDrawing);
+                canvas.addEventListener('mousemove', draw);
+                canvas.addEventListener('mouseup', stopDrawing);
+                canvas.addEventListener('mouseout', stopDrawing);
+                canvas.addEventListener('touchstart', handleTouch);
+                canvas.addEventListener('touchmove', handleTouch);
+                canvas.addEventListener('touchend', stopDrawing);
+                canvas.addEventListener('touchcancel', stopDrawing);
+            });
+        }
+
+        function getCanvasCoordinates(canvas, clientX, clientY) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+
+            return {
+                x: (clientX - rect.left) * scaleX,
+                y: (clientY - rect.top) * scaleY
+            };
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const canvas = e.target;
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+            if (clientX && clientY) {
+                const coords = getCanvasCoordinates(canvas, clientX, clientY);
+                lastX = coords.x;
+                lastY = coords.y;
+
+                const ctx = canvasesContexts[parseInt(canvas.dataset.index)];
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+            }
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            e.preventDefault();
+
+            const canvas = e.target;
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+            if (clientX && clientY) {
+                const coords = getCanvasCoordinates(canvas, clientX, clientY);
+                const currentX = coords.x;
+                const currentY = coords.y;
+
+                const ctx = canvasesContexts[parseInt(canvas.dataset.index)];
+                ctx.lineTo(currentX, currentY);
+                ctx.stroke();
+
+                lastX = currentX;
+                lastY = currentY;
+            }
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function handleTouch(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const target = e.target;
+
+            if (e.type === 'touchstart') {
+                const mouseDownEvent = new MouseEvent('mousedown', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY,
+                    bubbles: true,
+                    cancelable: true
+                });
+                target.dispatchEvent(mouseDownEvent);
+            } else if (e.type === 'touchmove') {
+                const mouseMoveEvent = new MouseEvent('mousemove', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY,
+                    bubbles: true,
+                    cancelable: true
+                });
+                target.dispatchEvent(mouseMoveEvent);
+            }
+        }
+
+        function clearCanvas(index) {
+            const canvas = document.querySelector(`canvas[data-index="${index}"]`);
+            if (canvas) {
+                const ctx = canvasesContexts[index];
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        function addEraseButtonListeners() {
+            document.querySelectorAll('.erase-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const canvasIndex = parseInt(this.dataset.canvasIndex);
+                    clearCanvas(canvasIndex);
+                });
+            });
+        }
+
+        document.querySelectorAll('#navbar a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    const navbarHeight = document.getElementById('navbar').offsetHeight;
+                    const offsetTop = targetElement.offsetTop - navbarHeight;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                    document.querySelectorAll('#navbar a').forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            generateCards();
+            initializeCanvasContexts();
+
+            // Initialize flashcard system
+            flashcardSystem = new FlashcardSystem();
+
+            // Add TTS button if it exists
+            const ttsButton = document.getElementById('tts-button');
+            if (ttsButton) {
+                ttsButton.addEventListener('click', playAllThai);
+            }
+        });
+
+        // Reinitialize canvas contexts on window resize
+        window.addEventListener('resize', function() {
+            setTimeout(initializeCanvasContexts, 100);
+        });
+    </script>
+</body>
+</html>

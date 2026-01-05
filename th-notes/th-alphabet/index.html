@@ -3,917 +3,1208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learn Thai Alphabet</title>
+    <title>Thai Alphabet Learning with Drawing Practice</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --accent1: #B31942; /* Red */
-            --accent2: #0A3161; /* Blue */
-            --accent3: #FFFFFF; /* White */
-            --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
-            
-            --background-color: #0a0a0a;
-            --text-color: #ffffff;
-            --primary-color: var(--accent1);
-            --secondary-color: #cccccc;
-            --tertiary-color: #888;
-            --border-color: #333;
-            --card-background: rgba(26, 26, 26, 0.8);
-            --nav-background: rgba(10, 10, 10, 0.9);
-            --header-background: rgba(10, 10, 10, 0.9);
-        }
-
-        .light-mode {
-            --background-color: #f5f5f5;
-            --text-color: #000000;
-            --primary-color: var(--accent1);
-            --secondary-color: #333333;
-            --tertiary-color: #666666;
-            --border-color: #dddddd;
-            --card-background: #ffffff;
-            --nav-background: rgba(255, 255, 255, 0.9);
-            --header-background: rgba(255, 255, 255, 0.9);
-        }
-
-        /* Back Button Styles */
-        .back-button {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: var(--accent2);
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 1001;
-            border: 2px solid var(--accent1);
-        }
-
-        .back-button:hover {
-            background: var(--accent1);
-            transform: translateY(-2px);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
-
-        header {
-            color: white;
-            padding: 1rem 0;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            position: relative;
-        }
-
-        .mode-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            cursor: pointer;
-            font-size: 1.5rem;
-            z-index: 1001;
-        }
-
-        main {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            padding: 20px;
-            max-width: 1400px;
-            margin: 20px auto;
-            background-color: var(--card-background);
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        section {
-            background-color: var(--card-background);
-            padding: 25px;
-            margin: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            flex: 1;
-            min-width: 300px;
-            border: 2px solid var(--border-color);
-        }
-
-        .alphabet-learner,
-        .alphabet-drawer,
-        .alphabet-table {
-            border: 1px solid var(--border-color);
-        }
-
-        .alphabet-table {
-            flex-basis: 100%;
-            max-width: 100%;
-        }
-
-        h1,
-        h2 {
-            color: var(--text-color);
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .input-section,
-        .output-section {
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .navigation-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-
-        select {
-            padding: 10px;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            width: calc(100% - 120px);
-            max-width: 200px;
-            margin-right: 10px;
-            margin-bottom: 10px;
-            background-color: var(--card-background);
-            color: var(--text-color);
-        }
-
-        button {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-            border: 1px solid var(--accent2);
-        }
-
-        button:hover {
-            opacity: 0.9;
-        }
-
-        button:disabled {
-            background-color: var(--tertiary-color);
-            cursor: not-allowed;
-        }
-
-        .next-button {
-            background-color: var(--accent2);
-        }
-
-        .next-button:hover {
-            background-color: #1a4a8a;
-        }
-
-        .prev-button {
-            background-color: var(--accent1);
-        }
-
-        .prev-button:hover {
-            background-color: #d42a5a;
-        }
-
-        #thaiOutput {
-            font-size: 3em;
-            font-weight: bold;
-            color: var(--primary-color);
-            display: block;
-            margin-top: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 10px;
-            border-radius: 5px;
-            position: relative;
             font-family: 'Noto Serif Thai', serif;
-        }
-
-        #thaiOutput:hover {
-            background-color: rgba(179, 25, 66, 0.1);
-            transform: scale(1.05);
-            box-shadow: 0 2px 8px rgba(179, 25, 66, 0.3);
-        }
-
-        #thaiOutput::after {
-            content: '🔊';
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            font-size: 0.5em;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        #thaiOutput:hover::after {
-            opacity: 1;
-        }
-
-        #pronunciationOutput {
-            font-size: 1.5em;
-            color: var(--tertiary-color);
-            font-style: italic;
-        }
-
-        .system-note {
-            font-size: 0.9em;
-            color: var(--tertiary-color);
-            margin-top: 10px;
-        }
-
-        .alphabet-drawer {
+            background: #ffffff;
+            min-height: 100vh;
+            color: #000000;
             display: flex;
             flex-direction: column;
-            align-items: center;
         }
 
-        #drawingCanvas {
-            border: 2px solid var(--primary-color);
-            border-radius: 8px;
-            background-color: white;
-            cursor: crosshair;
-            margin-top: 15px;
-        }
-
-        .canvas-controls {
-            margin-top: 15px;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .canvas-controls label {
-            margin-bottom: 0;
-            display: inline-block;
-        }
-
-        .canvas-controls input[type="color"],
-        .canvas-controls input[type="range"] {
-            padding: 5px;
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
-        }
-
-        .table-container {
-            overflow-x: auto;
-            margin-top: 20px;
-        }
-
-        .alphabet-table {
+        .main {
+            padding: 20px;
+            flex-grow: 1;
+            max-width: 1400px;
+            margin: 0 auto;
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
         }
 
-        .alphabet-table th,
-        .alphabet-table td {
-            border: 1px solid var(--border-color);
-            padding: 8px;
+        .header {
             text-align: center;
+            color: #000000;
+            margin-bottom: 30px;
+            padding-top: 20px;
         }
 
-        .alphabet-table th {
-            background-color: var(--nav-background);
-            font-weight: bold;
-        }
-
-        .alphabet-table tr:nth-child(even) {
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .light-mode .alphabet-table tr:nth-child(even) {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
-
-        .alphabet-table tr:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            cursor: pointer;
-        }
-
-        .light-mode .alphabet-table tr:hover {
-            background-color: rgba(0, 0, 0, 0.1);
-        }
-
-        .thai-text {
-            font-size: 2em;
-            font-weight: bold;
-            color: var(--primary-color);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 5px;
-            border-radius: 3px;
-            position: relative;
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #6d28d9, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             font-family: 'Noto Serif Thai', serif;
         }
 
-        .thai-text:hover {
-            background-color: rgba(179, 25, 66, 0.1);
-            transform: scale(1.1);
-            box-shadow: 0 2px 5px rgba(179, 25, 66, 0.3);
+        .header p {
+            font-size: 1.1rem;
+            color: #333333;
+            font-family: 'Noto Serif Thai', serif;
         }
 
-        .thai-text::after {
-            content: '🔊';
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            font-size: 0.7em;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .thai-text:hover::after {
-            opacity: 1;
-        }
-
-        .table-tabs {
+        .header-nav-container {
             display: flex;
-            gap: 5px;
-            margin-bottom: 15px;
-            justify-content: center;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
-        .tab-button {
-            padding: 10px 20px;
-            background-color: var(--nav-background);
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-            border-radius: 4px 4px 0 0;
-            transition: background-color 0.3s ease;
-        }
-
-        .tab-button.active {
-            background-color: var(--primary-color);
+        .back-button {
+            background: #6d28d9;
             color: white;
-            border-bottom: 1px solid var(--primary-color);
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            font-family: 'Noto Serif Thai', serif;
         }
 
-        .tab-button:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+        .back-button:hover {
+            background: #5b21b6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
         }
 
-        .light-mode .tab-button:hover {
-            background-color: rgba(0, 0, 0, 0.1);
+        .sticky-nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
 
-        .tab-button.active:hover {
-            background-color: var(--primary-color);
+        #navbar {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            background: rgba(245, 245, 245, 0.9);
+            padding: 15px 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin: 0;
+            max-width: none;
+        }
+
+        #navbar a {
+            background: rgba(255, 255, 255, 0.8);
+            color: #333333;
+            padding: 5px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            font-family: 'Noto Serif Thai', serif;
+        }
+
+        #navbar a:hover, #navbar a.active {
+            background: #6d28d9;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        /* Layout Toggle Button Styles */
+        .layout-toggle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(245, 245, 245, 0.5);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .layout-toggle {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Noto Serif Thai', serif;
+            font-weight: 600;
+        }
+
+        .layout-toggle:hover {
+            background: linear-gradient(to right, #2563eb, #7c3aed);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .layout-toggle i {
+            font-style: normal;
+            font-size: 1.1rem;
+        }
+
+        .tts-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(245, 245, 245, 0.5);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .tts-button {
+            background: linear-gradient(to right, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Noto Serif Thai', serif;
+        }
+
+        .tts-button:hover {
+            background: linear-gradient(to right, #059669, #10b981);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(16, 185, 129, 0.4);
+        }
+
+        .tts-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .voice-selector {
+            padding: 10px 15px;
+            border-radius: 25px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.8);
+            color: #000000;
+            font-family: 'Noto Serif Thai', serif;
         }
 
         .tts-info {
-            background-color: rgba(179, 25, 66, 0.1);
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            font-size: 0.9em;
             text-align: center;
-            color: var(--primary-color);
-            border: 1px solid rgba(179, 25, 66, 0.3);
+            color: #666666;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            font-style: italic;
+            font-family: 'Noto Serif Thai', serif;
         }
 
-        .light-mode .tts-info {
-            background-color: rgba(10, 49, 97, 0.1);
-            color: var(--accent2);
-            border: 1px solid rgba(10, 49, 97, 0.3);
+        .section-title {
+            text-align: center;
+            color: #333333;
+            font-size: 1.8rem;
+            margin: 60px 0 30px 0;
+            font-family: 'Noto Serif Thai', serif;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding-bottom: 0.5rem;
         }
 
-        footer {
-            text-align: center;
+        /* Default Grid Layout */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            list-style: none;
+            margin-bottom: 40px;
+            transition: all 0.3s ease;
+        }
+
+        /* Full Width Layout */
+        .cards.full-width {
+            grid-template-columns: 1fr;
+        }
+
+        .full-width .cards_item {
+            width: 100%;
+        }
+
+        .full-width .card {
+            display: flex;
+            flex-direction: row;
+            height: 350px;
+            max-width: 100%;
+            align-items: stretch;
+        }
+
+        .full-width .character-section {
+            flex: 0 0 30%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
-            margin-top: 30px;
-            background-color: var(--header-background);
-            color: var(--text-color);
-            font-size: 0.9em;
+            background: #f8f9fa;
+            border-right: 1px solid rgba(0, 0, 0, 0.1);
         }
 
-        /* Section-specific color schemes */
-        #consonants .section-title,
-        #consonants .thai-char:hover {
-            color: var(--accent1);
+        .full-width .sketch {
+            flex: 0 0 70%;
+            height: 100%;
+            padding: 20px;
+            background: #ffffff;
+            position: relative;
         }
 
-        #vowels .section-title,
-        #vowels .thai-char:hover {
-            color: var(--accent2);
+        .full-width .card_content {
+            display: none;
         }
 
-        #tones .section-title,
-        #tones .thai-char:hover {
-            color: #000000;
+        .full-width .thai-text {
+            font-size: 4.5rem;
+            margin-bottom: 15px;
+            text-align: center;
+            width: 100%;
         }
 
-        .light-mode #tones .section-title,
-        .light-mode #tones .thai-char:hover {
+        .full-width .char-info {
+            text-align: center;
+            font-size: 1rem;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .cards_item {
+            display: flex;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            height: 420px;
+            width: 100%;
+        }
+
+        .sketch {
+            position: relative;
+            padding: 15px;
+            background: #f8f9fa;
+            height: 220px;
+            flex-shrink: 0;
+        }
+
+        .card_content {
+            padding: 15px;
+            text-align: center;
+            background: #ffffff;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 160px;
+        }
+
+        .character-section {
+            display: none;
+        }
+
+        .paint {
+            width: 100%;
+            height: 100%;
+            border: 2px dashed rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            cursor: crosshair;
+            background: #ffffff;
+            touch-action: none;
+        }
+
+        .erase-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            z-index: 10;
+            transition: background 0.2s ease;
+            font-family: 'Noto Serif Thai', serif;
+        }
+
+        .erase-button:hover {
+            background: #dc2626;
+        }
+
+        .thai-text {
+            font-size: 2.5rem;
+            color: #6d28d9;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            margin-bottom: 8px;
+            font-family: 'Noto Serif Thai', serif;
+            line-height: 1.2;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        .thai-text:hover {
+            color: #ec4899;
+            transform: scale(1.05);
+        }
+
+        .char-info {
+            font-size: 0.9rem;
+            color: #555555;
+            line-height: 1.4;
+            font-family: 'Noto Serif Thai', serif;
+        }
+
+        .consonant-class {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        .high-class {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .mid-class {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .low-class {
+            background: rgba(59, 130, 246, 0.1);
+            color: #2563eb;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .tonemark {
+            color: #ec4899;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .section-intro {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .section-intro h3 {
+            color: #6d28d9;
+            margin-bottom: 10px;
+        }
+
+        .section-intro p {
+            color: #555555;
+            margin-bottom: 15px;
+        }
+
+        .status {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 10px;
+            background: #f8f9fa;
+            text-align: center;
+            font-weight: 500;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            font-family: 'Noto Serif Thai', serif;
             color: #333333;
         }
+        
+        .status.playing {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+        
+        .status.processing {
+            background: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+        
+        .status.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
 
-        /* Responsive adjustments */
+        @media (max-width: 991px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .card {
+                height: 400px;
+            }
+            
+            .sketch {
+                height: 210px;
+            }
+            
+            .full-width .card {
+                height: 400px;
+            }
+            
+            .full-width .character-section {
+                flex: 0 0 35%;
+            }
+            
+            .full-width .sketch {
+                flex: 0 0 65%;
+            }
+            
+            .full-width .thai-text {
+                font-size: 3.5rem;
+            }
+        }
+
         @media (max-width: 768px) {
-            main {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .cards {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .card {
+                height: 380px;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            
+            .sketch {
+                height: 200px;
+            }
+            
+            .full-width .card {
                 flex-direction: column;
-                padding: 10px;
+                height: 500px;
+                max-width: 100%;
+            }
+            
+            .full-width .character-section {
+                flex: 0 0 35%;
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            }
+            
+            .full-width .sketch {
+                flex: 0 0 65%;
+                width: 100%;
+            }
+            
+            .full-width .thai-text {
+                font-size: 3rem;
             }
 
-            section {
-                margin: 10px 0;
-            }
-
-            select {
-                width: calc(100% - 100px);
-            }
-
-            .navigation-buttons {
+            .header-nav-container {
                 flex-direction: column;
-                align-items: center;
-            }
-
-            .alphabet-table {
-                font-size: 0.9em;
-            }
-
-            .table-tabs {
-                flex-direction: column;
-                align-items: center;
+                align-items: stretch;
             }
             
             .back-button {
-                top: 10px;
-                left: 10px;
-                padding: 8px 16px;
-                font-size: 0.9rem;
+                align-self: flex-start;
+                margin-bottom: 10px;
             }
             
-            #thaiOutput {
-                font-size: 2.5em;
+            #navbar {
+                width: 100%;
+                justify-content: center;
+            }
+
+            #navbar a {
+                padding: 10px 18px;
+                font-size: 0.9rem;
+            }
+
+            .tts-controls, .layout-toggle-container {
+                flex-direction: column;
+            }
+            
+            .thai-text {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main {
+                padding: 10px;
+            }
+
+            #navbar {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                height: 360px;
+            }
+            
+            .sketch {
+                height: 190px;
+            }
+            
+            .full-width .card {
+                height: 450px;
+            }
+            
+            .full-width .character-section {
+                flex: 0 0 30%;
+                padding: 15px;
+            }
+            
+            .full-width .sketch {
+                flex: 0 0 70%;
+                padding: 15px;
+            }
+            
+            .full-width .thai-text {
+                font-size: 2.5rem;
+            }
+            
+            .thai-text {
+                font-size: 1.8rem;
+            }
+            
+            .erase-button {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .full-width .card {
+                height: 420px;
+            }
+            
+            .full-width .character-section {
+                flex: 0 0 35%;
+            }
+            
+            .full-width .sketch {
+                flex: 0 0 65%;
+            }
+            
+            .full-width .thai-text {
+                font-size: 2.2rem;
             }
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Back Button -->
-    <a href="../../index.html" class="back-button">← Back</a>
-    
-    <header>
-        <h1>Learn and Write Thai Alphabet</h1>
-        <div class="mode-toggle" onclick="toggleMode()">
-            <span>🌙</span>
+    <div class="main">
+        <div class="header">
+            <h1><br>Thai Alphabet Learning</h1>
+            <p>Draw in the canvas area to practice writing Thai characters</p>
+            <p>Click on Thai text to hear pronunciation using OpenAI TTS</p>
         </div>
-    </header>
-
-    <main>
-        <section class="alphabet-learner">
-            <h2>Thai Alphabet Learner</h2>
-            <div class="tts-info">
-                💡 Click on Thai text to hear pronunciation!
+        
+        <div class="sticky-nav-container">
+            <div class="nav-content">
+                <a href="../../index.html" class="back-button">← Back to Main</a>
+                <nav id="navbar">
+                    <a class="active" href="#consonants">Consonants</a>
+                    <a href="#vowels">Vowels</a>
+                    <a href="#tones">Tones</a>
+                    <a href="#tone-marks">Tone Marks</a>
+                    <a href="#practice">Practice Words</a>
+                </nav>
             </div>
-             <div class="input-section">
-                <label for="alphabetTypeSelect">Alphabet Type:</label>
-                <select id="alphabetTypeSelect">
-                    <option value="consonants">Consonants</option>
-                    <option value="vowels">Vowels</option>
-                    <option value="tones">Tones</option>
-                </select>
-                <button id="randomButton">Random Character</button>
+        </div>
+        
+        <!-- Layout Toggle Controls -->
+        <div class="layout-toggle-container">
+            <button id="layout-toggle" class="layout-toggle">
+                <i>🔀</i> Switch to Full Width Layout
+            </button>
+        </div>
+        
+        <div class="tts-controls">
+            <select id="voice-selector" class="voice-selector">
+                <option value="fable">OpenAI Fable Voice</option>
+            </select>
+        </div>
+        
+        <div id="status" class="status">Click on any Thai text to hear its pronunciation</div>
+        
+        <p class="tts-info">Powered by OpenAI TTS with Fable voice</p>
+        
+        <!-- Section 1: Thai Consonants -->
+        <section id="consonants">
+            <h2 class="section-title">Thai Consonants<br/>พยัญชนะไทย</h2>
+            
+            <div class="section-intro">
+                <h3>About Thai Consonants</h3>
+                <p>Thai has 44 consonants, but only 21 distinct sounds. Consonants are divided into three classes (high, mid, low) which determine tone rules.</p>
+                <p>Each consonant has an inherent vowel sound and is traditionally associated with a word (like "ก ไก่" - chicken).</p>
             </div>
-            <div class="navigation-buttons">
-                <button id="prevButton" class="prev-button">← Previous</button>
-                <button id="nextButton" class="next-button">Next →</button>
-            </div>
-             <div class="output-section">
-                <h3>Thai Character: <span id="thaiOutput" title="Click to hear pronunciation">ก</span></h3>
-                <p>Pronunciation: <span id="pronunciationOutput">gor gai</span></p>
-                <p>Meaning: <span id="meaningOutput">chicken</span></p>
-                <p class="system-note" id="systemNote"></p>
-            </div>
+            
+            <ul class="cards" id="consonants-grid"></ul>
         </section>
 
-        <section class="alphabet-drawer">
-            <h2>Practice Writing Thai</h2>
-            <canvas id="drawingCanvas" width="400" height="400"></canvas>
-            <div class="canvas-controls">
-                <button id="clearCanvas">Clear Canvas</button>
-                <label for="brushColor">Brush Color:</label>
-                <input type="color" id="brushColor" value="#000000">
-                <label for="brushSize">Brush Size:</label>
-                <input type="range" id="brushSize" min="1" max="10" value="3">
+        <!-- Section 2: Thai Vowels -->
+        <section id="vowels">
+            <h2 class="section-title">Thai Vowels<br/>สระไทย</h2>
+            
+            <div class="section-intro">
+                <h3>About Thai Vowels</h3>
+                <p>Thai has 32 vowels, consisting of short and long pairs. Vowels can appear before, after, above, or below consonants.</p>
+                <p>Some vowels are written with multiple characters.</p>
             </div>
+            
+            <ul class="cards" id="vowels-grid"></ul>
         </section>
 
-        <section class="alphabet-table">
-            <h2>Thai Alphabet Reference</h2>
-            <div class="tts-info">
-                🎵 Click on Thai characters in the table to hear their pronunciation!
+        <!-- Section 3: Thai Tones -->
+        <section id="tones">
+            <h2 class="section-title">Thai Tones<br/>วรรณยุกต์ไทย</h2>
+            
+            <div class="section-intro">
+                <h3>About Thai Tones</h3>
+                <p>Thai is a tonal language with five tones: mid, low, falling, high, and rising.</p>
+                <p>Tone is determined by consonant class, vowel length, syllable type, and tone marks.</p>
             </div>
-            <div class="table-tabs">
-                <button class="tab-button active" id="consonantsTab">Consonants</button>
-                <button class="tab-button" id="vowelsTab">Vowels</button>
-                <button class="tab-button" id="tonesTab">Tones</button>
-            </div>
-            <div class="table-container">
-                <table class="alphabet-table" id="alphabetTable">
-                    <!-- Table content will be populated by JavaScript -->
-                </table>
-            </div>
+            
+            <ul class="cards" id="tones-grid"></ul>
         </section>
-    </main>
 
+        <!-- Section 4: Tone Marks -->
+        <section id="tone-marks">
+            <h2 class="section-title">Tone Marks<br/>เครื่องหมายวรรณยุกต์</h2>
+            
+            <div class="section-intro">
+                <h3>About Tone Marks</h3>
+                <p>Thai uses four main tone marks written above consonants. The actual tone produced depends on consonant class.</p>
+            </div>
+            
+            <ul class="cards" id="tone-marks-grid"></ul>
+        </section>
+
+        <!-- Section 5: Practice Words -->
+        <section id="practice">
+            <h2 class="section-title">Practice Words<br/>คำฝึกหัด</h2>
+            
+            <div class="section-intro">
+                <h3>Practice Common Words</h3>
+                <p>Practice writing and pronouncing common Thai words with different tones and vowel combinations.</p>
+            </div>
+            
+            <ul class="cards" id="practice-grid"></ul>
+        </section>
+    </div>
+
+    <script src="https://js.puter.com/v2/"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const alphabetTypeSelect = document.getElementById('alphabetTypeSelect');
-            const randomButton = document.getElementById('randomButton');
-            const prevButton = document.getElementById('prevButton');
-            const nextButton = document.getElementById('nextButton');
-            const thaiOutput = document.getElementById('thaiOutput');
-            const pronunciationOutput = document.getElementById('pronunciationOutput');
-            const meaningOutput = document.getElementById('meaningOutput');
-            const systemNote = document.getElementById('systemNote');
-            const consonantsTab = document.getElementById('consonantsTab');
-            const vowelsTab = document.getElementById('vowelsTab');
-            const tonesTab = document.getElementById('tonesTab');
-            const alphabetTable = document.getElementById('alphabetTable');
+        // Thai alphabet data
+        const thaiAlphabet = {
+            consonants: [
+                { thai: 'ก', romanized: 'gor gai', meaning: 'chicken', class: 'mid' },
+                { thai: 'ข', romanized: 'khor khai', meaning: 'egg', class: 'high' },
+                { thai: 'ค', romanized: 'khor khwai', meaning: 'buffalo', class: 'low' },
+                { thai: 'ง', romanized: 'ngor ngu', meaning: 'snake', class: 'low' },
+                { thai: 'จ', romanized: 'jor jan', meaning: 'plate', class: 'mid' },
+                { thai: 'ฉ', romanized: 'chor ching', meaning: 'cymbal', class: 'high' },
+                { thai: 'ช', romanized: 'chor chang', meaning: 'elephant', class: 'low' },
+                { thai: 'ส', romanized: 'sor sua', meaning: 'tiger', class: 'high' },
+                { thai: 'ห', romanized: 'hor hip', meaning: 'chest', class: 'high' },
+                { thai: 'ม', romanized: 'mor ma', meaning: 'horse', class: 'low' },
+                { thai: 'น', romanized: 'nor nu', meaning: 'mouse', class: 'low' },
+                { thai: 'บ', romanized: 'bor bai mai', meaning: 'leaf', class: 'low' },
+                { thai: 'ป', romanized: 'bpor plaa', meaning: 'fish', class: 'mid' },
+                { thai: 'พ', romanized: 'por paan', meaning: 'tray', class: 'low' },
+                { thai: 'ร', romanized: 'ror ruea', meaning: 'boat', class: 'low' },
+                { thai: 'ล', romanized: 'lor ling', meaning: 'monkey', class: 'low' },
+                { thai: 'ว', romanized: 'wor waen', meaning: 'ring', class: 'low' },
+                { thai: 'ย', romanized: 'yor yak', meaning: 'giant', class: 'low' },
+                { thai: 'อ', romanized: 'or aang', meaning: 'basin', class: 'mid' },
+                { thai: 'ฮ', romanized: 'hor nok hooq', meaning: 'owl', class: 'low' }
+            ],
+            vowels: [
+                { thai: '-ะ', romanized: 'sara a', meaning: 'short a (like "cut")', position: 'after' },
+                { thai: '-า', romanized: 'sara aa', meaning: 'long a (like "father")', position: 'after' },
+                { thai: 'ิ', romanized: 'sara i', meaning: 'short i (like "bit")', position: 'above' },
+                { thai: 'ี', romanized: 'sara ii', meaning: 'long i (like "bee")', position: 'above' },
+                { thai: 'ุ', romanized: 'sara u', meaning: 'short u (like "put")', position: 'below' },
+                { thai: 'ู', romanized: 'sara uu', meaning: 'long u (like "food")', position: 'below' },
+                { thai: 'เ-', romanized: 'sara e', meaning: 'long e (like "day")', position: 'before' },
+                { thai: 'แ-', romanized: 'sara ae', meaning: 'long ae (like "cat" but longer)', position: 'before' },
+                { thai: 'โ-', romanized: 'sara o', meaning: 'long o (like "go")', position: 'before' },
+                { thai: 'ไ-', romanized: 'sara ai', meaning: 'ai diphthong (like "eye")', position: 'before' },
+                { thai: 'ใ-', romanized: 'sara ai', meaning: 'ai diphthong (like "eye")', position: 'before' },
+                { thai: 'เ-า', romanized: 'sara ao', meaning: 'ao diphthong (like "cow")', position: 'before+after' }
+            ],
+            tones: [
+                { thai: 'กา', romanized: 'gaa', meaning: 'crow', tone: 'mid' },
+                { thai: 'ข่า', romanized: 'khàa', meaning: 'galangal', tone: 'low' },
+                { thai: 'ค่า', romanized: 'khâa', meaning: 'value', tone: 'falling' },
+                { thai: 'ก้า', romanized: 'gâa', meaning: 'thick/stout', tone: 'falling' },
+                { thai: 'ก๊า', romanized: 'gáa', meaning: '(rare word)', tone: 'high' },
+                { thai: 'ก๋า', romanized: 'gǎa', meaning: 'old person', tone: 'rising' },
+                { thai: 'ใกล้', romanized: 'glâi', meaning: 'near', tone: 'falling' },
+                { thai: 'ไกล', romanized: 'glai', meaning: 'far', tone: 'mid' },
+                { thai: 'ใหม่', romanized: 'mài', meaning: 'new', tone: 'low' },
+                { thai: 'ไม่', romanized: 'mâi', meaning: 'no/not', tone: 'falling' }
+            ],
+            toneMarks: [
+                { thai: '่', romanized: 'mai ek', meaning: 'first tone mark', example: 'ค่า (falling)' },
+                { thai: '้', romanized: 'mai tho', meaning: 'second tone mark', example: 'ข้า (high)' },
+                { thai: '๊', romanized: 'mai tri', meaning: 'third tone mark', example: 'ก๊า (high)' },
+                { thai: '๋', romanized: 'mai chattawa', meaning: 'fourth tone mark', example: 'ก๋า (rising)' },
+                { thai: '็', romanized: 'mai taikhu', meaning: 'shortens vowel', example: 'ก็ (short o)' }
+            ],
+            practiceWords: [
+                { thai: 'น้ำ', romanized: 'náam', meaning: 'water', tone: 'falling' },
+                { thai: 'ไฟ', romanized: 'fai', meaning: 'fire', tone: 'mid' },
+                { thai: 'ดิน', romanized: 'din', meaning: 'earth/soil', tone: 'mid' },
+                { thai: 'ลม', romanized: 'lom', meaning: 'wind', tone: 'mid' },
+                { thai: 'พ่อ', romanized: 'phâw', meaning: 'father', tone: 'falling' },
+                { thai: 'แม่', romanized: 'mâae', meaning: 'mother', tone: 'falling' },
+                { thai: 'ลูก', romanized: 'lûuk', meaning: 'child', tone: 'falling' },
+                { thai: 'บ้าน', romanized: 'bâan', meaning: 'house', tone: 'falling' },
+                { thai: 'โรงเรียน', romanized: 'roong-riian', meaning: 'school', tone: 'mid+mid' },
+                { thai: 'สวัสดี', romanized: 'sà-wàt-dii', meaning: 'hello', tone: 'low+low+mid' },
+                { thai: 'ขอบคุณ', romanized: 'khàwp-khun', meaning: 'thank you', tone: 'low+mid' },
+                { thai: 'สบายดี', romanized: 'sà-baai-dii', meaning: 'fine/well', tone: 'low+mid+mid' }
+            ]
+        };
+        
+        // Variables
+        let currentAudio = null;
+        let isDrawing = false;
+        let canvasesContexts = [];
+        let lastX = 0;
+        let lastY = 0;
+        let isFullWidthLayout = false; // Track current layout state
 
-            const canvas = document.getElementById('drawingCanvas');
-            const ctx = canvas.getContext('2d');
-            const clearCanvasBtn = document.getElementById('clearCanvas');
-            const brushColorPicker = document.getElementById('brushColor');
-            const brushSizeSlider = document.getElementById('brushSize');
-
-            let isDrawing = false;
-            let lastX = 0;
-            let lastY = 0;
-            let currentIndex = 0;
-            let currentType = 'consonants';
-            let currentAudio = null;
-
-            // Thai Alphabet Data with audio file mappings
-            const thaiAlphabet = {
-                consonants: [
-                    { char: "ก", name: "gor gai", pronunciation: "g", meaning: "chicken", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/gor-gai-thai.mp3" },
-                    { char: "ข", name: "khor khai", pronunciation: "kh", meaning: "egg", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/khor-khai-thai.mp3" },
-                    { char: "ฃ", name: "khor khuat", pronunciation: "kh", meaning: "bottle", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/khor-khuat-thai.mp3" },
-                    { char: "ค", name: "khor khwai", pronunciation: "kh", meaning: "buffalo", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/khor-khwai-thai.mp3" },
-                    { char: "ฅ", name: "khor khon", pronunciation: "kh", meaning: "person", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/khor-khon-thai.mp3" },
-                    { char: "ฆ", name: "khor ra-khang", pronunciation: "kh", meaning: "bell", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/khor-ra-khang-thai.mp3" },
-                    { char: "ง", name: "ngor ngu", pronunciation: "ng", meaning: "snake", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/ngor-ngu-thai.mp3" },
-                    { char: "จ", name: "jor jan", pronunciation: "j", meaning: "plate", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/jor-jan-thai.mp3" },
-                    { char: "ฉ", name: "chor ching", pronunciation: "ch", meaning: "cymbal", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/chor-ching-thai.mp3" },
-                    { char: "ช", name: "chor chang", pronunciation: "ch", meaning: "elephant", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/chor-chang-thai.mp3" },
-                    { char: "ซ", name: "sor so", pronunciation: "s", meaning: "chain", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/sor-so-thai.mp3" },
-                    { char: "ฌ", name: "chor cher", pronunciation: "ch", meaning: "tree", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/chor-cher-thai.mp3" },
-                    { char: "ญ", name: "yor ying", pronunciation: "y", meaning: "woman", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/yor-ying-thai.mp3" },
-                    { char: "ฎ", name: "dor chada", pronunciation: "d", meaning: "headdress", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/dor-chada-thai.mp3" },
-                    { char: "ฏ", name: "tor patak", pronunciation: "t", meaning: "goad", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/tor-patak-thai.mp3" },
-                    { char: "ฐ", name: "thor than", pronunciation: "th", meaning: "base", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/thor-than-thai.mp3" },
-                    { char: "ฑ", name: "thor montho", pronunciation: "th", meaning: "Montho", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/thor-montho-thai.mp3" },
-                    { char: "ฒ", name: "thor phu-thao", pronunciation: "th", meaning: "elder", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/thor-phu-thao-thai.mp3" },
-                    { char: "ณ", name: "nor nen", pronunciation: "n", meaning: "novice monk", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/nor-nen-thai.mp3" },
-                    { char: "ด", name: "dor dek", pronunciation: "d", meaning: "child", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/dor-dek-thai.mp3" },
-                    { char: "ต", name: "tor tao", pronunciation: "t", meaning: "turtle", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/tor-tao-thai.mp3" },
-                    { char: "ถ", name: "thor thung", pronunciation: "th", meaning: "sack", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/thor-thung-thai.mp3" },
-                    { char: "ท", name: "thor thahan", pronunciation: "th", meaning: "soldier", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/thor-thahan-thai.mp3" },
-                    { char: "ธ", name: "thor thong", pronunciation: "th", meaning: "flag", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/thor-thong-thai.mp3" },
-                    { char: "น", name: "nor nu", pronunciation: "n", meaning: "mouse", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/nor-nu-thai.mp3" },
-                    { char: "บ", name: "bor baimai", pronunciation: "b", meaning: "leaf", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/bor-baimai-thai.mp3" },
-                    { char: "ป", name: "por pla", pronunciation: "p", meaning: "fish", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/por-pla-thai.mp3" },
-                    { char: "ผ", name: "phor phueng", pronunciation: "ph", meaning: "bee", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/phor-phueng-thai.mp3" },
-                    { char: "ฝ", name: "for fa", pronunciation: "f", meaning: "lid", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/for-fa-thai.mp3" },
-                    { char: "พ", name: "phor phan", pronunciation: "ph", meaning: "tray", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/phor-phan-thai.mp3" },
-                    { char: "ฟ", name: "for fan", pronunciation: "f", meaning: "teeth", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/for-fan-thai.mp3" },
-                    { char: "ภ", name: "phor sam-phao", pronunciation: "ph", meaning: "junk", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/phor-sam-phao-thai.mp3" },
-                    { char: "ม", name: "mor ma", pronunciation: "m", meaning: "horse", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/mor-ma-thai.mp3" },
-                    { char: "ย", name: "yor yak", pronunciation: "y", meaning: "giant", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/yor-yak-thai.mp3" },
-                    { char: "ร", name: "ror ruea", pronunciation: "r", meaning: "boat", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/ror-ruea-thai.mp3" },
-                    { char: "ล", name: "lor ling", pronunciation: "l", meaning: "monkey", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/lor-ling-thai.mp3" },
-                    { char: "ว", name: "wor waen", pronunciation: "w", meaning: "ring", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/wor-waen-thai.mp3" },
-                    { char: "ศ", name: "sor sala", pronunciation: "s", meaning: "pavilion", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/sor-sala-thai.mp3" },
-                    { char: "ษ", name: "sor ruesi", pronunciation: "s", meaning: "hermit", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/sor-ruesi-thai.mp3" },
-                    { char: "ส", name: "sor sua", pronunciation: "s", meaning: "tiger", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/sor-sua-thai.mp3" },
-                    { char: "ห", name: "hor hip", pronunciation: "h", meaning: "chest", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/hor-hip-thai.mp3" },
-                    { char: "ฬ", name: "lor chula", pronunciation: "l", meaning: "kite", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/lor-chula-thai.mp3" },
-                    { char: "อ", name: "or ang", pronunciation: "", meaning: "basin", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/or-ang-thai.mp3" },
-                    { char: "ฮ", name: "hor nok-huk", pronunciation: "h", meaning: "owl", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/hor-nok-huk-thai.mp3" }
-                ],
-                vowels: [
-                    { char: "ะ", name: "sara a", pronunciation: "a", meaning: "short a", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/sara-a-thai.mp3" },
-                    { char: "า", name: "sara aa", pronunciation: "aa", meaning: "long a", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/sara-aa-thai.mp3" },
-                    { char: "ิ", name: "sara i", pronunciation: "i", meaning: "short i", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/sara-i-thai.mp3" },
-                    { char: "ี", name: "sara ii", pronunciation: "ii", meaning: "long i", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/sara-ii-thai.mp3" },
-                    { char: "ึ", name: "sara ue", pronunciation: "ue", meaning: "short ue", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/sara-ue-thai.mp3" },
-                    { char: "ื", name: "sara uue", pronunciation: "uue", meaning: "long uue", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/sara-uue-thai.mp3" },
-                    { char: "ุ", name: "sara u", pronunciation: "u", meaning: "short u", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/sara-u-thai.mp3" },
-                    { char: "ู", name: "sara uu", pronunciation: "uu", meaning: "long u", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/sara-uu-thai.mp3" },
-                    { char: "เ", name: "sara e", pronunciation: "e", meaning: "e", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/sara-e-thai.mp3" },
-                    { char: "แ", name: "sara ae", pronunciation: "ae", meaning: "ae", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/sara-ae-thai.mp3" },
-                    { char: "โ", name: "sara o", pronunciation: "o", meaning: "o", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/sara-o-thai.mp3" },
-                    { char: "ใ", name: "sara ai maimuan", pronunciation: "ai", meaning: "ai", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/sara-ai-maimuan-thai.mp3" },
-                    { char: "ไ", name: "sara ai maimalai", pronunciation: "ai", meaning: "ai", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/sara-ai-maimalai-thai.mp3" },
-                    { char: "ฤ", name: "rue", pronunciation: "rue", meaning: "rue", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/rue-thai.mp3" },
-                    { char: "ฤๅ", name: "rue", pronunciation: "rue", meaning: "rue", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/rue-thai.mp3" }
-                ],
-                tones: [
-                    { char: "่", name: "mai ek", pronunciation: "low tone", meaning: "first tone mark", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/mai-ek-thai.mp3" },
-                    { char: "้", name: "mai tho", pronunciation: "falling tone", meaning: "second tone mark", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/mai-tho-thai.mp3" },
-                    { char: "๊", name: "mai tri", pronunciation: "high tone", meaning: "third tone mark", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/mai-tri-thai.mp3" },
-                    { char: "๋", name: "mai chattawa", pronunciation: "rising tone", meaning: "fourth tone mark", audio: "https://raw.githubusercontent.com/frogkoko/thai-audio/main/alphabet/mai-chattawa-thai.mp3" }
-                ]
-            };
-
-            // Audio playback functionality
-            const playThaiAudio = async (audioUrl) => {
-                try {
-                    // Stop any currently playing audio
-                    if (currentAudio) {
-                        currentAudio.pause();
-                        currentAudio = null;
-                    }
-                    
-                    // Create and play new audio
-                    currentAudio = new Audio(audioUrl);
-                    await currentAudio.play();
-                    
-                    // Reset when audio finishes
-                    currentAudio.addEventListener('ended', () => {
-                        currentAudio = null;
-                    });
-                    
-                    currentAudio.addEventListener('error', (e) => {
-                        console.error('Audio playback error:', e);
-                        currentAudio = null;
-                    });
-                    
-                } catch (error) {
-                    console.error('Error playing audio:', error);
-                    currentAudio = null;
-                }
-            };
-
-            const displayCharacter = () => {
-                const characters = thaiAlphabet[currentType];
-                if (characters && characters[currentIndex]) {
-                    const character = characters[currentIndex];
-                    thaiOutput.textContent = character.char;
-                    pronunciationOutput.textContent = character.name;
-                    meaningOutput.textContent = character.meaning;
-                    
-                    // Store the thai data for audio
-                    thaiOutput.dataset.thai = character.char;
-                    thaiOutput.dataset.audio = character.audio;
-                    
-                    updateNavigationButtons();
-                }
-            };
-
-            const updateNavigationButtons = () => {
-                const characters = thaiAlphabet[currentType];
-                if (characters) {
-                    prevButton.disabled = currentIndex <= 0;
-                    nextButton.disabled = currentIndex >= characters.length - 1;
-                }
-            };
-
-            const navigateCharacter = (direction) => {
-                const characters = thaiAlphabet[currentType];
-                if (characters) {
-                    let newIndex = currentIndex + direction;
-                    
-                    if (newIndex < 0) newIndex = 0;
-                    if (newIndex >= characters.length) newIndex = characters.length - 1;
-                    
-                    currentIndex = newIndex;
-                    displayCharacter();
-                    
-                    // Clear the canvas when navigating to a new character
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                }
-            };
-
-            const selectRandomCharacter = () => {
-                const characters = thaiAlphabet[currentType];
-                if (characters) {
-                    currentIndex = Math.floor(Math.random() * characters.length);
-                    displayCharacter();
-                    
-                    // Clear the canvas when selecting a new character
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                }
-            };
-
-            const populateTable = (type) => {
-                const characters = thaiAlphabet[type];
-                if (!characters) return;
-                
-                let tableHTML = `
-                    <thead>
-                        <tr>
-                            <th>Character</th>
-                            <th>Name</th>
-                            <th>Pronunciation</th>
-                            <th>Meaning</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+        function createCard(thaiData, index, sectionType = 'consonants') {
+            let classInfo = '';
+            let toneInfo = '';
+            
+            if (sectionType === 'consonants' && thaiData.class) {
+                classInfo = `<div class="consonant-class ${thaiData.class}-class">${thaiData.class} class</div>`;
+            }
+            
+            if (sectionType === 'tones' || sectionType === 'practiceWords') {
+                toneInfo = `<div class="tonemark">${thaiData.tone} tone</div>`;
+            }
+            
+            if (sectionType === 'toneMarks') {
+                return `
+                    <li class="cards_item">
+                        <div class="card">
+                            <div class="character-section">
+                                <div class="thai-text" data-romanized="${thaiData.romanized}" data-thai="${thaiData.thai}">${thaiData.thai}</div>
+                                <div class="char-info">
+                                    ${thaiData.romanized}<br/>
+                                    ${thaiData.meaning}<br/>
+                                    Example: ${thaiData.example}
+                                </div>
+                            </div>
+                            <div class="sketch">
+                                <canvas class="paint" width="300" height="200" data-index="${index}"></canvas>
+                                <button class="erase-button" data-canvas-index="${index}">Erase</button>
+                            </div>
+                            <div class="card_content">
+                                <div class="thai-text" data-romanized="${thaiData.romanized}" data-thai="${thaiData.thai}">${thaiData.thai}</div>
+                                <div class="char-info">
+                                    ${thaiData.romanized}<br/>
+                                    ${thaiData.meaning}<br/>
+                                    Example: ${thaiData.example}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
                 `;
-                
-                characters.forEach((char, index) => {
-                    tableHTML += `
-                        <tr onclick="selectCharacterFromTable('${type}', ${index})" data-type="${type}" data-index="${index}">
-                            <td class="thai-text"
-                                onclick="event.stopPropagation(); playThaiAudioFromTable('${char.audio}')"
-                                title="Click to hear pronunciation"
-                                data-thai="${char.char}"
-                                data-audio="${char.audio}">
-                                ${char.char}
-                            </td>
-                            <td>${char.name}</td>
-                            <td>${char.pronunciation}</td>
-                            <td>${char.meaning}</td>
-                        </tr>
-                    `;
+            }
+            
+            return `
+                <li class="cards_item">
+                    <div class="card">
+                        <div class="character-section">
+                            <div class="thai-text" data-romanized="${thaiData.romanized}" data-thai="${thaiData.thai}">${thaiData.thai}</div>
+                            <div class="char-info">
+                                ${thaiData.romanized}<br/>
+                                ${thaiData.meaning}
+                                ${classInfo}
+                                ${toneInfo}
+                            </div>
+                        </div>
+                        <div class="sketch">
+                            <canvas class="paint" width="300" height="200" data-index="${index}"></canvas>
+                            <button class="erase-button" data-canvas-index="${index}">Erase</button>
+                        </div>
+                        <div class="card_content">
+                            <div class="thai-text" data-romanized="${thaiData.romanized}" data-thai="${thaiData.thai}">${thaiData.thai}</div>
+                            <div class="char-info">
+                                ${thaiData.romanized}<br/>
+                                ${thaiData.meaning}
+                                ${classInfo}
+                                ${toneInfo}
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            `;
+        }
+
+        function generateCards() {
+            const consonantsGrid = document.getElementById('consonants-grid');
+            const vowelsGrid = document.getElementById('vowels-grid');
+            const tonesGrid = document.getElementById('tones-grid');
+            const toneMarksGrid = document.getElementById('tone-marks-grid');
+            const practiceGrid = document.getElementById('practice-grid');
+            
+            let index = 0;
+            
+            consonantsGrid.innerHTML = thaiAlphabet.consonants.map(item => createCard(item, index++, 'consonants')).join('');
+            vowelsGrid.innerHTML = thaiAlphabet.vowels.map(item => createCard(item, index++, 'vowels')).join('');
+            tonesGrid.innerHTML = thaiAlphabet.tones.map(item => createCard(item, index++, 'tones')).join('');
+            toneMarksGrid.innerHTML = thaiAlphabet.toneMarks.map(item => createCard(item, index++, 'toneMarks')).join('');
+            practiceGrid.innerHTML = thaiAlphabet.practiceWords.map(item => createCard(item, index++, 'practiceWords')).join('');
+            
+            addAudioEventListeners();
+            addCanvasEventListeners();
+            addEraseButtonListeners();
+        }
+
+        // Layout toggle function
+        function toggleLayout() {
+            isFullWidthLayout = !isFullWidthLayout;
+            
+            const allCardGrids = document.querySelectorAll('.cards');
+            const toggleButton = document.getElementById('layout-toggle');
+            
+            if (isFullWidthLayout) {
+                allCardGrids.forEach(grid => {
+                    grid.classList.add('full-width');
+                });
+                toggleButton.innerHTML = '<i>🔀</i> Switch to Grid Layout';
+            } else {
+                allCardGrids.forEach(grid => {
+                    grid.classList.remove('full-width');
+                });
+                toggleButton.innerHTML = '<i>🔀</i> Switch to Full Width Layout';
+            }
+            
+            // Save preference to localStorage
+            localStorage.setItem('thaiAlphabetLayout', isFullWidthLayout ? 'full-width' : 'grid');
+            
+            // Reinitialize canvas contexts after layout change
+            setTimeout(initializeCanvasContexts, 100);
+        }
+
+        // Initialize layout from localStorage
+        function initializeLayout() {
+            const savedLayout = localStorage.getItem('thaiAlphabetLayout');
+            const toggleButton = document.getElementById('layout-toggle');
+            
+            if (savedLayout === 'full-width') {
+                isFullWidthLayout = true;
+                const allCardGrids = document.querySelectorAll('.cards');
+                allCardGrids.forEach(grid => {
+                    grid.classList.add('full-width');
+                });
+                toggleButton.innerHTML = '<i>🔀</i> Switch to Grid Layout';
+            } else {
+                toggleButton.innerHTML = '<i>🔀</i> Switch to Full Width Layout';
+            }
+        }
+
+        // Speak a Thai word using OpenAI TTS
+        async function speakThai(thaiText, romanized) {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            
+            updateStatus(`Speaking: ${thaiText} (${romanized})`, 'processing');
+            
+            try {
+                const audio = await puter.ai.txt2speech(thaiText, {
+                    provider: 'openai',
+                    voice: 'fable',
+                    model: 'tts-1',
+                    response_format: 'mp3'
                 });
                 
-                tableHTML += '</tbody>';
-                alphabetTable.innerHTML = tableHTML;
-            };
-
-            const switchTab = (type) => {
-                if (type === 'consonants') {
-                    consonantsTab.classList.add('active');
-                    vowelsTab.classList.remove('active');
-                    tonesTab.classList.remove('active');
-                } else if (type === 'vowels') {
-                    vowelsTab.classList.add('active');
-                    consonantsTab.classList.remove('active');
-                    tonesTab.classList.remove('active');
-                } else if (type === 'tones') {
-                    tonesTab.classList.add('active');
-                    consonantsTab.classList.remove('active');
-                    vowelsTab.classList.remove('active');
-                }
-                populateTable(type);
-            };
-
-            // Make functions globally available
-            window.selectCharacterFromTable = (type, index) => {
-                currentType = type;
-                currentIndex = index;
-                alphabetTypeSelect.value = type;
-                displayCharacter();
+                updateStatus(`Playing: ${thaiText}`, 'playing');
                 
-                // Scroll back to converter section on mobile
-                if (window.innerWidth <= 768) {
-                    document.querySelector('.alphabet-learner').scrollIntoView({ behavior: 'smooth' });
-                }
-            };
-
-            window.playThaiAudioFromTable = (audioUrl) => {
-                playThaiAudio(audioUrl);
-            };
-
-            // Event listeners
-            randomButton.addEventListener('click', selectRandomCharacter);
-            nextButton.addEventListener('click', () => navigateCharacter(1));
-            prevButton.addEventListener('click', () => navigateCharacter(-1));
-            
-            // Add audio functionality to Thai output
-            thaiOutput.addEventListener('click', () => {
-                const audioUrl = thaiOutput.dataset.audio;
-                if (audioUrl) {
-                    playThaiAudio(audioUrl);
-                }
-            });
-
-            // Remove hover functionality since we're using click only now
-            alphabetTypeSelect.addEventListener('change', () => {
-                currentType = alphabetTypeSelect.value;
-                currentIndex = 0;
-                displayCharacter();
-                switchTab(currentType);
-            });
-
-            consonantsTab.addEventListener('click', () => switchTab('consonants'));
-            vowelsTab.addEventListener('click', () => switchTab('vowels'));
-            tonesTab.addEventListener('click', () => switchTab('tones'));
-
-            // Initial setup
-            displayCharacter();
-            populateTable('consonants');
-
-            // Canvas Drawing Logic
-            ctx.lineWidth = brushSizeSlider.value;
-            ctx.lineJoin = 'round';
-            ctx.lineCap = 'round';
-            ctx.strokeStyle = brushColorPicker.value;
-
-            function getEventPos(e) {
-                const rect = canvas.getBoundingClientRect();
-                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-                return {
-                    x: clientX - rect.left,
-                    y: clientY - rect.top
-                };
+                currentAudio = audio;
+                await audio.play();
+                
+                audio.addEventListener('ended', () => {
+                    updateStatus('Ready. Click on any character to hear pronunciation.', '');
+                    currentAudio = null;
+                });
+                
+                audio.addEventListener('error', (e) => {
+                    updateStatus('Error playing audio', 'error');
+                    console.error('Audio playback error:', e);
+                    currentAudio = null;
+                });
+                
+            } catch (error) {
+                updateStatus(`Error: ${error.message}`, 'error');
+                console.error('TTS Error:', error);
             }
+        }
 
-            function draw(e) {
-                if (!isDrawing) return;
-                const pos = getEventPos(e);
+        function addAudioEventListeners() {
+            document.querySelectorAll('.thai-text').forEach(textElement => {
+                textElement.addEventListener('click', function() {
+                    const thai = this.getAttribute('data-thai');
+                    const romanized = this.getAttribute('data-romanized');
+                    speakThai(thai, romanized);
+                });
+            });
+        }
+
+        // Canvas and drawing functions
+        function initializeCanvasContexts() {
+            const canvasElements = document.querySelectorAll('.paint');
+            canvasElements.forEach((canvas, index) => {
+                const ctx = canvas.getContext('2d');
+                canvasesContexts[index] = ctx;
+                
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+                
+                ctx.strokeStyle = '#6d28d9';
+                ctx.lineWidth = 3;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+            });
+        }
+
+        function addCanvasEventListeners() {
+            document.querySelectorAll('.paint').forEach(canvas => {
+                canvas.addEventListener('mousedown', startDrawing);
+                canvas.addEventListener('mousemove', draw);
+                canvas.addEventListener('mouseup', stopDrawing);
+                canvas.addEventListener('mouseout', stopDrawing);
+                canvas.addEventListener('touchstart', handleTouch);
+                canvas.addEventListener('touchmove', handleTouch);
+                canvas.addEventListener('touchend', stopDrawing);
+                canvas.addEventListener('touchcancel', stopDrawing);
+            });
+        }
+
+        function getCanvasCoordinates(canvas, clientX, clientY) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            
+            return {
+                x: (clientX - rect.left) * scaleX,
+                y: (clientY - rect.top) * scaleY
+            };
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const canvas = e.target;
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            
+            if (clientX && clientY) {
+                const coords = getCanvasCoordinates(canvas, clientX, clientY);
+                lastX = coords.x;
+                lastY = coords.y;
+                
+                const ctx = canvasesContexts[parseInt(canvas.dataset.index)];
                 ctx.beginPath();
                 ctx.moveTo(lastX, lastY);
-                ctx.lineTo(pos.x, pos.y);
+            }
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            e.preventDefault();
+            
+            const canvas = e.target;
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            
+            if (clientX && clientY) {
+                const coords = getCanvasCoordinates(canvas, clientX, clientY);
+                const currentX = coords.x;
+                const currentY = coords.y;
+                
+                const ctx = canvasesContexts[parseInt(canvas.dataset.index)];
+                ctx.lineTo(currentX, currentY);
                 ctx.stroke();
-                [lastX, lastY] = [pos.x, pos.y];
+                
+                lastX = currentX;
+                lastY = currentY;
             }
+        }
 
-            function startDrawing(e) {
-                e.preventDefault(); // Prevent scrolling on mobile
-                isDrawing = true;
-                const pos = getEventPos(e);
-                [lastX, lastY] = [pos.x, pos.y];
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function handleTouch(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const target = e.target;
+            
+            if (e.type === 'touchstart') {
+                const mouseDownEvent = new MouseEvent('mousedown', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY,
+                    bubbles: true,
+                    cancelable: true
+                });
+                target.dispatchEvent(mouseDownEvent);
+            } else if (e.type === 'touchmove') {
+                const mouseMoveEvent = new MouseEvent('mousemove', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY,
+                    bubbles: true,
+                    cancelable: true
+                });
+                target.dispatchEvent(mouseMoveEvent);
             }
+        }
 
-            function stopDrawing(e) {
-                if (e) e.preventDefault(); // Prevent scrolling on mobile
-                isDrawing = false;
-            }
-
-            // Mouse events
-            canvas.addEventListener('mousedown', startDrawing);
-            canvas.addEventListener('mousemove', draw);
-            canvas.addEventListener('mouseup', stopDrawing);
-            canvas.addEventListener('mouseout', stopDrawing);
-
-            // Touch events for mobile
-            canvas.addEventListener('touchstart', startDrawing, { passive: false });
-            canvas.addEventListener('touchmove', (e) => {
-                e.preventDefault(); // Prevent scrolling while drawing
-                draw(e);
-            }, { passive: false });
-            canvas.addEventListener('touchend', stopDrawing, { passive: false });
-            canvas.addEventListener('touchcancel', stopDrawing, { passive: false });
-
-            clearCanvasBtn.addEventListener('click', () => {
+        function clearCanvas(index) {
+            const canvas = document.querySelector(`canvas[data-index="${index}"]`);
+            if (canvas) {
+                const ctx = canvasesContexts[index];
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-            });
+            }
+        }
 
-            brushColorPicker.addEventListener('change', (e) => {
-                ctx.strokeStyle = e.target.value;
+        function addEraseButtonListeners() {
+            document.querySelectorAll('.erase-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const canvasIndex = parseInt(this.dataset.canvasIndex);
+                    clearCanvas(canvasIndex);
+                });
             });
+        }
 
-            brushSizeSlider.addEventListener('input', (e) => {
-                ctx.lineWidth = e.target.value;
+        // Update status display
+        function updateStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = 'status';
+            if (type) {
+                statusDiv.classList.add(type);
+            }
+        }
+
+        // Navigation functionality
+        document.querySelectorAll('#navbar a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    const navContainer = document.querySelector('.sticky-nav-container');
+                    const offsetTop = targetElement.offsetTop - navContainer.offsetHeight - 20;
+                    
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                    document.querySelectorAll('#navbar a').forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                }
             });
         });
 
-        function toggleMode() {
-            const body = document.body;
-            body.classList.toggle('light-mode');
-            const modeToggle = document.querySelector('.mode-toggle span');
-
-            if (body.classList.contains('light-mode')) {
-                modeToggle.textContent = '☀️';
-                localStorage.setItem('theme', 'light');
-            } else {
-                modeToggle.textContent = '🌙';
-                localStorage.setItem('theme', 'dark');
+        document.addEventListener('DOMContentLoaded', function() {
+            generateCards();
+            initializeCanvasContexts();
+            initializeLayout();
+            
+            // Add event listener to layout toggle button
+            const layoutToggle = document.getElementById('layout-toggle');
+            if (layoutToggle) {
+                layoutToggle.addEventListener('click', toggleLayout);
             }
-        }
+        });
 
-        // Function to apply the saved theme
-        function applySavedTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            const body = document.body;
-            const modeToggle = document.querySelector('.mode-toggle span');
-
-            if (savedTheme === 'light') {
-                body.classList.add('light-mode');
-                modeToggle.textContent = '☀️';
-            } else {
-                body.classList.remove('light-mode');
-                modeToggle.textContent = '🌙';
-            }
-        }
-
-        // Apply the saved theme when the page loads
-        document.addEventListener('DOMContentLoaded', applySavedTheme);
+        window.addEventListener('resize', function() {
+            setTimeout(initializeCanvasContexts, 100);
+        });
     </script>
 </body>
 </html>

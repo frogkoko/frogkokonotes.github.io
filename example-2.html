@@ -309,6 +309,13 @@
             font-size: 6px;
         }
         
+        .flag-th {
+            background: linear-gradient(to bottom, 
+                #ed1c24 0%, #ed1c24 33.3%,
+                white 33.3%, white 66.6%,
+                #241d4f 66.6%, #241d4f 100%);
+        }
+        
         @media (max-width: 768px) {
             .controls-grid {
                 grid-template-columns: 1fr;
@@ -333,7 +340,7 @@
         
         <div class="input-group">
             <label for="text-input">Text to Convert (max 3000 characters):</label>
-            <textarea id="text-input" placeholder="Enter the text you want to convert to speech...">Halo! Selamat datang di demonstrasi Puter.ai Text-to-Speech. Alat ini dapat mengonversi teks Anda menjadi ucapan yang terdengar alami dalam berbagai bahasa, termasuk bahasa Indonesia.</textarea>
+            <textarea id="text-input" placeholder="Enter the text you want to convert to speech...">สวัสดีครับ! ยินดีต้อนรับสู่การสาธิต Puter.ai Text-to-Speech เครื่องมือนี้สามารถแปลงข้อความของคุณเป็นเสียงพูดที่ฟังดูเป็นธรรมชาติในหลายภาษา รวมถึงภาษาไทย</textarea>
             <div id="character-count" class="character-count">0/3000 characters</div>
         </div>
         
@@ -352,6 +359,7 @@
                     <option value="en-US"><span class="language-flag flag-us"></span> English (US)</option>
                     <option value="en-GB">English (British)</option>
                     <option value="id-ID"><span class="language-flag flag-id"></span> Indonesian</option>
+                    <option value="th-TH"><span class="language-flag flag-th"></span> Thai</option>
                     <option value="cmn-CN"><span class="language-flag flag-cn"></span> Chinese (Mandarin)</option>
                     <option value="es-ES">Spanish (European)</option>
                     <option value="fr-FR">French</option>
@@ -373,6 +381,9 @@
                     <option value="Salli" data-provider="aws-polly">Salli (AWS)</option>
                     <option value="Kimberly" data-provider="aws-polly">Kimberly (AWS)</option>
                     <option value="Kendra" data-provider="aws-polly">Kendra (AWS)</option>
+                    <!-- Thai voices for AWS Polly -->
+                    <option value="Naja" data-provider="aws-polly">Naja (AWS Thai)</option>
+                    <option value="Aditi" data-provider="aws-polly">Aditi (AWS Thai)</option>
                     <!-- OpenAI voices -->
                     <option value="alloy" data-provider="openai">Alloy (OpenAI)</option>
                     <option value="echo" data-provider="openai">Echo (OpenAI)</option>
@@ -448,6 +459,11 @@
             <div class="example-card" onclick="loadExample('Hello! This is a demonstration of the standard text-to-speech engine.', 'en-US', 'Joanna', 'aws-polly')">
                 <div class="example-title">Standard English</div>
                 <div class="example-text">Hello! This is a demonstration of the standard text-to-speech engine.</div>
+            </div>
+            
+            <div class="example-card" onclick="loadExample('สวัสดีครับ! นี่คือการสาธิตเครื่องมือแปลงข้อความเป็นเสียงพูดในภาษาไทย', 'th-TH', 'Naja', 'aws-polly')">
+                <div class="example-title">Thai Example</div>
+                <div class="example-text">สวัสดีครับ! นี่คือการสาธิตเครื่องมือแปลงข้อความเป็นเสียงพูดในภาษาไทย</div>
             </div>
             
             <div class="example-card" onclick="loadExample('¡Hola! Esta es una demostración del motor de texto a voz en español.', 'es-ES', 'Lupe', 'aws-polly')">
@@ -591,7 +607,7 @@
                         language: language
                     };
                 } else {
-                    // For OpenAI, we need to handle Indonesian language specifically
+                    // For OpenAI, we need to handle Thai language specifically
                     options = {
                         provider: 'openai',
                         voice: voice,
@@ -600,11 +616,11 @@
                         instructions: instructions.value
                     };
                     
-                    // Add language-specific settings for Indonesian
-                    if (language === 'id-ID') {
+                    // Add language-specific settings for Thai
+                    if (language === 'th-TH') {
                         // OpenAI TTS doesn't have language-specific voices, but we can add instructions
                         if (!options.instructions) {
-                            options.instructions = "Speak in Indonesian with clear pronunciation";
+                            options.instructions = "Speak in Thai with clear pronunciation";
                         }
                     }
                 }
