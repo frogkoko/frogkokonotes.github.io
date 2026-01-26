@@ -5,1980 +5,677 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Language & Programming Notes</title>
-  <style>
-    body {
-      background-color: #f8f5f9;
-      margin: 0px;
-
-      --accent1: #b5c2d1; /* Soft blue-gray */
-      --accent2: #d4b9d9; /* Lavender */
-      --accent3: #c9e0e8; /* Powder blue */
-      --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
-      --korheadimg: url(img/korheadimg.jpg);
-      --korheadimgicon: url(img/korflag.jpg);
-
-      --idheadimg: url();
-      --idheadimgicon: url(https://flagcdn.com/w320/id.png);
-      
-      --zhheadimg: url(https://images.unsplash.com/photo-1547981609-4b6bf67b7d28?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80);
-      --zhheadimgicon: url(https://flagcdn.com/w320/cn.png);
-      
-      --thheadimg: url(https://images.unsplash.com/photo-1528181304800-259b08848526?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80);
-      --thheadimgicon: url(https://flagcdn.com/w320/th.png);
-      
-      --spheadimg: url(img/spheader.png);
-      --spheadimgicon: url(img/spicon.jpg);
-      
-      --ruheadimg: url(https://images.unsplash.com/photo-1546971587-02375cbb1e4f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80);
-      --ruheadimgicon: url(https://flagcdn.com/w320/ru.png);
-      
-      --cppheadimg: url(https://images.unsplash.com/photo-1610563166150-b34df4f3bcd6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1076&q=80);
-      --cppheadimgicon: url(https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/1200px-ISO_C%2B%2B_Logo.svg.png);
-      
-      --pyheadimg: url();
-      --pyheadimgicon: url(https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1200px-Python-logo-notext.svg.png);
-    }
-
-    #bg-2,
-    #bs-2 {
-      --accent1: #C62828;
-      --accent2: #F44336;
-      --accent3: #FFCDD2;
-      --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
-    }
-
-    #bg-3,
-    #bs-3 {
-      --accent1: #a9a8d1;
-      --accent2: #D56158;
-      --accent3: #e5c6bf;
-      --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
-    }
-
-    #bg-4,
-    #bs-4 {
-      --accent1: #A6587C;
-      --accent2: #B3949A;
-      --accent3: #D9A7B0;
-      --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
-    }
-
-    #bg-5,
-    #bs-5 {
-      --accent1: #DD697B;
-      --accent2: #8E90BF;
-      --accent3: #424359;
-      --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
-    }
-
-    #bg-6,
-    #bs-6 {
-      --accent1: #AEBFB5;
-      --accent2: #BF4F45;
-      --accent3: #591919;
-      --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
-    }
-
-    #bg-7,
-    #bs-7 {
-      --accent1: #A020F0;
-      --accent2: #8A2BE2;
-      --accent3: #9370DB;
-      --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
-    }
-
-    #bg-8,
-    #bs-8 {
-      --accent1: #1E3A8A;
-      --accent2: #3B82F6;
-      --accent3: #93C5FD;
-      --gradient: var(--accent1), var(--accent2) 70%, var(--accent3) 140%;
-    }
-
-    .sect {
-      background-color: #eeeeee;
-      padding-bottom: 17%;
-      width: 90%;
-      max-width: 1200px;
-      min-width: 320px;
-      margin: 50px auto;
-      border: solid 1px #dddddd;
-      border-radius: 10px;
-      position: relative;
-      box-sizing: border-box;
-    }
-
-    .sect input {
-      display: none;
-    }
-
-    /* Updated tab container for horizontal scrolling */
-    .sect-tabs {
-      position: absolute;
-      z-index: 15;
-      margin-top: 460px;
-      padding: 0px 5%;
-      display: flex;
-      gap: 25px;
-      width: calc(100% - 10%);
-      overflow-x: auto;
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none; /* IE and Edge */
-    }
-
-    /* Hide scrollbar for Chrome, Safari and Opera */
-    .sect-tabs::-webkit-scrollbar {
-      display: none;
-    }
-
-    /* Updated tab styling for better mobile experience */
-    .sect-tabs-1 {
-      background-color: #333333;
-      background-blend-mode: lighten;
-      filter: grayscale(100%);
-      background-size: cover;
-      background-repeat: no-repeat;
-      transform: scale(.95);
-      width: 200px;
-      height: 200px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: .5s;
-      box-shadow: 0px 15px 15px -10px rgba(0, 0, 0, .15);
-      flex-shrink: 0;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      position: relative;
-    }
-
-    /* Media query for smaller screens */
-    @media (max-width: 900px) {
-      .sect-tabs-1 {
-        width: 180px;
-        height: 180px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .sect-tabs {
-        margin-top: 380px;
-        padding: 0px 20px;
-        width: calc(100% - 40px);
-      }
-      
-      .sect-tabs-1 {
-        width: 150px;
-        height: 150px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .sect-tabs {
-        margin-top: 320px;
-        gap: 15px;
-      }
-      
-      .sect-tabs-1 {
-        width: 120px;
-        height: 120px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .sect-tabs {
-        margin-top: 280px;
-        gap: 10px;
-      }
-      
-      .sect-tabs-1 {
-        width: 100px;
-        height: 100px;
-      }
-    }
-
-    #sect-playlist-1 {
-      background-image: var(--korheadimgicon);
-    }
-
-    #sect-playlist-2 {
-      background-image: var(--idheadimgicon);
-    }
-
-    #sect-playlist-3 {
-      background-image: var(--zhheadimgicon);
-    }
-
-    #sect-playlist-4 {
-      background-image: var(--thheadimgicon);
-    }
-
-    #sect-playlist-5 {
-      background-image: var(--spheadimgicon);
-    }
-
-    #sect-playlist-6 {
-      background-image: var(--ruheadimgicon);
-    }
-
-    #sect-playlist-7 {
-      background-image: var(--cppheadimgicon);
-    }
-
-    #sect-playlist-8 {
-      background-image: var(--pyheadimgicon);
-    }
-
-    .sect label div {
-      padding-top: 10%;
-      text-align: center;
-      font: 800 13px Open Sans;
-      line-height: 12px;
-      text-transform: uppercase;
-      color: #333333;
-    }
-
-    /* FULL-WIDTH HEADER IMAGE */
-    .sect-head-img {
-      height: 550px;
-      width: 100%;
-      position: absolute;
-      background: linear-gradient(to top right, var(--gradient));
-      opacity: 0;
-      transition: .5s;
-      border-radius: 9px 9px 0px 0px;
-      overflow: hidden;
-    }
-
-    .sect-head-img div {
-      height: 100%;
-      width: 100%;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      mix-blend-mode: multiply;
-      opacity: .25;
-      border-radius: 9px 9px 0px 0px;
-    }
-
-    @media (max-width: 768px) {
-      .sect-head-img {
-        height: 450px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .sect-head-img {
-        height: 380px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .sect-head-img {
-        height: 320px;
-      }
-    }
-
-    .sect-fade {
-      height: 550px;
-      width: 100%;
-      background: linear-gradient(to bottom, rgba(237, 237, 237, 0) 25%, #eeeeee);
-      position: absolute;
-      z-index: 2;
-      border-radius: 9px 9px 0px 0px;
-    }
-
-    @media (max-width: 768px) {
-      .sect-fade {
-        height: 450px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .sect-fade {
-        height: 380px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .sect-fade {
-        height: 320px;
-      }
-    }
-
-    /* FULL-WIDTH BACKGROUND IMAGES */
-    .sect-img {
-      position: absolute;
-      z-index: 1;
-      height: 550px;
-      width: 100%;
-      overflow: hidden;
-      mix-blend-mode: hard-light;
-      border-radius: 9px 9px 0px 0px;
-    }
-
-    @media (max-width: 768px) {
-      .sect-img {
-        height: 450px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .sect-img {
-        height: 380px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .sect-img {
-        height: 320px;
-      }
-    }
-
-    .sect-img div {
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-      opacity: 0;
-      transition: .5s;
-    }
-
-    #kor-sect div {
-      background-image: var(--korheadimg);
-    }
-
-    #bi-2 div {
-      background-image: var(--idheadimg);
-    }
-
-    #bi-3 div {
-      background-image: var(--zhheadimg);
-    }
-
-    #bi-4 div {
-      background-image: var(--thheadimg);
-    }
-
-    #bi-5 div {
-      background-image: var(--spheadimg);
-    }
-
-    #bi-6 div {
-      background-image: var(--ruheadimg);
-    }
-
-    #bi-7 div {
-      background-image: var(--cppheadimg);
-    }
-
-    #bi-8 div {
-      background-image: var(--pyheadimg);
-    }
-
-    /* Responsive section name */
-    .sect-name {
-      position: absolute;
-      z-index: 10;
-      color: #eeeeee;
-      text-shadow: 2px 2px 0px rgba(0, 0, 0, .1), 0px 0px 15px rgba(0, 0, 0, .2);
-      padding: 165px 0px 0px 75px;
-      opacity: 0;
-      transition: .5s;
-      pointer-events: none;
-      white-space: nowrap;
-      box-sizing: border-box;
-    }
-
-    @media (max-width: 768px) {
-      .sect-name {
-        padding: 135px 0px 0px 50px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .sect-name {
-        padding: 115px 0px 0px 30px;
-        white-space: normal;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .sect-name {
-        padding: 95px 0px 0px 20px;
-      }
-    }
-
-    .sect-name h1 {
-      margin: 0px;
-      font: 800 100px Open Sans;
-      line-height: 65px;
-      letter-spacing: -3px;
-    }
-
-    @media (max-width: 900px) {
-      .sect-name h1 {
-        font-size: 80px;
-        line-height: 55px;
-        letter-spacing: -2px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .sect-name h1 {
-        font-size: 70px;
-        line-height: 50px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .sect-name h1 {
-        font-size: 50px;
-        line-height: 40px;
-        letter-spacing: -1px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .sect-name h1 {
-        font-size: 40px;
-        line-height: 35px;
-      }
-    }
-
-    .sect-name h2 {
-      margin: 45px 0px 0px 6px;
-      font: 800 15px Open Sans;
-      text-transform: uppercase;
-      line-height: 12px;
-      letter-spacing: 1px;
-    }
-
-    @media (max-width: 768px) {
-      .sect-name h2 {
-        margin: 35px 0px 0px 6px;
-        font-size: 14px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .sect-name h2 {
-        margin: 25px 0px 0px 6px;
-        font-size: 13px;
-        line-height: 11px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .sect-name h2 {
-        margin: 20px 0px 0px 6px;
-        font-size: 12px;
-      }
-    }
-
-    .sect-play {
-      position: absolute;
-      z-index: 11;
-      color: #eeeeee;
-      font-size: 100px;
-      cursor: pointer;
-      text-shadow: 2px 2px 0px rgba(0, 0, 0, .1), 0px 0px 15px rgba(0, 0, 0, .2);
-      margin: -160px -10px;
-    }
-
-    .sect-play a {
-      text-decoration: none;
-      color: #eeeeee;
-      font-size: 150px;
-      margin-right: -15px;
-    }
-
-    /* FULL-WIDTH TOPICS SECTION - IMPROVED RESPONSIVENESS */
-    .sect-topics {
-      position: absolute;
-      z-index: 10;
-      padding-top:760px;
-      width: 95%;
-      transform: scale(.9);
-      opacity: 0;
-      pointer-events: none;
-      transition: .5s;
-      box-sizing: border-box;
-    }
-
-    @media (max-width: 768px) {
-      .sect-topics {
-        padding: 22% 5% 50px 5%;
-        top: 400px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .sect-topics {
-        padding: 22% 5% 30px 5%;
-        top: 350px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .sect-topics {
-        padding: 2% 5% 20px 5%;
-        top: 300px;
-      }
-    }
-
-    .sect-topics-0 {
-      display: flex;
-      flex-wrap: wrap;
-      align-content: flex-start;
-      gap: 15px;
-      counter-reset: topics;
-      height: 500px;
-      overflow-y: auto;
-    }
-
-    @media (max-width: 768px) {
-      .sect-topics-0 {
-        height: 600px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .sect-topics-0 {
-        height: 550px;
-        gap: 12px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .sect-topics-0 {
-        height: 500px;
-        gap: 10px;
-        padding-top:80px;
-      }
-    }
-
-    .sect-topics-0::-webkit-scrollbar {
-      width: 8px;
-      background-color: transparent;
-    }
-
-    .sect-topics-0::-webkit-scrollbar-thumb {
-      background-color: #dddddd;
-      border-radius: 4px;
-    }
-
-    /* FULL-WIDTH TOPIC BUTTONS - IMPROVED RESPONSIVENESS */
-    .sect-topics-1 {
-      display: block;
-      text-decoration: none;
-      border: solid 1px #dddddd;
-      background-color: #f3f3f3;
-      background: linear-gradient(to right, var(--accent1), var(--accent3), #f3f3f3 65%);
-      background-size: 300%;
-      background-position: 100% 0px;
-      border-radius: 10px;
-      padding: 25px 35px;
-      box-shadow: 0px 15px 15px -15px rgba(0, 0, 0, .065);
-      font: 14px Open Sans;
-      display: grid;
-      grid-template-columns: 2% auto 10% 2%;
-      gap: 25px;
-      line-height: 18px;
-      color: #333333;
-      white-space: normal; /* Changed from nowrap to normal */
-      flex-grow: 1;
-      width: 100%;
-      transition: .85s;
-      box-sizing: border-box;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-    }
-
-    @media (max-width: 900px) {
-      .sect-topics-1 {
-        width: 100%;
-        grid-template-columns: 5% auto 10% 2%; /* Adjusted for smaller screens */
-        gap: 15px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .sect-topics-1 {
-        grid-template-columns: 8% auto 12% 2%;
-        gap: 12px;
-        padding: 20px 25px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .sect-topics-1 {
-        padding: 18px 20px;
-        gap: 10px;
-        grid-template-columns: 10% auto 15% 2%;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .sect-topics-1 {
-        padding: 15px 18px;
-        gap: 8px;
-        font-size: 13px;
-        line-height: 16px;
-        grid-template-columns: 12% auto 18% 2%;
-      }
-      
-      /* Special handling for very small screens */
-      @media (max-width: 360px) {
-        .sect-topics-1 {
-          grid-template-columns: 15% auto 20% 2%;
-          padding: 12px 15px;
-          gap: 6px;
-        }
-      }
-    }
-
-    #bs-2 .sect-topics-1 {
-      background: linear-gradient(to right, var(--accent1), var(--accent2), #f3f3f3 65%);
-      background-size: 300%;
-      background-position: 100% 0px;
-    }
-
-    #bs-3 .sect-topics-1 {
-      background: linear-gradient(to right, var(--accent2), var(--accent3), #f3f3f3 65%);
-      background-size: 300%;
-      background-position: 100% 0px;
-    }
-
-    #bs-4 .sect-topics-1,
-    #bs-5 .sect-topics-1,
-    #bs-6 .sect-topics-1,
-    #bs-7 .sect-topics-1,
-    #bs-8 .sect-topics-1 {
-      background: linear-gradient(to right, var(--accent1), var(--accent2), #f3f3f3 65%);
-      background-size: 300%;
-      background-position: 100% 0px;
-    }
-
-    .sect-topics-1:hover {
-      background-position: -1px 0px !important;
-      color: #eeeeee;
-      border-color: transparent;
-    }
-
-    .sect-topics-1 span:nth-child(odd) {
-      line-height: 36px;
-      font-weight: 800 !important;
-    }
-
-    @media (max-width: 768px) {
-      .sect-topics-1 span:nth-child(odd) {
-        line-height: 32px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .sect-topics-1 span:nth-child(odd) {
-        line-height: 28px;
-      }
-    }
-
-    .sect-topics-1 span:nth-child(1):before {
-      counter-increment: topics;
-      content: "0" counter(topics);
-    }
-
-    .sect-topics a:nth-child(n+10) span:nth-child(1):before {
-      content: counter(topics);
-    }
-
-    .sect-topics-1 b {
-      display: block;
-      color: var(--accent2);
-      transition: .85s;
-    }
-
-    .sect-topics-1:hover b {
-      color: #eeeeee;
-    }
-
-    .sect-topics-1 i {
-      display: block;
-      text-align: right !important;
-    }
-
-    .sect-topics-1 i:before {
-      display: block;
-      line-height: 36px;
-    }
-
-    @media (max-width: 768px) {
-      .sect-topics-1 i:before {
-        line-height: 32px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .sect-topics-1 i:before {
-        line-height: 28px;
-      }
-    }
-
-    /* Improved text wrapping for topic content */
-    .sect-topics-1 span:nth-child(2) {
-      word-break: break-word;
-      overflow-wrap: break-word;
-    }
-
-    .sect-topics-1 span:nth-child(2) b {
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    /* Dropdown Menu Styles */
-    .dropdown {
-      position: relative;
-      width: 100%;
-      margin-bottom: 15px;
-    }
-
-    .dropdown-header {
-      background: linear-gradient(to right, var(--accent1), var(--accent2), #f3f3f3 65%);
-      background-size: 300%;
-      background-position: 100% 0px;
-      border: solid 1px #dddddd;
-      border-radius: 10px;
-      padding: 25px 35px;
-      box-shadow: 0px 15px 15px -15px rgba(159, 21, 21, 0.065);
-      font: 800 16px Open Sans;
-      color: #333333;
-      cursor: pointer;
-      transition: .85s;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .dropdown-header:hover {
-      background-position: -1px 0px !important;
-      color: #ced1f1;
-      border-color: transparent;
-    }
-
-    .dropdown-content {
-      display: none;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-top: 15px;
-      counter-reset: dropdown-topics;
-    }
-
-    .dropdown.active .dropdown-content {
-      display: flex;
-    }
-
-    .dropdown-arrow {
-      transition: transform 0.3s ease;
-    }
-
-    .dropdown.active .dropdown-arrow {
-      transform: rotate(180deg);
-    }
-
-    .sect-tabs-1:hover,
-    #sect-tab-1:checked~.sect-tabs #sect-playlist-1,
-    #sect-tab-2:checked~.sect-tabs #sect-playlist-2,
-    #sect-tab-3:checked~.sect-tabs #sect-playlist-3,
-    #sect-tab-4:checked~.sect-tabs #sect-playlist-4,
-    #sect-tab-5:checked~.sect-tabs #sect-playlist-5,
-    #sect-tab-6:checked~.sect-tabs #sect-playlist-6,
-    #sect-tab-7:checked~.sect-tabs #sect-playlist-7,
-    #sect-tab-8:checked~.sect-tabs #sect-playlist-8 {
-      filter: grayscale(0%);
-      transform: scale(1);
-    }
-
-    #sect-tab-1:checked~#bg-1,
-    #sect-tab-2:checked~#bg-2,
-    #sect-tab-3:checked~#bg-3,
-    #sect-tab-4:checked~#bg-4,
-    #sect-tab-5:checked~#bg-5,
-    #sect-tab-6:checked~#bg-6,
-    #sect-tab-7:checked~#bg-7,
-    #sect-tab-8:checked~#bg-8 {
-      opacity: 1;
-    }
-
-    #sect-tab-1:checked~#kor-sect div,
-    #sect-tab-2:checked~#bi-2 div,
-    #sect-tab-3:checked~#bi-3 div,
-    #sect-tab-4:checked~#bi-4 div,
-    #sect-tab-5:checked~#bi-5 div,
-    #sect-tab-6:checked~#bi-6 div,
-    #sect-tab-7:checked~#bi-7 div,
-    #sect-tab-8:checked~#bi-8 div {
-      opacity: 1;
-    }
-
-    .sect-subsect {
-      position: absolute;
-      z-index: 0;
-      margin: 300px 0px 0px 0px;
-      color: #eeeeee;
-      font: 300px Comforter;
-      white-space: nowrap;
-      line-height: 400px;
-      width: 100%;
-      overflow: hidden;
-      height: 400px;
-      mix-blend-mode: soft-light;
-      opacity: 0;
-      transition: .5s;
-    }
-
-    @media (max-width: 768px) {
-      .sect-subsect {
-        font-size: 250px;
-        line-height: 350px;
-        height: 350px;
-        margin: 250px 0px 0px 0px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .sect-subsect {
-        font-size: 200px;
-        line-height: 300px;
-        height: 300px;
-        margin: 200px 0px 0px 0px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .sect-subsect {
-        font-size: 150px;
-        line-height: 250px;
-        height: 250px;
-        margin: 150px 0px 0px 0px;
-      }
-    }
-
-    .sect-subsect div {
-      margin-left: -145px;
-    }
-
-    @media (max-width: 768px) {
-      .sect-subsect div {
-        margin-left: -120px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .sect-subsect div {
-        margin-left: -100px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .sect-subsect div {
-        margin-left: -80px;
-      }
-    }
-
-    #sect-tab-1:checked~#bl-1,
-    #sect-tab-2:checked~#bl-2,
-    #sect-tab-3:checked~#bl-3,
-    #sect-tab-4:checked~#bl-4,
-    #sect-tab-5:checked~#bl-5,
-    #sect-tab-6:checked~#bl-6,
-    #sect-tab-7:checked~#bl-7,
-    #sect-tab-8:checked~#bl-8 {
-      margin-top: 250px;
-      opacity: 1;
-    }
-
-    @media (max-width: 768px) {
-      #sect-tab-1:checked~#bl-1,
-      #sect-tab-2:checked~#bl-2,
-      #sect-tab-3:checked~#bl-3,
-      #sect-tab-4:checked~#bl-4,
-      #sect-tab-5:checked~#bl-5,
-      #sect-tab-6:checked~#bl-6,
-      #sect-tab-7:checked~#bl-7,
-      #sect-tab-8:checked~#bl-8 {
-        margin-top: 200px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      #sect-tab-1:checked~#bl-1,
-      #sect-tab-2:checked~#bl-2,
-      #sect-tab-3:checked~#bl-3,
-      #sect-tab-4:checked~#bl-4,
-      #sect-tab-5:checked~#bl-5,
-      #sect-tab-6:checked~#bl-6,
-      #sect-tab-7:checked~#bl-7,
-      #sect-tab-8:checked~#bl-8 {
-        margin-top: 150px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      #sect-tab-1:checked~#bl-1,
-      #sect-tab-2:checked~#bl-2,
-      #sect-tab-3:checked~#bl-3,
-      #sect-tab-4:checked~#bl-4,
-      #sect-tab-5:checked~#bl-5,
-      #sect-tab-6:checked~#bl-6,
-      #sect-tab-7:checked~#bl-7,
-      #sect-tab-8:checked~#bl-8 {
-        margin-top: 120px;
-      }
-    }
-
-    #sect-tab-1:checked~#kor-1,
-    #sect-tab-2:checked~#bn-2,
-    #sect-tab-3:checked~#bn-3,
-    #sect-tab-4:checked~#bn-4,
-    #sect-tab-5:checked~#bn-5,
-    #sect-tab-6:checked~#bn-6,
-    #sect-tab-7:checked~#bn-7,
-    #sect-tab-8:checked~#bn-8 {
-      padding-top: 215px;
-      opacity: 1;
-      pointer-events: auto !important;
-    }
-
-    @media (max-width: 768px) {
-      #sect-tab-1:checked~#kor-1,
-      #sect-tab-2:checked~#bn-2,
-      #sect-tab-3:checked~#bn-3,
-      #sect-tab-4:checked~#bn-4,
-      #sect-tab-5:checked~#bn-5,
-      #sect-tab-6:checked~#bn-6,
-      #sect-tab-7:checked~#bn-7,
-      #sect-tab-8:checked~#bn-8 {
-        padding-top: 175px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      #sect-tab-1:checked~#kor-1,
-      #sect-tab-2:checked~#bn-2,
-      #sect-tab-3:checked~#bn-3,
-      #sect-tab-4:checked~#bn-4,
-      #sect-tab-5:checked~#bn-5,
-      #sect-tab-6:checked~#bn-6,
-      #sect-tab-7:checked~#bn-7,
-      #sect-tab-8:checked~#bn-8 {
-        padding-top: 145px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      #sect-tab-1:checked~#kor-1,
-      #sect-tab-2:checked~#bn-2,
-      #sect-tab-3:checked~#bn-3,
-      #sect-tab-4:checked~#bn-4,
-      #sect-tab-5:checked~#bn-5,
-      #sect-tab-6:checked~#bn-6,
-      #sect-tab-7:checked~#bn-7,
-      #sect-tab-8:checked~#bn-8 {
-        padding-top: 125px;
-      }
-    }
-
-    #sect-tab-1:checked~#bs-1,
-    #sect-tab-2:checked~#bs-2,
-    #sect-tab-3:checked~#bs-3,
-    #sect-tab-4:checked~#bs-4,
-    #sect-tab-5:checked~#bs-5,
-    #sect-tab-6:checked~#bs-6,
-    #sect-tab-7:checked~#bs-7,
-    #sect-tab-8:checked~#bs-8 {
-      transform: scale(1);
-      opacity: 1;
-      pointer-events: auto !important;
-    }
-  </style>
+  <style>:root {
+    --header-pink: #ff8fa3;
+    --tint-pink: #ffc1cc;
+    --peach-bg: #fff5f6;
+    --strawberry: #ffb7b2;
+    --text: #7d5a5a;
+    /* New Sakura Pink */
+    --sakura: #ffdae0;
+}
+body {
+    font-family: 'Fredoka', sans-serif;
+    background-color: var(--peach-bg);
+    color: var(--text);
+    margin: 0;
+    padding: 0 0 40px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+
+    /* --- SAKURA POINTER --- */
+    /* Using a cute cherry blossom emoji as a data-uri cursor */
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' style='font-size: 24px;'><text y='24'>🌸</text></svg>"), auto;
+}
+
+/* --- CUTE SCREEN OUTLINE --- */
+.screen-outline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* This creates a 15px frame inside the screen */
+    border: 15px solid var(--sakura);
+    /* This creates a secondary dotted line for a "stitched" look */
+    outline: 5px dashed white;
+    outline-offset: -10px;
+    z-index: 9999; /* Stays on top of everything */
+    pointer-events: none; /* Crucial: allows clicking buttons underneath */
+    border-radius: 0; /* Keeps it strictly to the edge */
+}
+
+#bg-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -2;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--tint-pink);
+    background-blend-mode: multiply;
+    opacity: 0.5;
+    transition: background-image 0.8s ease-in-out;
+}
+
+.background-pattern {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: radial-gradient(var(--strawberry) 1px, transparent 1px);
+    background-size: 30px 30px;
+    opacity: 0.1;
+    z-index: -1;
+    pointer-events: none;
+}
+
+header {
+    width: calc(100% - 30px); /* Adjust for the 15px border on each side */
+    margin-top: 15px;
+    background-color: var(--header-pink);
+    padding: 50px 20px;
+    text-align: center;
+    border-radius: 0 0 50px 50px;
+    box-shadow: 0 8px 15px rgba(255, 143, 163, 0.2);
+}
+
+header .logo {
+    font-size: 3.2rem;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    animation: float 3s ease-in-out infinite;
+}
+
+header .subtitle {
+    color: #fff0f3;
+    font-size: 1.1rem;
+}
+
+
+.main-nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Default for desktop */
+    gap: 15px;
+    padding: 20px;
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Update nav-btns to have the sakura pointer on hover too */
+.nav-btn, .folder-header, .subfile-link {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' style='font-size: 24px;'><text y='24'>✨</text></svg>"), pointer;
+}
+
+.nav-btn {
+    background: white;
+    border: 3px solid var(--header-pink);
+    border-radius: 30px;
+    padding: 15px 20px;
+    color: var(--text);
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 0 var(--header-pink);
+}
+
+/* MOBILE VIEW UPDATES */
+@media (max-width: 768px) {
+    .main-nav {
+        width: 95%; /* Use more space on mobile */
+        flex-wrap: nowrap; /* Force single row */
+        justify-content: flex-start; /* Align to start for scrolling */
+        overflow-x: auto; /* Allow swiping/scrolling if they overflow */
+        padding: 20px 10px;
+        -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+        scrollbar-width: none; /* Hide scrollbar for clean look (Firefox) */
+    }
+
+    .main-nav::-webkit-scrollbar {
+        display: none; /* Hide scrollbar for clean look (Chrome/Safari) */
+    }
+
+    .nav-btn {
+        flex: 0 0 auto; /* Prevent buttons from shrinking */
+        padding: 15px;
+        aspect-ratio: 1 / 1; /* Make them perfect circles/squares */
+        border-radius: 50%; /* Bubbly circular buttons on mobile */
+        min-width: 60px;
+    }
+
+    /* Hide the text on mobile */
+    .btn-text {
+        display: none;
+    }
+
+    /* Enlarge the emoji */
+    .nav-btn span:first-child {
+        font-size: 2rem;
+        margin: 0;
+    }
+}
+
+.nav-btn {
+    background: white;
+    border: 3px solid var(--header-pink);
+    border-radius: 30px;
+    padding: 15px 10px;
+    color: var(--text);
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    /* Resizing Logic: 
+       On large screens, they fit 3 or 4 in a row.
+       On tablets, 2 in a row.
+       On phones, 1 per row (taking up the 80% width). */
+    flex: 1 1 calc(33% - 30px); 
+    min-width: 200px;
+    
+    /* Fluid Typography: Text scales slightly with screen width */
+    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+    box-shadow: 0 4px 0 var(--header-pink);
+}
+
+.nav-btn:hover {
+    background: var(--header-pink);
+    color: white;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 0 rgba(255, 143, 163, 0.3);
+}
+
+.nav-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 var(--header-pink);
+}
+
+/* --- Content Area Scaling --- */
+#content-area {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 80%; /* Main notes section also takes up 80% */
+    max-width: 800px;
+    margin-top: 30px;
+}
+
+.folder-container {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.folder-header {
+    padding: 20px;
+    font-size: clamp(1rem, 2vw, 1.3rem); /* Scalable font */
+}
+
+/* Ensure sub-links scale nicely too */
+.subfile-link {
+    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    padding: 15px 20px;
+}
+
+/* Media Query for small phones */
+@media (max-width: 600px) {
+    .main-nav {
+        width: 90%; /* Give a bit more room on tiny screens */
+    }
+    .nav-btn {
+        flex: 1 1 100%; /* Full width within the 80%/90% container */
+    }
+    header .logo {
+        font-size: 2.2rem; /* Shrink logo on mobile */
+    }
+}
+
+/* --- THE TWO COLUMN UPDATES --- */
+.subfile-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    background: rgba(255, 255, 255, 0.5);
+    
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+}
+
+.folder-container.active .subfile-list {
+    max-height: 600px; /* Increased to allow for more content */
+    padding: 10px 0;
+}
+
+.subfile-link {
+    display: block;
+    padding: 15px 25px;
+    text-decoration: none;
+    color: var(--text);
+    border-top: 1px solid #fff1f3;
+    font-size: 0.9rem;
+    transition: 0.2s;
+}
+
+/* Vertical line separator between columns */
+.subfile-link:nth-child(odd) {
+    border-right: 1px solid #fff1f3;
+}
+
+.subfile-link:hover {
+    background: #ffe5ea;
+    padding-left: 30px;
+}
+
+/* Mobile: Collapse to 1 column on small screens */
+@media (max-width: 480px) {
+    .subfile-list {
+        grid-template-columns: 1fr;
+    }
+    .subfile-link:nth-child(odd) {
+        border-right: none;
+    }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+</style>
 </head>
 <body>
-  <div class="sect">
-    <input type="radio" id="sect-tab-1" name="sect-tabs" checked>
-    <input type="radio" id="sect-tab-2" name="sect-tabs">
-    <input type="radio" id="sect-tab-3" name="sect-tabs">
-    <input type="radio" id="sect-tab-4" name="sect-tabs">
-    <input type="radio" id="sect-tab-5" name="sect-tabs">
-    <input type="radio" id="sect-tab-6" name="sect-tabs">
-    <input type="radio" id="sect-tab-7" name="sect-tabs">
-    <input type="radio" id="sect-tab-8" name="sect-tabs">
-    <div class="sect-tabs">
-      <label for="sect-tab-1" class="sect-tabs-1" id="sect-playlist-1">
-        <div></div>
-      </label>
-      <label for="sect-tab-2" class="sect-tabs-1" id="sect-playlist-2">
-        <div></div>
-      </label>
-      <label for="sect-tab-3" class="sect-tabs-1" id="sect-playlist-3">
-        <div></div>
-      </label>
-      <label for="sect-tab-4" class="sect-tabs-1" id="sect-playlist-4">
-        <div></div>
-      </label>
-      <label for="sect-tab-5" class="sect-tabs-1" id="sect-playlist-5">
-        <div></div>
-      </label>
-      <label for="sect-tab-6" class="sect-tabs-1" id="sect-playlist-6">
-        <div></div>
-      </label>
-      <label for="sect-tab-7" class="sect-tabs-1" id="sect-playlist-7">
-        <div></div>
-      </label>
-      <label for="sect-tab-8" class="sect-tabs-1" id="sect-playlist-8">
-        <div></div>
-      </label>
-    </div>
+  <div class="screen-outline"></div>
 
-    <!-- Heading images -->
-    <div class="sect-head-img" id="bg-1">
-      <div></div>
-    </div>
-    <div class="sect-head-img" id="bg-2">
-      <div></div>
-    </div>
-    <div class="sect-head-img" id="bg-3">
-      <div></div>
-    </div>
-    <div class="sect-head-img" id="bg-4">
-      <div></div>
-    </div>
-    <div class="sect-head-img" id="bg-5">
-      <div></div>
-    </div>
-    <div class="sect-head-img" id="bg-6">
-      <div></div>
-    </div>
-    <div class="sect-head-img" id="bg-7">
-      <div></div>
-    </div>
-    <div class="sect-head-img" id="bg-8">
-      <div></div>
-    </div>
-    <div class="sect-fade"></div>
+    <div id="bg-overlay"></div>
+    <div class="background-pattern"></div>
 
-    <!--- Korean notes section --->
-
-    <div class="sect-img" id="kor-sect">
-      <div></div> <!-- heading image div -->
-    </div>
-    <div class="sect-name" id="kor-1">
-      <h1>korean<br>notes 2025</h1>
-      <h2>Basics and intermediate level + reading + writing + listening</h2>
-    </div>
-    
-    <div class="sect-topics" id="bs-1">
-      <div class="sect-topics-0">
-
-        <!-- 60 Days of Korean Dropdown -->
-        <div class="dropdown" data-section="korean" data-dropdown="60-days">
-          <div class="dropdown-header">
-            <span>60 Days of Korean</span>
-            <span class="dropdown-arrow">▼</span>
-          </div>
-          <div class="dropdown-content">
-            <a class="sect-topics-1" href="kor-60/kor-day1/">
-              <span></span><span><b>Day 1</b>Basic greetings and introductions</span>
-              <span></span>
-            </a>
-          </div>
-           <div class="dropdown-content">
-            <a class="sect-topics-1" href="kor-60/kor-day1-7/">
-              <span></span><span><b>Day 1-7</b>Flashcards: introductions, greetings, numbers</span>
-              <span></span>
-            </a>
-          </div>
-          <div class="dropdown-content">
-            <a class="sect-topics-1" href="kor-60/kor-day2/">
-              <span></span><span><b>Day 2</b>My name is ...</span>
-              <span></span>
-            </a>
-          </div>
+    <header>
+        <div class="header-content">
+            <div class="logo">🌸 Study Garden 🌸</div>
+            <p class="subtitle">Happy learning, little sprout!</p>
         </div>
+    </header>
 
-        <!-- Section 1: Alphabet, Numbers, Times, and Dates -->
-        <div class="dropdown" data-section="korean" data-dropdown="alphabet-numbers">
-          <div class="dropdown-header">
-            <span>Alphabet, Numbers, Times, and Dates</span>
-            <span class="dropdown-arrow">▼</span>
-          </div>
-          <div class="dropdown-content">
-            <a class="sect-topics-1" href="kor-notes/korean-alphabet/">
-              <span></span><span><b>Korean Alphabet</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/korean-numbers/">
-              <span></span><span><b>Korean Numbers</b>Sino and Native + Writing + Listening</span>
-              <span></span>
-            </a>
-             <a class="sect-topics-1" href="kor-notes/kor-number-questions/">
-              <span></span><span><b>Korean Number Questions</b>Sino and Native + Listening Questions</span>
-              <span></span>
-            </a>
-             <a class="sect-topics-1" href="kor-notes/kor-number-multiple/">
-              <span></span><span><b>Korean Number Multiple Choice</b>Sino and Native + Listening Questions</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-numbers-flash/">
-              <span></span><span><b>Korean Numbers Flashcards</b>Sino and Native + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-times/">
-              <span></span><span><b>Korean Times</b>Writing + Listening + Hours + Minutes + Questions about time</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-dates/">
-              <span></span><span><b>Korean Dates</b>Writing + Listening + Months + Days + Ordinal Numbers + Questions</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-times-dates-flash/">
-              <span></span><span><b>Korean Dates and Times Flash Cards</b>Listening + Months + Days + Ordinal Numbers + Questions</span>
-              <span></span>
-            </a>
-          </div>
+   
+  <nav class="main-nav">
+    <button class="nav-btn" onclick="displayNotes('korean')"><span>🇰🇷</span> <span class="btn-text">Korean</span></button>
+    <button class="nav-btn" onclick="displayNotes('indonesian')"><span>🇮🇩</span> <span class="btn-text">Indonesian</span></button>
+    <button class="nav-btn" onclick="displayNotes('chinese')"><span>🇨🇳</span> <span class="btn-text">Chinese</span></button>
+    <button class="nav-btn" onclick="displayNotes('thai')"><span>🇹🇭</span> <span class="btn-text">Thai</span></button>
+    <button class="nav-btn" onclick="displayNotes('spanish')"><span>🇲🇽</span> <span class="btn-text">Spanish</span></button>
+    <button class="nav-btn" onclick="displayNotes('russian')"><span>🇷🇺</span> <span class="btn-text">Russian</span></button>
+  </nav>
+
+    <main id="content-area">
+        <div class="empty-state">
+            <p>Pick a language to start your journey! ✨</p>
         </div>
+    </main>
 
-        <!-- Section 2: Korean Phrases -->
-        <div class="dropdown" data-section="korean" data-dropdown="phrases-markers">
-          <div class="dropdown-header">
-            <span>Korean Phrases, Markers, and Particles</span>
-            <span class="dropdown-arrow">▼</span>
-          </div>
-          <div class="dropdown-content">
-            <a class="sect-topics-1" href="kor-notes/kor-phrases/">
-              <span></span><span><b>Korean Phrases 1</b>Writing + Listening + Jobs + Common Phrases</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-phrases-2/">
-              <span></span><span><b>Korean Phrases 2</b>Writing + Listening + Common Objects + Common Phrases</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-phrases-3/">
-              <span></span><span><b>Korean Phrases 3</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-AB-phrases/">
-              <span></span><span><b>Korean Phrases AB Conversation</b>Listening + Quiz</span>
-              <span></span>
-            </a>
-             <a class="sect-topics-1" href="kor-notes/kor-AB-jobs-numbers/">
-              <span></span><span><b>AB Conversation about Jobs and Numbers</b>Questions + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-present-past-future/">
-              <span></span><span><b>Present, Past, and Future</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-present-past-future/">
-              <span></span><span><b>++++Present, Past, and Future Quiz</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-causatives/">
-              <span></span><span><b>Passive/causative & Indirect Speech Patterns</b>Writing + Listening</span>
-              <span></span>
-            </a>
-             <a class="sect-topics-1" href="kor-notes/kor-markers/">
-              <span></span><span><b>Topic, Subject, and Object Markers</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-relative-clause/">
-              <span></span><span><b>Relative Clause</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-adv-grammar-patterns/">
-              <span></span><span><b>Advanced grammar patterns (았/었더니, 다가, 기는요)</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-complex-endings/">
-              <span></span><span><b>Complex sentence endings (거든요, 잖아요, 는데)</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-adv-conditionals/">
-              <span></span><span><b>Advanced Conditionals (으)면, 다면</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-nuance-markers/">
-              <span></span><span><b>Advanced Conditionals (으)면, 다면</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-nuance-markers/">
-              <span></span><span><b>Nuance markers (네요, 군요, 던데)</b>Writing + Listening</span>
-              <span></span>
-            </a>
+    <script>
 
-            <a class="sect-topics-1" href="kor-notes/kor-descriptives/">
-              <span></span><span><b>Korean Descriptive Words</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-AB1/">
-              <span></span><span><b>Korean AB Conversations, Greetings & Introductions</b>Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-AB2/">
-              <span></span><span><b>Korean AB Conversation Jobs and Occupations</b>Listening</span>
-              <span></span>
-            </a>
-          </div>
-        </div>
+      const noteData = {
+    korean: [
+        { 
+            title: "60 Days of Korean", 
+            icon: "🗓️", 
+            links: [
+                { name: "Day 1 - Basic greetings and introductions", url: "kor-60/kor-day1/" },
+                { name: "Day 1-7 - Flashcards: introductions, greetings, numbers", url: "kor-60/kor-day1-7/" },
+                { name: "Day 2 - My name is ...", url: "kor-60/kor-day2/" }
+            ] 
+        },
+        { 
+            title: "Alphabet, Numbers, Times, and Dates", 
+            icon: "🔤", 
+            links: [
+                { name: "Korean Alphabet - Writing + Listening", url: "kor-notes/korean-alphabet/" },
+                { name: "Korean Numbers - Sino and Native + Writing + Listening", url: "kor-notes/korean-numbers/" },
+                { name: "Korean Number Questions - Sino and Native + Listening Questions", url: "kor-notes/kor-number-questions/" },
+                { name: "Korean Number Multiple Choice - Sino and Native + Listening Questions", url: "kor-notes/kor-number-multiple/" },
+                { name: "Korean Numbers Flashcards - Sino and Native + Listening", url: "kor-notes/kor-numbers-flash/" },
+                { name: "Korean Times - Writing + Listening + Hours + Minutes + Questions about time", url: "kor-notes/kor-times/" },
+                { name: "Korean Dates - Writing + Listening + Months + Days + Ordinal Numbers + Questions", url: "kor-notes/kor-dates/" },
+                { name: "Korean Dates and Times Flash Cards - Listening + Months + Days + Ordinal Numbers + Questions", url: "kor-notes/kor-times-dates-flash/" }
+            ] 
+        },
+        { 
+            title: "Korean Phrases, Markers, and Particles", 
+            icon: "💬", 
+            links: [
+                { name: "Korean Phrases 1 - Writing + Listening + Jobs + Common Phrases", url: "kor-notes/kor-phrases/" },
+                { name: "Korean Phrases 2 - Writing + Listening + Common Objects + Common Phrases", url: "kor-notes/kor-phrases-2/" },
+                { name: "Korean Phrases 3 - Writing + Listening", url: "kor-notes/kor-phrases-3/" },
+                { name: "Korean Phrases AB Conversation - Listening + Quiz", url: "kor-notes/kor-AB-phrases/" },
+                { name: "AB Conversation about Jobs and Numbers - Questions + Listening", url: "kor-notes/kor-AB-jobs-numbers/" },
+                { name: "Present, Past, and Future - Writing + Listening", url: "kor-notes/kor-present-past-future/" },
+                { name: "Present, Past, and Future Quiz - Writing + Listening", url: "kor-notes/kor-present-past-future/" },
+                { name: "Passive/causative & Indirect Speech Patterns - Writing + Listening", url: "kor-notes/kor-causatives/" },
+                { name: "Topic, Subject, and Object Markers - Writing + Listening", url: "kor-notes/kor-markers/" },
+                { name: "Relative Clause - Writing + Listening", url: "kor-notes/kor-relative-clause/" },
+                { name: "Advanced grammar patterns (았/었더니, 다가, 기는요) - Writing + Listening", url: "kor-notes/kor-adv-grammar-patterns/" },
+                { name: "Complex sentence endings (거든요, 잖아요, 는데) - Writing + Listening", url: "kor-notes/kor-complex-endings/" },
+                { name: "Advanced Conditionals (으)면, 다면 - Writing + Listening", url: "kor-notes/kor-adv-conditionals/" },
+                { name: "Nuance markers (네요, 군요, 던데) - Writing + Listening", url: "kor-notes/kor-nuance-markers/" },
+                { name: "Korean Descriptive Words - Writing + Listening", url: "kor-notes/kor-descriptives/" },
+                { name: "Korean AB Conversations, Greetings & Introductions - Listening", url: "kor-notes/kor-AB1/" },
+                { name: "Korean AB Conversation Jobs and Occupations - Listening", url: "kor-notes/kor-AB2/" }
+            ] 
+        },
+        { 
+            title: "Question Phrases", 
+            icon: "❓", 
+            links: [
+                { name: "Who - Writing + Listening", url: "kor-notes/kor-who/" },
+                { name: "What - Writing + Listening", url: "kor-notes/kor-what/" },
+                { name: "Why - Writing + Listening", url: "kor-notes/kor-why/" },
+                { name: "When - Writing + Listening", url: "kor-notes/kor-when/" },
+                { name: "Where - Writing + Listening", url: "kor-notes/kor-where/" },
+                { name: "How - Writing + Listening", url: "kor-notes/kor-how/" }
+            ] 
+        },
+        { 
+            title: "Activities, objects, units, and relationships", 
+            icon: "🏃", 
+            links: [
+                { name: "Daily Activities Part 1 - Writing + Listening", url: "kor-notes/kor-daily-active/" },
+                { name: "Daily Activities Part 2 - Writing + Listening", url: "kor-notes/kor-daily-active-2/" },
+                { name: "Existence and Location Phrases - Writing + Listening + There is + Back/ Front + Top/Below", url: "kor-notes/kor-existance-location/" },
+                { name: "Food and Objects - Writing + Listening", url: "kor-notes/kor-food-objects/" },
+                { name: "Units and Quantities - Writing + Listening", url: "kor-notes/kor-units/" },
+                { name: "Relationships and Activities Together - Writing + Listening", url: "kor-notes/kor-relations/" },
+                { name: "Politeness Vs. Casual, Want/like, Can/cannot, and Conjugations - Writing + Listening", url: "kor-notes/kor-grammar-expressions/" }
+            ] 
+        },
+        { 
+            title: "Intermediate Level", 
+            icon: "📚", 
+            links: [
+                { name: "Vocabulary, Idioms, Proverbs, Slang, and Colloquialisms - Writing + Listening", url: "kor-notes/kor-vocab-inter/" },
+                { name: "Computers - Writing + Listening", url: "kor-notes/kor-computers/" }
+            ] 
+        }
+    ],
+    indonesian: [
+        { 
+            title: "60 Days of Indonesian", 
+            icon: "🗓️", 
+            links: [
+                { name: "Day 1 - Basic greetings and introductions", url: "indo-60/indo-day1/" },
+                { name: "Day 1-7 - Flashcards: introductions, greetings, numbers", url: "indo-60/indo-day1-7/" }
+            ] 
+        },
+        { 
+            title: "Indonesian Basics", 
+            icon: "🇮🇩", 
+            links: [
+                { name: "Indonesian Numbers - Writing + Listening", url: "indo-notes/indo-numbers/index.html" },
+                { name: "Basic Greetings - AB conversations + Listening", url: "indo-notes/indo-greetings/" },
+                { name: "Basic Greetings - Flash cards + Introductions + Yes/No", url: "indo-notes/indo-greetings-flash/" },
+                { name: "Verbs 1 - Flashcards + Listening", url: "indo-notes/indo-verbs-1/" },
+                { name: "Grammar Foundations - Flashcards + Personal pronouns + Word order + verb conjugation", url: "indo-notes/indo-grammarfound/" },
+                { name: "Days, Months, Times - Listening", url: "indo-notes/indo-day-month-time/" },
+                { name: "Days, Months, Times - Flashcards + Listening", url: "indo-notes/indo-flash-time-day-month/" },
+                { name: "Relationships - AB Conversation + Family and Relationships + Politeness vs Casual", url: "indo-notes/indo-relationships/" },
+                { name: "Common Objects + Descriptions - Colors + Adjectives", url: "indo-notes/indo-common/" },
+                { name: "Grammar Elements - Flashcards + Noun Phrase Structure + Possessive Marker + Question Words + This/ That/ These/ Those", url: "indo-notes/indo-grammar-elem/" },
+                { name: "Conversational Phrases - Flashcards + Shopping + Restaurant + Directions + Computers + Transportation", url: "indo-notes/indo-conversational/" },
+                { name: "Vocabulary Review - AB Conversation + 400 Word/ Phrases", url: "indo-notes/indo-vocab/" },
+                { name: "Grammar - Affixes + Intransative Verbs + Prefixes + Negation for Verbs/ Nouns", url: "indo-notes/indo-grammar-2/" }
+            ] 
+        }
+    ],
+    chinese: [
+        { 
+            title: "60 Days of Chinese", 
+            icon: "🗓️", 
+            links: [
+                { name: "Day 1 - Basic greetings and introductions", url: "zh-60/zh-day1/" },
+                { name: "Day 2 - Core Grammar", url: "zh-60/zh-day2/" },
+                { name: "Day 1-7 - Flashcards: greetings, thanks, numbers", url: "zh-60/zh-day1-7/" }
+            ] 
+        },
+        { 
+            title: "Chinese Basics", 
+            icon: "🇨🇳", 
+            links: [
+                { name: "Chinese Numbers - Writing + Listening", url: "zh-notes/zh-numbers/" },
+                { name: "Chinese Numbers Flashcards - Listening + Memorization", url: "zh-notes/zh-numbers-flash/" },
+                { name: "Chinese Alphabet - Writing + Listening", url: "zh-notes/zh-alphabet/" },
+                { name: "Chinese Dates - Writing + Listening", url: "zh-notes/zh-dates/" },
+                { name: "Chinese Greetings - Writing + Listening", url: "zh-notes/zh-greetings/" },
+                { name: "Chinese Basic Phrases - Writing + Listening", url: "zh-notes/zh-phrases/" },
+                { name: "Chinese Phrases: I am ... - Writing + Listening", url: "zh-notes/zh-phrases-2/" },
+                { name: "Chinese Phrases: Family, hobbies, and actions - Writing + Listening", url: "zh-notes/zh-phrases-3/" },
+                { name: "Chinese Days, Months, and Dates - Writing + Listening", url: "zh-notes/zh-days-months/" },
+                { name: "Chinese Particles - Writing + Listening", url: "zh-notes/zh-particles/" },
+                { name: "Who - Writing + Listening", url: "zh-notes/zh-who/" },
+                { name: "What - Writing + Listening", url: "zh-notes/zh-what/" },
+                { name: "Why - Writing + Listening", url: "zh-notes/zh-why/" },
+                { name: "When - Writing + Listening", url: "zh-notes/zh-when/" },
+                { name: "Where - Writing + Listening", url: "zh-notes/zh-where/" },
+                { name: "How - Writing + Listening", url: "zh-notes/zh-how/" }
+            ] 
+        }
+    ],
+    thai: [
+        { 
+            title: "60 Days of Thai", 
+            icon: "🗓️", 
+            links: [
+                { name: "Day 1 - Basic greetings and introductions", url: "thai-60/thai-day1/" },
+                { name: "Day 1-7 - Flash cards greetings, politness, numbers, and basics", url: "thai-60/thai-day1-7/" }
+            ] 
+        },
+        { 
+            title: "Thai Basics", 
+            icon: "🇹🇭", 
+            links: [
+                { name: "Thai Alphabet - Writing + Listening", url: "th-notes/th-alphabet/" },
+                { name: "Thai Simple Words - Writing + Listening", url: "th-notes/th-simple-words/" },
+                { name: "Thai Simple Words Flashcards - Listening + Memorization", url: "th-notes/th-simple-words-flashcards/" },
+                { name: "Thai Numbers - Writing + Listening", url: "th-notes/th-numbers/" },
+                { name: "Basic Greetings - Listening", url: "th-notes/th-greetings/" },
+                { name: "Basic Greetings - AB conversations + Listening", url: "th-notes/th-greetings-AB/" },
+                { name: "Common Verbs - Flashcards + Listening", url: "thai-notes/th-verbs/" },
+                { name: "Tone Marks - Pronunciation + Listening", url: "thai-notes/thai-tone-marks/" },
+                { name: "Food Vocabulary - Common dishes + Ordering", url: "thai-notes/thai-food-vocab/" },
+                { name: "Travel Phrases - Directions + Transportation", url: "thai-notes/thai-travel-phrases/" },
+                { name: "Grammar Basics - Sentence structure + Particles", url: "thai-notes/thai-grammar-basics/" }
+            ] 
+        }
+    ],
+    spanish: [
+        { 
+            title: "60 Days of Spanish", 
+            icon: "🗓️", 
+            links: [
+                { name: "Day 1 - Basic greetings and introductions", url: "sp-60/sp-day1/" },
+                { name: "Day 1-7 - Flash cards: Basic greetings and introductions", url: "sp-60/sp-day1/" }
+            ] 
+        },
+        { 
+            title: "Introduction to Spanish", 
+            icon: "🌎", 
+            links: [
+                { name: "Basic Greetings - Writing + Listening + Common Phrases", url: "sp-notes/sp-greetings/" },
+                { name: "Self Introductions - Writing + Listening", url: "sp-notes/sp-introductions/" },
+                { name: "Spanish Numbers - Writing + Listening", url: "sp-notes/sp-numbers/" },
+                { name: "FANBOYS - Writing + Listening + Preposition and Adverbs", url: "sp-notes/sp-fanboys/" },
+                { name: "FANBOYS Quiz - Listening + Preposition and Adverbs", url: "sp-notes/fanboys-quiz/" },
+                { name: "Adverbs - Writing + Listening + If, Then, Also, From, Of, With, To, In, On, Each", url: "sp-notes/sp-numbers/" },
+                { name: "Common Phrases and Pronouns - Writing + Listening", url: "sp-notes/sp-common-phrases/" },
+                { name: "Months, days, years - Writing + Listening", url: "sp-notes/sp-common-phrases/" },
+                { name: "Time words and times - Writing + Listening", url: "sp-notes/sp-common-phrases/" },
+                { name: "Number placement - Writing + Listening + 1st, 2nd, 3rd", url: "sp-notes/sp-common-phrases/" },
+                { name: "Spanish Definite and Indefinites - Writing + Listening", url: "sp-notes/sp-common-phrases/" },
+                { name: "Ser Flashcards - Listening + Rules of Ser", url: "sp-notes/sp-common-phrases/" },
+                { name: "Estar Flashcards - Listening + I/He/You am/is/are [action] + Present Progressive + Locations + health, Conditions, and Emotions", url: "sp-notes/sp-common-phrases/" }
+            ] 
+        },
+        { 
+            title: "Present Tense", 
+            icon: "⏰", 
+            links: [
+                { name: "Regular -AR Verbs - Writing + Listening + Conjugations", url: "sp-notes/sp-present-ar-verbs/" },
+                { name: "Regular -ER Verbs - Writing + Listening + Conjugations", url: "sp-notes/sp-present-er-verbs/" },
+                { name: "Regular -IR Verbs - Writing + Listening + Conjugations", url: "sp-notes/sp-present-ir-verbs/" },
+                { name: "Irregular Verbs - Writing + Listening + Ser, Estar, Tener", url: "sp-notes/sp-irregular-verbs/" },
+                { name: "Stem-Changing Verbs - Writing + Listening + e→ie, o→ue, e→i", url: "sp-notes/sp-stem-changing-verbs/" },
+                { name: "Present Progressive - Writing + Listening + Gerund Forms", url: "sp-notes/sp-present-progressive/" }
+            ] 
+        },
+        { 
+            title: "Question Words", 
+            icon: "❓", 
+            links: [
+                { name: "¿Quién? (Who) - Writing + Listening", url: "sp-notes/sp-quien/" },
+                { name: "¿Qué? (What) - Writing + Listening", url: "sp-notes/sp-que/" },
+                { name: "¿Por qué? (Why) - Writing + Listening", url: "sp-notes/sp-porque/" },
+                { name: "¿Cuándo? (When) - Writing + Listening", url: "sp-notes/sp-cuando/" },
+                { name: "¿Dónde? (Where) - Writing + Listening", url: "sp-notes/sp-donde/" },
+                { name: "¿cuál? (Which) - Writing + Listening", url: "sp-notes/sp-donde/" },
+                { name: "¿Cómo? / cuanto(s)/a(s) (How) - Writing + Listening + How much/many", url: "sp-notes/sp-como/" }
+            ] 
+        },
+        { 
+            title: "AB Conversation", 
+            icon: "💬", 
+            links: [
+                { name: "Verb Conjugation in Simple Conversation - Writing + Listening", url: "sp-notes/sp-quien/" }
+            ] 
+        }
+    ],
+    russian: [
+        { 
+            title: "60 Days of Russian", 
+            icon: "🗓️", 
+            links: [
+                { name: "Day 1 - Basic greetings and introductions", url: "ru-60/ru-day1/" }
+            ] 
+        },
+        { 
+            title: "Russian Basics", 
+            icon: "🇷🇺", 
+            links: [
+                { name: "Russian Alphabet (Cyrillic) - Writing + Listening", url: "ru-notes/ru-alphabet/" },
+                { name: "Russian Numbers - Writing + Listening", url: "#" },
+                { name: "Basic Greetings - Writing + Listening", url: "#" },
+                { name: "Russian Grammar Basics - Cases + Verb Conjugations", url: "#" }
+            ] 
+        }
+    ]
+};
 
-        <!-- Section 3: Question Phrases -->
-        <div class="dropdown" data-section="korean" data-dropdown="question-phrases">
-          <div class="dropdown-header">
-            <span>Question Phrases</span>
-            <span class="dropdown-arrow">▼</span>
-          </div>
-          <div class="dropdown-content">
-            <a class="sect-topics-1" href="kor-notes/kor-who/">
-              <span></span><span><b>Who</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-what/">
-              <span></span><span><b>What</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-why/">
-              <span></span><span><b>Why</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-when/">
-              <span></span><span><b>When</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-where/">
-              <span></span><span><b>Where</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-how/">
-              <span></span><span><b>How</b>Writing + Listening</span>
-              <span></span>
-            </a>
-          </div>
-        </div>
+const bgImages = {
+    // You can add background images for each language here
+    // Example:
+    // korean: "url('images/korea-bg.jpg')",
+    // indonesian: "url('images/indonesia-bg.jpg')",
+    // ... etc
+};
 
-        <!-- Section 4: Activities, objects, units, and relationships -->
-        <div class="dropdown" data-section="korean" data-dropdown="activities-objects">
-          <div class="dropdown-header">
-            <span>Activities, objects, units, and relationships</span>
-            <span class="dropdown-arrow">▼</span>
-          </div>
-          <div class="dropdown-content">
-            <a class="sect-topics-1" href="kor-notes/kor-daily-active/">
-              <span></span><span><b>Daily Activities Part 1</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-daily-active-2/">
-              <span></span><span><b>Daily Activities Part 2</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-existance-location/">
-              <span></span><span><b>Existence and Location Phrases</b>Writing + Listening + There is + Back/ Front + Top/Below</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-food-objects/">
-              <span></span><span><b>Food and Objects</b>Writing + Listening </span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-units/">
-              <span></span><span><b>Units and Quantities</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-relations/">
-              <span></span><span><b>Relationships and Activities Together</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-grammar-expressions/">
-              <span></span><span><b>Politeness Vs. Casual, Want/like, Can/cannot, and Conjugations</b>Writing + Listening</span>
-              <span></span>
-            </a>
-          </div>
-        </div>
+  const STATE_KEY = 'studyGardenState';
 
-        <div class="dropdown" data-section="korean" data-dropdown="intermediate-level">
-          <div class="dropdown-header">
-            <span>Intermediate Level</span>
-            <span class="dropdown-arrow">▼</span>
-          </div>
-          <div class="dropdown-content">
-            <a class="sect-topics-1" href="kor-notes/kor-vocab-inter/">
-              <span></span><span><b>Vocabulary, Idioms, Proverbs, Slang, and Colloquialisms</b>Writing + Listening</span>
-              <span></span>
-            </a>
-            <a class="sect-topics-1" href="kor-notes/kor-computers/">
-              <span></span><span><b>Computers</b>Writing + Listening</span>
-              <span></span>
-            </a>
-           
-          </div>
-        </div>
+    function getSavedState() {
+      const saved = localStorage.getItem(STATE_KEY);
+      return saved ? JSON.parse(saved) : { language: null, openFolders: {} };
+    }
+  function saveState(language, openFolders) {
+      const state = { language, openFolders };
+      localStorage.setItem(STATE_KEY, JSON.stringify(state));
+    }
 
-
-      </div>
-    </div>
-
-    <!--- Indonesian notes --->
-
-    <div class="sect-img" id="bi-2">
-      <div></div>
-    </div>
-    <div class="sect-name" id="bn-2">
-      <h1>Indonesian<br>notes 2025</h1>
-      <h2>Basics and intermediate level + reading + writing + listening</h2>
-    </div>
-    <div class="sect-subsect" id="bl-2">
-    </div>
-    <div class="sect-topics" id="bs-2">
-      <div class="sect-topics-0">
-
-        <!-- 60 Days of Indonesian Dropdown -->
-        <div class="dropdown" data-section="indonesian" data-dropdown="60-days">
-          <div class="dropdown-header">
-            <span>60 Days of Indonesian</span>
-            <span class="dropdown-arrow">▼</span>
-          </div>
-          <div class="dropdown-content">
-            <a class="sect-topics-1" href="indo-60/indo-day1/">
-              <span></span><span><b>Day 1</b>Basic greetings and introductions</span>
-              <span></span>
-            </a>
-          </div>
-          <div class="dropdown-content">
-            <a class="sect-topics-1" href="indo-60/indo-day1-7/">
-              <span></span><span><b>Day 1-7</b>Flashcards: introductions, greetings, numbers</span>
-              <span></span>
-            </a>
-          </div>
-        </div>
-
-        <a class="sect-topics-1" href="indo-notes/indo-numbers/index.html">
-          <span></span><span><b>Indonesian Numbers</b>Writing + Listening</span>
-          <span></span> </a>
-
-        <a class="sect-topics-1" href="indo-notes/indo-greetings/">
-          <span></span><span><b>Basic Greetings</b>AB conversations + Listening</span>
-          <span></span> </a>
-
-         <a class="sect-topics-1" href="indo-notes/indo-greetings-flash/">
-          <span></span><span><b>Basic Greetings</b>Flash cards + Introductions + Yes/No</span>
-          <span></span> </a>
-        
-        <a class="sect-topics-1" href="indo-notes/indo-verbs-1/">
-          <span></span><span><b>Verbs 1</b>Flashcards + Listening</span>
-          <span></span> </a>
-
-         <a class="sect-topics-1" href="indo-notes/indo-grammarfound/">
-          <span></span><span><b>Grammar Foundations</b>Flashcards + Personal pronouns + Word order + verb conjugation</span>
-          <span></span> </a>
-        
-         <a class="sect-topics-1" href="indo-notes/indo-day-month-time/">
-          <span></span><span><b>Days, Months, Times</b>Listening</span>
-          <span></span> </a>
-        
-        <a class="sect-topics-1" href="indo-notes/indo-flash-time-day-month/">
-          <span></span><span><b>Days, Months, Times</b>Flashcards + Listening</span>
-          <span></span> </a>
-
-         <a class="sect-topics-1" href="indo-notes/indo-relationships/">
-          <span></span><span><b>Relationships</b>AB Conversation + Family and Relationships + Politeness vs Casual</span>
-          <span></span> </a>
-        
-         <a class="sect-topics-1" href="indo-notes/indo-common/">
-          <span></span><span><b>Common Objects + Descriptions</b>Colors + Adjectives</span>
-          <span></span> </a>
-
-         <a class="sect-topics-1" href="indo-notes/indo-grammar-elem/">
-          <span></span><span><b>Grammar Elements</b>Flashcards + Noun Phrase Structure + Possessive Marker + Question WOrds <br/>+ This/ That/ These/ Those</span>
-          <span></span> </a>
-        
-         <a class="sect-topics-1" href="indo-notes/indo-conversational/">
-          <span></span><span><b>Conversational Phrases</b>Flashcards + Shopping + Restaurant + Directions + Computers + Transportation</span>
-          <span></span> </a>
-
-        
-        <a class="sect-topics-1" href="indo-notes/indo-vocab/">
-          <span></span><span><b>Vocabulary Review</b>AB Conversation + 400 Word/ Phrases</span>
-          <span></span> </a>
-
-        <a class="sect-topics-1" href="indo-notes/indo-grammar-2/">
-          <span></span><span><b>Grammar</b>Affixes + Intransative Verbs + Prefixes + Negation for Verbs/ Nouns</span>
-          <span></span> </a>
-
-      </div>
-    </div>
-
-    <!--- Chinese notes --->
-
-    <div class="sect-img" id="bi-3">
-      <div></div>
-    </div>
-    <div class="sect-name" id="bn-3">
-      <h1>Chinese<br>notes 2025</h1>
-      <h2>Writing and Listening</h2>
-    </div>
-    <div class="sect-subsect" id="bl-3">
-    </div>
-    <div class="sect-topics" id="bs-3">
-      <div class="sect-topics-0">
-
-        <!-- 60 Days of Chinese Dropdown -->
-        <div class="dropdown" data-section="chinese" data-dropdown="60-days">
-          <div class="dropdown-header">
-            <span>60 Days of Chinese</span>
-            <span class="dropdown-arrow">▼</span>
-          </div>
-          <div class="dropdown-content">
-            <a class="sect-topics-1" href="zh-60/zh-day1/">
-              <span></span><span><b>Day 1</b>Basic greetings and introductions</span>
-              <span></span>
-            </a>
-          </div>
-          <div class="dropdown-content">
-            <a class="sect-topics-1" href="zh-60/zh-day1-7/">
-              <span></span><span><b>Day 1-7</b>Flashcards: greetings, thanks, numbers</span>
-              <span></span>
-            </a>
-          </div>
-        </div>
-
-        <a class="sect-topics-1" href="zh-notes/zh-numbers/">
-          <span></span><span><b>Chinese Numbers</b>Writing + Listening</span>
-          <span></span> </a>
-          <a class="sect-topics-1" href="zh-notes/zh-numbers-flash/">
-          <span></span><span><b>Chinese Numbers Flashcards</b>Listening + Memorization</span>
-          <span></span> </a>
-          <a class="sect-topics-1" href="zh-notes/zh-alphabet/">
-          <span></span><span><b>Chinese Alphabet</b>Writing + Listening</span>
-          <span></span> </a>
-          <a class="sect-topics-1" href="zh-notes/zh-dates/">
-          <span></span><span><b>Chinese Dates</b>Writing + Listening</span>
-          <span></span> </a>
-          <a class="sect-topics-1" href="zh-notes/zh-greetings/">
-          <span></span><span><b>Chinese Greetings</b>Writing + Listening</span>
-          <span></span> </a>
-          <a class="sect-topics-1" href="zh-notes/zh-phrases/">
-          <span></span><span><b>Chinese Basic Phrases</b>Writing + Listening</span>
-          <span></span> </a>
-          <a class="sect-topics-1" href="zh-notes/zh-phrases-2/">
-          <span></span><span><b>Chinese Phrases: I am ...</b>Writing + Listening</span>
-          <span></span> </a>
-           <a class="sect-topics-1" href="zh-notes/zh-phrases-3/">
-          <span></span><span><b>Chinese Phrases: Family, hobbies, and actions</b>Writing + Listening</span>
-          <span></span> </a>
-          <a class="sect-topics-1" href="zh-notes/zh-days-months/">
-          <span></span><span><b>Chinese Days, Months, and Dates</b>Writing + Listening</span>
-          <span></span> </a>
-          <a class="sect-topics-1" href="zh-notes/zh-particles/">
-          <span></span><span><b>Chinese Particles</b>Writing + Listening</span>
-          <span></span> </a>
-           <a class="sect-topics-1" href="zh-notes/zh-who/">
-          <span></span><span><b>Who</b>Writing + Listening</span>
-          <span></span> </a>
-           <a class="sect-topics-1" href="zh-notes/zh-what/">
-          <span></span><span><b>What</b>Writing + Listening</span>
-          <span></span> </a>
-           <a class="sect-topics-1" href="zh-notes/zh-why/">
-          <span></span><span><b>Why</b>Writing + Listening</span>
-          <span></span> </a>
-           <a class="sect-topics-1" href="zh-notes/zh-when/">
-          <span></span><span><b>When</b>Writing + Listening</span>
-          <span></span> </a>
-           <a class="sect-topics-1" href="zh-notes/zh-where/">
-          <span></span><span><b>Where</b>Writing + Listening</span>
-          <span></span> </a>
-           <a class="sect-topics-1" href="zh-notes/zh-how/">
-          <span></span><span><b>How</b>Writing + Listening</span>
-          <span></span> </a>
-      </div>
-    </div>
-
-    <!--- Thai notes --->
-
-    <div class="sect-img" id="bi-4">
-      <div></div>
-    </div>
-    <div class="sect-name" id="bn-4">
-      <h1>thai<br>notes 2025</h1>
-      <h2>Basics and intermediate level + reading + writing + listening</h2>
-    </div>
-    <div class="sect-subsect" id="bl-4">
-    </div>
-    <div class="sect-topics" id="bs-4">
-      <div class="sect-topics-0">
-
-        <!-- 60 Days of Thai Dropdown -->
-        <div class="dropdown" data-section="thai" data-dropdown="60-days">
-          <div class="dropdown-header">
-            <span>60 Days of Thai</span>
-            <span class="dropdown-arrow">▼</span>
-          </div>
-          <div class="dropdown-content">
-            <a class="sect-topics-1" href="thai-60/thai-day1/">
-              <span></span><span><b>Day 1</b>Basic greetings and introductions</span>
-              <span></span>
-            </a>
-          </div>
-          <div class="dropdown-content">
-            <a class="sect-topics-1" href="thai-60/thai-day1-7/">
-              <span></span><span><b>Day 1-7</b>Flash cards greetings, politness, numbers, and basics</span>
-              <span></span>
-            </a>
-          </div>
-        </div>
-
-        <a class="sect-topics-1" href="th-notes/th-alphabet/">
-          <span></span><span><b>Thai Alphabet</b>Writing + Listening</span>
-          <span></span> </a>
-          <a class="sect-topics-1" href="th-notes/th-simple-words/">
-          <span></span><span><b>Thai Simple Words</b>Writing + Listening</span>
-          <span></span> </a>
-          <a class="sect-topics-1" href="th-notes/th-simple-words-flashcards/">
-          <span></span><span><b>Thai Simple Words Flashcards</b>Listening + Memorization</span>
-          <span></span> </a>
-
-        <a class="sect-topics-1" href="th-notes/th-numbers/">
-          <span></span><span><b>Thai Numbers</b>Writing + Listening</span>
-          <span></span> </a>
-
-        <a class="sect-topics-1" href="th-notes/th-greetings/">
-          <span></span><span><b>Basic Greetings</b> Listening</span>
-          <span></span> </a>
-
-        <a class="sect-topics-1" href="th-notes/th-greetings-AB/">
-          <span></span><span><b>Basic Greetings</b>AB conversations + Listening</span>
-          <span></span> </a>
-
-        <a class="sect-topics-1" href="thai-notes/th-verbs/">
-          <span></span><span><b>Common Verbs</b>Flashcards + Listening</span>
-          <span></span> </a>
-
-        <a class="sect-topics-1" href="thai-notes/thai-tone-marks/">
-          <span></span><span><b>Tone Marks</b>Pronunciation + Listening</span>
-          <span></span> </a>
-
-        <a class="sect-topics-1" href="thai-notes/thai-food-vocab/">
-          <span></span><span><b>Food Vocabulary</b>Common dishes + Ordering</span>
-          <span></span> </a>
-
-        <a class="sect-topics-1" href="thai-notes/thai-travel-phrases/">
-          <span></span><span><b>Travel Phrases</b>Directions + Transportation</span>
-          <span></span> </a>
-
-        <a class="sect-topics-1" href="thai-notes/thai-grammar-basics/">
-          <span></span><span><b>Grammar Basics</b>Sentence structure + Particles</span>
-          <span></span> </a>
-
-      </div>
-    </div>
-
-   <!--- Spanish notes --->
-
-<div class="sect-img" id="bi-5">
-  <div></div>
-</div>
-<div class="sect-name" id="bn-5">
-  <h1>spanish<br>notes 2025</h1>
-  <h2>Reading and Listening</h2>
-</div>
-<div class="sect-subsect" id="bl-5">
-</div>
-<div class="sect-topics" id="bs-5">
-  <div class="sect-topics-0">
-
-    <!-- 60 Days of Spanish Dropdown -->
-    <div class="dropdown" data-section="spanish" data-dropdown="60-days">
-      <div class="dropdown-header">
-        <span>60 Days of Spanish</span>
-        <span class="dropdown-arrow">▼</span>
-      </div>
-      <div class="dropdown-content">
-        <a class="sect-topics-1" href="sp-60/sp-day1/">
-          <span></span><span><b>Day 1</b>Basic greetings and introductions</span>
-          <span></span>
-        </a>
-      </div>
-      <div class="dropdown-content">
-        <a class="sect-topics-1" href="sp-60/sp-day1/">
-          <span></span><span><b>Day 1-7</b>Flash cards: Basic greetings and introductions</span>
-          <span></span>
-        </a>
-      </div>
-    </div>
-
-    <!-- Section 1: Introduction to Spanish -->
-    <div class="dropdown" data-section="spanish" data-dropdown="introduction">
-      <div class="dropdown-header">
-        <span>Introduction to Spanish</span>
-        <span class="dropdown-arrow">▼</span>
-      </div>
-      <div class="dropdown-content">
-        <a class="sect-topics-1" href="sp-notes/sp-greetings/">
-          <span></span><span><b>Basic Greetings</b>Writing + Listening + Common Phrases</span>
-          <span></span>
-        </a>
-        <a class="sect-topics-1" href="sp-notes/sp-introductions/">
-          <span></span><span><b>Self Introductions</b>Writing + Listening</span>
-          <span></span>
-        </a>
-        <a class="sect-topics-1" href="sp-notes/sp-numbers/">
-          <span></span><span><b>Spanish Numbers</b>Writing + Listening</span>
-          <span></span>
-        </a>
-        <a class="sect-topics-1" href="sp-notes/sp-fanboys/">
-          <span></span><span><b>FANBOYS</b>Writing + Listening + Preposition and Adverbs</span>
-          <span></span>
-        </a>
-        
-        <a class="sect-topics-1" href="sp-notes/fanboys-quiz/">
-          <span></span><span><b>FANBOYS Quiz</b>Listening + Preposition and Adverbs</span>
-          <span></span>
-        </a>
-        <a class="sect-topics-1" href="sp-notes/sp-numbers/">
-          <span></span><span><b>Adverbs</b>Writing + Listening + If, Then, Also, From, Of, With, To, In, On, Each</span>
-          <span></span>
-        </a>
-        <a class="sect-topics-1" href="sp-notes/sp-common-phrases/">
-          <span></span><span><b>Common Phrases and Pronouns</b>Writing + Listening</span>
-          <span></span>
-        </a>
-        <a class="sect-topics-1" href="sp-notes/sp-common-phrases/">
-          <span></span><span><b>Months, days, years</b>Writing + Listening</span>
-          <span></span>
-        </a>
-        <a class="sect-topics-1" href="sp-notes/sp-common-phrases/">
-          <span></span><span><b>Time words and times</b>Writing + Listening</span>
-          <span></span>
-        </a>
-        <a class="sect-topics-1" href="sp-notes/sp-common-phrases/">
-          <span></span><span><b>Number placement</b>Writing + Listening + 1st, 2nd, 3rd</span>
-          <span></span>
-        </a>
-         <a class="sect-topics-1" href="sp-notes/sp-common-phrases/">
-          <span></span><span><b>Spanish Definite and Indefinites</b>Writing + Listening</span>
-          <span></span>
-          </a>
-        <a class="sect-topics-1" href="sp-notes/sp-common-phrases/">
-          <span></span><span><b>Ser Flashcards</b>Listening + Rules of Ser</span>
-          <!-- name, nationality, birthplace, occupation, pyhisical traits, generatizations (it is important to work), when and where events are taking place, time and dates (it's one PM)-->
-          <span></span>
-        </a>
-        <a class="sect-topics-1" href="sp-notes/sp-common-phrases/">
-          <span></span><span><b>Estar Flashcards</b>Listening + I/He/You am/is/are [action] + Present Progressive + Locations (spatial relationship) + health, COnditions, and Emotions</span>
-          <span></span>
-        </a>
-      </div>
-    </div>
-
-    <!-- Section 2: Present Tense -->
-    <div class="dropdown" data-section="spanish" data-dropdown="present-tense">
-      <div class="dropdown-header">
-        <span>Present Tense</span>
-        <span class="dropdown-arrow">▼</span>
-      </div>
-      <div class="dropdown-content">
-        <a class="sect-topics-1" href="sp-notes/sp-present-ar-verbs/">
-          <span></span><span><b>Regular -AR Verbs</b>Writing + Listening + Conjugations</span>
-          <span></span>
-        </a>
-        <a class="sect-topics-1" href="sp-notes/sp-present-er-verbs/">
-          <span></span><span><b>Regular -ER Verbs</b>Writing + Listening + Conjugations</span>
-          <span></span>
-        </a>
-        <a class="sect-topics-1" href="sp-notes/sp-present-ir-verbs/">
-          <span></span><span><b>Regular -IR Verbs</b>Writing + Listening + Conjugations</span>
-          <span></span>
-        </a>
-        <a class="sect-topics-1" href="sp-notes/sp-irregular-verbs/">
-          <span></span><span><b>Irregular Verbs</b>Writing + Listening + Ser, Estar, Tener</span>
-          <span></span>
-        </a>
-        <a class="sect-topics-1" href="sp-notes/sp-stem-changing-verbs/">
-          <span></span><span><b>Stem-Changing Verbs</b>Writing + Listening + e→ie, o→ue, e→i</span>
-          <span></span>
-        </a>
-        <a class="sect-topics-1" href="sp-notes/sp-present-progressive/">
-          <span></span><span><b>Present Progressive</b>Writing + Listening + Gerund Forms</span>
-          <span></span>
-        </a>
-      </div>
-    </div>
-
-    <!-- Section 3: Question Words -->
-    <div class="dropdown" data-section="spanish" data-dropdown="question-words">
-      <div class="dropdown-header">
-        <span>Question Words</span>
-        <span class="dropdown-arrow">▼</span>
-      </div>
-      <div class="dropdown-content">
-        <a class="sect-topics-1" href="sp-notes/sp-quien/">
-          <span></span><span><b>¿Quién? (Who)</b>Writing + Listening</span>
-          <span></span>
-        </a>
-        <a class="sect-topics-1" href="sp-notes/sp-que/">
-          <span></span><span><b>¿Qué? (What)</b>Writing + Listening</span>
-          <span></span>
-        </a>
-        <a class="sect-topics-1" href="sp-notes/sp-porque/">
-          <span></span><span><b>¿Por qué? (Why)</b>Writing + Listening</span>
-          <span></span>
-        </a>
-        <a class="sect-topics-1" href="sp-notes/sp-cuando/">
-          <span></span><span><b>¿Cuándo? (When)</b>Writing + Listening</span>
-          <span></span>
-        </a>
-        <a class="sect-topics-1" href="sp-notes/sp-donde/">
-          <span></span><span><b>¿Dónde? (Where)</b>Writing + Listening</span>
-          <span></span>
-        </a>
-        <a class="sect-topics-1" href="sp-notes/sp-donde/">
-          <span></span><span><b>¿cuál? (Which)</b>Writing + Listening</span>
-          <span></span>
-        </a>
-        <a class="sect-topics-1" href="sp-notes/sp-como/">
-          <span></span><span><b>¿Cómo? / cuanto(s)/a(s) (How)</b>Writing + Listening + How much/many</span>
-          <span></span>
-        </a>
-      </div>
-    </div>
-
-
-
-    <div class="dropdown" data-section="spanish" data-dropdown="AB-verb-sentences">
-      <div class="dropdown-header">
-        <span>AB conversation </span>
-        <span class="dropdown-arrow">▼</span>
-      </div>
-      <div class="dropdown-content">
-        <a class="sect-topics-1" href="sp-notes/sp-quien/">
-          <span></span><span><b>Verb Conjugation in Simple Conversation</b>Writing + Listening</span>
-          <span></span>
-        </a>
-        
-      </div>
-    </div>
-
-  </div>
-</div>
-
-    <!--- Russian notes --->
-
-<div class="sect-img" id="bi-6">
-  <div></div>
-</div>
-<div class="sect-name" id="bn-6">
-  <h1>russian<br>notes 2025</h1>
-  <h2>Basics and intermediate level + reading + writing + listening</h2>
-</div>
-<div class="sect-subsect" id="bl-6">
-</div>
-<div class="sect-topics" id="bs-6">
-  <div class="sect-topics-0">
-
-    <!-- 60 Days of Russian Dropdown -->
-    <div class="dropdown" data-section="russian" data-dropdown="60-days">
-      <div class="dropdown-header">
-        <span>60 Days of Russian</span>
-        <span class="dropdown-arrow">▼</span>
-      </div>
-      <div class="dropdown-content">
-        <a class="sect-topics-1" href="ru-60/ru-day1/">
-          <span></span><span><b>Day 1</b>Basic greetings and introductions</span>
-          <span></span>
-        </a>
-      </div>
-    </div>
-
-    <!-- Add Russian learning content here -->
-    <a class="sect-topics-1" href="ru-notes/ru-alphabet/">
-      <span></span><span><b>Russian Alphabet (Cyrillic)</b>Writing + Listening</span>
-      <span></span>
-    </a>
-    <a class="sect-topics-1" href="#">
-      <span></span><span><b>Russian Numbers</b>Writing + Listening</span>
-      <span></span>
-    </a>
-    <a class="sect-topics-1" href="#">
-      <span></span><span><b>Basic Greetings</b>Writing + Listening</span>
-      <span></span>
-    </a>
-    <a class="sect-topics-1" href="#">
-      <span></span><span><b>Russian Grammar Basics</b>Cases + Verb Conjugations</span>
-      <span></span>
-    </a>
-
-  </div>
-</div>
-
-    <!--- C++ notes --->
-
-    <div class="sect-img" id="bi-7">
-      <div></div>
-    </div>
-    <div class="sect-name" id="bn-7">
-      <h1>cpp notes<br>coming soon</h1>
-    </div>
-    <div class="sect-subsect" id="bl-7">
-    </div>
-    <div class="sect-topics" id="bs-7">
-      <div class="sect-topics-0">
-        <!-- 60 Days of C++ Dropdown -->
-        <div class="dropdown" data-section="cpp" data-dropdown="60-days">
-          <div class="dropdown-header">
-            <span>60 Days of C++</span>
-            <span class="dropdown-arrow">▼</span>
-          </div>
-          <div class="dropdown-content">
-            <a class="sect-topics-1" href="#">
-              <span></span><span><b>Day 1</b>Introduction to C++ and Hello World</span>
-              <span></span>
-            </a>
-          </div>
-        </div>
-        <!-- C++ topics will go here -->
-      </div>
-    </div>
-
-    <!--- Python notes --->
-
-    <div class="sect-img" id="bi-8">
-      <div></div>
-    </div>
-    <div class="sect-name" id="bn-8">
-      <h1>python<br>notes 2025</h1>
-      <h2>coming soon</h2>
-    </div>
-    <div class="sect-subsect" id="bl-8">
-    </div>
-    <div class="sect-topics" id="bs-8">
-      <div class="sect-topics-0">
-        <!-- 60 Days of Python Dropdown -->
-        <div class="dropdown" data-section="python" data-dropdown="60-days">
-          <div class="dropdown-header">
-            <span>60 Days of Python</span>
-            <span class="dropdown-arrow">▼</span>
-          </div>
-          <div class="dropdown-content">
-            <a class="sect-topics-1" href="#">
-              <span></span><span><b>Day 1</b>Introduction to Python and Hello World</span>
-              <span></span>
-            </a>
-          </div>
-        </div>
-        <!-- Python topics will go here -->
-      </div>
-    </div>
-
-  </div> <!-- sect-->
- 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Comforter&family=Damion&family=Dawning+of+a+New+Day&family=Open+Sans:wght@400;700;800&display=swap"
-    rel="stylesheet">
-  
-  <script>
-    // JavaScript to handle dropdown functionality and tracking
-    document.addEventListener('DOMContentLoaded', function() {
-      const dropdowns = document.querySelectorAll('.dropdown');
-      const sectionTabs = document.querySelectorAll('input[name="sect-tabs"]');
+    function updateFolderState(language, folderTitle, isOpen) {
+      const state = getSavedState();
       
-      // Get stored state from localStorage
-      const storedState = JSON.parse(localStorage.getItem('dropdownState') || '{}');
-      const lastActiveSection = storedState.lastActiveSection || 'korean';
-      const lastActiveDropdowns = storedState.lastActiveDropdowns || {};
+      if (!state.openFolders[language]) {
+        state.openFolders[language] = [];
+      }
       
-      // Initialize dropdowns
-      dropdowns.forEach(dropdown => {
-        const header = dropdown.querySelector('.dropdown-header');
-        const section = dropdown.getAttribute('data-section');
-        const dropdownId = dropdown.getAttribute('data-dropdown');
+      if (isOpen) {
+        // Add to open folders if not already present
+        if (!state.openFolders[language].includes(folderTitle)) {
+          state.openFolders[language].push(folderTitle);
+        }
+      } else {
+        // Remove from open folders
+        state.openFolders[language] = state.openFolders[language].filter(
+          title => title !== folderTitle
+        );
+      }
+      
+      saveState(state.language, state.openFolders);
+    }
+
+    function displayNotes(language) {
+      const bgOverlay = document.getElementById('bg-overlay');
+      bgOverlay.style.backgroundImage = bgImages[language] || 'none';
+
+      const contentArea = document.getElementById('content-area');
+      contentArea.innerHTML = '';
+
+      // Get saved state
+      const state = getSavedState();
+      const openFolders = state.openFolders[language] || [];
+
+      noteData[language].forEach((folder) => {
+        const container = document.createElement('div');
+        container.className = 'folder-container';
         
-        // Restore previously open dropdown state
-        if (lastActiveDropdowns[section] === dropdownId) {
-          dropdown.classList.add('active');
+        // Check if this folder should be open based on saved state
+        if (openFolders.includes(folder.title)) {
+          container.classList.add('active');
         }
         
-        header.addEventListener('click', function() {
-          const isActive = dropdown.classList.contains('active');
-          
-          // Close all dropdowns in the same section
-          dropdowns.forEach(otherDropdown => {
-            if (otherDropdown.getAttribute('data-section') === section && otherDropdown !== dropdown) {
-              otherDropdown.classList.remove('active');
-            }
-          });
-          
-          // Toggle current dropdown
-          dropdown.classList.toggle('active');
-          
-          // Store the state
-          if (dropdown.classList.contains('active')) {
-            lastActiveDropdowns[section] = dropdownId;
-          } else {
-            delete lastActiveDropdowns[section];
-          }
-          
-          // Save to localStorage
-          localStorage.setItem('dropdownState', JSON.stringify({
-            lastActiveSection: lastActiveSection,
-            lastActiveDropdowns: lastActiveDropdowns
-          }));
+        const header = document.createElement('div');
+        header.className = 'folder-header';
+        header.innerHTML = `<span>${folder.icon}</span> &nbsp; ${folder.title}`;
+        
+        const list = document.createElement('div');
+        list.className = 'subfile-list';
+        
+        folder.links.forEach(link => {
+          const a = document.createElement('a');
+          a.href = link.url;
+          a.className = 'subfile-link';
+          a.innerHTML = `✨ ${link.name}`;
+          list.appendChild(a);
         });
-      });
-      
-      // Track section changes
-      sectionTabs.forEach(tab => {
-        tab.addEventListener('change', function() {
-          if (this.checked) {
-            const sectionNumber = this.id.split('-').pop();
-            let sectionName = '';
-            
-            // Map section number to section name
-            switch(sectionNumber) {
-              case '1': sectionName = 'korean'; break;
-              case '2': sectionName = 'indonesian'; break;
-              case '3': sectionName = 'chinese'; break;
-              case '4': sectionName = 'thai'; break;
-              case '5': sectionName = 'spanish'; break;
-              case '6': sectionName = 'russian'; break;
-              case '7': sectionName = 'cpp'; break;
-              case '8': sectionName = 'python'; break;
-            }
-            
-            // Update stored state
-            const storedState = JSON.parse(localStorage.getItem('dropdownState') || '{}');
-            storedState.lastActiveSection = sectionName;
-            localStorage.setItem('dropdownState', JSON.stringify(storedState));
-          }
-        });
-      });
-      
-      // Restore last active section on page load
-      if (storedState.lastActiveSection) {
-        const sectionMap = {
-          'korean': 'sect-tab-1',
-          'indonesian': 'sect-tab-2',
-          'chinese': 'sect-tab-3',
-          'thai': 'sect-tab-4',
-          'spanish': 'sect-tab-5',
-          'russian': 'sect-tab-6',
-          'cpp': 'sect-tab-7',
-          'python': 'sect-tab-8'
+
+        header.onclick = () => {
+          const isNowActive = container.classList.toggle('active');
+          updateFolderState(language, folder.title, isNowActive);
         };
-        
-        const tabId = sectionMap[storedState.lastActiveSection];
-        if (tabId) {
-          document.getElementById(tabId).checked = true;
-        }
+
+        container.appendChild(header);
+        container.appendChild(list);
+        contentArea.appendChild(container);
+      });
+
+      // Save the current language
+      const currentState = getSavedState();
+      saveState(language, currentState.openFolders);
+    }
+
+    // Restore state on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      const state = getSavedState();
+      
+      if (state.language) {
+        // Wait a moment for the page to fully load before displaying
+        setTimeout(() => {
+          displayNotes(state.language);
+          
+          // If we have folders to open, we need to ensure they're expanded
+          // This happens automatically because displayNotes checks the state
+        }, 100);
       }
     });
-  </script>
+    </script>
 </body>
 </html>

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Korean Greetings, Self-Introduction & Polite Expressions</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+    <title>Chinese Grammar Essentials</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://js.puter.com/v2/"></script>
     <style>
-        /* All existing CSS remains the same */
         * {
             margin: 0;
             padding: 0;
@@ -23,12 +23,12 @@
             flex-direction: column;
         }
 
-       .main {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 100px 20px 20px; /* Increased top padding for fixed header */
-    flex-grow: 1;
-}
+        .main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-grow: 1;
+        }
 
         .header {
             text-align: center;
@@ -41,7 +41,8 @@
             font-size: 2.8rem;
             font-weight: 600;
             margin-bottom: 10px;
-            color: #3498db;
+            color: #e74c3c;
+            font-family: 'Quicksand', sans-serif;
         }
 
         .header p {
@@ -49,17 +50,30 @@
             color: #7f8c8d;
         }
 
-        .header-nav-container {
+        /* Updated Sticky Nav Container */
+        .sticky-nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 15px 20px;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
             gap: 20px;
         }
 
         .back-button {
-            background: #3498db;
+            background: #e74c3c;
             color: white;
             padding: 12px 24px;
             text-decoration: none;
@@ -75,167 +89,91 @@
         }
 
         .back-button:hover {
-            background: #2980b9;
+            background: #c0392b;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
         }
 
-      /* Add new dropdown styles */
-.dropdown-container {
-    position: relative;
-    display: inline-block;
-    margin-left: auto;
-}
+        /* Updated Dropdown Menu */
+        .menu-toggle {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
 
-.dropdown-toggle {
-    background: #3498db;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 25px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    white-space: nowrap;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e0e0e0;
-}
+        .menu-toggle:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+        }
 
-.dropdown-toggle:hover {
-    background: #2980b9;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
-}
+        .menu-toggle.active {
+            background: #c0392b;
+        }
 
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: white;
-    min-width: 200px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border-radius: 10px;
-    z-index: 1001;
-    margin-top: 5px;
-    overflow: hidden;
-    border: 1px solid #e0e0e0;
-}
+        /* Hidden Navbar */
+        #navbar {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 0 0 15px 15px;
+            padding: 20px;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 999;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
 
-.dropdown-menu.active {
-    display: block;
-    animation: slideDown 0.3s ease;
-}
+        #navbar.active {
+            display: flex;
+            animation: slideDown 0.3s ease;
+        }
 
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+        #navbar a {
+            background: white;
+            color: #e74c3c;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            text-align: center;
+        }
 
-.dropdown-item {
-    display: block;
-    padding: 12px 20px;
-    color: #333;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    border-bottom: 1px solid #f0f0f0;
-}
+        #navbar a:hover, #navbar a.active {
+            background: #e74c3c;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+        }
 
-.dropdown-item:last-child {
-    border-bottom: none;
-}
-
-.dropdown-item:hover {
-    background: #f5f7fa;
-    color: #3498db;
-    padding-left: 25px;
-}
-
-.dropdown-item.active {
-    background: #3498db;
-    color: white;
-}
-
-/* Update sticky nav container */
-.sticky-nav-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Hide the original navbar */
-#navbar {
-    display: none;
-}
-
-/* Update nav-content for new layout */
-.nav-content {
-    max-width: 1200px;
-    width: 100%;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-}
-
-@media (max-width: 768px) {
-    .sticky-nav-container {
-        padding: 10px 15px;
-    }
-    
-    .dropdown-toggle {
-        padding: 10px 18px;
-        font-size: 0.9rem;
-    }
-    
-    .dropdown-menu {
-        min-width: 180px;
-        right: 10px;
-    }
-    
-    .dropdown-item {
-        padding: 10px 16px;
-        font-size: 0.9rem;
-    }
-    
-    .main {
-        padding: 90px 15px 15px;
-    }
-}
-
-@media (max-width: 480px) {
-    .dropdown-toggle span:last-child {
-        display: none; /* Hide "Sections" text on very small screens */
-    }
-    
-    .dropdown-toggle {
-        padding: 8px 12px;
-        border-radius: 50%;
-        width: 44px;
-        height: 44px;
-        justify-content: center;
-    }
-}
-
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
         .tts-controls {
             display: flex;
@@ -296,7 +234,7 @@
             color: #2c3e50;
             font-size: 1.8rem;
             margin: 60px 0 30px 0;
-            font-family: 'Noto Serif KR', serif;
+            font-family: 'Quicksand', sans-serif;
         }
 
         /* Practice Dialogue Section */
@@ -314,7 +252,7 @@
             color: #e74c3c;
             font-size: 1.6rem;
             margin-bottom: 25px;
-            font-family: 'Noto Serif KR', serif;
+            font-family: 'Quicksand', sans-serif;
         }
 
         .dialogue-container {
@@ -329,7 +267,7 @@
             padding: 15px;
             background: #f8f9fa;
             border-radius: 10px;
-            border-left: 4px solid #3498db;
+            border-left: 4px solid #e74c3c;
         }
 
         .dialogue-line.role-b {
@@ -347,7 +285,7 @@
         }
 
         .role-a {
-            background: #3498db;
+            background: #e74c3c;
         }
 
         .role-b {
@@ -358,16 +296,17 @@
             flex: 1;
         }
 
-        .korean-dialogue {
+        .chinese-dialogue {
             font-size: 1.4rem;
-            font-family: 'Noto Serif KR', serif;
+            font-family: 'Quicksand', sans-serif;
             color: #2c3e50;
             margin-bottom: 5px;
             cursor: pointer;
             transition: color 0.3s ease;
+            font-weight: 600;
         }
 
-        .korean-dialogue:hover {
+        .chinese-dialogue:hover {
             color: #e74c3c;
         }
 
@@ -411,11 +350,11 @@
             grid-column: 1 / -1;
         }
 
-        #basic-grid, #time-grid, #introduction-grid, #polite-grid {
+        #svo-grid, #negation-grid, #measure-words-grid {
             grid-template-columns: repeat(2, 1fr);
         }
 
-        #conversation-grid {
+        #questions-grid, #word-order-grid, #shi-you-grid {
             grid-template-columns: 1fr;
         }
 
@@ -484,22 +423,22 @@
             min-height: 180px;
         }
 
-        .korean-text {
+        .chinese-text {
             font-size: 2.2rem;
             font-weight: bold;
-            color: #3498db;
+            color: #e74c3c;
             cursor: pointer;
             transition: all 0.3s ease;
             user-select: none;
             margin-bottom: 10px;
-            font-family: 'Noto Serif KR', serif;
+            font-family: 'Quicksand', sans-serif;
             line-height: 1.2;
             word-break: keep-all;
             overflow-wrap: break-word;
         }
 
-        .korean-text:hover {
-            color: #e74c3c;
+        .chinese-text:hover {
+            color: #9b59b6;
             transform: scale(1.05);
         }
 
@@ -510,7 +449,7 @@
         }
 
         /* Conversation cards specific styling */
-        .conversation-card .korean-text {
+        .conversation-card .chinese-text {
             font-size: 1.8rem;
             line-height: 1.4;
         }
@@ -582,7 +521,7 @@
             align-items: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 3px solid #3498db;
+            border: 3px solid #e74c3c;
             position: relative;
             overflow: hidden;
         }
@@ -612,9 +551,9 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .flashcard-korean {
+        .flashcard-chinese {
             font-size: 3rem;
-            font-family: 'Noto Serif KR', serif;
+            font-family: 'Quicksand', sans-serif;
             color: #2c3e50;
             margin-bottom: 20px;
             font-weight: bold;
@@ -622,12 +561,12 @@
 
         .flashcard-english {
             font-size: 2.5rem;
-            color: #3498db;
+            color: #e74c3c;
             margin-bottom: 15px;
             font-weight: 600;
         }
 
-        .flashcard-romanized {
+        .flashcard-pronunciation {
             font-size: 1.2rem;
             color: #7f8c8d;
             font-style: italic;
@@ -659,7 +598,7 @@
         }
 
         .flashcard-button {
-            background: #3498db;
+            background: #e74c3c;
             color: white;
             border: none;
             padding: 12px 24px;
@@ -675,7 +614,7 @@
 
         .flashcard-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
         }
 
         .flashcard-button.speech {
@@ -703,11 +642,11 @@
         }
 
         .flashcard-button.next {
-            background: #e74c3c;
+            background: #3498db;
         }
 
         .flashcard-button.next:hover {
-            background: #c0392b;
+            background: #2980b9;
         }
 
         .flashcard-button.settings {
@@ -748,9 +687,9 @@
         }
 
         .mode-option.active {
-            background: #3498db;
+            background: #e74c3c;
             color: white;
-            border-color: #3498db;
+            border-color: #e74c3c;
         }
 
         .mode-option:hover {
@@ -802,12 +741,12 @@
             .cards {
                 grid-template-columns: repeat(3, 1fr);
             }
-            
-            #basic-grid, #time-grid, #introduction-grid, #polite-grid {
+
+            #svo-grid, #negation-grid, #measure-words-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
-            #conversation-grid {
+
+            #questions-grid, #word-order-grid, #shi-you-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -816,31 +755,31 @@
             .cards {
                 grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             }
-            
-            #basic-grid, #time-grid, #introduction-grid, #polite-grid {
+
+            #svo-grid, #negation-grid, #measure-words-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .card {
                 height: 450px;
             }
-            
+
             .sketch {
                 height: 230px;
             }
-            
+
             .practice-section {
                 padding: 20px;
             }
-            
-            .korean-dialogue {
+
+            .chinese-dialogue {
                 font-size: 1.2rem;
             }
-            
-            .flashcard-korean {
+
+            .flashcard-chinese {
                 font-size: 2.5rem;
             }
-            
+
             .flashcard-english {
                 font-size: 2rem;
             }
@@ -854,74 +793,54 @@
             .cards {
                 grid-template-columns: 1fr;
             }
-            
-            #basic-grid, #time-grid, #introduction-grid, #polite-grid {
+
+            #svo-grid, #negation-grid, #measure-words-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .card {
                 height: 420px;
             }
-            
+
             .sketch {
                 height: 200px;
-            }
-
-            .header-nav-container {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .back-button {
-                align-self: flex-start;
-                margin-bottom: 10px;
-            }
-            
-            #navbar {
-                width: 100%;
-                justify-content: center;
-            }
-
-            #navbar a {
-                padding: 10px 18px;
-                font-size: 0.9rem;
             }
 
             .tts-controls {
                 flex-direction: column;
             }
-            
-            .korean-text {
+
+            .chinese-text {
                 font-size: 1.8rem;
             }
-            
+
             .dialogue-line {
                 flex-direction: column;
                 gap: 10px;
             }
-            
+
             .role-label {
                 margin-right: 0;
                 align-self: flex-start;
             }
-            
+
             .flashcard-controls {
                 flex-direction: column;
             }
-            
+
             .flashcard-button {
                 width: 100%;
                 justify-content: center;
             }
-            
+
             .flashcard-nav {
                 width: 100%;
             }
-            
-            .flashcard-korean {
+
+            .flashcard-chinese {
                 font-size: 2.2rem;
             }
-            
+
             .flashcard-english {
                 font-size: 1.8rem;
             }
@@ -932,43 +851,39 @@
                 padding: 10px;
             }
 
-            #navbar {
-                padding: 10px;
-            }
-
             .header h1 {
                 font-size: 2rem;
             }
-            
+
             .card {
                 height: 400px;
             }
-            
+
             .sketch {
                 height: 180px;
             }
-            
-            .korean-text {
+
+            .chinese-text {
                 font-size: 1.6rem;
             }
-            
+
             .practice-title {
                 font-size: 1.4rem;
             }
-            
-            .korean-dialogue {
+
+            .chinese-dialogue {
                 font-size: 1.1rem;
             }
-            
+
             .flashcard {
                 padding: 20px;
                 min-height: 250px;
             }
-            
-            .flashcard-korean {
+
+            .flashcard-chinese {
                 font-size: 1.8rem;
             }
-            
+
             .flashcard-english {
                 font-size: 1.5rem;
             }
@@ -978,365 +893,380 @@
 <body>
     <div class="main">
         <div class="header">
-            <h1><br>Korean Greetings, Self-Introduction & Polite Expressions</h1>
-            <p>Learn essential Korean greetings, self-introduction phrases, and polite expressions</p>
+            <h1><br>Chinese Grammar Essentials</h1>
+            <p>Master essential Chinese grammar concepts and sentence structures</p>
             <p>Draw in the white canvas area to practice writing</p>
-            <p>Click on Korean text to hear pronunciation</p>
+            <p>Click on Chinese text to hear pronunciation</p>
         </div>
-        
-       <div class="sticky-nav-container">
-    <div class="nav-content">
-        <a href="../../index.html" class="back-button">← Back to Main</a>
-        
-        <!-- Dropdown Menu -->
-        <div class="dropdown-container">
-            <button class="dropdown-toggle" id="dropdownToggle">
-                <span>📚</span>
-                <span>Sections</span>
-            </button>
-            <div class="dropdown-menu" id="dropdownMenu">
-                <a href="#basic" class="dropdown-item active" data-section="basic">Basic Greetings</a>
-                <a href="#time" class="dropdown-item" data-section="time">Time-based Greetings</a>
-                <a href="#introduction" class="dropdown-item" data-section="introduction">Self-Introduction</a>
-                <a href="#polite" class="dropdown-item" data-section="polite">Polite Expressions</a>
-                <a href="#conversation" class="dropdown-item" data-section="conversation">Conversation Practice</a>
-                <a href="#flashcards" class="dropdown-item" data-section="flashcards">Flashcards</a>
+
+        <!-- Updated Navigation with Dropdown -->
+        <div class="sticky-nav-container">
+            <div class="nav-content">
+                <a href="../../index.html" class="back-button">← Back to Main</a>
+                <div class="nav-controls">
+                    <button class="menu-toggle" id="menu-toggle">
+                        📚 Show Menu
+                    </button>
+                    <nav id="navbar">
+                        <a class="active" href="#svo">SVO Structure</a>
+                        <a href="#questions">Yes/No Questions</a>
+                        <a href="#negation">Negation</a>
+                        <a href="#measure-words">Measure Words</a>
+                        <a href="#word-order">Time & Place</a>
+                        <a href="#shi-you">是 vs 有</a>
+                        <a href="#flashcards">Flashcards</a>
+                    </nav>
+                </div>
             </div>
         </div>
-        
-        <!-- Original hidden navbar (keep for compatibility) -->
-        <nav id="navbar" style="display: none;">
-            <a class="active" href="#basic">Basic Greetings</a>
-            <a href="#time">Time-based Greetings</a>
-            <a href="#introduction">Self-Introduction</a>
-            <a href="#polite">Polite Expressions</a>
-            <a href="#conversation">Conversation Practice</a>
-            <a href="#flashcards">Flashcards</a>
-        </nav>
-    </div>
-</div>
-        
+
         <div id="status" class="status">Ready to convert text to speech</div>
-        <p class="tts-info">Click on any Korean text to hear its pronunciation</p>
-        
-        <section id="basic">
-            <h2 class="section-title">Basic Greetings<br/>기본 인사</h2>
-            <ul class="cards" id="basic-grid"></ul>
-            
-            <!-- Practice Dialogue for Basic Greetings -->
+        <p class="tts-info">Click on any Chinese text to hear its pronunciation</p>
+
+        <section id="svo">
+            <h2 class="section-title">Basic Sentence Structure (SVO)<br/>基本句子结构</h2>
+            <ul class="cards" id="svo-grid"></ul>
+
+            <!-- Practice Dialogue for SVO -->
             <div class="practice-section">
-                <h3 class="practice-title">Practice Dialogue: Basic Greetings<br/>기본 인사 대화 연습</h3>
+                <h3 class="practice-title">Practice Dialogue: SVO Structure<br/>练习对话：主谓宾结构</h3>
                 <div class="dialogue-container">
                     <div class="dialogue-line">
                         <div class="role-label role-a">A:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="안녕하세요!">안녕하세요!</div>
-                            <div class="dialogue-translation">Hello! (formal)</div>
+                            <div class="chinese-dialogue" data-chinese="我喜欢学习汉语。">我喜欢学习汉语。</div>
+                            <div class="dialogue-translation">I like studying Chinese. (Subject: I, Verb: like, Object: studying Chinese)</div>
                         </div>
                     </div>
                     <div class="dialogue-line role-b">
                         <div class="role-label role-b">B:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="안녕하세요! 만나서 반갑습니다.">안녕하세요! 만나서 반갑습니다.</div>
-                            <div class="dialogue-translation">Hello! Nice to meet you.</div>
+                            <div class="chinese-dialogue" data-chinese="他喝咖啡。">他喝咖啡。</div>
+                            <div class="dialogue-translation">He drinks coffee. (Subject: he, Verb: drinks, Object: coffee)</div>
                         </div>
                     </div>
                     <div class="dialogue-line">
                         <div class="role-label role-a">A:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="저는 김민수입니다. 이름이 뭐예요?">저는 김민수입니다. 이름이 뭐예요?</div>
-                            <div class="dialogue-translation">I'm Kim Minsu. What's your name?</div>
+                            <div class="chinese-dialogue" data-chinese="我们看这本书。">我们看这本书。</div>
+                            <div class="dialogue-translation">We read this book. (Subject: we, Verb: read, Object: this book)</div>
                         </div>
                     </div>
                     <div class="dialogue-line role-b">
                         <div class="role-label role-b">B:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="제 이름은 이지은입니다. 반갑습니다.">제 이름은 이지은입니다. 반갑습니다.</div>
-                            <div class="dialogue-translation">My name is Lee Jieun. Nice to meet you.</div>
-                        </div>
-                    </div>
-                    <div class="dialogue-line">
-                        <div class="role-label role-a">A:</div>
-                        <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="안녕히 가세요!">안녕히 가세요!</div>
-                            <div class="dialogue-translation">Goodbye! (to someone leaving)</div>
-                        </div>
-                    </div>
-                    <div class="dialogue-line role-b">
-                        <div class="role-label role-b">B:</div>
-                        <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="안녕히 계세요!">안녕히 계세요!</div>
-                            <div class="dialogue-translation">Goodbye! (to someone staying)</div>
+                            <div class="chinese-dialogue" data-chinese="她吃苹果。">她吃苹果。</div>
+                            <div class="dialogue-translation">She eats an apple. (Subject: she, Verb: eats, Object: an apple)</div>
                         </div>
                     </div>
                 </div>
-                <button class="play-dialogue-button" data-dialogue="basic">▶ Play Dialogue</button>
+                <button class="play-dialogue-button" data-dialogue="svo">▶ Play Dialogue</button>
             </div>
         </section>
 
-        <section id="time">
-            <h2 class="section-title">Time-based Greetings<br/>시간별 인사</h2>
-            <ul class="cards" id="time-grid"></ul>
-            
-            <!-- Practice Dialogue for Time-based Greetings -->
+        <section id="questions">
+            <h2 class="section-title">Yes/No Questions with 吗<br/>用"吗"的疑问句</h2>
+            <ul class="cards" id="questions-grid"></ul>
+
+            <!-- Practice Dialogue for Questions -->
             <div class="practice-section">
-                <h3 class="practice-title">Practice Dialogue: Time-based Greetings<br/>시간별 인사 대화 연습</h3>
+                <h3 class="practice-title">Practice Dialogue: Yes/No Questions<br/>练习对话：是非疑问句</h3>
                 <div class="dialogue-container">
                     <div class="dialogue-line">
                         <div class="role-label role-a">A:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="좋은 아침!">좋은 아침!</div>
-                            <div class="dialogue-translation">Good morning! (informal)</div>
+                            <div class="chinese-dialogue" data-chinese="你是学生吗？">你是学生吗？</div>
+                            <div class="dialogue-translation">Are you a student? (Add 吗 to make it a question)</div>
                         </div>
                     </div>
                     <div class="dialogue-line role-b">
                         <div class="role-label role-b">B:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="안녕히 주무셨어요?">안녕히 주무셨어요?</div>
-                            <div class="dialogue-translation">Did you sleep well? (formal)</div>
+                            <div class="chinese-dialogue" data-chinese="是，我是学生。">是，我是学生。</div>
+                            <div class="dialogue-translation">Yes, I am a student.</div>
                         </div>
                     </div>
                     <div class="dialogue-line">
                         <div class="role-label role-a">A:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="네, 잘 잤어요. 좋은 오후 보내세요!">네, 잘 잤어요. 좋은 오후 보내세요!</div>
-                            <div class="dialogue-translation">Yes, I slept well. Have a good afternoon!</div>
+                            <div class="chinese-dialogue" data-chinese="你喜欢汉语吗？">你喜欢汉语吗？</div>
+                            <div class="dialogue-translation">Do you like Chinese?</div>
                         </div>
                     </div>
                     <div class="dialogue-line role-b">
                         <div class="role-label role-b">B:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="좋은 저녁 되세요!">좋은 저녁 되세요!</div>
-                            <div class="dialogue-translation">Have a good evening!</div>
+                            <div class="chinese-dialogue" data-chinese="喜欢，汉语很有意思。">喜欢，汉语很有意思。</div>
+                            <div class="dialogue-translation">Yes, Chinese is very interesting.</div>
                         </div>
                     </div>
                     <div class="dialogue-line">
                         <div class="role-label role-a">A:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="잘 자, 내일 봐!">잘 자, 내일 봐!</div>
-                            <div class="dialogue-translation">Good night, see you tomorrow! (informal)</div>
+                            <div class="chinese-dialogue" data-chinese="你有哥哥吗？">你有哥哥吗？</div>
+                            <div class="dialogue-translation">Do you have an older brother?</div>
                         </div>
                     </div>
                     <div class="dialogue-line role-b">
                         <div class="role-label role-b">B:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="안녕히 주무세요!">안녕히 주무세요!</div>
-                            <div class="dialogue-translation">Good night! (formal)</div>
+                            <div class="chinese-dialogue" data-chinese="没有，我有一个妹妹。">没有，我有一个妹妹。</div>
+                            <div class="dialogue-translation">No, I have a younger sister.</div>
                         </div>
                     </div>
                 </div>
-                <button class="play-dialogue-button" data-dialogue="time">▶ Play Dialogue</button>
+                <button class="play-dialogue-button" data-dialogue="questions">▶ Play Dialogue</button>
             </div>
         </section>
 
-        <section id="introduction">
-            <h2 class="section-title">Self-Introduction<br/>자기소개</h2>
-            <ul class="cards" id="introduction-grid"></ul>
-            
-            <!-- Practice Dialogue for Self-Introduction -->
+        <section id="negation">
+            <h2 class="section-title">Negation with 不 and 没<br/>用"不"和"没"的否定</h2>
+            <ul class="cards" id="negation-grid"></ul>
+
+            <!-- Practice Dialogue for Negation -->
             <div class="practice-section">
-                <h3 class="practice-title">Practice Dialogue: Self-Introduction<br/>자기소개 대화 연습</h3>
+                <h3 class="practice-title">Practice Dialogue: Negation<br/>练习对话：否定句</h3>
                 <div class="dialogue-container">
                     <div class="dialogue-line">
                         <div class="role-label role-a">A:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="안녕하세요, 저는 마이클입니다.">안녕하세요, 저는 마이클입니다.</div>
-                            <div class="dialogue-translation">Hello, I'm Michael.</div>
+                            <div class="chinese-dialogue" data-chinese="我不喜欢咖啡。">我不喜欢咖啡。</div>
+                            <div class="dialogue-translation">I don't like coffee. (Use 不 for present/future negation)</div>
                         </div>
                     </div>
                     <div class="dialogue-line role-b">
                         <div class="role-label role-b">B:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="만나서 반갑습니다, 마이클 씨. 저는 지현입니다.">만나서 반갑습니다, 마이클 씨. 저는 지현입니다.</div>
-                            <div class="dialogue-translation">Nice to meet you, Michael. I'm Jihyun.</div>
+                            <div class="chinese-dialogue" data-chinese="我没吃早饭。">我没吃早饭。</div>
+                            <div class="dialogue-translation">I didn't eat breakfast. (Use 没 for past negation)</div>
                         </div>
                     </div>
                     <div class="dialogue-line">
                         <div class="role-label role-a">A:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="저는 미국 사람입니다. 저는 스물다섯 살이에요.">저는 미국 사람입니다. 저는 스물다섯 살이에요.</div>
-                            <div class="dialogue-translation">I'm American. I'm 25 years old.</div>
+                            <div class="chinese-dialogue" data-chinese="他不是老师。">他不是老师。</div>
+                            <div class="dialogue-translation">He is not a teacher.</div>
                         </div>
                     </div>
                     <div class="dialogue-line role-b">
                         <div class="role-label role-b">B:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="저는 한국 사람이고, 선생님입니다. 취미는 음악 감상이에요.">저는 한국 사람이고, 선생님입니다. 취미는 음악 감상이에요.</div>
-                            <div class="dialogue-translation">I'm Korean and a teacher. My hobby is listening to music.</div>
+                            <div class="chinese-dialogue" data-chinese="我昨天没去学校。">我昨天没去学校。</div>
+                            <div class="dialogue-translation">I didn't go to school yesterday.</div>
                         </div>
                     </div>
                     <div class="dialogue-line">
                         <div class="role-label role-a">A:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="저는 회사원이고, 한국어를 배우고 있습니다.">저는 회사원이고, 한국어를 배우고 있습니다.</div>
-                            <div class="dialogue-translation">I'm an office worker and I'm learning Korean.</div>
+                            <div class="chinese-dialogue" data-chinese="明天我不工作。">明天我不工作。</div>
+                            <div class="dialogue-translation">I won't work tomorrow.</div>
                         </div>
                     </div>
                     <div class="dialogue-line role-b">
                         <div class="role-label role-b">B:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="한국어를 잘 하시네요!">한국어를 잘 하시네요!</div>
-                            <div class="dialogue-translation">You speak Korean well!</div>
+                            <div class="chinese-dialogue" data-chinese="我上星期没看到他。">我上星期没看到他。</div>
+                            <div class="dialogue-translation">I didn't see him last week.</div>
                         </div>
                     </div>
                 </div>
-                <button class="play-dialogue-button" data-dialogue="introduction">▶ Play Dialogue</button>
+                <button class="play-dialogue-button" data-dialogue="negation">▶ Play Dialogue</button>
             </div>
         </section>
 
-        <!-- New Polite Expressions Section -->
-        <section id="polite">
-            <h2 class="section-title">Polite Expressions<br/>예의 바른 표현</h2>
-            <ul class="cards" id="polite-grid"></ul>
-            
-            <!-- Practice Dialogue for Polite Expressions -->
+        <section id="measure-words">
+            <h2 class="section-title">Basic Measure Words (个, 本, 张)<br/>基本量词</h2>
+            <ul class="cards" id="measure-words-grid"></ul>
+
+            <!-- Practice Dialogue for Measure Words -->
             <div class="practice-section">
-                <h3 class="practice-title">Practice Dialogue: Polite Expressions<br/>예의 바른 표현 대화 연습</h3>
+                <h3 class="practice-title">Practice Dialogue: Measure Words<br/>练习对话：量词</h3>
                 <div class="dialogue-container">
                     <div class="dialogue-line">
                         <div class="role-label role-a">A:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="도와주셔서 감사합니다.">도와주셔서 감사합니다.</div>
-                            <div class="dialogue-translation">Thank you for helping me.</div>
+                            <div class="chinese-dialogue" data-chinese="我有一个苹果。">我有一个苹果。</div>
+                            <div class="dialogue-translation">I have an apple. (个 for general objects)</div>
                         </div>
                     </div>
                     <div class="dialogue-line role-b">
                         <div class="role-label role-b">B:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="천만에요. 별일 아니에요.">천만에요. 별일 아니에요.</div>
-                            <div class="dialogue-translation">You're welcome. It's nothing.</div>
+                            <div class="chinese-dialogue" data-chinese="我有三本书。">我有三本书。</div>
+                            <div class="dialogue-translation">I have three books. (本 for books)</div>
                         </div>
                     </div>
                     <div class="dialogue-line">
                         <div class="role-label role-a">A:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="실례합니다, 지금 몇 시예요?">실례합니다, 지금 몇 시예요?</div>
-                            <div class="dialogue-translation">Excuse me, what time is it?</div>
+                            <div class="chinese-dialogue" data-chinese="桌子上有两张纸。">桌子上有两张纸。</div>
+                            <div class="dialogue-translation">There are two pieces of paper on the table. (张 for flat objects)</div>
                         </div>
                     </div>
                     <div class="dialogue-line role-b">
                         <div class="role-label role-b">B:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="지금은 세 시예요.">지금은 세 시예요.</div>
-                            <div class="dialogue-translation">It's three o'clock.</div>
+                            <div class="chinese-dialogue" data-chinese="我需要买五个本子。">我需要买五个本子。</div>
+                            <div class="dialogue-translation">I need to buy five notebooks. (个 for notebooks)</div>
                         </div>
                     </div>
                     <div class="dialogue-line">
                         <div class="role-label role-a">A:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="알려주셔서 고맙습니다.">알려주셔서 고맙습니다.</div>
-                            <div class="dialogue-translation">Thank you for letting me know.</div>
+                            <div class="chinese-dialogue" data-chinese="请给我一张地图。">请给我一张地图。</div>
+                            <div class="dialogue-translation">Please give me a map. (张 for maps)</div>
                         </div>
                     </div>
                     <div class="dialogue-line role-b">
                         <div class="role-label role-b">B:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="아니에요. 괜찮아요.">아니에요. 괜찮아요.</div>
-                            <div class="dialogue-translation">You're welcome. It's okay.</div>
+                            <div class="chinese-dialogue" data-chinese="我读了那本书。">我读了那本书。</div>
+                            <div class="dialogue-translation">I read that book. (本 for that book)</div>
                         </div>
                     </div>
                 </div>
-                <button class="play-dialogue-button" data-dialogue="polite">▶ Play Dialogue</button>
+                <button class="play-dialogue-button" data-dialogue="measure">▶ Play Dialogue</button>
             </div>
         </section>
 
-        <section id="conversation">
-            <h2 class="section-title">Conversation Practice<br/>대화 연습</h2>
-            <ul class="cards" id="conversation-grid"></ul>
-            
-            <!-- Practice Dialogue for Conversation Practice -->
+        <section id="word-order">
+            <h2 class="section-title">Word Order with Time & Place<br/>时间和地点的词序</h2>
+            <ul class="cards" id="word-order-grid"></ul>
+
+            <!-- Practice Dialogue for Word Order -->
             <div class="practice-section">
-                <h3 class="practice-title">Practice Dialogue: Full Conversation<br/>전체 대화 연습</h3>
+                <h3 class="practice-title">Practice Dialogue: Time & Place Word Order<br/>练习对话：时间和地点词序</h3>
                 <div class="dialogue-container">
                     <div class="dialogue-line">
                         <div class="role-label role-a">A:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="좋은 아침! 오늘 기분이 어때요?">좋은 아침! 오늘 기분이 어때요?</div>
-                            <div class="dialogue-translation">Good morning! How are you feeling today?</div>
+                            <div class="chinese-dialogue" data-chinese="我明天去北京。">我明天去北京。</div>
+                            <div class="dialogue-translation">I go to Beijing tomorrow. (Time + Verb + Place)</div>
                         </div>
                     </div>
                     <div class="dialogue-line role-b">
                         <div class="role-label role-b">B:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="안녕하세요! 네, 저는 기분이 좋아요. 이름이 뭐예요?">안녕하세요! 네, 저는 기분이 좋아요. 이름이 뭐예요?</div>
-                            <div class="dialogue-translation">Hello! Yes, I'm feeling good. What's your name?</div>
+                            <div class="chinese-dialogue" data-chinese="他今天在学校学习。">他今天在学校学习。</div>
+                            <div class="dialogue-translation">He studies at school today.</div>
                         </div>
                     </div>
                     <div class="dialogue-line">
                         <div class="role-label role-a">A:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="제 이름은 수지예요. 어디에서 왔어요?">제 이름은 수지예요. 어디에서 왔어요?</div>
-                            <div class="dialogue-translation">My name is Suji. Where are you from?</div>
+                            <div class="chinese-dialogue" data-chinese="我们晚上在餐厅吃饭。">我们晚上在餐厅吃饭。</div>
+                            <div class="dialogue-translation">We eat at the restaurant in the evening.</div>
                         </div>
                     </div>
                     <div class="dialogue-line role-b">
                         <div class="role-label role-b">B:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="저는 캐나다에서 왔어요. 한국어를 배우고 있어요.">저는 캐나다에서 왔어요. 한국어를 배우고 있어요.</div>
-                            <div class="dialogue-translation">I'm from Canada. I'm learning Korean.</div>
+                            <div class="chinese-dialogue" data-chinese="下星期我在图书馆看书。">下星期我在图书馆看书。</div>
+                            <div class="dialogue-translation">Next week I read books in the library.</div>
                         </div>
                     </div>
                     <div class="dialogue-line">
                         <div class="role-label role-a">A:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="한국어를 잘 하시네요! 무슨 일을 하세요?">한국어를 잘 하시네요! 무슨 일을 하세요?</div>
-                            <div class="dialogue-translation">You speak Korean well! What do you do?</div>
+                            <div class="chinese-dialogue" data-chinese="昨天我在家休息。">昨天我在家休息。</div>
+                            <div class="dialogue-translation">Yesterday I rested at home.</div>
                         </div>
                     </div>
                     <div class="dialogue-line role-b">
                         <div class="role-label role-b">B:</div>
                         <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="저는 학생이에요. 한국에서 공부하고 있어요.">저는 학생이에요. 한국에서 공부하고 있어요.</div>
-                            <div class="dialogue-translation">I'm a student. I'm studying in Korea.</div>
-                        </div>
-                    </div>
-                    <div class="dialogue-line">
-                        <div class="role-label role-a">A:</div>
-                        <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="아, 그렇군요! 좋은 오후 보내세요!">아, 그렇군요! 좋은 오후 보내세요!</div>
-                            <div class="dialogue-translation">Ah, I see! Have a good afternoon!</div>
-                        </div>
-                    </div>
-                    <div class="dialogue-line role-b">
-                        <div class="role-label role-b">B:</div>
-                        <div class="dialogue-content">
-                            <div class="korean-dialogue" data-korean="감사합니다! 안녕히 가세요!">감사합니다! 안녕히 가세요!</div>
-                            <div class="dialogue-translation">Thank you! Goodbye!</div>
+                            <div class="chinese-dialogue" data-chinese="明天下午我在办公室工作。">明天下午我在办公室工作。</div>
+                            <div class="dialogue-translation">Tomorrow afternoon I work in the office.</div>
                         </div>
                     </div>
                 </div>
-                <button class="play-dialogue-button" data-dialogue="full">▶ Play Dialogue</button>
+                <button class="play-dialogue-button" data-dialogue="word-order">▶ Play Dialogue</button>
+            </div>
+        </section>
+
+        <section id="shi-you">
+            <h2 class="section-title">是 vs 有<br/>"是"和"有"的区别</h2>
+            <ul class="cards" id="shi-you-grid"></ul>
+
+            <!-- Practice Dialogue for 是 vs 有 -->
+            <div class="practice-section">
+                <h3 class="practice-title">Practice Dialogue: 是 vs 有<br/>练习对话："是"和"有"的区别</h3>
+                <div class="dialogue-container">
+                    <div class="dialogue-line">
+                        <div class="role-label role-a">A:</div>
+                        <div class="dialogue-content">
+                            <div class="chinese-dialogue" data-chinese="我是老师。">我是老师。</div>
+                            <div class="dialogue-translation">I am a teacher. (是 for identity/occupation)</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line role-b">
+                        <div class="role-label role-b">B:</div>
+                        <div class="dialogue-content">
+                            <div class="chinese-dialogue" data-chinese="我有一个弟弟。">我有一个弟弟。</div>
+                            <div class="dialogue-translation">I have a younger brother. (有 for possession/relationships)</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line">
+                        <div class="role-label role-a">A:</div>
+                        <div class="dialogue-content">
+                            <div class="chinese-dialogue" data-chinese="这是书。">这是书。</div>
+                            <div class="dialogue-translation">This is a book. (是 for identification)</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line role-b">
+                        <div class="role-label role-b">B:</div>
+                        <div class="dialogue-content">
+                            <div class="chinese-dialogue" data-chinese="我有两本书。">我有两本书。</div>
+                            <div class="dialogue-translation">I have two books. (有 for possession)</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line">
+                        <div class="role-label role-a">A:</div>
+                        <div class="dialogue-content">
+                            <div class="chinese-dialogue" data-chinese="他是我的朋友。">他是我的朋友。</div>
+                            <div class="dialogue-translation">He is my friend. (是 for relationship type)</div>
+                        </div>
+                    </div>
+                    <div class="dialogue-line role-b">
+                        <div class="role-label role-b">B:</div>
+                        <div class="dialogue-content">
+                            <div class="chinese-dialogue" data-chinese="我有三个朋友。">我有三个朋友。</div>
+                            <div class="dialogue-translation">I have three friends. (有 for quantity of relationships)</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="play-dialogue-button" data-dialogue="shi-you">▶ Play Dialogue</button>
             </div>
         </section>
 
         <!-- Flashcard Section -->
         <section id="flashcards">
             <div class="flashcard-section">
-                <h2 class="section-title">Flashcards<br/>플래시카드</h2>
-                
+                <h2 class="section-title">Grammar Flashcards<br/>语法抽认卡</h2>
+
                 <div class="flashcard-mode-toggle">
                     <div class="mode-option active" data-mode="english-first">English First</div>
-                    <div class="mode-option" data-mode="korean-first">Korean First</div>
+                    <div class="mode-option" data-mode="chinese-first">Chinese First</div>
                 </div>
-                
+
                 <div class="flashcard-container">
                     <div class="flashcard" id="current-flashcard">
                         <div class="flashcard-front active">
-                            <div class="flashcard-english" id="flashcard-english">Hello (formal)</div>
-                            <div class="flashcard-instruction">Click to reveal Korean</div>
+                            <div class="flashcard-english" id="flashcard-english">Subject-Verb-Object structure</div>
+                            <div class="flashcard-instruction">Click to reveal Chinese</div>
                         </div>
                         <div class="flashcard-back">
-                            <div class="flashcard-korean" id="flashcard-korean">안녕하세요</div>
-                            <div class="flashcard-romanized" id="flashcard-romanized">annyeonghaseyo</div>
+                            <div class="flashcard-chinese" id="flashcard-chinese">主谓宾结构</div>
+                            <div class="flashcard-pronunciation" id="flashcard-pronunciation">zhǔ wèi bīn jié gòu</div>
                             <div class="flashcard-instruction">Click to go back</div>
                         </div>
                     </div>
-                    
-                    <div class="flashcard-counter" id="flashcard-counter">Card 1 of 33</div>
-                    
+
+                    <div class="flashcard-counter" id="flashcard-counter">Card 1 of 35</div>
+
                     <div class="flashcard-controls">
                         <button class="flashcard-button speech" id="speak-button">
-                            🔊 Speak Korean
+                            🔊 Speak Chinese
                         </button>
                         <button class="flashcard-button flip" id="flip-button">
                             🔄 Flip Card
@@ -1345,7 +1275,7 @@
                             ⚙️ Settings
                         </button>
                     </div>
-                    
+
                     <div class="flashcard-nav">
                         <button class="flashcard-button prev" id="prev-button">
                             ← Previous
@@ -1355,17 +1285,18 @@
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="flashcard-settings" id="flashcard-settings">
                     <div class="setting-row">
                         <span class="setting-label">Flashcard Set:</span>
                         <select class="setting-control" id="flashcard-set-selector">
-                            <option value="all">All Phrases (33 cards)</option>
-                            <option value="basic">Basic Greetings (7 cards)</option>
-                            <option value="time">Time-based Greetings (6 cards)</option>
-                            <option value="introduction">Self-Introduction (6 cards)</option>
-                            <option value="polite">Polite Expressions (8 cards)</option>
-                            <option value="conversation">Conversation (6 cards)</option>
+                            <option value="all">All Grammar Points (35 cards)</option>
+                            <option value="svo">SVO Structure (6 cards)</option>
+                            <option value="questions">Yes/No Questions (6 cards)</option>
+                            <option value="negation">Negation (6 cards)</option>
+                            <option value="measure">Measure Words (6 cards)</option>
+                            <option value="wordorder">Time & Place (6 cards)</option>
+                            <option value="shiyou">是 vs 有 (5 cards)</option>
                         </select>
                     </div>
                     <div class="setting-row">
@@ -1388,408 +1319,320 @@
     </div>
 
     <script>
-
-       // Dropdown functionality
-const dropdownToggle = document.getElementById('dropdownToggle');
-const dropdownMenu = document.getElementById('dropdownMenu');
-const dropdownItems = document.querySelectorAll('.dropdown-item');
-
-// Toggle dropdown visibility
-dropdownToggle.addEventListener('click', function(e) {
-    e.stopPropagation();
-    dropdownMenu.classList.toggle('active');
-});
-
-// Close dropdown when clicking outside
-document.addEventListener('click', function(e) {
-    if (!dropdownMenu.contains(e.target) && !dropdownToggle.contains(e.target)) {
-        dropdownMenu.classList.remove('active');
-    }
-});
-
-// Handle dropdown item clicks
-dropdownItems.forEach(item => {
-    item.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        const targetId = this.getAttribute('href').substring(1);
-        const targetElement = document.getElementById(targetId);
-        
-        if (targetElement) {
-            // Calculate scroll position (accounting for sticky header)
-            const stickyNavHeight = document.querySelector('.sticky-nav-container').offsetHeight;
-            const offsetTop = targetElement.offsetTop - stickyNavHeight - 20;
-            
-            // Smooth scroll to section
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-            });
-            
-            // Update active state
-            dropdownItems.forEach(i => i.classList.remove('active'));
-            this.classList.add('active');
-            
-            // Close dropdown on mobile
-            if (window.innerWidth <= 768) {
-                dropdownMenu.classList.remove('active');
-            }
-        }
-    });
-});
-
-// Update active section based on scroll position
-function updateActiveSection() {
-    const sections = document.querySelectorAll('section');
-    const dropdownItems = document.querySelectorAll('.dropdown-item');
-    const stickyNavHeight = document.querySelector('.sticky-nav-container').offsetHeight;
-    
-    let currentSection = '';
-    
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop - stickyNavHeight - 100;
-        const sectionBottom = sectionTop + section.offsetHeight;
-        
-        if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
-            currentSection = section.id;
-        }
-    });
-    
-    if (currentSection) {
-        dropdownItems.forEach(item => {
-            const itemSection = item.getAttribute('href').substring(1);
-            item.classList.toggle('active', itemSection === currentSection);
-        });
-    }
-}
-
-// Listen for scroll events
-window.addEventListener('scroll', updateActiveSection);
-
-// Initial call to set active section
-document.addEventListener('DOMContentLoaded', updateActiveSection);
-
-// Close dropdown on Escape key
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        dropdownMenu.classList.remove('active');
-    }
-});
-
-// Handle window resize
-window.addEventListener('resize', function() {
-    // Always close dropdown on resize
-    dropdownMenu.classList.remove('active');
-});
-
-// Keep for compatibility with existing code
-document.querySelectorAll('#navbar a').forEach(link => {
-    link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href').substring(1);
-        const targetElement = document.getElementById(targetId);
-        if (targetElement) {
-            const stickyNavHeight = document.querySelector('.sticky-nav-container').offsetHeight;
-            const offsetTop = targetElement.offsetTop - stickyNavHeight;
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-            });
-            document.querySelectorAll('#navbar a').forEach(a => a.classList.remove('active'));
-            this.classList.add('active');
-            
-            // Also update dropdown items
-            dropdownItems.forEach(item => {
-                item.classList.remove('active');
-                if (item.getAttribute('href') === this.getAttribute('href')) {
-                    item.classList.add('active');
-                }
-            });
-        }
-    });
-});
-
-        const koreanContent = {
-            basic: [
-                { 
-                    korean: '안녕하세요', 
-                    romanized: 'annyeonghaseyo', 
-                    meaning: 'Hello (formal)',
-                    usage: 'Most common greeting, used in formal situations',
-                    examples: 'When meeting someone for the first time'
+        const chineseContent = {
+            svo: [
+                {
+                    chinese: '主谓宾结构',
+                    pronunciation: 'zhǔ wèi bīn jié gòu',
+                    meaning: 'Subject-Verb-Object structure',
+                    usage: 'Basic Chinese sentence order',
+                    examples: '我吃饭 (I eat food)'
                 },
-                { 
-                    korean: '안녕', 
-                    romanized: 'annyeong', 
-                    meaning: 'Hello (informal)',
-                    usage: 'Used with friends, family, or people younger than you',
-                    examples: 'When greeting close friends'
+                {
+                    chinese: '我喜欢学习汉语',
+                    pronunciation: 'wǒ xǐ huān xué xí hàn yǔ',
+                    meaning: 'I like studying Chinese',
+                    usage: 'Subject: 我, Verb: 喜欢, Object: 学习汉语',
+                    examples: 'Standard SVO sentence'
                 },
-                { 
-                    korean: '만나서 반갑습니다', 
-                    romanized: 'mannaseo bangapseumnida', 
-                    meaning: 'Nice to meet you (VERY formal)',
-                    usage: 'When meeting someone for the first time',
-                    examples: 'After introductions'
+                {
+                    chinese: '他喝咖啡',
+                    pronunciation: 'tā hē kā fēi',
+                    meaning: 'He drinks coffee',
+                    usage: 'Subject: 他, Verb: 喝, Object: 咖啡',
+                    examples: 'Simple SVO example'
                 },
-                { 
-                    korean: '반갑습니다', 
-                    romanized: 'bangapseumnida', 
-                    meaning: 'Nice to meet you (formal, more common)',
-                    usage: 'When meeting someone for the first time',
-                    examples: 'After introductions'
+                {
+                    chinese: '我们看这本书',
+                    pronunciation: 'wǒ men kàn zhè běn shū',
+                    meaning: 'We read this book',
+                    usage: 'Subject: 我们, Verb: 看, Object: 这本书',
+                    examples: 'Plural subject with measure word'
                 },
-                { 
-                    korean: '만나서 반가워', 
-                    romanized: 'mannaseo bangawo', 
-                    meaning: 'Nice to meet you (informal)',
-                    usage: 'With friends or people younger than you',
-                    examples: 'Casual first meeting'
+                {
+                    chinese: '她吃苹果',
+                    pronunciation: 'tā chī píng guǒ',
+                    meaning: 'She eats an apple',
+                    usage: 'Subject: 她, Verb: 吃, Object: 苹果',
+                    examples: 'No measure word needed for some objects'
                 },
-                { 
-                    korean: '안녕히 가세요', 
-                    romanized: 'annyeonghi gaseyo', 
-                    meaning: 'Goodbye (to someone leaving)',
-                    usage: 'Said to the person who is leaving',
-                    examples: 'When someone is going home'
-                },
-                { 
-                    korean: '안녕히 계세요', 
-                    romanized: 'annyeonghi gyeseyo', 
-                    meaning: 'Goodbye (to someone staying)',
-                    usage: 'Said when you are leaving',
-                    examples: 'When you are leaving someone\'s place'
+                {
+                    chinese: '学生写作业',
+                    pronunciation: 'xué sheng xiě zuò yè',
+                    meaning: 'The student writes homework',
+                    usage: 'Subject: 学生, Verb: 写, Object: 作业',
+                    examples: 'Another SVO example'
                 }
             ],
-            time: [
-                { 
-                    korean: '좋은 아침', 
-                    romanized: 'joheun achim', 
-                    meaning: 'Good morning (informal)',
-                    usage: 'Used with friends and family',
-                    examples: 'Morning greeting to close people'
+            questions: [
+                {
+                    chinese: '你是学生吗？',
+                    pronunciation: 'nǐ shì xué sheng ma?',
+                    meaning: 'Are you a student?',
+                    usage: 'Add 吗 to make yes/no questions',
+                    examples: 'Statement: 你是学生 → Question: 你是学生吗？'
                 },
-                { 
-                    korean: '안녕히 주무셨어요?', 
-                    romanized: 'annyeonghi jumusyeosseoyo?', 
-                    meaning: 'Did you sleep well? (formal)',
-                    usage: 'Polite morning greeting',
-                    examples: 'Greeting elders in the morning'
+                {
+                    chinese: '你喜欢汉语吗？',
+                    pronunciation: 'nǐ xǐ huān hàn yǔ ma?',
+                    meaning: 'Do you like Chinese?',
+                    usage: '吗 goes at the end of the sentence',
+                    examples: 'Can be used with any verb'
                 },
-                { 
-                    korean: '좋은 오후', 
-                    romanized: 'joheun ohu', 
-                    meaning: 'Good afternoon',
-                    usage: 'General afternoon greeting',
-                    examples: 'Used from noon to early evening'
+                {
+                    chinese: '你有哥哥吗？',
+                    pronunciation: 'nǐ yǒu gē ge ma?',
+                    meaning: 'Do you have an older brother?',
+                    usage: 'Used with 有 (to have)',
+                    examples: 'Asking about family'
                 },
-                { 
-                    korean: '좋은 저녁', 
-                    romanized: 'joheun jeonyeok', 
-                    meaning: 'Good evening',
-                    usage: 'Evening greeting',
-                    examples: 'Used in the evening'
+                {
+                    chinese: '这是你的书吗？',
+                    pronunciation: 'zhè shì nǐ de shū ma?',
+                    meaning: 'Is this your book?',
+                    usage: 'Used with 是 (to be)',
+                    examples: 'Asking about possession'
                 },
-                { 
-                    korean: '잘 자', 
-                    romanized: 'jal ja', 
-                    meaning: 'Good night (informal)',
-                    usage: 'Said to friends or family before sleeping',
-                    examples: 'Bedtime greeting to close people'
+                {
+                    chinese: '他明天来吗？',
+                    pronunciation: 'tā míng tiān lái ma?',
+                    meaning: 'Will he come tomorrow?',
+                    usage: 'With time expressions',
+                    examples: 'Future tense questions'
                 },
-                { 
-                    korean: '안녕히 주무세요', 
-                    romanized: 'annyeonghi jumuseyo', 
-                    meaning: 'Good night (formal)',
-                    usage: 'Polite bedtime greeting',
-                    examples: 'Said to elders or in formal situations'
+                {
+                    chinese: '我们去公园吗？',
+                    pronunciation: 'wǒ men qù gōng yuán ma?',
+                    meaning: 'Shall we go to the park?',
+                    usage: 'Making suggestions',
+                    examples: 'Polite way to suggest activities'
                 }
             ],
-            introduction: [
-                { 
-                    korean: '제 이름은 [이름]입니다', 
-                    romanized: 'je ireumeun [ireum]imnida', 
-                    meaning: 'My name is [name] (formal)',
-                    usage: 'Formal self-introduction',
-                    examples: '제 이름은 민수입니다 (My name is Minsu)'
+            negation: [
+                {
+                    chinese: '不',
+                    pronunciation: 'bù',
+                    meaning: 'Not (for present/future)',
+                    usage: 'Used before verbs for present/future negation',
+                    examples: '我不去 (I am not going)'
                 },
-                { 
-                    korean: '저는 [나라] 사람입니다', 
-                    romanized: 'jeoneun [nara] saraminida', 
-                    meaning: 'I am from [country] (formal)',
-                    usage: 'Telling your nationality',
-                    examples: '저는 미국 사람입니다 (I am American)'
+                {
+                    chinese: '没',
+                    pronunciation: 'méi',
+                    meaning: 'Not (for past)',
+                    usage: 'Used before verbs for past negation',
+                    examples: '我没去 (I didn\'t go)'
                 },
-                { 
-                    korean: '저는 [나이] 살입니다', 
-                    romanized: 'jeoneun [nai] sarimnida', 
-                    meaning: 'I am [age] years old (formal)',
-                    usage: 'Telling your age formally',
-                    examples: '저는 스물다섯 살입니다 (I am 25 years old)'
+                {
+                    chinese: '我不喜欢咖啡',
+                    pronunciation: 'wǒ bù xǐ huān kā fēi',
+                    meaning: 'I don\'t like coffee',
+                    usage: '不 for present dislike',
+                    examples: 'General preference'
                 },
-                { 
-                    korean: '저는 [직업]입니다', 
-                    romanized: 'jeoneun [jigeob]imnida', 
-                    meaning: 'I am a [job] (formal)',
-                    usage: 'Telling your occupation',
-                    examples: '저는 선생님입니다 (I am a teacher)'
+                {
+                    chinese: '我没吃早饭',
+                    pronunciation: 'wǒ méi chī zǎo fàn',
+                    meaning: 'I didn\'t eat breakfast',
+                    usage: '没 for past action',
+                    examples: 'Specific past event'
                 },
-                { 
-                    korean: '취미는 [취미]입니다', 
-                    romanized: 'chwimineun [chwimi]imnida', 
-                    meaning: 'My hobby is [hobby] (formal)',
-                    usage: 'Talking about your interests',
-                    examples: '취미는 독서입니다 (My hobby is reading)'
+                {
+                    chinese: '他不是老师',
+                    pronunciation: 'tā bù shì lǎo shī',
+                    meaning: 'He is not a teacher',
+                    usage: '不 with 是 (to be)',
+                    examples: 'Present identity negation'
                 },
-                { 
-                    korean: '한국어를 배우고 있습니다', 
-                    romanized: 'hangugeoreul baeugo itseumnida', 
-                    meaning: 'I am learning Korean (formal)',
-                    usage: 'Explaining your language studies',
-                    examples: 'Useful for language exchange'
+                {
+                    chinese: '我昨天没去学校',
+                    pronunciation: 'wǒ zuó tiān méi qù xué xiào',
+                    meaning: 'I didn\'t go to school yesterday',
+                    usage: '没 with time expression',
+                    examples: 'Past action with specific time'
                 }
             ],
-            polite: [
-                { 
-                    korean: '감사합니다', 
-                    romanized: 'gamsahamnida', 
-                    meaning: 'Thank you (formal)',
-                    usage: 'Most common way to say thank you',
-                    examples: 'When someone helps you or gives you something'
+            measure: [
+                {
+                    chinese: '个',
+                    pronunciation: 'gè',
+                    meaning: 'General measure word',
+                    usage: 'Used for general objects, people',
+                    examples: '一个人 (one person), 一个苹果 (one apple)'
                 },
-                { 
-                    korean: '고맙습니다', 
-                    romanized: 'gomapseumnida', 
-                    meaning: 'Thank you (formal, slightly less formal)',
-                    usage: 'Another way to say thank you politely',
-                    examples: 'In most polite situations'
+                {
+                    chinese: '本',
+                    pronunciation: 'běn',
+                    meaning: 'Measure word for books',
+                    usage: 'Used specifically for books, magazines',
+                    examples: '一本书 (one book), 三本杂志 (three magazines)'
                 },
-                { 
-                    korean: '고마워', 
-                    romanized: 'gomawo', 
-                    meaning: 'Thank you (informal)',
-                    usage: 'With friends, family, or people younger than you',
-                    examples: 'When thanking close friends'
+                {
+                    chinese: '张',
+                    pronunciation: 'zhāng',
+                    meaning: 'Measure word for flat objects',
+                    usage: 'Used for paper, maps, tickets, tables',
+                    examples: '一张纸 (one piece of paper), 两张票 (two tickets)'
                 },
-                { 
-                    korean: '천만에요', 
-                    romanized: 'cheonmaneyo', 
-                    meaning: 'You\'re welcome (formal)',
-                    usage: 'Direct response to thank you',
-                    examples: 'When someone says 감사합니다'
+                {
+                    chinese: '我有一个苹果',
+                    pronunciation: 'wǒ yǒu yī gè píng guǒ',
+                    meaning: 'I have an apple',
+                    usage: '个 for fruits',
+                    examples: 'Countable objects'
                 },
-                { 
-                    korean: '아니에요', 
-                    romanized: 'anieyo', 
-                    meaning: 'You\'re welcome / No problem (formal, more common)',
-                    usage: 'More commonly used than 천만에요',
-                    examples: 'When someone thanks you'
+                {
+                    chinese: '我有三本书',
+                    pronunciation: 'wǒ yǒu sān běn shū',
+                    meaning: 'I have three books',
+                    usage: '本 for books',
+                    examples: 'Always use with numbers'
                 },
-                { 
-                    korean: '별말씀을요', 
-                    romanized: 'byeolmalsseumeullyo', 
-                    meaning: 'You\'re welcome (very polite)',
-                    usage: 'Very humble and polite response',
-                    examples: 'In very formal situations'
-                },
-                { 
-                    korean: '괜찮아요', 
-                    romanized: 'gwaenchanayo', 
-                    meaning: 'It\'s okay / You\'re welcome (informal)',
-                    usage: 'Casual response to thank you or sorry',
-                    examples: 'With friends or people you know well'
-                },
-                { 
-                    korean: '미안합니다', 
-                    romanized: 'mianhamnida', 
-                    meaning: 'I\'m sorry (formal)',
-                    usage: 'Formal apology',
-                    examples: 'When you make a mistake or inconvenience someone'
+                {
+                    chinese: '桌子上有两张纸',
+                    pronunciation: 'zhuō zi shàng yǒu liǎng zhāng zhǐ',
+                    meaning: 'There are two pieces of paper on the table',
+                    usage: '张 for paper',
+                    examples: 'Flat, thin objects'
                 }
             ],
-            conversation: [
-                { 
-                    korean: 'A: 안녕하세요? B: 네, 안녕하세요!', 
-                    romanized: 'A: annyeonghaseyo? B: ne, annyeonghaseyo!', 
-                    meaning: 'A: Hello? B: Yes, hello!',
-                    context: 'Basic greeting exchange'
+            wordorder: [
+                {
+                    chinese: '时间 + 主语 + 地点 + 动词',
+                    pronunciation: 'shí jiān + zhǔ yǔ + dì diǎn + dòng cí',
+                    meaning: 'Time + Subject + Place + Verb',
+                    usage: 'Standard word order for time and place',
+                    examples: '我明天在学校学习'
                 },
-                { 
-                    korean: 'A: 이름이 뭐예요? B: 제 이름은 수지예요.', 
-                    romanized: 'A: ireumi mwoyeyo? B: je ireumeun sujiyeyo.', 
-                    meaning: 'A: What is your name? B: My name is Suji.',
-                    context: 'Asking and telling names'
+                {
+                    chinese: '我明天去北京',
+                    pronunciation: 'wǒ míng tiān qù běi jīng',
+                    meaning: 'I go to Beijing tomorrow',
+                    usage: 'Time (明天) comes before verb',
+                    examples: 'Subject + Time + Verb + Place'
                 },
-                { 
-                    korean: 'A: 어디에서 왔어요? B: 미국에서 왔어요.', 
-                    romanized: 'A: eodieseo wasseoyo? B: migugeseo wasseoyo.', 
-                    meaning: 'A: Where are you from? B: I am from America.',
-                    context: 'Asking about origin'
+                {
+                    chinese: '他今天在学校学习',
+                    pronunciation: 'tā jīn tiān zài xué xiào xué xí',
+                    meaning: 'He studies at school today',
+                    usage: 'Time (今天) and place (在学校) positions',
+                    examples: 'Complete sentence structure'
                 },
-                { 
-                    korean: 'A: 무슨 일을 하세요? B: 저는 학생이에요.', 
-                    romanized: 'A: museun ireul haseyo? B: jeoneun haksaengieyo.', 
-                    meaning: 'A: What do you do? B: I am a student.',
-                    context: 'Asking about occupation'
+                {
+                    chinese: '我们晚上在餐厅吃饭',
+                    pronunciation: 'wǒ men wǎn shàng zài cān tīng chī fàn',
+                    meaning: 'We eat at the restaurant in the evening',
+                    usage: 'Multiple time and place elements',
+                    examples: 'Complex sentence example'
                 },
-                { 
-                    korean: 'A: 한국어를 잘 하시네요! B: 아니요, 조금밖에 못 해요.', 
-                    romanized: 'A: hangugeoreul jal hasineyo! B: aniyo, jogeumbakke mot haeyo.', 
-                    meaning: 'A: You speak Korean well! B: No, I can only speak a little.',
-                    context: 'Complimenting language skills'
+                {
+                    chinese: '下星期我在图书馆看书',
+                    pronunciation: 'xià xīng qī wǒ zài tú shū guǎn kàn shū',
+                    meaning: 'Next week I read books in the library',
+                    usage: 'Future time expression',
+                    examples: 'Planning future activities'
                 },
-                { 
-                    korean: 'A: 나중에 또 봐요! B: 네, 안녕히 가세요!', 
-                    romanized: 'A: najunge tto bwayo! B: ne, annyeonghi gaseyo!', 
-                    meaning: 'A: See you later! B: Yes, goodbye!',
-                    context: 'Ending a conversation'
+                {
+                    chinese: '昨天我在家休息',
+                    pronunciation: 'zuó tiān wǒ zài jiā xiū xi',
+                    meaning: 'Yesterday I rested at home',
+                    usage: 'Past time expression',
+                    examples: 'Describing past events'
+                }
+            ],
+            shiyou: [
+                {
+                    chinese: '是',
+                    pronunciation: 'shì',
+                    meaning: 'To be (identity, occupation)',
+                    usage: 'Used for identification, classification',
+                    examples: '我是学生 (I am a student)'
+                },
+                {
+                    chinese: '有',
+                    pronunciation: 'yǒu',
+                    meaning: 'To have (possession, existence)',
+                    usage: 'Used for possession, relationships, existence',
+                    examples: '我有书 (I have books)'
+                },
+                {
+                    chinese: '我是老师',
+                    pronunciation: 'wǒ shì lǎo shī',
+                    meaning: 'I am a teacher',
+                    usage: '是 for occupation',
+                    examples: 'Identity/role'
+                },
+                {
+                    chinese: '我有一个弟弟',
+                    pronunciation: 'wǒ yǒu yī gè dì di',
+                    meaning: 'I have a younger brother',
+                    usage: '有 for family relationships',
+                    examples: 'Possession/relationship'
+                },
+                {
+                    chinese: '这是书',
+                    pronunciation: 'zhè shì shū',
+                    meaning: 'This is a book',
+                    usage: '是 for identification',
+                    examples: 'Identifying objects'
+                },
+                {
+                    chinese: '我有两本书',
+                    pronunciation: 'wǒ yǒu liǎng běn shū',
+                    meaning: 'I have two books',
+                    usage: '有 for possession',
+                    examples: 'Owning objects'
                 }
             ]
         };
 
         // Practice dialogues data
         const practiceDialogues = {
-            basic: [
-                { speaker: 'A', korean: '안녕하세요!', translation: 'Hello! (formal)' },
-                { speaker: 'B', korean: '안녕하세요! 만나서 반갑습니다.', translation: 'Hello! Nice to meet you.' },
-                { speaker: 'A', korean: '저는 김민수입니다. 이름이 뭐예요?', translation: 'I\'m Kim Minsu. What\'s your name?' },
-                { speaker: 'B', korean: '제 이름은 이지은입니다. 반갑습니다.', translation: 'My name is Lee Jieun. Nice to meet you.' },
-                { speaker: 'A', korean: '안녕히 가세요!', translation: 'Goodbye! (to someone leaving)' },
-                { speaker: 'B', korean: '안녕히 계세요!', translation: 'Goodbye! (to someone staying)' }
+            svo: [
+                { speaker: 'A', chinese: '我喜欢学习汉语。', translation: 'I like studying Chinese. (Subject: I, Verb: like, Object: studying Chinese)' },
+                { speaker: 'B', chinese: '他喝咖啡。', translation: 'He drinks coffee. (Subject: he, Verb: drinks, Object: coffee)' },
+                { speaker: 'A', chinese: '我们看这本书。', translation: 'We read this book. (Subject: we, Verb: read, Object: this book)' },
+                { speaker: 'B', chinese: '她吃苹果。', translation: 'She eats an apple. (Subject: she, Verb: eats, Object: an apple)' }
             ],
-            time: [
-                { speaker: 'A', korean: '좋은 아침!', translation: 'Good morning! (informal)' },
-                { speaker: 'B', korean: '안녕히 주무셨어요?', translation: 'Did you sleep well? (formal)' },
-                { speaker: 'A', korean: '네, 잘 잤어요. 좋은 오후 보내세요!', translation: 'Yes, I slept well. Have a good afternoon!' },
-                { speaker: 'B', korean: '좋은 저녁 되세요!', translation: 'Have a good evening!' },
-                { speaker: 'A', korean: '잘 자, 내일 봐!', translation: 'Good night, see you tomorrow! (informal)' },
-                { speaker: 'B', korean: '안녕히 주무세요!', translation: 'Good night! (formal)' }
+            questions: [
+                { speaker: 'A', chinese: '你是学生吗？', translation: 'Are you a student? (Add 吗 to make it a question)' },
+                { speaker: 'B', chinese: '是，我是学生。', translation: 'Yes, I am a student.' },
+                { speaker: 'A', chinese: '你喜欢汉语吗？', translation: 'Do you like Chinese?' },
+                { speaker: 'B', chinese: '喜欢，汉语很有意思。', translation: 'Yes, Chinese is very interesting.' },
+                { speaker: 'A', chinese: '你有哥哥吗？', translation: 'Do you have an older brother?' },
+                { speaker: 'B', chinese: '没有，我有一个妹妹。', translation: 'No, I have a younger sister.' }
             ],
-            introduction: [
-                { speaker: 'A', korean: '안녕하세요, 저는 마이클입니다.', translation: 'Hello, I\'m Michael.' },
-                { speaker: 'B', korean: '만나서 반갑습니다, 마이클 씨. 저는 지현입니다.', translation: 'Nice to meet you, Michael. I\'m Jihyun.' },
-                { speaker: 'A', korean: '저는 미국 사람입니다. 저는 스물다섯 살이에요.', translation: 'I\'m American. I\'m 25 years old.' },
-                { speaker: 'B', korean: '저는 한국 사람이고, 선생님입니다. 취미는 음악 감상이에요.', translation: 'I\'m Korean and a teacher. My hobby is listening to music.' },
-                { speaker: 'A', korean: '저는 회사원이고, 한국어를 배우고 있습니다.', translation: 'I\'m an office worker and I\'m learning Korean.' },
-                { speaker: 'B', korean: '한국어를 잘 하시네요!', translation: 'You speak Korean well!' }
+            negation: [
+                { speaker: 'A', chinese: '我不喜欢咖啡。', translation: 'I don\'t like coffee. (Use 不 for present/future negation)' },
+                { speaker: 'B', chinese: '我没吃早饭。', translation: 'I didn\'t eat breakfast. (Use 没 for past negation)' },
+                { speaker: 'A', chinese: '他不是老师。', translation: 'He is not a teacher.' },
+                { speaker: 'B', chinese: '我昨天没去学校。', translation: 'I didn\'t go to school yesterday.' },
+                { speaker: 'A', chinese: '明天我不工作。', translation: 'I won\'t work tomorrow.' },
+                { speaker: 'B', chinese: '我上星期没看到他。', translation: 'I didn\'t see him last week.' }
             ],
-            polite: [
-                { speaker: 'A', korean: '도와주셔서 감사합니다.', translation: 'Thank you for helping me.' },
-                { speaker: 'B', korean: '천만에요. 별일 아니에요.', translation: 'You\'re welcome. It\'s nothing.' },
-                { speaker: 'A', korean: '실례합니다, 지금 몇 시예요?', translation: 'Excuse me, what time is it?' },
-                { speaker: 'B', korean: '지금은 세 시예요.', translation: 'It\'s three o\'clock.' },
-                { speaker: 'A', korean: '알려주셔서 고맙습니다.', translation: 'Thank you for letting me know.' },
-                { speaker: 'B', korean: '아니에요. 괜찮아요.', translation: 'You\'re welcome. It\'s okay.' }
+            measure: [
+                { speaker: 'A', chinese: '我有一个苹果。', translation: 'I have an apple. (个 for general objects)' },
+                { speaker: 'B', chinese: '我有三本书。', translation: 'I have three books. (本 for books)' },
+                { speaker: 'A', chinese: '桌子上有两张纸。', translation: 'There are two pieces of paper on the table. (张 for flat objects)' },
+                { speaker: 'B', chinese: '我需要买五个本子。', translation: 'I need to buy five notebooks. (个 for notebooks)' },
+                { speaker: 'A', chinese: '请给我一张地图。', translation: 'Please give me a map. (张 for maps)' },
+                { speaker: 'B', chinese: '我读了那本书。', translation: 'I read that book. (本 for that book)' }
             ],
-            full: [
-                { speaker: 'A', korean: '좋은 아침! 오늘 기분이 어때요?', translation: 'Good morning! How are you feeling today?' },
-                { speaker: 'B', korean: '안녕하세요! 네, 저는 기분이 좋아요. 이름이 뭐예요?', translation: 'Hello! Yes, I\'m feeling good. What\'s your name?' },
-                { speaker: 'A', korean: '제 이름은 수지예요. 어디에서 왔어요?', translation: 'My name is Suji. Where are you from?' },
-                { speaker: 'B', korean: '저는 캐나다에서 왔어요. 한국어를 배우고 있어요.', translation: 'I\'m from Canada. I\'m learning Korean.' },
-                { speaker: 'A', korean: '한국어를 잘 하시네요! 무슨 일을 하세요?', translation: 'You speak Korean well! What do you do?' },
-                { speaker: 'B', korean: '저는 학생이에요. 한국에서 공부하고 있어요.', translation: 'I\'m a student. I\'m studying in Korea.' },
-                { speaker: 'A', korean: '아, 그렇군요! 좋은 오후 보내세요!', translation: 'Ah, I see! Have a good afternoon!' },
-                { speaker: 'B', korean: '감사합니다! 안녕히 가세요!', translation: 'Thank you! Goodbye!' }
+            'word-order': [
+                { speaker: 'A', chinese: '我明天去北京。', translation: 'I go to Beijing tomorrow. (Time + Verb + Place)' },
+                { speaker: 'B', chinese: '他今天在学校学习。', translation: 'He studies at school today.' },
+                { speaker: 'A', chinese: '我们晚上在餐厅吃饭。', translation: 'We eat at the restaurant in the evening.' },
+                { speaker: 'B', chinese: '下星期我在图书馆看书。', translation: 'Next week I read books in the library.' },
+                { speaker: 'A', chinese: '昨天我在家休息。', translation: 'Yesterday I rested at home.' },
+                { speaker: 'B', chinese: '明天下午我在办公室工作。', translation: 'Tomorrow afternoon I work in the office.' }
+            ],
+            'shi-you': [
+                { speaker: 'A', chinese: '我是老师。', translation: 'I am a teacher. (是 for identity/occupation)' },
+                { speaker: 'B', chinese: '我有一个弟弟。', translation: 'I have a younger brother. (有 for possession/relationships)' },
+                { speaker: 'A', chinese: '这是书。', translation: 'This is a book. (是 for identification)' },
+                { speaker: 'B', chinese: '我有两本书。', translation: 'I have two books. (有 for possession)' },
+                { speaker: 'A', chinese: '他是我的朋友。', translation: 'He is my friend. (是 for relationship type)' },
+                { speaker: 'B', chinese: '我有三个朋友。', translation: 'I have three friends. (有 for quantity of relationships)' }
             ]
         };
 
@@ -1798,41 +1641,41 @@ document.querySelectorAll('#navbar a').forEach(link => {
             constructor() {
                 this.currentIndex = 0;
                 this.isFlipped = false;
-                this.mode = 'english-first'; // 'english-first' or 'korean-first'
+                this.mode = 'english-first'; // 'english-first' or 'chinese-first'
                 this.currentSet = 'all';
                 this.cards = this.getAllCards();
                 this.isShuffled = false;
                 this.autoSpeak = 'on-flip';
-                
+
                 this.initializeElements();
                 this.bindEvents();
                 this.displayCurrentCard();
             }
-            
+
             getAllCards() {
                 const allCards = [];
-                
-                Object.keys(koreanContent).forEach(section => {
-                    koreanContent[section].forEach(card => {
+
+                Object.keys(chineseContent).forEach(section => {
+                    chineseContent[section].forEach(card => {
                         allCards.push({
                             ...card,
                             section: section
                         });
                     });
                 });
-                
+
                 return allCards;
             }
-            
+
             getFilteredCards() {
                 if (this.currentSet === 'all') {
                     return this.isShuffled ? this.shuffleArray([...this.cards]) : [...this.cards];
                 }
-                
+
                 const filtered = this.cards.filter(card => card.section === this.currentSet);
                 return this.isShuffled ? this.shuffleArray([...filtered]) : [...filtered];
             }
-            
+
             shuffleArray(array) {
                 const shuffled = [...array];
                 for (let i = shuffled.length - 1; i > 0; i--) {
@@ -1841,31 +1684,31 @@ document.querySelectorAll('#navbar a').forEach(link => {
                 }
                 return shuffled;
             }
-            
+
             initializeElements() {
                 this.flashcardElement = document.getElementById('current-flashcard');
                 this.englishElement = document.getElementById('flashcard-english');
-                this.koreanElement = document.getElementById('flashcard-korean');
-                this.romanizedElement = document.getElementById('flashcard-romanized');
+                this.chineseElement = document.getElementById('flashcard-chinese');
+                this.pronunciationElement = document.getElementById('flashcard-pronunciation');
                 this.counterElement = document.getElementById('flashcard-counter');
                 this.settingsElement = document.getElementById('flashcard-settings');
-                
+
                 this.speakButton = document.getElementById('speak-button');
                 this.flipButton = document.getElementById('flip-button');
                 this.prevButton = document.getElementById('prev-button');
                 this.nextButton = document.getElementById('next-button');
                 this.settingsButton = document.getElementById('settings-button');
                 this.shuffleButton = document.getElementById('shuffle-button');
-                
+
                 this.setSelector = document.getElementById('flashcard-set-selector');
                 this.autoSpeakSelector = document.getElementById('auto-speak-selector');
                 this.modeOptions = document.querySelectorAll('.mode-option');
             }
-            
+
             bindEvents() {
                 // Flashcard click to flip
                 this.flashcardElement.addEventListener('click', () => this.flipCard());
-                
+
                 // Button events
                 this.speakButton.addEventListener('click', () => this.speakCurrentCard());
                 this.flipButton.addEventListener('click', () => this.flipCard());
@@ -1873,17 +1716,17 @@ document.querySelectorAll('#navbar a').forEach(link => {
                 this.nextButton.addEventListener('click', () => this.nextCard());
                 this.settingsButton.addEventListener('click', () => this.toggleSettings());
                 this.shuffleButton.addEventListener('click', () => this.shuffleCards());
-                
+
                 // Settings events
                 this.setSelector.addEventListener('change', (e) => this.changeSet(e.target.value));
                 this.autoSpeakSelector.addEventListener('change', (e) => this.changeAutoSpeak(e.target.value));
-                
+
                 // Mode toggle events
                 this.modeOptions.forEach(option => {
                     option.addEventListener('click', (e) => this.changeMode(e.target.dataset.mode));
                 });
             }
-            
+
             changeMode(newMode) {
                 this.mode = newMode;
                 this.modeOptions.forEach(option => {
@@ -1891,109 +1734,109 @@ document.querySelectorAll('#navbar a').forEach(link => {
                 });
                 this.displayCurrentCard();
             }
-            
+
             changeSet(setName) {
                 this.currentSet = setName;
                 this.currentIndex = 0;
                 this.isFlipped = false;
                 this.displayCurrentCard();
             }
-            
+
             changeAutoSpeak(setting) {
                 this.autoSpeak = setting;
             }
-            
+
             shuffleCards() {
                 this.isShuffled = true;
                 this.currentIndex = 0;
                 this.isFlipped = false;
                 this.displayCurrentCard();
-                
+
                 // Visual feedback for shuffle
                 this.shuffleButton.textContent = '✓ Shuffled!';
                 setTimeout(() => {
                     this.shuffleButton.textContent = '🔀 Shuffle Now';
                 }, 1000);
             }
-            
+
             toggleSettings() {
                 this.settingsElement.classList.toggle('active');
             }
-            
+
             getCurrentCard() {
                 const filteredCards = this.getFilteredCards();
                 return filteredCards[this.currentIndex];
             }
-            
+
             displayCurrentCard() {
                 const card = this.getCurrentCard();
                 if (!card) return;
-                
+
                 const filteredCards = this.getFilteredCards();
                 const total = filteredCards.length;
-                
+
                 // Update counter
                 this.counterElement.textContent = `Card ${this.currentIndex + 1} of ${total}`;
-                
+
                 // Reset flip state
                 this.isFlipped = false;
                 this.flashcardElement.classList.remove('flipped');
-                
+
                 // Set content based on mode
                 if (this.mode === 'english-first') {
                     this.englishElement.textContent = card.meaning;
-                    this.koreanElement.textContent = card.korean;
-                    this.romanizedElement.textContent = card.romanized;
-                    
+                    this.chineseElement.textContent = card.chinese;
+                    this.pronunciationElement.textContent = card.pronunciation;
+
                     document.querySelector('.flashcard-front').classList.add('active');
                     document.querySelector('.flashcard-back').classList.remove('active');
                 } else {
-                    // Korean-first mode
+                    // Chinese-first mode
                     this.englishElement.textContent = card.meaning;
-                    this.koreanElement.textContent = card.korean;
-                    this.romanizedElement.textContent = card.romanized;
-                    
-                    // Show Korean first
+                    this.chineseElement.textContent = card.chinese;
+                    this.pronunciationElement.textContent = card.pronunciation;
+
+                    // Show Chinese first
                     document.querySelector('.flashcard-front').classList.remove('active');
                     document.querySelector('.flashcard-back').classList.add('active');
                     this.flashcardElement.classList.add('flipped');
                     this.isFlipped = true;
                 }
-                
+
                 // Auto-speak if enabled
-                if (this.autoSpeak === 'on-both' || 
+                if (this.autoSpeak === 'on-both' ||
                     (this.autoSpeak === 'on-flip' && this.isFlipped)) {
                     setTimeout(() => this.speakCurrentCard(), 300);
                 }
             }
-            
+
             flipCard() {
                 this.isFlipped = !this.isFlipped;
                 this.flashcardElement.classList.toggle('flipped');
-                
+
                 document.querySelector('.flashcard-front').classList.toggle('active');
                 document.querySelector('.flashcard-back').classList.toggle('active');
-                
+
                 // Auto-speak if enabled
                 if (this.autoSpeak === 'on-flip') {
                     setTimeout(() => this.speakCurrentCard(), 300);
                 }
             }
-            
+
             async speakCurrentCard() {
                 const card = this.getCurrentCard();
                 if (card) {
-                    await speakKorean(card.korean);
+                    await speakChinese(card.chinese);
                 }
             }
-            
+
             nextCard() {
                 const filteredCards = this.getFilteredCards();
                 this.currentIndex = (this.currentIndex + 1) % filteredCards.length;
                 this.isFlipped = false;
                 this.displayCurrentCard();
             }
-            
+
             previousCard() {
                 const filteredCards = this.getFilteredCards();
                 this.currentIndex = (this.currentIndex - 1 + filteredCards.length) % filteredCards.length;
@@ -2018,18 +1861,18 @@ document.querySelectorAll('#navbar a').forEach(link => {
         }
 
         // Text-to-Speech functionality using OpenAI TTS
-        const speakKorean = async (text) => {
+        const speakChinese = async (text) => {
             // Stop any currently playing audio
             if (currentAudio) {
                 currentAudio.pause();
                 currentAudio = null;
             }
-            
+
             // Clean text for TTS
             const cleanText = text.replace(/\[.*?\]/g, '').replace(/\//g, ' ');
-            
+
             updateStatus('Converting text to speech...', 'processing');
-            
+
             try {
                 const audio = await puter.ai.txt2speech(cleanText, {
                     provider: 'openai',
@@ -2037,28 +1880,28 @@ document.querySelectorAll('#navbar a').forEach(link => {
                     model: 'gpt-4o-mini-tts',
                     response_format: 'mp3'
                 });
-                
+
                 updateStatus(`Playing audio with OpenAI TTS`, 'playing');
-                
+
                 currentAudio = audio;
                 await audio.play();
-                
+
                 // Reset status when audio finishes
                 audio.addEventListener('ended', () => {
                     updateStatus('Ready to convert text to speech', '');
                     currentAudio = null;
                 });
-                
+
                 audio.addEventListener('error', (e) => {
                     updateStatus('Error playing audio', 'error');
                     console.error('Audio playback error:', e);
                     currentAudio = null;
                 });
-                
+
             } catch (error) {
                 updateStatus(`Error: ${error.message}`, 'error');
                 console.error('TTS Error:', error);
-                
+
                 // Fallback to browser TTS if OpenAI fails
                 fallbackTTS(cleanText);
             }
@@ -2068,26 +1911,26 @@ document.querySelectorAll('#navbar a').forEach(link => {
         const fallbackTTS = (text) => {
             if ('speechSynthesis' in window) {
                 speechSynthesis.cancel();
-                
+
                 const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'ko-KR';
-                utterance.rate = 0.6;
+                utterance.lang = 'zh-CN';
+                utterance.rate = 0.8;
                 utterance.pitch = 1;
                 utterance.volume = 1;
-                
+
                 const voices = speechSynthesis.getVoices();
-                const koreanVoice = voices.find(voice => voice.lang.includes('ko'));
-                if (koreanVoice) {
-                    utterance.voice = koreanVoice;
+                const chineseVoice = voices.find(voice => voice.lang.includes('zh-CN'));
+                if (chineseVoice) {
+                    utterance.voice = chineseVoice;
                 }
-                
+
                 speechSynthesis.speak(utterance);
                 updateStatus('Playing with browser TTS (fallback)', 'playing');
-                
+
                 utterance.onend = () => {
                     updateStatus('Ready to convert text to speech', '');
                 };
-                
+
                 utterance.onerror = () => {
                     updateStatus('Error with browser TTS', 'error');
                 };
@@ -2100,43 +1943,43 @@ document.querySelectorAll('#navbar a').forEach(link => {
         // Play a practice dialogue
         async function playDialogue(dialogueType) {
             if (isDialoguePlaying) return;
-            
+
             const dialogue = practiceDialogues[dialogueType];
             if (!dialogue) return;
-            
+
             isDialoguePlaying = true;
             currentDialogueIndex = 0;
             const buttons = document.querySelectorAll('.play-dialogue-button');
             buttons.forEach(btn => btn.disabled = true);
-            
+
             // Highlight all dialogue lines
-            const allDialogueLines = document.querySelectorAll('.korean-dialogue');
+            const allDialogueLines = document.querySelectorAll('.chinese-dialogue');
             allDialogueLines.forEach(el => el.style.backgroundColor = '');
-            
+
             updateStatus('Playing dialogue...', 'processing');
-            
+
             // Play each line sequentially
             async function playNextLine() {
                 if (currentDialogueIndex < dialogue.length) {
                     const line = dialogue[currentDialogueIndex];
-                    
+
                     // Highlight current line
-                    const currentElements = document.querySelectorAll(`.korean-dialogue[data-korean="${line.korean}"]`);
+                    const currentElements = document.querySelectorAll(`.chinese-dialogue[data-chinese="${line.chinese}"]`);
                     currentElements.forEach(el => {
                         el.style.backgroundColor = '#e8f5e9';
                         el.style.transition = 'background-color 0.3s ease';
                     });
-                    
-                    await speakKorean(line.korean);
-                    
+
+                    await speakChinese(line.chinese);
+
                     // Wait a moment before next line
                     await new Promise(resolve => setTimeout(resolve, 800));
-                    
+
                     // Remove highlight
                     currentElements.forEach(el => {
                         el.style.backgroundColor = '';
                     });
-                    
+
                     currentDialogueIndex++;
                     playNextLine();
                 } else {
@@ -2146,27 +1989,27 @@ document.querySelectorAll('#navbar a').forEach(link => {
                     updateStatus('Dialogue finished', '');
                 }
             }
-            
+
             playNextLine();
         }
 
-        function createCard(koreanData, index, section) {
+        function createCard(chineseData, index, section) {
             const isConversation = section === 'conversation';
             const cardClass = isConversation ? 'card conversation-card' : 'card';
-            const fullWidthClass = koreanData.fullWidth ? 'full-width-card' : '';
-            
+            const fullWidthClass = chineseData.fullWidth ? 'full-width-card' : '';
+
             // Format the meaning with additional information
-            let formattedMeaning = koreanData.meaning;
-            if (koreanData.usage) {
-                formattedMeaning += `<br/><small>Usage: ${koreanData.usage}</small>`;
+            let formattedMeaning = chineseData.meaning;
+            if (chineseData.usage) {
+                formattedMeaning += `<br/><small>Usage: ${chineseData.usage}</small>`;
             }
-            if (koreanData.examples) {
-                formattedMeaning += `<br/><small>Examples: ${koreanData.examples}</small>`;
+            if (chineseData.examples) {
+                formattedMeaning += `<br/><small>Examples: ${chineseData.examples}</small>`;
             }
-            if (koreanData.context) {
-                formattedMeaning += `<br/><small>Context: ${koreanData.context}</small>`;
+            if (chineseData.context) {
+                formattedMeaning += `<br/><small>Context: ${chineseData.context}</small>`;
             }
-            
+
             return `
                 <li class="cards_item ${fullWidthClass}">
                     <div class="${cardClass}">
@@ -2175,8 +2018,8 @@ document.querySelectorAll('#navbar a').forEach(link => {
                             <button class="erase-button" data-canvas-index="${index}">Erase</button>
                         </div>
                         <div class="card_content">
-                            <div class="korean-text" data-romanized="${koreanData.romanized}" data-korean="${koreanData.korean}">${koreanData.korean}</div>
-                            <div class="char-info">${koreanData.romanized}<br/>${formattedMeaning}</div>
+                            <div class="chinese-text" data-pronunciation="${chineseData.pronunciation}" data-chinese="${chineseData.chinese}">${chineseData.chinese}</div>
+                            <div class="char-info">${chineseData.pronunciation}<br/>${formattedMeaning}</div>
                         </div>
                     </div>
                 </li>
@@ -2184,19 +2027,21 @@ document.querySelectorAll('#navbar a').forEach(link => {
         }
 
         function generateCards() {
-            const basicGrid = document.getElementById('basic-grid');
-            const timeGrid = document.getElementById('time-grid');
-            const introductionGrid = document.getElementById('introduction-grid');
-            const politeGrid = document.getElementById('polite-grid');
-            const conversationGrid = document.getElementById('conversation-grid');
-            
+            const svoGrid = document.getElementById('svo-grid');
+            const questionsGrid = document.getElementById('questions-grid');
+            const negationGrid = document.getElementById('negation-grid');
+            const measureGrid = document.getElementById('measure-words-grid');
+            const wordOrderGrid = document.getElementById('word-order-grid');
+            const shiYouGrid = document.getElementById('shi-you-grid');
+
             let index = 0;
-            basicGrid.innerHTML = koreanContent.basic.map(item => createCard(item, index++, 'basic')).join('');
-            timeGrid.innerHTML = koreanContent.time.map(item => createCard(item, index++, 'time')).join('');
-            introductionGrid.innerHTML = koreanContent.introduction.map(item => createCard(item, index++, 'introduction')).join('');
-            politeGrid.innerHTML = koreanContent.polite.map(item => createCard(item, index++, 'polite')).join('');
-            conversationGrid.innerHTML = koreanContent.conversation.map(item => createCard(item, index++, 'conversation')).join('');
-            
+            svoGrid.innerHTML = chineseContent.svo.map(item => createCard(item, index++, 'svo')).join('');
+            questionsGrid.innerHTML = chineseContent.questions.map(item => createCard(item, index++, 'questions')).join('');
+            negationGrid.innerHTML = chineseContent.negation.map(item => createCard(item, index++, 'negation')).join('');
+            measureGrid.innerHTML = chineseContent.measure.map(item => createCard(item, index++, 'measure')).join('');
+            wordOrderGrid.innerHTML = chineseContent.wordorder.map(item => createCard(item, index++, 'wordorder')).join('');
+            shiYouGrid.innerHTML = chineseContent.shiyou.map(item => createCard(item, index++, 'shiyou')).join('');
+
             addAudioEventListeners();
             addCanvasEventListeners();
             addEraseButtonListeners();
@@ -2204,19 +2049,19 @@ document.querySelectorAll('#navbar a').forEach(link => {
         }
 
         function addAudioEventListeners() {
-            // Add to existing Korean text
-            document.querySelectorAll('.korean-text').forEach(textElement => {
+            // Add to existing Chinese text
+            document.querySelectorAll('.chinese-text').forEach(textElement => {
                 textElement.addEventListener('click', function() {
-                    const korean = this.getAttribute('data-korean');
-                    speakKorean(korean);
+                    const chinese = this.getAttribute('data-chinese');
+                    speakChinese(chinese);
                 });
             });
-            
+
             // Add to dialogue text
-            document.querySelectorAll('.korean-dialogue').forEach(textElement => {
+            document.querySelectorAll('.chinese-dialogue').forEach(textElement => {
                 textElement.addEventListener('click', function() {
-                    const korean = this.getAttribute('data-korean');
-                    speakKorean(korean);
+                    const chinese = this.getAttribute('data-chinese');
+                    speakChinese(chinese);
                 });
             });
         }
@@ -2230,29 +2075,36 @@ document.querySelectorAll('#navbar a').forEach(link => {
             });
         }
 
-        function playAllKorean() {
+        function playAllChinese() {
             const ttsButton = document.getElementById('tts-button');
             ttsButton.disabled = true;
-            
-            const allItems = [...koreanContent.basic, ...koreanContent.time, ...koreanContent.introduction, ...koreanContent.polite, ...koreanContent.conversation];
+
+            const allItems = [
+                ...chineseContent.svo, 
+                ...chineseContent.questions, 
+                ...chineseContent.negation, 
+                ...chineseContent.measure,
+                ...chineseContent.wordorder,
+                ...chineseContent.shiyou
+            ];
             let index = 0;
-            
+
             function speakNext() {
                 if (index < allItems.length) {
-                    const koreanData = allItems[index];
-                    speakKorean(koreanData.korean);
-                    
-                    const koreanElements = document.querySelectorAll('.korean-text');
-                    koreanElements.forEach(el => el.style.backgroundColor = '');
-                    
-                    const currentElement = Array.from(koreanElements).find(
-                        el => el.getAttribute('data-korean') === koreanData.korean
+                    const chineseData = allItems[index];
+                    speakChinese(chineseData.chinese);
+
+                    const chineseElements = document.querySelectorAll('.chinese-text');
+                    chineseElements.forEach(el => el.style.backgroundColor = '');
+
+                    const currentElement = Array.from(chineseElements).find(
+                        el => el.getAttribute('data-chinese') === chineseData.chinese
                     );
-                    
+
                     if (currentElement) {
                         currentElement.style.backgroundColor = '#e8f5e9';
                     }
-                    
+
                     // Wait for audio to finish before playing next
                     const checkAudioEnded = setInterval(() => {
                         if (!currentAudio) {
@@ -2263,12 +2115,12 @@ document.querySelectorAll('#navbar a').forEach(link => {
                     }, 100);
                 } else {
                     ttsButton.disabled = false;
-                    document.querySelectorAll('.korean-text').forEach(el => {
+                    document.querySelectorAll('.chinese-text').forEach(el => {
                         el.style.backgroundColor = '';
                     });
                 }
             }
-            
+
             speakNext();
         }
 
@@ -2282,12 +2134,12 @@ document.querySelectorAll('#navbar a').forEach(link => {
             canvasElements.forEach((canvas, index) => {
                 const ctx = canvas.getContext('2d');
                 canvasesContexts[index] = ctx;
-                
+
                 // Scale canvas to match display size
                 const rect = canvas.getBoundingClientRect();
                 canvas.width = rect.width;
                 canvas.height = rect.height;
-                
+
                 ctx.strokeStyle = '#333';
                 ctx.lineWidth = 3;
                 ctx.lineCap = 'round';
@@ -2312,7 +2164,7 @@ document.querySelectorAll('#navbar a').forEach(link => {
             const rect = canvas.getBoundingClientRect();
             const scaleX = canvas.width / rect.width;
             const scaleY = canvas.height / rect.height;
-            
+
             return {
                 x: (clientX - rect.left) * scaleX,
                 y: (clientY - rect.top) * scaleY
@@ -2324,12 +2176,12 @@ document.querySelectorAll('#navbar a').forEach(link => {
             const canvas = e.target;
             const clientX = e.clientX || (e.touches && e.touches[0].clientX);
             const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-            
+
             if (clientX && clientY) {
                 const coords = getCanvasCoordinates(canvas, clientX, clientY);
                 lastX = coords.x;
                 lastY = coords.y;
-                
+
                 const ctx = canvasesContexts[parseInt(canvas.dataset.index)];
                 ctx.beginPath();
                 ctx.moveTo(lastX, lastY);
@@ -2339,20 +2191,20 @@ document.querySelectorAll('#navbar a').forEach(link => {
         function draw(e) {
             if (!isDrawing) return;
             e.preventDefault();
-            
+
             const canvas = e.target;
             const clientX = e.clientX || (e.touches && e.touches[0].clientX);
             const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-            
+
             if (clientX && clientY) {
                 const coords = getCanvasCoordinates(canvas, clientX, clientY);
                 const currentX = coords.x;
                 const currentY = coords.y;
-                
+
                 const ctx = canvasesContexts[parseInt(canvas.dataset.index)];
                 ctx.lineTo(currentX, currentY);
                 ctx.stroke();
-                
+
                 lastX = currentX;
                 lastY = currentY;
             }
@@ -2366,7 +2218,7 @@ document.querySelectorAll('#navbar a').forEach(link => {
             e.preventDefault();
             const touch = e.touches[0];
             const target = e.target;
-            
+
             if (e.type === 'touchstart') {
                 const mouseDownEvent = new MouseEvent('mousedown', {
                     clientX: touch.clientX,
@@ -2403,36 +2255,72 @@ document.querySelectorAll('#navbar a').forEach(link => {
             });
         }
 
-        document.querySelectorAll('#navbar a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    const navbarHeight = document.getElementById('navbar').offsetHeight;
-                    const offsetTop = targetElement.offsetTop - navbarHeight;
-                    window.scrollTo({
-                        top: offsetTop,
-                        behavior: 'smooth'
-                    });
-                    document.querySelectorAll('#navbar a').forEach(a => a.classList.remove('active'));
-                    this.classList.add('active');
-                }
-            });
-        });
-
         document.addEventListener('DOMContentLoaded', function() {
             generateCards();
             initializeCanvasContexts();
-            
+
             // Initialize flashcard system
             flashcardSystem = new FlashcardSystem();
-            
+
             // Add TTS button if it exists
             const ttsButton = document.getElementById('tts-button');
             if (ttsButton) {
-                ttsButton.addEventListener('click', playAllKorean);
+                ttsButton.addEventListener('click', playAllChinese);
             }
+
+            // Initialize dropdown menu
+            const menuToggle = document.getElementById('menu-toggle');
+            const navbar = document.getElementById('navbar');
+            const navLinks = document.querySelectorAll('#navbar a');
+
+            menuToggle.addEventListener('click', function() {
+                navbar.classList.toggle('active');
+                menuToggle.classList.toggle('active');
+                
+                // Update button text
+                if (navbar.classList.contains('active')) {
+                    menuToggle.textContent = '✕ Close Menu';
+                } else {
+                    menuToggle.textContent = '📚 Show Menu';
+                }
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!navbar.contains(event.target) && !menuToggle.contains(event.target)) {
+                    navbar.classList.remove('active');
+                    menuToggle.classList.remove('active');
+                    menuToggle.textContent = '📚 Show Menu';
+                }
+            });
+
+            // Update active link and close menu when clicking a link
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        const navbarHeight = document.querySelector('.sticky-nav-container').offsetHeight;
+                        const offsetTop = targetElement.offsetTop - navbarHeight;
+                        
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Update active link
+                        navLinks.forEach(a => a.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Close menu
+                        navbar.classList.remove('active');
+                        menuToggle.classList.remove('active');
+                        menuToggle.textContent = '📚 Show Menu';
+                    }
+                });
+            });
         });
 
         // Reinitialize canvas contexts on window resize

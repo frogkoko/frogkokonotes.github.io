@@ -163,15 +163,34 @@
             box-shadow: 0 6px 12px rgba(239, 68, 68, 0.4);
         }
         
-        .engine-button {
+        #download-button {
             background: linear-gradient(to right, #3b82f6, #2563eb);
             color: white;
         }
         
-        .engine-button:hover {
+        #download-button:hover {
             background: linear-gradient(to right, #2563eb, #3b82f6);
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(59, 130, 246, 0.4);
+        }
+        
+        #download-button:disabled {
+            background: linear-gradient(to right, #6b7280, #4b5563);
+            color: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .engine-button {
+            background: linear-gradient(to right, #8b5cf6, #7c3aed);
+            color: white;
+        }
+        
+        .engine-button:hover {
+            background: linear-gradient(to right, #7c3aed, #8b5cf6);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(139, 92, 246, 0.4);
         }
         
         .status {
@@ -204,6 +223,12 @@
             background: rgba(239, 68, 68, 0.2);
             color: #fecaca;
             border-color: rgba(239, 68, 68, 0.3);
+        }
+        
+        .status.success {
+            background: rgba(59, 130, 246, 0.2);
+            color: #bfdbfe;
+            border-color: rgba(59, 130, 246, 0.3);
         }
         
         .character-count {
@@ -335,12 +360,12 @@
     <div class="container">
         <header>
             <h1>Puter.ai Text-to-Speech</h1>
-            <p class="subtitle">Convert text to natural-sounding speech with multiple languages, voices, and engines</p>
+            <p class="subtitle">Convert text to natural-sounding speech with multiple languages, voices, and engines. Now with the complete set of OpenAI voices!</p>
         </header>
         
         <div class="input-group">
             <label for="text-input">Text to Convert (max 3000 characters):</label>
-            <textarea id="text-input" placeholder="Enter the text you want to convert to speech...">สวัสดีครับ! ยินดีต้อนรับสู่การสาธิต Puter.ai Text-to-Speech เครื่องมือนี้สามารถแปลงข้อความของคุณเป็นเสียงพูดที่ฟังดูเป็นธรรมชาติในหลายภาษา รวมถึงภาษาไทย</textarea>
+            <textarea id="text-input" placeholder="Enter the text you want to convert to speech...">Welcome to the Puter.ai Text-to-Speech demo! This tool can convert your text to natural-sounding speech in multiple languages. Try different voices like Alloy, Echo, Fable, Onyx, Nova, Shimmer, Ash, Ballad, Coral, Sage, Verse, Marin, and Cedar from OpenAI!</textarea>
             <div id="character-count" class="character-count">0/3000 characters</div>
         </div>
         
@@ -384,13 +409,20 @@
                     <!-- Thai voices for AWS Polly -->
                     <option value="Naja" data-provider="aws-polly">Naja (AWS Thai)</option>
                     <option value="Aditi" data-provider="aws-polly">Aditi (AWS Thai)</option>
-                    <!-- OpenAI voices -->
+                    <!-- OpenAI voices - Full list -->
                     <option value="alloy" data-provider="openai">Alloy (OpenAI)</option>
+                    <option value="ash" data-provider="openai">Ash (OpenAI)</option>
+                    <option value="ballad" data-provider="openai">Ballad (OpenAI)</option>
+                    <option value="coral" data-provider="openai">Coral (OpenAI)</option>
                     <option value="echo" data-provider="openai">Echo (OpenAI)</option>
                     <option value="fable" data-provider="openai">Fable (OpenAI)</option>
-                    <option value="onyx" data-provider="openai">Onyx (OpenAI)</option>
                     <option value="nova" data-provider="openai">Nova (OpenAI)</option>
+                    <option value="onyx" data-provider="openai">Onyx (OpenAI)</option>
+                    <option value="sage" data-provider="openai">Sage (OpenAI)</option>
                     <option value="shimmer" data-provider="openai">Shimmer (OpenAI)</option>
+                    <option value="verse" data-provider="openai">Verse (OpenAI)</option>
+                    <option value="marin" data-provider="openai">Marin (OpenAI)</option>
+                    <option value="cedar" data-provider="openai">Cedar (OpenAI)</option>
                 </select>
             </div>
             
@@ -439,6 +471,9 @@
             <button id="speak-button">
                 <span>🔊</span> Convert & Play
             </button>
+            <button id="download-button" disabled>
+                <span>📥</span> Download Audio
+            </button>
             <button id="stop-button">
                 <span>⏹️</span> Stop
             </button>
@@ -471,9 +506,9 @@
                 <div class="example-text">¡Hola! Esta es una demostración del motor de texto a voz en español.</div>
             </div>
             
-            <div class="example-card" onclick="loadExample('Bonjour! Ceci est une démonstration de la synthèse vocale en français.', 'fr-FR', 'Celine', 'aws-polly')">
+            <div class="example-card" onclick="loadExample('Bonjour! Ceci est una démonstration de la synthèse vocale en français.', 'fr-FR', 'Celine', 'aws-polly')">
                 <div class="example-title">French Example</div>
-                <div class="example-text">Bonjour! Ceci est une démonstration de la synthèse vocale en français.</div>
+                <div class="example-text">Bonjour! Ceci est una démonstration de la synthèse vocale en français.</div>
             </div>
             
             <div class="example-card" onclick="loadExample('Halo! Ini adalah demonstrasi mesin text-to-speech dalam bahasa Indonesia.', 'id-ID', 'nova', 'openai')">
@@ -486,9 +521,9 @@
                 <div class="example-text">你好！这是一个文本转语音引擎的演示。</div>
             </div>
             
-            <div class="example-card" onclick="loadExample('Hello! This example uses OpenAI voices with custom instructions.', 'en-US', 'alloy', 'openai')">
-                <div class="example-title">OpenAI Example</div>
-                <div class="example-text">Hello! This example uses OpenAI voices with custom instructions.</div>
+            <div class="example-card" onclick="loadExample('Explore the complete OpenAI voice collection: Alloy, Ash, Ballad, Coral, Echo, Fable, Nova, Onyx, Sage, Shimmer, Verse, Marin, and Cedar.', 'en-US', 'alloy', 'openai')">
+                <div class="example-title">OpenAI Voices Demo</div>
+                <div class="example-text">Explore the complete OpenAI voice collection.</div>
             </div>
         </div>
         
@@ -510,12 +545,15 @@
         const instructions = document.getElementById('instructions');
         const openaiOptions = document.getElementById('openai-options');
         const speakButton = document.getElementById('speak-button');
+        const downloadButton = document.getElementById('download-button');
         const stopButton = document.getElementById('stop-button');
         const statusDiv = document.getElementById('status');
         const characterCount = document.getElementById('character-count');
         
         // Variables
         let currentAudio = null;
+        let lastAudioUrl = null;
+        let lastAudioFilename = null;
         const MAX_CHARS = 3000;
         
         // Initialize character count
@@ -567,6 +605,43 @@
             } else {
                 characterCount.className = 'character-count';
             }
+        }
+        
+        // Function to fetch audio as blob for download
+        async function fetchAudioBlob(text, options) {
+            // Use the puter.ai.txt2speech to get audio, then fetch it as blob
+            const audio = await puter.ai.txt2speech(text, options);
+            
+            // If the audio object has a src URL, fetch it
+            if (audio.src) {
+                const response = await fetch(audio.src);
+                return await response.blob();
+            }
+            
+            // Alternative: create a blob from the audio object
+            // This is a fallback method
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                
+                // Try to get the audio data from the audio element
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', audio.src || audio.currentSrc, true);
+                xhr.responseType = 'blob';
+                
+                xhr.onload = function() {
+                    if (this.status === 200) {
+                        resolve(this.response);
+                    } else {
+                        reject(new Error('Failed to fetch audio'));
+                    }
+                };
+                
+                xhr.onerror = function() {
+                    reject(new Error('Network error'));
+                };
+                
+                xhr.send();
+            });
         }
         
         // Convert text to speech with current settings
@@ -625,6 +700,7 @@
                     }
                 }
                 
+                // Get audio for playback
                 const audio = await puter.ai.txt2speech(text, options);
                 
                 updateStatus(`Playing audio with ${provider}`, 'playing');
@@ -632,9 +708,21 @@
                 currentAudio = audio;
                 await audio.play();
                 
+                // Create a filename based on settings
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                const voiceName = voice.split(' ')[0]; // Get first part of voice name
+                const format = options.response_format || 'mp3';
+                lastAudioFilename = `tts-${voiceName}-${timestamp}.${format}`;
+                
+                // Store the audio source URL for download
+                lastAudioUrl = audio.src || audio.currentSrc;
+                downloadButton.disabled = false;
+                
+                updateStatus(`Playing audio with ${provider}. Download now available!`, 'playing');
+                
                 // Reset status when audio finishes
                 audio.addEventListener('ended', () => {
-                    updateStatus('Conversion complete. Ready for next request.', '');
+                    updateStatus('Conversion complete. Ready for next request.', 'success');
                     currentAudio = null;
                 });
                 
@@ -642,11 +730,68 @@
                     updateStatus('Error playing audio', 'error');
                     console.error('Audio playback error:', e);
                     currentAudio = null;
+                    downloadButton.disabled = true;
                 });
                 
             } catch (error) {
                 updateStatus(`Error: ${error.message}`, 'error');
                 console.error('TTS Error:', error);
+                downloadButton.disabled = true;
+            }
+        });
+        
+        // Download audio file
+        downloadButton.addEventListener('click', async () => {
+            if (!lastAudioUrl) {
+                updateStatus('No audio available to download. Please convert text first.', 'error');
+                return;
+            }
+            
+            try {
+                updateStatus('Preparing download...', 'processing');
+                
+                // Fetch the audio file
+                const response = await fetch(lastAudioUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const blob = await response.blob();
+                
+                // Create download link
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = lastAudioFilename || 'tts-audio.mp3';
+                document.body.appendChild(a);
+                a.click();
+                
+                // Cleanup
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+                
+                updateStatus('Download started!', 'success');
+                
+            } catch (error) {
+                updateStatus(`Download failed: ${error.message}`, 'error');
+                console.error('Download error:', error);
+                
+                // Fallback: Try to download using the audio element directly
+                try {
+                    if (currentAudio && currentAudio.src) {
+                        const a = document.createElement('a');
+                        a.href = currentAudio.src;
+                        a.download = lastAudioFilename || 'tts-audio.mp3';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        updateStatus('Download started using fallback method!', 'success');
+                    }
+                } catch (fallbackError) {
+                    console.error('Fallback download error:', fallbackError);
+                }
             }
         });
         
@@ -692,13 +837,20 @@
                 currentAudio = audio;
                 await audio.play();
                 
+                // Create filename for download
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                lastAudioFilename = `tts-${engine}-engine-${timestamp}.mp3`;
+                lastAudioUrl = audio.src || audio.currentSrc;
+                downloadButton.disabled = false;
+                
                 audio.addEventListener('ended', () => {
-                    updateStatus('Engine comparison complete', '');
+                    updateStatus('Engine comparison complete', 'success');
                     currentAudio = null;
                 });
                 
             } catch (error) {
                 updateStatus(`Error: ${error.message}`, 'error');
+                downloadButton.disabled = true;
             }
         }
         
@@ -714,6 +866,8 @@
             
             updateCharacterCount();
             updateStatus('Example loaded. Click "Convert & Play" to hear it.', '');
+            downloadButton.disabled = true;
+            lastAudioUrl = null;
         }
         
         // Update status display
